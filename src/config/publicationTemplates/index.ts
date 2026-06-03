@@ -83,10 +83,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     placeholder: 'Selecteer een of meerdere object types',
                     isMulti: true,
                     required: true,
-                    validation: array(schemaDefaults.requiredString(), {
-                        required_error: 'Het veld is niet (goed) ingevuld.',
-                        invalid_type_error: 'Het veld is niet (goed) ingevuld.',
-                    }),
+                    validation: schemaDefaults.options,
                 },
             ],
         },
