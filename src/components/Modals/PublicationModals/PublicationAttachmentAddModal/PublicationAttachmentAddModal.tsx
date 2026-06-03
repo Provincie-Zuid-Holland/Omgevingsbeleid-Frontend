@@ -43,6 +43,7 @@ const PublicationAttachmentAddModal = () => {
                             toastNotification('publicationAttachmentAdded')
                         })
                 },
+                onError: () => {},
             },
         })
 
@@ -93,7 +94,7 @@ const PublicationAttachmentAddModal = () => {
                             <FormikInput
                                 name="title"
                                 label="Titel van het document"
-                                placeholder='Bijv. "KWR-Nota"'
+                                placeholder='Bijv. "KRW-Nota"'
                                 required
                             />
                         </div>

@@ -31,16 +31,6 @@ export const PUBLICATION_VERSION_ADD_SCHEMA = object({
 
 export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
     Module_Status_ID: schemaDefaults.requiredNumber(),
-    Effective_Date: schemaDefaults.optionalString
-        .refine(date => {
-            return !date || new Date(date) > new Date()
-        }, 'De inwerkingtredingsdatum moet in de toekomst liggen')
-        .nullable(),
-    Announcement_Date: schemaDefaults.optionalString
-        .refine(date => {
-            return !date || new Date(date) > new Date()
-        }, 'De bekendmakingsdatum moet in de toekomst liggen')
-        .nullable(),
     Bill_Metadata: object({
         Official_Title: schemaDefaults.requiredString(),
         Quote_Title: schemaDefaults.requiredString(),
@@ -66,24 +56,54 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
         )
             .optional()
             .nullable(),
-        Motivation: object({
-            Title: schemaDefaults.requiredString(),
-            Content: schemaDefaults.requiredString(),
-            Appendices: array(
-                object({
-                    Number: schemaDefaults.requiredString(),
-                    Title: schemaDefaults.requiredString(),
-                    Content: schemaDefaults.requiredString(),
-                })
-            )
+        Motivation: z.preprocess(
+            value => {
+                const motivation = value as {
+                    Title?: string | null
+                    Content?: string | null
+                    Appendices?: unknown[] | null
+                } | null
+
+                const title = motivation?.Title?.trim()
+                const content = motivation?.Content?.trim()
+                const appendices = motivation?.Appendices ?? []
+
+                if (!title && !content && appendices.length === 0) {
+                    return null
+                }
+
+                return value
+            },
+            object({
+                Title: schemaDefaults.requiredString(),
+                Content: schemaDefaults.requiredString(),
+                Appendices: array(
+                    object({
+                        Number: schemaDefaults.requiredString(),
+                        Title: schemaDefaults.requiredString(),
+                        Content: schemaDefaults.requiredString(),
+                    })
+                )
+                    .optional()
+                    .nullable(),
+            })
                 .optional()
-                .nullable(),
-        })
-            .optional()
-            .nullable(),
+                .nullable()
+        ),
         Closing: schemaDefaults.optionalString,
         Signed: schemaDefaults.optionalString,
     }),
+    Effective_Date: z.preprocess(
+        value => (value === '' ? null : value),
+        schemaDefaults.optionalString.nullable().refine(date => {
+            return !date || new Date(date) > new Date()
+        }, 'De inwerkingtredingsdatum moet in de toekomst liggen')
+    ),
+    Announcement_Date: schemaDefaults.optionalString
+        .refine(date => {
+            return !date || new Date(date) > new Date()
+        }, 'De bekendmakingsdatum moet in de toekomst liggen')
+        .nullable(),
     Procedural: object({
         Enactment_Date: schemaDefaults.optionalString,
         Signed_Date: schemaDefaults.optionalString,
