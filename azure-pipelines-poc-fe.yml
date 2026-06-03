@@ -41,7 +41,7 @@ stages:
       jobs:
           - job: BuildApp
             variables:
-                - group: vg-poc-ob-fe-dev
+                - group: vg-poc-ob-fe
             displayName: 'Node.js build + versioned artifact'
             steps:
                 - checkout: self
@@ -145,7 +145,7 @@ stages:
             )
           )
       variables:
-          - group: vg-poc-ob-fe-dev
+          - group: vg-poc-ob-fe
       jobs:
           - deployment: Dev
             displayName: 'Dev deployment'
