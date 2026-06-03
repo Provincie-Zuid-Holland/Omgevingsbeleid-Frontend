@@ -1,0 +1,173 @@
+# =============================================================================
+# azure-pipelines-poc-fe.yml  ·  v1.2
+# Platform Omgevingsbeleid – Frontend Pipeline (CI + Build + Dev)
+#
+# Verantwoordelijkheid van deze pipeline:
+#   1. CI-validatie (lint, tests, npm-audit) op PR en hotfix/*
+#   2. Build (versioned artifact) op alle push-triggers
+#   3. Dev-deployment op develop-branch
+# =============================================================================
+# Test / Acc / Prod: gecoördineerd via azure-pipelines-orchestrator.yml
+# De orchestrator downloadt het artifact en regelt de FE/BE-coördinatie.
+
+trigger:
+    branches:
+        include:
+            - 'poc/dev'
+            - 'poc/release/*'
+            - 'poc/hotfix/*'
+            - 'poc/main'
+    paths:
+        exclude: ['*.md', 'docs/**']
+
+pool:
+    name: 'PZH-Agent'
+
+variables:
+    NODE_OPTIONS: --max_old_space_size=4096
+    projectName: 'obzh-fe'
+    # AZURE_SUBSCRIPTION: assign as pipeline-variable in Azure DevOps
+
+parameters:
+    - name: deployEnvironment
+      displayName: 'Manual Dev-deploy'
+      type: string
+      default: none
+      values: [none, dev]
+
+stages:
+    - stage: Build
+      displayName: 'Build – Application'
+      jobs:
+          - job: BuildApp
+            variables:
+                - group: vg-poc-ob-fe
+            displayName: 'Node.js build + versioned artifact'
+            steps:
+                - checkout: self
+                  clean: true
+
+                - task: PowerShell@2
+                  displayName: 'Semantic versioning'
+                  name: versioning
+                  inputs:
+                      targetType: inline
+                      script: |
+                          $semVer = "v0.0.0-untagged"
+                          try {
+                              $tag = & git describe --tags --abbrev=0 2>$null
+                              if ($LASTEXITCODE -eq 0 -and $tag) {
+                                  $semVer = $tag.Trim()
+                              }
+                          } catch { }
+                          Write-Host "##vso[task.setvariable variable=semVer;isOutput=true]$semVer"
+                          Write-Host "SemVer: $semVer | Build: $(Build.BuildId)"
+                          exit 0
+
+                - task: NodeTool@0
+                  displayName: 'Set Node.js 22.x'
+                  inputs:
+                      versionSpec: '22.x'
+
+                - script: corepack enable
+                  displayName: 'Enable corepack'
+
+                - task: Cache@2
+                  inputs:
+                      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+                      restoreKeys: 'yarn | "$(Agent.OS)"'
+                      path: .yarn/cache
+                  displayName: 'Recover yarn cache'
+
+                - script: yarn --immutable
+                  displayName: 'Install dependencies'
+
+                - script: yarn build
+                  displayName: 'Build app (output: dist/)'
+
+                - script: yarn test:coverage
+                  displayName: 'Run tests'
+
+                - task: PublishCodeCoverageResults@2
+                  displayName: 'Publish coverage'
+                  inputs:
+                      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+
+                - script: yarn npm audit --all --recursive
+                  displayName: 'Security scan (SCA)'
+                  continueOnError: true
+
+                # - script: |
+                #     set -euo pipefail
+                #     PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
+                #     NOTES="$(Build.ArtifactStagingDirectory)/release-notes-fe.md"
+                #     echo "# Release Notes FE – $(versioning.semVer)" > "$NOTES"
+                #     echo "**Datum:** $(date +%Y-%m-%d) | **Branch:** $(Build.SourceBranchName)" >> "$NOTES"
+                #     echo "" >> "$NOTES"
+                #     echo "## Gekoppelde werkitems" >> "$NOTES"
+                #     git log --pretty=format:"%s" "${PREV}..HEAD" \
+                #       | grep -oP 'AB#\d+' | sort -u | sed 's/^/- /' >> "$NOTES" \
+                #       || echo "_Geen AB#-referenties_" >> "$NOTES"
+                #     echo "" >> "$NOTES"
+                #     echo "## Commits" >> "$NOTES"
+                #     git log --pretty=format:"- %s" "${PREV}..HEAD" >> "$NOTES"
+                #   displayName: "Release notes genereren (R08)"
+                #   condition: >
+                #     or(
+                #       startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'),
+                #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
+                #     )
+
+                - publish: $(Build.SourcesDirectory)/build
+                  artifact: app
+                  displayName: 'Publish artifact (app)'
+
+            # - task: PublishBuildArtifacts@1
+            #   displayName: "Release notes publiceren als artifact"
+            #   condition: >
+            #     or(
+            #       startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'),
+            #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
+            #     )
+            #   inputs:
+            #     PathtoPublish: $(Build.ArtifactStagingDirectory)
+            #     ArtifactName: 'release-notes'
+
+    - stage: Dev_Deploy
+      displayName: 'Deploy Dev'
+      dependsOn: Build
+      condition: >
+          and(
+            in(dependencies.Build.result, 'Succeeded', 'SucceededWithIssues'),
+            or(
+              eq(variables['Build.SourceBranch'], 'refs/heads/poc/dev'),
+              and(eq(variables['Build.Reason'], 'Manual'), eq('${{ parameters.deployEnvironment }}', 'dev'))
+            )
+          )
+      variables:
+          - group: vg-poc-ob-fe
+      jobs:
+          - deployment: Dev
+            displayName: 'Dev deployment'
+            environment: POC-Dev
+            strategy:
+                runOnce:
+                    deploy:
+                        steps:
+                            - download: none
+                            - task: DownloadPipelineArtifact@2
+                              displayName: 'Download FE artifact'
+                              inputs:
+                                  source: current
+                                  artifactName: app
+                                  targetPath: '$(Pipeline.Workspace)/BuildedApp_$(Build.BuildId)'
+                            - template: azure-file-copy.yml
+                              parameters:
+                                  storageName: 'omgevingsbeleidontst'
+                            - task: PowerShell@2
+                              displayName: 'Logging deployment timestamp'
+                              inputs:
+                                  targetType: inline
+                                  script: |
+                                      Write-Host "##vso[build.addbuildtag]deployed-dev-$(Get-Date -Format 'yyyyMMdd')"
+                                      Write-Host "DEV FE: $(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ') | $(Build.SourceBranchName)"

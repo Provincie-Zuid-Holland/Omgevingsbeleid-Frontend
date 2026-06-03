@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import svgrPlugin from 'vite-plugin-svgr'
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
     server: {
@@ -68,6 +69,9 @@ export default defineConfig({
     },
     resolve: {
         tsconfigPaths: true,
+        alias: {
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
+        },
     },
     plugins: [
         react(),
