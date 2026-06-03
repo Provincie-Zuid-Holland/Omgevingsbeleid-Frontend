@@ -56,7 +56,6 @@ const gebied: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
             fields: [
                 {
                     name: 'Title',

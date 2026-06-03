@@ -158,7 +158,7 @@ const PublicationTemplateEdit = () => {
         <MutateLayout
             title={`${singularCapitalize} bewerken`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6 mb-8 flex items-center justify-between">
+            <div className="col-span-6 mb-8 flex items-center justify-between md:col-span-4 md:col-start-2">
                 <Heading level="1" size="xxl">
                     {singularCapitalize} bewerken
                 </Heading>
@@ -183,7 +183,7 @@ const PublicationTemplateEdit = () => {
                 </div>
             </div>
 
-            <div className="col-span-6">
+            <div className="col-span-6 md:col-span-4 md:col-start-2">
                 <DynamicObjectForm
                     model={model as Model}
                     initialData={initialData}

@@ -85,9 +85,6 @@ const maatregel: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de maatregel kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
                 {
                     name: 'Title',
@@ -98,13 +95,6 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     required: true,
                     validation: schemaDefaults.title,
                 },
-            ],
-        },
-        {
-            title: 'Beleidstekst',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de maatregel kwijt. Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct welke keuze de provincie maakt en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
-            fields: [
                 {
                     name: 'Description',
                     label: 'Wat gaat de provincie doen?',
@@ -155,13 +145,6 @@ const maatregel: DynamicObject<typeof fetchers> = {
                         },
                     },
                 },
-            ],
-        },
-        {
-            title: 'Gebiedengroep',
-            description:
-                'De gebiedengroep geeft het gebied weer waar de maatregel betrekking op heeft. Binnen dit gebied worden bepaalde activiteiten gestimuleerd, ontwikkeld, toegestaan of juist verboden.',
-            fields: [
                 {
                     name: 'Ambtsgebied',
                     label: 'Selecteer de gebiedengroep',
@@ -205,11 +188,6 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     },
                     conditionalField: 'Ambtsgebied',
                 },
-            ],
-        },
-        {
-            title: 'Primaire koppeling',
-            fields: [
                 {
                     name: 'Hierarchy_Code',
                     label: 'Beleidskeuze',
@@ -227,11 +205,6 @@ const maatregel: DynamicObject<typeof fetchers> = {
                         ),
                     },
                 },
-            ],
-        },
-        {
-            title: 'Document/bijlage',
-            fields: [
                 {
                     name: 'Documents',
                     fieldName: 'Documents',

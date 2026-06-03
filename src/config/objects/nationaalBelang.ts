@@ -52,9 +52,6 @@ const nationaalBelang: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'Formuleer in enkele woorden de titel van het nationale belang.',
             fields: [
                 {
                     name: 'Title',

@@ -52,9 +52,6 @@ const wettelijkeTaak: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'Formuleer in enkele woorden de titel van de wettelijke taak.',
             fields: [
                 {
                     name: 'Title',

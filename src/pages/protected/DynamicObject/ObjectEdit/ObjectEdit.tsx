@@ -266,14 +266,14 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         <MutateLayout
             title={`${singularCapitalize} bewerken`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
+            <div className="col-span-6 lg:col-span-4 lg:col-start-2">
                 {isLocked && (
                     <div className="mb-8">
                         <LockedNotification isDetail />
                     </div>
                 )}
 
-                <Heading level="1" size="xxl" className="mb-8">
+                <Heading level="1" size="xxl" className="mb-4">
                     {singularCapitalize} bewerken
                 </Heading>
 
