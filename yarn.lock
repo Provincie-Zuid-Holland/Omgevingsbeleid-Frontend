@@ -3195,6 +3195,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pzh-ui/icons@npm:^0.0.95":
+  version: 0.0.95
+  resolution: "@pzh-ui/icons@npm:0.0.95"
+  dependencies:
+    react: "npm:^19.2.6"
+  checksum: 9f7cab78b7352de3e42d7304176cda19dc02dc3684be5a40db7fe52411afbb165a3fe636d1529935a9002a74a476f4f1429c5fa3d70f29f68d82cf337aea5102
+  languageName: node
+  linkType: hard
+
+"@pzh-ui/react@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "@pzh-ui/react@npm:0.0.2"
+  dependencies:
+    "@pzh-ui/icons": "npm:^0.0.95"
+    clsx: "npm:^2.1.1"
+    react: "npm:^19.2.7"
+    react-dom: "npm:^19.2.7"
+    tailwind-merge: "npm:^3.6.0"
+  checksum: d2eb46bc3a287f2eca0e570d7a0464e0c07464ea24f05dbfe45e117cade17620337b3390af05e83a71efe3c1d6b693c8717af3fbab6897203a2173d485c88d0c
+  languageName: node
+  linkType: hard
+
 "@radix-ui/primitive@npm:1.0.1":
   version: 1.0.1
   resolution: "@radix-ui/primitive@npm:1.0.1"
@@ -13628,6 +13650,7 @@ __metadata:
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.118"
     "@pzh-ui/icons": "npm:^0.0.92"
+    "@pzh-ui/react": "npm:^0.0.2"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
     "@tailwindcss/vite": "npm:^4.1.4"
@@ -13856,6 +13879,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^19.2.7":
+  version: 19.2.7
+  resolution: "react-dom@npm:19.2.7"
+  dependencies:
+    scheduler: "npm:^0.27.0"
+  peerDependencies:
+    react: ^19.2.7
+  checksum: 9564f4b83843ca5518ed5f807c93cb1663706559cde52f3ef814b41e60b63b16e684d849926458f0ba436745d7eabf822cba1c528be370e7b2f35a4c91e35941
+  languageName: node
+  linkType: hard
+
 "react-dropzone-esm@npm:^15.0.1":
   version: 15.0.1
   resolution: "react-dropzone-esm@npm:15.0.1"
@@ -14071,6 +14105,13 @@ __metadata:
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: 261137d3f3993eaa2368a83110466fc0e558bc2c7f7ae7ca52d94f03aac945f45146bd85e5f481044db1758a1dbb57879e2fcdd33924e2dde1bdc550ce73f7bf
+  languageName: node
+  linkType: hard
+
+"react@npm:^19.2.6, react@npm:^19.2.7":
+  version: 19.2.7
+  resolution: "react@npm:19.2.7"
+  checksum: 2939997e87d7f0ee0d9d2bb556866b616b999dfb7916283647034eda867a045a39c4f7a736c8ea6beffffcd78397fc30f63a7a3aaf8425b683c3060670859560
   languageName: node
   linkType: hard
 
@@ -14635,6 +14676,13 @@ __metadata:
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: e8d68b89d18d5b028223edf090092846868a765a591944760942b77ea1f69b17235f7e956696efbb62c8130ab90af7e0949bfb8eba7896335507317236966bc9
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.27.0":
+  version: 0.27.0
+  resolution: "scheduler@npm:0.27.0"
+  checksum: eab3c3a8373195173e59c147224fc30dabe6dd453f248f5e610e8458512a5a2ee3a06465dc400ebfe6d35c9f5b7f3bb6b2e41c88c86fd177c25a73e7286a1e06
   languageName: node
   linkType: hard
 
@@ -15337,6 +15385,13 @@ __metadata:
   version: 3.2.0
   resolution: "tailwind-merge@npm:3.2.0"
   checksum: ece231b18bf27cb70847e236d987e254c152e0440dbeb59c08ddf157de79fe89d6b7d1127c75d753e868f31dd77ded38ce8d23a1e405ff735a6642407c671fb9
+  languageName: node
+  linkType: hard
+
+"tailwind-merge@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "tailwind-merge@npm:3.6.0"
+  checksum: 1da88698b6d878c391ab83064346e4b5b038d1b519d90825044df4b096971522c12253c7d6ab586c9da04e2039ba46573696138ea3d19c685d3c236f1f892899
   languageName: node
   linkType: hard
 
