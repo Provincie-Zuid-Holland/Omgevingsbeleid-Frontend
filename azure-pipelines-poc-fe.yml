@@ -5,7 +5,7 @@
 # Verantwoordelijkheid van deze pipeline:
 #   1. CI-validatie (lint, tests, npm-audit) op PR en hotfix/*
 #   2. Build (versioned artifact) op alle push-triggers
-#   3. Dev-deployment op develop-branch
+#   3. Dev-deployment op main-branch
 # =============================================================================
 # Test / Acc / Prod: gecoördineerd via azure-pipelines-orchestrator.yml
 # De orchestrator downloadt het artifact en regelt de FE/BE-coördinatie.
@@ -13,7 +13,6 @@
 trigger:
     branches:
         include:
-            - 'poc/dev'
             - 'poc/release/*'
             - 'poc/hotfix/*'
             - 'poc/main'
@@ -140,7 +139,7 @@ stages:
           and(
             in(dependencies.Build.result, 'Succeeded', 'SucceededWithIssues'),
             or(
-              eq(variables['Build.SourceBranch'], 'refs/heads/poc/dev'),
+              eq(variables['Build.SourceBranch'], 'refs/heads/poc/main'),
               and(eq(variables['Build.Reason'], 'Manual'), eq('${{ parameters.deployEnvironment }}', 'dev'))
             )
           )
