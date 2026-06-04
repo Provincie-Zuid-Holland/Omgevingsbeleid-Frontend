@@ -15,8 +15,6 @@ import { StepProps } from './types'
 export const StepFive = ({ title, existingObject }: StepProps) => {
     const { values } = useFormikContext<ModuleAddExistingObject>()
 
-    console.log(existingObject)
-
     const model = models[existingObject?.Object_Type as ModelType] || {}
     const { singularReadable, prefixSingular } = model.defaults || {}
 
