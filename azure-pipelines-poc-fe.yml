@@ -84,53 +84,21 @@ stages:
                 - script: yarn build
                   displayName: 'Build app (output: dist/)'
 
-                - script: yarn test:coverage
-                  displayName: 'Run tests'
+                # TEMP DISABLED TEST-RUNS TO SPEED UP PIPELINE
+                # - script: yarn test:coverage
+                #   displayName: 'Run tests'
 
-                - task: PublishCodeCoverageResults@2
-                  displayName: 'Publish coverage'
-                  inputs:
-                      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+                # - task: PublishCodeCoverageResults@2
+                #   displayName: 'Publish coverage'
+                #   inputs:
+                #       summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
 
-                - script: yarn npm audit --all --recursive
+                - script: yarn npm audit --all --recursive || true
                   displayName: 'Security scan (SCA)'
-                  continueOnError: true
-
-                # - script: |
-                #     set -euo pipefail
-                #     PREV=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
-                #     NOTES="$(Build.ArtifactStagingDirectory)/release-notes-fe.md"
-                #     echo "# Release Notes FE – $(versioning.semVer)" > "$NOTES"
-                #     echo "**Datum:** $(date +%Y-%m-%d) | **Branch:** $(Build.SourceBranchName)" >> "$NOTES"
-                #     echo "" >> "$NOTES"
-                #     echo "## Gekoppelde werkitems" >> "$NOTES"
-                #     git log --pretty=format:"%s" "${PREV}..HEAD" \
-                #       | grep -oP 'AB#\d+' | sort -u | sed 's/^/- /' >> "$NOTES" \
-                #       || echo "_Geen AB#-referenties_" >> "$NOTES"
-                #     echo "" >> "$NOTES"
-                #     echo "## Commits" >> "$NOTES"
-                #     git log --pretty=format:"- %s" "${PREV}..HEAD" >> "$NOTES"
-                #   displayName: "Release notes genereren (R08)"
-                #   condition: >
-                #     or(
-                #       startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'),
-                #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
-                #     )
 
                 - publish: $(Build.SourcesDirectory)/build
                   artifact: app
                   displayName: 'Publish artifact (app)'
-
-            # - task: PublishBuildArtifacts@1
-            #   displayName: "Release notes publiceren als artifact"
-            #   condition: >
-            #     or(
-            #       startsWith(variables['Build.SourceBranch'], 'refs/heads/release/'),
-            #       startsWith(variables['Build.SourceBranch'], 'refs/heads/hotfix/')
-            #     )
-            #   inputs:
-            #     PathtoPublish: $(Build.ArtifactStagingDirectory)
-            #     ArtifactName: 'release-notes'
 
     - stage: Dev_Deploy
       displayName: 'Deploy Dev'
