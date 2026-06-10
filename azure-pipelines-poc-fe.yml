@@ -16,8 +16,6 @@ trigger:
             - 'poc/release/*'
             - 'poc/hotfix/*'
             - 'poc/main'
-    paths:
-        exclude: ['*.md', 'docs/**']
 
 pool:
     name: 'PZH-Agent'
