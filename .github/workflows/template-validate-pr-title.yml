@@ -1,0 +1,38 @@
+name: Validate PR title
+
+on:
+    pull_request:
+        types: [opened, edited, reopened]
+
+permissions:
+    contents: read
+
+jobs:
+    pr-title:
+        if: github.event.pull_request.base.ref == 'poc/main'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Controleer PR-titel op Conventional Commits + AB#
+              env:
+                  PR_TITLE: ${{ github.event.pull_request.title }}
+              run: |
+                  # Formaat: type(AB#<nummer>): beschrijving
+                  PATTERN='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)\(AB#[0-9]+\)(!)?: .+'
+
+                  echo "PR-titel: $PR_TITLE"
+                  if [[ "$PR_TITLE" =~ $PATTERN ]]; then
+                    echo "✅ PR-titel voldoet aan de conventie." >> "$GITHUB_STEP_SUMMARY"
+                  else
+                    {
+                      echo "### ❌ PR-titel voldoet niet aan de conventie"
+                      echo ""
+                      echo "Verwacht formaat: \`type(AB#<nummer>): beschrijving\`"
+                      echo "Voorbeeld: \`feat(AB#1234): voeg beleidscomparer toe\`"
+                      echo ""
+                      echo "Toegestane types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert"
+                      echo ""
+                      echo "Reden: bij squash merge wordt deze titel de commitboodschap op \`poc/main\`; de \`AB#\`-referentie is nodig voor de Azure Boards-koppeling."
+                    } >> "$GITHUB_STEP_SUMMARY"
+                    echo "::error::PR-titel voldoet niet aan 'type(AB#<nummer>): beschrijving'."
+                    exit 1
+                  fi
