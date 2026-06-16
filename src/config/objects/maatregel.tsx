@@ -87,6 +87,45 @@ const maatregel: DynamicObject<typeof fetchers> = {
         {
             description:
                 'Een maatregel beschrijft aan de hand van prestaties/acties/handelingen (output) hoe de provincie de beleidskeuze tot uitvoering brengt. De output draagt bij aan het beoogde effect en dient daarmee een doel. In de maatregel werkt Gedeputeerde Staten uit hoe zij de gekozen rolneming invullen. Een maatregel richt zich op de korte termijn (zo’n 3 jaar).',
+            notification: {
+                title: 'Tips voor het schrijven van beleid',
+                children: (
+                    <>
+                        <ul>
+                            <li>
+                                Schrijf actief, dus hoe je de maatregel
+                                uitvoert. Niet hoe je de maatregel zou kunnen
+                                uitvoeren.
+                            </li>
+                            <li>
+                                Schrijf vanuit ‘de provincie’, gebruik dus géén
+                                we/wij. Spreek verder over de provincie in
+                                ze/zij of haar.
+                            </li>
+                            <li>
+                                Schrijf zo veel mogelijk tijdloos. Gebruik dus
+                                zo min mogelijk jaartallen zodat het beleid
+                                niet, om deze reden, hoeft te worden herzien.
+                                Lange termijn doelstellingen kunnen wel, maar
+                                voorkom herhaling van het beleidsdoel.
+                            </li>
+                            <li>
+                                Klik op het ‘i’ icoon voor toelichting over het
+                                invullen van het veld.
+                            </li>
+                        </ul>
+                        <i>
+                            Let op! Het monitoren en evalueren van beleid is
+                            geen maatregel. Monitoren en evalueren van een
+                            maatregel/programmatische aanpak gebeurt in de
+                            beleidscyclus. Deze handeling heeft geen (directe)
+                            externe werking. De LTA biedt ruimte om trajecten
+                            weer te geven waarin beleidsmatige sturing wordt
+                            uitgewerkt of onderzocht.
+                        </i>
+                    </>
+                ),
+            },
             fields: [
                 {
                     name: 'Title',

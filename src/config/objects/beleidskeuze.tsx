@@ -99,6 +99,36 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
         {
             description:
                 'Een beleidskeuze is een uitwerking van het beleidsdoel. Een beleidskeuze beschrijft welk effect (outcome) wordt beoogd en wat er nodig is om van de huidige naar de gewenste situatie te komen. In de beleidskeuze wordt door PS bepaald wat de provinciale rol is die wordt ingenomen om het gewenste effect te bereiken. Om een beleidsdoel te bereiken kan PS meerdere Maatregelen maken. Een beleidskeuze richt zich op de middellange termijn (zo’n 5 jaar).',
+            notification: {
+                title: 'Tips voor het schrijven van beleid',
+                children: (
+                    <ul>
+                        <li>
+                            Schrijf actief, de provincie maakt een beleidskeuze.
+                        </li>
+                        <li>
+                            Schrijf vanuit ‘de provincie’, gebruik dus géén
+                            we/wij. Spreek verder over de provincie in ze/zij of
+                            haar.
+                        </li>
+                        <li>
+                            Schrijf zo veel mogelijk tijdloos. Gebruik dus zo
+                            min mogelijk jaartallen zodat het beleid niet, om
+                            deze reden, hoeft te worden herzien. Lange termijn
+                            doelstellingen kunnen wel, maar voorkom herhaling
+                            van het beleidsdoel.
+                        </li>
+                        <li>
+                            Benoem tussentijdse doelstellingen en werk deze
+                            realistisch en tijdgebonden uit.
+                        </li>
+                        <li>
+                            Klik op het ‘i’ icoon voor toelichting over het
+                            invullen van het veld.
+                        </li>
+                    </ul>
+                ),
+            },
             fields: [
                 {
                     name: 'Title',
