@@ -139,8 +139,6 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
 
     const parsedContent = parse(cleanHtml, options)
 
-    const Wrapper = value === 'Description' ? 'p' : 'div'
-
     return (
         <>
             {title && (
@@ -153,9 +151,9 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                     {customTitle?.[value] || title}
                 </Heading>
             )}
-            <Wrapper className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-h3:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8">
+            <div className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-h3:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8">
                 {parsedContent}
-            </Wrapper>
+            </div>
             <ObjectAreaModal />
         </>
     )

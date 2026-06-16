@@ -7,21 +7,18 @@ interface ContainerMapSearchProps {
     children: ReactNode
     id?: string
     className?: string
-    reference?: string
 }
 
 const ContainerMapSearch = ({
     children,
     id = undefined,
     className = '',
-    reference,
 }: ContainerMapSearchProps) => {
     const { isMobile } = useBreakpoint()
 
     return (
         <div
             id={id}
-            ref={reference}
             className={classNames(
                 'mx-auto flex flex-col md:flex-row',
                 {

@@ -30,7 +30,7 @@ const statusStyles: Record<ReportStatusType, string> = {
     aborted: 'border-pzh-red-500 bg-pzh-red-10 text-pzh-red-500',
 }
 
-const statusIcons: Record<ReportStatusType, JSX.Element> = {
+const statusIcons: Record<ReportStatusType, React.JSX.Element> = {
     valid: (
         <CircleCheckSolid
             size={22}

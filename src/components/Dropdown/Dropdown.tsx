@@ -60,7 +60,7 @@ const DropdownContainer = ({
     hasBackdrop,
 }: DropdownContainerProps) => {
     const innerContainer = useRef<HTMLDivElement>(null)
-    useClickOutside(innerContainer, () => {
+    useClickOutside(innerContainer as React.RefObject<HTMLDivElement>, () => {
         setIsOpen(false)
     })
 
@@ -75,15 +75,17 @@ const DropdownContainer = ({
                 leave="transition-all ease-in duration-100 transform"
                 leaveFrom="scale-100 top-0"
                 leaveTo="scale-90 -top-1"
-                className={classNames(
-                    'tooltip-right tooltip-triangle bg-pzh-white text-pzh-gray-700 absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded text-left shadow-[0_0_8px_1px_rgba(0,0,0,0.2)]',
-                    className
-                )}
                 ref={innerContainer}>
-                <div className="relative h-full">
-                    <ul className="text-pzh-blue-500 flex w-max flex-col gap-2 py-4">
-                        {children}
-                    </ul>
+                <div
+                    className={classNames(
+                        'tooltip-right tooltip-triangle bg-pzh-white text-pzh-gray-700 absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded text-left shadow-[0_0_8px_1px_rgba(0,0,0,0.2)]',
+                        className
+                    )}>
+                    <div className="relative h-full">
+                        <ul className="text-pzh-blue-500 flex w-max flex-col gap-2 py-4">
+                            {children}
+                        </ul>
+                    </div>
                 </div>
             </Transition>
             {hasBackdrop && isOpen && (
