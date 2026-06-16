@@ -26,12 +26,7 @@ const DynamicSection = ({
         <div className="col-span-6">
             {description && <Text className="mb-4">{description}</Text>}
 
-            {notification && (
-                <Notification
-                    className="prose prose-neutral text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 prose-ul:mt-0 prose-p:my-0 prose-ul:pl-5 w-full max-w-full whitespace-pre-line marker:text-xs"
-                    {...notification}
-                />
-            )}
+            {notification && <Notification {...notification} />}
 
             {description && <Divider className="my-8" />}
 

@@ -159,6 +159,22 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                             10 zinnen.
                         </>
                     ),
+                    notification: {
+                        title: 'Denk bij het schrijven van dit stuk aan het beantwoorden van de volgende vragen:',
+                        children: (
+                            <ul>
+                                <li>Wat is de maatschappelijke opgave?</li>
+                                <li>
+                                    Wat is de verandering in de maatschappij die
+                                    de provincie te weeg wil brengen?
+                                </li>
+                                <li>
+                                    In welke mate verwacht de provincie hieraan
+                                    bij de kunnen dragen?
+                                </li>
+                            </ul>
+                        ),
+                    },
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
@@ -178,6 +194,11 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     label: 'Inhoudelijke aanleiding',
                     description:
                         'Beschrijf beknopt de inhoudelijke aanleiding van de beleidskeuze. Welk probleem/dreiging of welke kans ligt ten grondslag aan deze beleidskeuze? Met andere woorden, waarom vinden wij dit belangrijk?',
+                    notification: {
+                        title: 'Wettelijke taak of nationaal belang',
+                        children:
+                            'Het kan ook zijn dat er sprake is van een wettelijke taak of een nationaal belang waarin de provincie wordt opgedragen in actie komen. Verwoord dan letterlijk de wettelijke taak die de provincie toebedeeld heeft gekregen.',
+                    },
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
@@ -197,6 +218,11 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     label: 'Provinciaal belang',
                     description:
                         'Beschrijf waarom de provincie een rol voor zichzelf ziet bij het oplossen van deze maatschappelijke opgave.',
+                    notification: {
+                        title: 'Alleen wanneer nodig',
+                        children:
+                            'In de Omgevingswet (zie artikel 2.3) staat dat een provincie een taak of bevoegdheid alleen uitoefent wanneer dit nodig is. Dit doen zij met het oog op een provinciaal belang en met de overtuiging dat dit belang niet op een doelmatige en doeltreffende wijze door het gemeentebestuur kan worden behartigd.',
+                    },
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,
@@ -228,6 +254,11 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                             bereiken.
                         </>
                     ),
+                    notification: {
+                        title: 'Invulling van de rolkeuze',
+                        children:
+                            'Nadere invulling van de rolkeuze is GS-bevoegdheid. Deze invulling is mogelijk in een maatregel van het Omgevingsprogramma. In het kader van leesbaarheid is het niet nodig om tekst in verschillende instrumenten van het omgevingsbeleid te zetten.',
+                    },
                     type: 'wysiwyg',
                     hasAreaSelect: true,
                     customMenuOptions: ['heading', 'image'],

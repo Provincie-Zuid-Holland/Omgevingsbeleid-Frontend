@@ -3036,17 +3036,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/components@npm:^0.0.668":
-  version: 0.0.668
-  resolution: "@pzh-ui/components@npm:0.0.668"
+"@pzh-ui/components@npm:^0.0.672":
+  version: 0.0.672
+  resolution: "@pzh-ui/components@npm:0.0.672"
   dependencies:
     "@floating-ui/react": "npm:^0.24.8"
     "@headlessui/react": "npm:^1.5.0"
-    "@pzh-ui/icons": "npm:^0.0.95"
+    "@pzh-ui/icons": "npm:^0.0.96"
+    "@pzh-ui/react": "npm:^0.0.4"
     "@radix-ui/react-accordion": "npm:^1.1.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@react-aria/utils": "npm:^3.29.1"
-    "@react-hookz/web": "npm:^24.0.4"
+    "@react-hookz/web": "npm:^25.2.0"
     "@react-types/shared": "npm:^3.19.0"
     "@tanstack/react-table": "npm:^8.20.1"
     "@tiptap/core": "npm:^2.6.5"
@@ -3093,7 +3094,7 @@ __metadata:
     react-toastify: "npm:^11.1.0"
     tailwind-merge: "npm:^3.2.0"
     uuid: "npm:^11.1.0"
-  checksum: f5274c973b587dd5ee04fd5eb7b91cdb3fd322efea9535f5d91f4518a319ef22295f40e45b886e7a8e9daea55fd61d92f09466af949eb859528b2fa592a488b7
+  checksum: 03259fbaec0afc0e9ef42a9667faebefc33e2dbf878db89c889706e7b13c9b0edf5ac9dae6503c77a3cfafe9ae15987f3d97cf927916e4e872c14dfcae6b5e8e
   languageName: node
   linkType: hard
 
@@ -3136,25 +3137,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.95":
-  version: 0.0.95
-  resolution: "@pzh-ui/icons@npm:0.0.95"
+"@pzh-ui/icons@npm:^0.0.96":
+  version: 0.0.96
+  resolution: "@pzh-ui/icons@npm:0.0.96"
   dependencies:
     react: "npm:^19.2.6"
-  checksum: 9f7cab78b7352de3e42d7304176cda19dc02dc3684be5a40db7fe52411afbb165a3fe636d1529935a9002a74a476f4f1429c5fa3d70f29f68d82cf337aea5102
+  checksum: 6fb22b2d9b0f3dcbfaa73767630d87c677a84fb20c9888b8daa86a33960a7060d12b148481513ca4acedaf0a3fb25387bb1ebb2fc3a4e105d8978f9d25849ebd
   languageName: node
   linkType: hard
 
-"@pzh-ui/react@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "@pzh-ui/react@npm:0.0.2"
+"@pzh-ui/react@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "@pzh-ui/react@npm:0.0.4"
   dependencies:
-    "@pzh-ui/icons": "npm:^0.0.95"
+    "@pzh-ui/icons": "npm:^0.0.96"
     clsx: "npm:^2.1.1"
     react: "npm:^19.2.7"
     react-dom: "npm:^19.2.7"
     tailwind-merge: "npm:^3.6.0"
-  checksum: d2eb46bc3a287f2eca0e570d7a0464e0c07464ea24f05dbfe45e117cade17620337b3390af05e83a71efe3c1d6b693c8717af3fbab6897203a2173d485c88d0c
+  checksum: 8031560ec45fd2750f1983abb10a2d9bf44fb0b53e23089bfd3356ef976b92f2b919fc772cecd6d634eb5cb3071ad6404c56b4148818ba12f022113e44ec4d6b
   languageName: node
   linkType: hard
 
@@ -4351,6 +4352,22 @@ __metadata:
     js-cookie:
       optional: true
   checksum: 6a841c648edbc54b11fd90de9bb61c3059255598fc4a714c508c269a03c4ca9bbf32cf017d3bd2b3a1bf7cd1d9bf4bb56028f64ad455f796079632f4a7cd4f00
+  languageName: node
+  linkType: hard
+
+"@react-hookz/web@npm:^25.2.0":
+  version: 25.2.0
+  resolution: "@react-hookz/web@npm:25.2.0"
+  dependencies:
+    "@ver0/deep-equal": "npm:^1.0.0"
+  peerDependencies:
+    js-cookie: ^3.0.5
+    react: ^16.8 || ^17 || ^18 || ^19
+    react-dom: ^16.8 || ^17 || ^18 || ^19
+  peerDependenciesMeta:
+    js-cookie:
+      optional: true
+  checksum: c23a10a1028760951318df440d1c314b0a1d848fc4a80968f5c31a1c832b388cb300e4a7f9f4edf0b80e81274f53ca2adfe5fe0ea97cac92bd8fb1b94a15bae0
   languageName: node
   linkType: hard
 
@@ -7260,6 +7277,13 @@ __metadata:
   version: 1.8.1
   resolution: "@unrs/resolver-binding-win32-x64-msvc@npm:1.8.1"
   conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@ver0/deep-equal@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@ver0/deep-equal@npm:1.0.1"
+  checksum: 7ab3679eaecdee998335e7873ac06b1d2121b8587f75bb4b25a0ece7c525754146ee9d3ef490705b00858990c9e369909e73bdfc858d1095113de637e3d03526
   languageName: node
   linkType: hard
 
@@ -13491,11 +13515,11 @@ __metadata:
     "@axe-core/react": "npm:^4.10.0"
     "@faker-js/faker": "npm:^8.3.1"
     "@headlessui/react": "npm:^2.2.10"
-    "@pzh-ui/components": "npm:^0.0.668"
+    "@pzh-ui/components": "npm:^0.0.672"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.118"
-    "@pzh-ui/icons": "npm:^0.0.95"
-    "@pzh-ui/react": "npm:^0.0.2"
+    "@pzh-ui/icons": "npm:^0.0.96"
+    "@pzh-ui/react": "npm:^0.0.4"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
     "@tailwindcss/vite": "npm:^4.1.4"

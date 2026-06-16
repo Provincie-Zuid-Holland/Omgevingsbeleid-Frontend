@@ -1,3 +1,4 @@
+import nsobImage from '@/images/nsob-rollen.png'
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
@@ -18,6 +19,7 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
+import { Text } from '@pzh-ui/react'
 import { DynamicObject } from './types'
 
 const fetchers = {
@@ -173,6 +175,27 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     label: 'Beleidsrol',
                     description:
                         'Kies één van de NSOB rollen. Heb je het gevoel dat er meerdere rollen worden ingenomen bij het uitvoeren van dit beleid? Kies dan de meest uitgesproken rol. ',
+                    notification: {
+                        title: 'Overzicht NSOB rollen',
+                        className: 'prose-img:my-0 mt-2',
+                        children: (
+                            <>
+                                <Text size="s">
+                                    Het kan zo zijn dat de overige rollen worden
+                                    ondervangen door complementaire
+                                    beleidsinstrumenten zoals de beleidskeuze of
+                                    verordening. De LTA biedt ruimte om
+                                    trajecten weer te geven waarin beleidsmatige
+                                    sturden wordt uitgewerkt of onderzocht.
+                                </Text>
+                                <img
+                                    src={nsobImage}
+                                    alt="Overzicht van NSOB rollen"
+                                    className="border-pzh-gray-300 rounded-lg border"
+                                />
+                            </>
+                        ),
+                    },
                     placeholder: 'Kies een NSOB rol',
                     type: 'select',
                     isSearchable: false,
@@ -188,6 +211,46 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     label: 'Nadere uitwerking',
                     description:
                         'Licht de invulling van de beleidsrol toe. Werk uit hoe je de genoemde prestaties/acties/handelingen vormgeeft.',
+                    notification: {
+                        title: 'Overzicht beleidsinstrumenten',
+                        children: (
+                            <>
+                                <Text size="s">
+                                    Welke van de onderstaande zes typen
+                                    beleidsinstrumenten zet je in om het doel te
+                                    bereiken en werk uit waarom er is gekozen
+                                    voor dit instrument. Geef per doel aan
+                                    welk(e) type(n) instrument je inzet
+                                </Text>
+                                <ul>
+                                    <li>
+                                        Regelgeving (zoals verordening,
+                                        beleidsregels, beleidstoetsing)
+                                    </li>
+                                    <li>
+                                        Financiering (zoals subsidie,
+                                        opdrachten, inkoop en cofinanciering)
+                                    </li>
+                                    <li>
+                                        Kennis en informatie opbouwen en delen
+                                        (zoals monitoren, kennis opbouw en
+                                        delen, voorlichting)
+                                    </li>
+                                    <li>
+                                        Samenwerken (zoals netwerken bouwen,
+                                        lobby’s organiseren en laten uitvoeren,
+                                        regisseren en faciliteren)
+                                    </li>
+                                    <li>
+                                        Zelf uitvoeren (zoals toezicht houden,
+                                        projectbesluit, onderhoud uitvoeren,
+                                        aanleg)
+                                    </li>
+                                    <li>Overig</li>
+                                </ul>
+                            </>
+                        ),
+                    },
                     type: 'wysiwyg',
                     hasAreaSelect: true,
                     customMenuOptions: ['heading', 'image', 'table'],
