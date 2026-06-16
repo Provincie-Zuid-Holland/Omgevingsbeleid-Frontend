@@ -82,8 +82,6 @@ const ambitie: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de ambitie kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
                 {
                     name: 'Title',
