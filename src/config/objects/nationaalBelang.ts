@@ -56,6 +56,8 @@ const nationaalBelang: DynamicObject<typeof fetchers> = {
                 {
                     name: 'Title',
                     label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van het nationale belang.',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,

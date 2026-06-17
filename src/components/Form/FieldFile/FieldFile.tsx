@@ -25,6 +25,7 @@ const FieldFile = ({
     label,
     required,
     description,
+    placeholder,
 }: Omit<DynamicField, 'type'>) => {
     const { values, setFieldValue, errors } =
         useFormikContext<ModelReturnType>()
@@ -69,10 +70,11 @@ const FieldFile = ({
                     <FieldInput
                         name={name}
                         defaultValue={fileName}
+                        placeholder={placeholder}
                         hasError={hasError}
                     />
                 </div>
-                <Button>Bestand kiezen</Button>
+                <Button>Selecteer bestand</Button>
                 <div className="absolute top-0 left-0 h-full w-full opacity-0">
                     <FormikInput name="File" type="hidden" />
                     <input
