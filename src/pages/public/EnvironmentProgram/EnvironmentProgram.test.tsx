@@ -1,7 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import EnvironmentProgram from './EnvironmentProgram'
+
+const queryClient = new QueryClient()
 
 describe('EnvironmentProgram', () => {
     const defaultProps = {}
@@ -10,7 +13,9 @@ describe('EnvironmentProgram', () => {
         const props = { ...defaultProps, ...customProps }
         render(
             <MemoryRouter>
-                <EnvironmentProgram {...props} />
+                <QueryClientProvider client={queryClient}>
+                    <EnvironmentProgram {...props} />
+                </QueryClientProvider>
             </MemoryRouter>
         )
     }
