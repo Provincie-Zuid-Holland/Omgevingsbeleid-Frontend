@@ -2,9 +2,12 @@ import { Heading, ListLink, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
+import { useProgrammaAlgemeenListValidLineages } from '@/api/fetchers'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
+import { LoaderSpinner } from '@/components/Loader'
 import PageHero from '@/components/PageHero'
+import model from '@/config/objects/programmaAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
 import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 
@@ -25,6 +28,19 @@ const META = {
 }
 
 function EnvironmentProgram() {
+    const { data, isFetching } = useProgrammaAlgemeenListValidLineages(
+        { limit: 100 },
+        {
+            query: {
+                select: data =>
+                    data.results.map(item => ({
+                        text: item.Title,
+                        to: `${model.defaults.plural}/${item.UUID}`,
+                    })),
+            },
+        }
+    )
+
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },
         { name: 'Omgevingsprogramma' },
@@ -86,6 +102,32 @@ function EnvironmentProgram() {
                 </div>
 
                 <div className="col-span-6">
+                    {!isFetching && !!data?.length && (
+                        <>
+                            <Heading level="2" className="mt-8">
+                                Inleidende hoofdstukken
+                            </Heading>
+
+                            <div className="mt-3 flex flex-col gap-1">
+                                {isFetching ? (
+                                    <LoaderSpinner />
+                                ) : (
+                                    <ul className="flex flex-col">
+                                        {data?.map(item => (
+                                            <ListLink key={item.to} asChild>
+                                                <li>
+                                                    <Link to={item.to}>
+                                                        {item.text}
+                                                    </Link>
+                                                </li>
+                                            </ListLink>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        </>
+                    )}
+
                     <Heading level="2" className="mt-8">
                         Verplichte programma’s
                     </Heading>
