@@ -12,63 +12,65 @@ pool:
 variables:
     VITE_API_ENV: $(Build.SourceBranchName)
     NODE_OPTIONS: --max_old_space_size=4096
+    YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
 stages:
     - stage: Build
-      displayName: Build and Test the application
+      displayName: Build and test application
       jobs:
-          - job: 'Build'
+          - job: Build
+            displayName: Install, test and build
             steps:
-                # Cache node_modules for faster installs
                 - task: Cache@2
+                  displayName: Cache Yarn
                   inputs:
                       key: 'yarn | "$(Agent.OS)" | yarn.lock'
                       restoreKeys: |
                           yarn | "$(Agent.OS)"
-                      path: .yarn/cache
-                  displayName: Cache Yarn cache
+                      path: $(YARN_CACHE_FOLDER)
 
                 - task: NodeTool@0
+                  displayName: Install Node.js
                   inputs:
                       versionSpec: '22.x'
-                  displayName: Install Node.js
 
-                  # Enable Corepack
-                - script: corepack enable
-                  displayName: 'Enable Corepack'
+                - script: |
+                      corepack enable
+                      yarn config set cacheFolder $(YARN_CACHE_FOLDER)
+                  displayName: Enable Corepack and configure Yarn cache
 
-                - task: CmdLine@2
-                  displayName: 'Install dependencies'
-                  inputs:
-                      script: 'yarn --immutable'
+                - script: yarn --immutable
+                  displayName: Install dependencies
 
-                - task: CmdLine@2
-                  displayName: Run the tests and generate coverage report
-                  inputs:
-                      script: yarn test:coverage
+                - script: yarn test
+                  displayName: Run tests
+                  condition: ne(variables['Build.SourceBranchName'], 'main')
+
+                - script: yarn test:coverage
+                  displayName: Run tests with coverage
+                  condition: eq(variables['Build.SourceBranchName'], 'main')
 
                 - task: PublishCodeCoverageResults@2
                   displayName: Publish code coverage
+                  condition: eq(variables['Build.SourceBranchName'], 'main')
                   inputs:
                       summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
 
-                - task: CmdLine@2
+                - script: yarn build
                   displayName: Build
-                  inputs:
-                      script: yarn build
 
                 - task: PublishBuildArtifacts@1
+                  displayName: Publish build artifact
                   inputs:
                       PathtoPublish: $(Build.SourcesDirectory)/build
                       ArtifactName: BuildedApp_$(Build.BuildId)
 
     - stage: Dev
       displayName: Dev deploy
-      dependsOn:
-          - Build
+      dependsOn: Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
       jobs:
-          - deployment: 'DevDeploy'
+          - deployment: DevDeploy
             displayName: Dev deploy
             environment: Dev
             strategy:
@@ -77,15 +79,14 @@ stages:
                         steps:
                             - template: azure-file-copy.yml
                               parameters:
-                                  storageName: 'obfrontenddev'
+                                  storageName: obfrontenddev
 
     - stage: Test
       displayName: Test deploy
-      dependsOn:
-          - Build
+      dependsOn: Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
       jobs:
-          - deployment: 'TestDeploy'
+          - deployment: TestDeploy
             displayName: Test deploy
             environment: Test
             strategy:
@@ -94,15 +95,14 @@ stages:
                         steps:
                             - template: azure-file-copy.yml
                               parameters:
-                                  storageName: 'obfrontendtest'
+                                  storageName: obfrontendtest
 
     - stage: Acc
       displayName: Acc deploy
-      dependsOn:
-          - Build
+      dependsOn: Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
       jobs:
-          - deployment: 'AccDeploy'
+          - deployment: AccDeploy
             displayName: Acc deploy
             environment: Acc
             strategy:
@@ -111,15 +111,14 @@ stages:
                         steps:
                             - template: azure-file-copy.yml
                               parameters:
-                                  storageName: 'obfrontendacc'
+                                  storageName: obfrontendacc
 
     - stage: Prod
       displayName: Prod deploy
-      dependsOn:
-          - Build
+      dependsOn: Build
       condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
       jobs:
-          - deployment: 'ProdDeploy'
+          - deployment: ProdDeploy
             displayName: Prod deploy
             environment: Prod
             strategy:
@@ -128,8 +127,9 @@ stages:
                         steps:
                             - template: azure-file-copy.yml
                               parameters:
-                                  storageName: 'obfrontendprod'
+                                  storageName: obfrontendprod
+
                             - template: azure-purge-cdn.yml
                               parameters:
-                                  name: 'obzhprod'
-                                  profileName: 'dta-obfrontendprod-cdn'
+                                  name: obzhprod
+                                  profileName: dta-obfrontendprod-cdn

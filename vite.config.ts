@@ -94,14 +94,19 @@ export default defineConfig({
     ],
     test: {
         globals: true,
+        pool: 'threads',
         environment: 'jsdom',
         setupFiles: './src/setupTests.tsx',
         coverage: {
+            provider: 'v8',
             reporter: ['cobertura', 'text'],
+            include: ['src/**/*.{ts,tsx}'],
             exclude: [
-                'node_modules/',
+                'src/**/*.test.{ts,tsx}',
+                'src/**/*.stories.{ts,tsx}',
                 'src/setupTests.tsx',
                 'src/api/fetchers.*',
+                'src/index.tsx',
             ],
         },
         restoreMocks: true,
