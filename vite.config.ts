@@ -68,6 +68,18 @@ export default defineConfig({
     },
     resolve: {
         tsconfigPaths: true,
+        dedupe: [
+            'react',
+            'react-dom',
+            '@tiptap/core',
+            '@tiptap/react',
+            '@tiptap/pm',
+            'prosemirror-model',
+            'prosemirror-state',
+            'prosemirror-view',
+            'prosemirror-transform',
+            'prosemirror-schema-list',
+        ],
     },
     plugins: [
         react(),

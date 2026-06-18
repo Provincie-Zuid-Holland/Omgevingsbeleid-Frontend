@@ -1,10 +1,9 @@
-import { Editor } from '@tiptap/react'
 import { create } from 'zustand'
 
 import { cleanEmptyRteNodes } from '@/utils/removeEmptyInlineTags'
 
 type EditorEntry = {
-    editor: Editor
+    editor: any
     setValue: (value: string) => void
 }
 
@@ -12,7 +11,7 @@ type RteEditorStore = {
     editors: Record<string, EditorEntry>
     registerEditor: (
         key: string,
-        editor: Editor,
+        editor: any,
         setValue: (value: string) => void
     ) => void
     unregisterEditor: (key: string) => void
@@ -43,7 +42,9 @@ export const useRteEditorStore = create<RteEditorStore>((set, get) => ({
 
         const cleanedHtml = cleanEmptyRteNodes(entry.editor.getHTML())
 
-        entry.editor.commands.setContent(cleanedHtml, false)
+        entry.editor.commands.setContent(cleanedHtml, {
+            emitUpdate: false,
+        })
         entry.setValue(cleanedHtml === '<p></p>' ? '' : cleanedHtml)
     },
 }))
