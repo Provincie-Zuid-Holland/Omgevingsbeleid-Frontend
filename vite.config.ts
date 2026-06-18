@@ -95,12 +95,12 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'jsdom',
-        setupFiles: './src/setupTests.ts',
+        setupFiles: './src/setupTests.tsx',
         coverage: {
             reporter: ['cobertura', 'text'],
             exclude: [
                 'node_modules/',
-                'src/setupTests.ts',
+                'src/setupTests.tsx',
                 'src/api/fetchers.*',
             ],
         },
