@@ -42,7 +42,7 @@ stages:
                 - script: yarn --immutable
                   displayName: Install dependencies
 
-                - script: yarn test
+                - script: yarn test:no-watch
                   displayName: Run tests
                   condition: ne(variables['Build.SourceBranchName'], 'main')
 
