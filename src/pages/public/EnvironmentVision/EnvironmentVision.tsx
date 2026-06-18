@@ -9,7 +9,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import PageHero from '@/components/PageHero'
 import model from '@/config/objects/visieAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
-import { useWindowSize } from '@react-hookz/web'
 
 const META = {
     title: 'Omgevingsvisie',
@@ -18,8 +17,6 @@ const META = {
 }
 
 function EnvironmentVision() {
-    const { width } = useWindowSize()
-
     const { data, isFetching } = useVisieAlgemeenListValidLineages(
         { limit: 100 },
         {
