@@ -1,4 +1,4 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { Heading } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
 import { useKeyboardEvent, useWindowSize } from '@react-hookz/web'
 import classNames from 'clsx'
@@ -97,17 +97,6 @@ const NavigationPopupMenu = ({
                                             setIsOpen(false)
                                         }}
                                     />
-                                </div>
-                                <div className="mt-2 sm:ml-2 md:mt-0">
-                                    <Text>
-                                        of{' '}
-                                        <Link
-                                            to="/zoeken-op-kaart"
-                                            onClick={() => setIsOpen(false)}
-                                            className="text-pzh-green-500 hover:text-pzh-green-900 underline">
-                                            Zoek op de kaart
-                                        </Link>
-                                    </Text>
                                 </div>
                             </div>
                             {menuGroups.map(group => (
