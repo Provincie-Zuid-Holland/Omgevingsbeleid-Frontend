@@ -5,8 +5,7 @@ import {
     AccordionTrigger,
     Heading,
 } from '@pzh-ui/components'
-import { useCallback, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useCallback, useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import {
@@ -39,19 +38,11 @@ const PublicationFolder = ({
     publications: providedPublications,
     environment,
 }: PublicationFolderProps) => {
-    const { moduleId } = useParams()
-
     const { activeFolders, setActiveFolders } = usePublicationStore(
         useShallow(state => ({
             activeFolders: state.activeFolders,
             setActiveFolders: state.setActiveFolders,
         }))
-    )
-
-    const [hasOverflowClass, setHasOverflowClass] = useState(
-        activeFolders.procedureTypes?.includes(
-            `${moduleId}-${environment.UUID}-${procedureType}`
-        )
     )
 
     const documentTypes = Object.keys(DocumentType) as Array<DocumentType>
@@ -86,9 +77,7 @@ const PublicationFolder = ({
                     {config[procedureType].label}
                 </Heading>
             </AccordionTrigger>
-            <AccordionContent
-                className="overflow-visible pb-0"
-                onAnimationEnd={() => setHasOverflowClass(!hasOverflowClass)}>
+            <AccordionContent className="overflow-visible pb-0">
                 <Accordion
                     type="multiple"
                     value={activeFolders.procedureTypes}

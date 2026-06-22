@@ -205,6 +205,16 @@ const Document = ({
         },
     ]
 
+    const disablePDFDownload = useMemo(
+        () =>
+            isPending ||
+            (!version?.Announcement_Date &&
+                !version?.Procedural?.Signed_Date &&
+                !version?.Procedural?.Procedural_Announcement_Date) ||
+            (!version?.Effective_Date && procedureType === 'final'),
+        [version]
+    )
+
     return (
         <div className="border-pzh-gray-200 flex h-16 border-b first:border-t last:border-b-0">
             <div className="border-pzh-gray-200 flex h-[inherit] w-5/12 items-center border-r pr-6 pl-8">
@@ -285,11 +295,7 @@ const Document = ({
                                     setIsDownloadOpen(!isDownloadOpen)
                                 }
                                 isLoading={isPending}
-                                isDisabled={
-                                    isPending ||
-                                    (!version.Effective_Date &&
-                                        procedureType === 'final')
-                                }
+                                isDisabled={disablePDFDownload}
                             />
                             <Dropdown
                                 items={dropdownItems}
