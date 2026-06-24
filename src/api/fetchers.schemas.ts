@@ -538,7 +538,6 @@ export type ModulesGetListModuleObjectsParams = {
     only_active_modules?: boolean
     title?: string | null
     actions?: ModuleObjectActionFull[]
-    module_id?: number | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -717,6 +716,8 @@ export interface WerkingsgebiedStaticPostStatics {
     Owner_2_UUID?: WerkingsgebiedStaticPostStaticsOwner2UUID
 }
 
+export type WerkingsgebiedRelatedObjectShortTitle = string | null
+
 export interface WerkingsgebiedRelatedObjectShort {
     Object_ID: number
     Object_Type: string
@@ -729,8 +730,6 @@ export interface WerkingsgebiedRelatedObjects {
     Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
     Valid_Objects: WerkingsgebiedRelatedObjectShort[]
 }
-
-export type WerkingsgebiedRelatedObjectShortTitle = string | null
 
 export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
 
@@ -1117,11 +1116,6 @@ export const ValidateModuleSeverity = {
     error: 'error',
 } as const
 
-export interface ValidateModuleResult {
-    errors: ValidateModuleError[]
-    readonly status: string
-}
-
 export interface ValidateModuleObject {
     code: string
     object_id: number
@@ -1134,6 +1128,11 @@ export interface ValidateModuleError {
     object: ValidateModuleObject
     rule: string
     severity?: ValidateModuleSeverity
+}
+
+export interface ValidateModuleResult {
+    errors: ValidateModuleError[]
+    readonly status: string
 }
 
 export type ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
@@ -1220,17 +1219,6 @@ export interface UnifiedPackage {
     Publication_Type: string
     Report_Status: string
     UUID: string
-}
-
-export interface Thema {
-    bron: string
-    definitie: string
-    deprecated: boolean
-    domein: string
-    label: string
-    term: string
-    toelichting: string
-    uri: string
 }
 
 export type TemplateEditTitle = string | null
@@ -2715,10 +2703,30 @@ export interface ModulePatchStatus {
     Status: ModuleStatusCode
 }
 
-export interface ModuleOverviewResponse {
+export interface ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
     Module: Module
+    Objects: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
     StatusHistory: ModuleStatus[]
 }
+
+export type ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
+
+        | AmbitieBasic
+        | BeleidsdoelBasic
+        | BeleidskeuzeBasic
+        | BeleidsregelBasic
+        | DocumentBasic
+        | GebiedsprogrammaBasic
+        | MaatregelBasic
+        | NationaalBelangBasic
+        | GebiedengroepBasic
+        | GebiedBasic
+        | GebiedsaanwijzingBasic
+        | ProgrammaAlgemeenBasic
+        | VerplichtProgrammaBasic
+        | VisieAlgemeenBasic
+        | WerkingsgebiedBasic
+        | WettelijkeTaakBasic
 
 export type ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
 
@@ -2744,6 +2752,14 @@ export type ModuleObjectContextShortOriginalAdjustOn = string | null
 export interface ModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
+}
+
+export interface ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
+    Model: ModuleOverviewObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+    Module_ID: number
+    ModuleObjectContext: ModuleObjectContextShort
+    Object_Type: string
+    ObjectStatics: ObjectStaticShort
 }
 
 export interface ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
@@ -2922,8 +2938,6 @@ export type MaatregelPatchWerkingsgebiedCode = string | null
 
 export type MaatregelPatchTitle = string | null
 
-export type MaatregelPatchThemas = string[] | null
-
 export type MaatregelPatchRole = string | null
 
 export type MaatregelPatchHierarchyCode = string | null
@@ -2943,7 +2957,6 @@ export interface MaatregelPatch {
     Gebiedengroep_Code?: MaatregelPatchGebiedengroepCode
     Hierarchy_Code?: MaatregelPatchHierarchyCode
     Role?: MaatregelPatchRole
-    Themas?: MaatregelPatchThemas
     Title?: MaatregelPatchTitle
     Werkingsgebied_Code?: MaatregelPatchWerkingsgebiedCode
 }
@@ -3020,7 +3033,6 @@ export interface MaatregelFull {
     Public_Revisions?: PublicModuleObjectRevision[]
     Role?: string
     Start_Validity?: MaatregelFullStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
     Werkingsgebied?: MaatregelFullWerkingsgebied
@@ -3071,7 +3083,6 @@ export interface MaatregelExtended {
     Object_ID?: number
     ObjectStatics?: MaatregelExtendedStatics
     Start_Validity?: MaatregelExtendedStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
     Werkingsgebied_Code?: string
@@ -3098,8 +3109,10 @@ export interface MaatregelBasic {
     UUID?: string
 }
 
-export interface ListThemaResponse {
-    themas: Thema[]
+export interface ListObjectsByGeometryRequestData {
+    Function?: GeometryFunctions
+    Geometry: string
+    Object_Types?: string[]
 }
 
 export interface ListAreaDesignationResponse {
@@ -3198,12 +3211,6 @@ export const GeometryFunctions = {
     OVERLAPS: 'OVERLAPS',
     INTERSECTS: 'INTERSECTS',
 } as const
-
-export interface ListObjectsByGeometryRequestData {
-    Function?: GeometryFunctions
-    Geometry: string
-    Object_Types?: string[]
-}
 
 export type GeoSearchResultTitel = string | null
 
@@ -4276,8 +4283,6 @@ export type BeleidskeuzePatchWerkingsgebiedCode = string | null
 
 export type BeleidskeuzePatchTitle = string | null
 
-export type BeleidskeuzePatchThemas = string[] | null
-
 export type BeleidskeuzePatchProvincialInterest = string | null
 
 export type BeleidskeuzePatchHierarchyCode = string | null
@@ -4297,7 +4302,6 @@ export interface BeleidskeuzePatch {
     Gebiedengroep_Code?: BeleidskeuzePatchGebiedengroepCode
     Hierarchy_Code?: BeleidskeuzePatchHierarchyCode
     Provincial_Interest?: BeleidskeuzePatchProvincialInterest
-    Themas?: BeleidskeuzePatchThemas
     Title?: BeleidskeuzePatchTitle
     Werkingsgebied_Code?: BeleidskeuzePatchWerkingsgebiedCode
 }
@@ -4376,7 +4380,6 @@ export interface BeleidskeuzeFull {
     Provincial_Interest?: string
     Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: BeleidskeuzeFullStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
     Werkingsgebied?: BeleidskeuzeFullWerkingsgebied
@@ -4428,7 +4431,6 @@ export interface BeleidskeuzeExtended {
     Object_ID?: number
     ObjectStatics?: BeleidskeuzeExtendedStatics
     Start_Validity?: BeleidskeuzeExtendedStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
     Werkingsgebied_Code?: string
@@ -4480,8 +4482,6 @@ export interface BeleidsdoelStaticPostStatics {
 
 export type BeleidsdoelPatchTitle = string | null
 
-export type BeleidsdoelPatchThemas = string[] | null
-
 export type BeleidsdoelPatchHierarchyCode = string | null
 
 export type BeleidsdoelPatchDescription = string | null
@@ -4489,7 +4489,6 @@ export type BeleidsdoelPatchDescription = string | null
 export interface BeleidsdoelPatch {
     Description?: BeleidsdoelPatchDescription
     Hierarchy_Code?: BeleidsdoelPatchHierarchyCode
-    Themas?: BeleidsdoelPatchThemas
     Title?: BeleidsdoelPatchTitle
 }
 
@@ -4552,7 +4551,6 @@ export interface BeleidsdoelFull {
     ObjectStatics?: BeleidsdoelFullStatics
     Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: BeleidsdoelFullStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
 }
@@ -4598,7 +4596,6 @@ export interface BeleidsdoelExtended {
     Object_ID?: number
     ObjectStatics?: BeleidsdoelExtendedStatics
     Start_Validity?: BeleidsdoelExtendedStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
 }
@@ -4615,6 +4612,7 @@ export interface BeleidsdoelBasic {
     Adjust_On?: BeleidsdoelBasicAdjustOn
     Code?: string
     Created_Date?: string
+    Description?: string
     End_Validity?: BeleidsdoelBasicEndValidity
     Modified_Date?: string
     Next_Version?: BeleidsdoelBasicNextVersion
@@ -4722,13 +4720,10 @@ export interface AmbitieStaticPostStatics {
 
 export type AmbitiePatchTitle = string | null
 
-export type AmbitiePatchThemas = string[] | null
-
 export type AmbitiePatchDescription = string | null
 
 export interface AmbitiePatch {
     Description?: AmbitiePatchDescription
-    Themas?: AmbitiePatchThemas
     Title?: AmbitiePatchTitle
 }
 
@@ -4786,7 +4781,6 @@ export interface AmbitieFull {
     ObjectStatics?: AmbitieFullStatics
     Public_Revisions?: PublicModuleObjectRevision[]
     Start_Validity?: AmbitieFullStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
 }
@@ -4830,7 +4824,6 @@ export interface AmbitieExtended {
     Object_ID?: number
     ObjectStatics?: AmbitieExtendedStatics
     Start_Validity?: AmbitieExtendedStartValidity
-    Themas?: string[]
     Title?: string
     UUID?: string
 }
