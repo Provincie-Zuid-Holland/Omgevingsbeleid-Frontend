@@ -36,13 +36,13 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
         Quote_Title: schemaDefaults.requiredString(),
     }),
     Bill_Compact: object({
-        Preamble: schemaDefaults.optionalString,
+        Preamble: schemaDefaults.optionalRte(),
         Amendment_Article: schemaDefaults.requiredString(),
         Time_Article: schemaDefaults.requiredString(),
         Custom_Articles: array(
             object({
                 Number: schemaDefaults.requiredString(),
-                Content: schemaDefaults.requiredString(),
+                Content: schemaDefaults.rte(),
             })
         )
             .optional()
@@ -51,7 +51,7 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
             object({
                 Number: schemaDefaults.requiredString(),
                 Title: schemaDefaults.requiredString(),
-                Content: schemaDefaults.requiredString(),
+                Content: schemaDefaults.rte(),
             })
         )
             .optional()
@@ -76,12 +76,12 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
             },
             object({
                 Title: schemaDefaults.requiredString(),
-                Content: schemaDefaults.requiredString(),
+                Content: schemaDefaults.rte(),
                 Appendices: array(
                     object({
                         Number: schemaDefaults.requiredString(),
                         Title: schemaDefaults.requiredString(),
-                        Content: schemaDefaults.requiredString(),
+                        Content: schemaDefaults.rte(),
                     })
                 )
                     .optional()
@@ -90,8 +90,8 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
                 .optional()
                 .nullable()
         ),
-        Closing: schemaDefaults.optionalString,
-        Signed: schemaDefaults.optionalString,
+        Closing: schemaDefaults.optionalRte(),
+        Signed: schemaDefaults.optionalRte(),
     }),
     Effective_Date: z.preprocess(
         value => (value === '' ? null : value),
