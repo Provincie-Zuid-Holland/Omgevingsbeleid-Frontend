@@ -229,13 +229,11 @@ const ModuleContentsModal = ({
                                         !hasError
                                     }
                                     isLoading={isSubmitting && !hasError}
-                                    onPress={() => {
-                                        if (isFinalStep) {
-                                            submitForm()
-                                        } else {
-                                            handleWizard(values.state)
-                                        }
-                                    }}>
+                                    onPress={
+                                        isFinalStep
+                                            ? submitForm
+                                            : () => handleWizard(values.state)
+                                    }>
                                     {isFinalStep
                                         ? 'Toevoegen'
                                         : 'Volgende stap'}

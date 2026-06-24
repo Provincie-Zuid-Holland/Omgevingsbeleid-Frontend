@@ -83,7 +83,7 @@ const ObjectForm = <TData extends FormikValues>({
             ),
         [sections]
     )
-    console.log(rest)
+
     /**
      * Show prompt message when leaving the page without saving changes
      */
