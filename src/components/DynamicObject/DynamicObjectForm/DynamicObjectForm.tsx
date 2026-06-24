@@ -42,8 +42,7 @@ const DynamicObjectForm = <TData extends FormikValues>({
                 }
                 validateOnMount
                 onSubmit={handleSubmit}
-                enableReinitialize
-                validateOnBlur={false}>
+                enableReinitialize>
                 {props => (
                     <ObjectForm
                         model={model}
@@ -70,6 +69,7 @@ const ObjectForm = <TData extends FormikValues>({
     dirty,
     defaultValues,
     canEdit = true,
+    ...rest
 }: Omit<DynamicObjectFormProps<TData>, 'initialData' | 'handleSubmit'> &
     FormikProps<TData>) => {
     const sections = model.dynamicSections

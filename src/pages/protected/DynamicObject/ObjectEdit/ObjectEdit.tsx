@@ -18,7 +18,6 @@ import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError, { handleFileError } from '@/utils/handleError'
-import { Notification } from '@pzh-ui/react'
 
 interface ObjectEditProps {
     model: Model

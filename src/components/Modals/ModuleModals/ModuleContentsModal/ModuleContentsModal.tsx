@@ -189,8 +189,7 @@ const ModuleContentsModal = ({
                     // @ts-ignore
                     currentValidationSchema
                 )}
-                enableReinitialize
-                validateOnBlur={false}>
+                enableReinitialize>
                 {({ values, isValid, isSubmitting, submitForm }) => (
                     <Form
                         onSubmit={e => e.preventDefault()}
@@ -230,7 +229,11 @@ const ModuleContentsModal = ({
                                         !hasError
                                     }
                                     isLoading={isSubmitting && !hasError}
-                                    onPress={submitForm}>
+                                    onPress={
+                                        isFinalStep
+                                            ? submitForm
+                                            : () => handleWizard(values.state)
+                                    }>
                                     {isFinalStep
                                         ? 'Toevoegen'
                                         : 'Volgende stap'}
