@@ -21,6 +21,7 @@ interface PackageProps extends PublicationPackage {
     publicationUUID: string
     versionUUID: string
     announcementUUID?: string
+    environmentUUID?: string
     isLocked?: boolean
     canPublicate?: boolean
 }
@@ -35,6 +36,7 @@ const Package = ({
     publicationUUID,
     versionUUID,
     announcementUUID,
+    environmentUUID,
     canPublicate,
     Package_Type,
 }: PackageProps) => {
@@ -117,6 +119,7 @@ const Package = ({
                                             publicationType,
                                             publicationUUID,
                                             announcementUUID,
+                                            environmentUUID,
                                             packageType:
                                                 Package_Type as PackageType,
                                         }

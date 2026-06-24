@@ -114,6 +114,7 @@ export interface ModalStateMap {
         packageUUID: string
         announcementUUID: string
         packageType?: PackageType
+        environmentUUID?: string
     }
     publicationAttachmentDelete: {
         attachment: AttachmentShort

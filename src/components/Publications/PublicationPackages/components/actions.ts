@@ -8,6 +8,7 @@ import {
     getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryKey,
     getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey,
     getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey,
+    getPublicationEnvironmentsGetDetailEnvironmentQueryKey,
     getPublicationPackagesGetListUnifiedPackagesQueryKey,
     getPublicationVersionsGetListVersionsQueryKey,
     usePublicationActPackagesPostCreateActPackage,
@@ -26,6 +27,7 @@ interface ActionsProps {
     versionUUID?: string
     announcementUUID?: string
     publicationUUID: string
+    environmentUUID?: string
     packageUUID?: string
     reportUUID?: string
 }
@@ -35,6 +37,7 @@ export const useActions = ({
     versionUUID,
     announcementUUID,
     publicationUUID,
+    environmentUUID,
     packageUUID,
     reportUUID,
 }: ActionsProps) => {
@@ -87,6 +90,14 @@ export const useActions = ({
                     refetchType: 'all',
                     exact: false,
                 })
+                if (environmentUUID) {
+                    queryClient.invalidateQueries({
+                        queryKey:
+                            getPublicationEnvironmentsGetDetailEnvironmentQueryKey(
+                                environmentUUID
+                            ),
+                    })
+                }
             },
             onError: (error: AxiosError<HTTPValidationError>) => {
                 if (
@@ -188,6 +199,14 @@ export const useActions = ({
                     refetchType: 'all',
                     exact: false,
                 })
+                if (environmentUUID) {
+                    queryClient.invalidateQueries({
+                        queryKey:
+                            getPublicationEnvironmentsGetDetailEnvironmentQueryKey(
+                                environmentUUID
+                            ),
+                    })
+                }
             },
         },
     })
