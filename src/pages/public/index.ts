@@ -9,7 +9,6 @@ import EnvironmentProgram from './EnvironmentProgram'
 import ErrorPage from './ErrorPage'
 import Home from './Home'
 import Login from './Login'
-import MapSearch from './MapSearch'
 import Network from './Network'
 import NotFoundPage from './NotFoundPage'
 import Revisions from './Revisions'
@@ -29,7 +28,6 @@ export {
     ErrorPage,
     Home,
     Login,
-    MapSearch,
     Network,
     NotFoundPage,
     Revisions,
