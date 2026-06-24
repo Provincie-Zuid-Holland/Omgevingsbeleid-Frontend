@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom'
 import { ModalStateMap } from '../../types'
 
 const RULE_OTHER_ISSUES = 'other_issues'
+const RULE_ATTACHMENT_IN_BILL = 'attachment_in_bill_reference_rule'
 
 const PublicationScanModal = () => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -24,7 +25,10 @@ const PublicationScanModal = () => {
         for (const err of data.errors) {
             const key = err.object?.code
 
-            if (!err.object?.object_id) {
+            if (
+                !err.object?.object_id ||
+                err.rule === RULE_ATTACHMENT_IN_BILL
+            ) {
                 otherMessages.push(...(err.messages ?? []))
                 continue
             }
@@ -84,13 +88,18 @@ const ObjectIssueCard = ({ item }: { item: ValidateModuleError }) => {
     const { object, messages, rule } = item
 
     const link =
-        object.object_type !== 'gebied' && rule !== RULE_OTHER_ISSUES
+        object.object_type &&
+        object.object_type !== 'gebied' &&
+        rule !== RULE_OTHER_ISSUES &&
+        rule !== RULE_ATTACHMENT_IN_BILL
             ? `/muteer/modules/${moduleId}/${object.object_type}/${object.object_id}/bewerk`
             : undefined
     const title =
-        rule === RULE_OTHER_ISSUES
+        rule === RULE_OTHER_ISSUES || rule === RULE_ATTACHMENT_IN_BILL
             ? 'Overige meldingen'
-            : `${object.title} (${object.object_type})`
+            : object.object_type
+              ? `${object.title} (${object.object_type})`
+              : `${object.title}`
 
     return <ScanRule title={title} link={link} messages={messages} />
 }
