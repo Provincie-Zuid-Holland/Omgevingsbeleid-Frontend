@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import Indicator from '@/components/Indicator'
 import ModuleItemDropdown from '@/components/Modules/ModuleItemDropdown'
@@ -8,6 +8,8 @@ import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import { getObjectActionText } from '@/utils/dynamicObject'
 
+import { useModulesGetListModuleObjects } from '@/api/fetchers'
+import { ModuleObjectActionFull } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 import useObjectTableStore from '@/store/objectTableStore'
 import { parseUtc } from '@/utils/parseUtc'
@@ -24,76 +26,22 @@ import { ListCheck, MagnifyingGlass } from '@pzh-ui/icons'
 
 type FilterOption = { label?: string; value?: string }
 
-const getUniqueOptions = (items: ModelReturnTypeBasic[] = [], path: string) => {
-    const seen = new Set<string>()
-    return items
-        .map(obj => {
-            if (path === 'Object_Type') {
-                const value = obj.Object_Type
-                const label =
-                    models[value as ModelType]?.defaults?.singularCapitalize
-                return { label, value }
-            }
-
-            if (path === 'ModuleObjectContext.Action') {
-                const value = obj.ModuleObjectContext?.Action
-                const label = getObjectActionText(value)
-                return { label, value }
-            }
-
-            return undefined
-        })
-        .filter(
-            option =>
-                option?.value &&
-                !seen.has(option.value) &&
-                seen.add(option.value)
-        )
-        .map(option => ({ label: option?.label, value: option?.value }))
-}
-
-const useFilteredAndSortedData = (
+const useFormattedData = (
     objects: ModelReturnTypeBasic[],
-    filters: {
-        Title: string
-        Object_Type: FilterOption[]
-        Action: FilterOption[]
-    },
-    sortBy: { id: string; desc: boolean }[],
     navigate: ReturnType<typeof useNavigate>
 ) => {
-    return useMemo(() => {
-        const filtered = objects.filter(obj => {
-            const matchesTitle = obj.Model.Title?.toLowerCase().includes(
-                filters.Title.toLowerCase()
-            )
-            const matchesType =
-                filters.Object_Type.length === 0 ||
-                filters.Object_Type.some(f => f.value === obj.Object_Type)
-            const matchesAction =
-                filters.Action.length === 0 ||
-                filters.Action.some(
-                    f => f.value === obj.ModuleObjectContext?.Action
+    return useMemo(
+        () =>
+            objects.map(obj => {
+                const { Object_Type, ModuleObjectContext, Model, ...rest } = obj
+
+                const model = models[Object_Type as ModelType]
+                const actionText = getObjectActionText(
+                    ModuleObjectContext?.Action
                 )
+                const modifiedDate = parseUtc(Model.Modified_Date || '')
 
-            return matchesTitle && matchesType && matchesAction
-        })
-
-        const formatted = filtered.map(obj => {
-            const { Object_Type, ModuleObjectContext, Model, ...rest } = obj
-
-            const model = models[Object_Type as ModelType]
-            const actionText = getObjectActionText(ModuleObjectContext?.Action)
-            const modifiedDate = parseUtc(Model.Modified_Date || '')
-
-            return {
-                raw: {
-                    Title: Model.Title?.toLowerCase(),
-                    Object_Type,
-                    Action: actionText,
-                    Modified_Date: modifiedDate,
-                },
-                display: {
+                return {
                     Title: (
                         <Text bold color="text-pzh-blue-500">
                             {Model.Title}
@@ -121,23 +69,10 @@ const useFilteredAndSortedData = (
                                     `/muteer/modules/${rest.Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`
                                 ),
                         }),
-                },
-            }
-        })
-
-        const sorted = [...formatted].sort((a, b) => {
-            for (const { id, desc } of sortBy) {
-                const aVal = a.raw[id as keyof typeof a.raw]
-                const bVal = b.raw[id as keyof typeof b.raw]
-                if (aVal == null || bVal == null) continue
-                if (aVal < bVal) return desc ? 1 : -1
-                if (aVal > bVal) return desc ? -1 : 1
-            }
-            return 0
-        })
-
-        return sorted.map(entry => entry.display)
-    }, [objects, filters, sortBy, navigate])
+                }
+            }),
+        [objects, navigate]
+    )
 }
 
 interface ObjectsTableProps {
@@ -146,12 +81,15 @@ interface ObjectsTableProps {
 }
 
 const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
+    const { moduleId } = useParams()
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
-    const {
-        data: { Objects: objects = [], Module: { Module_ID = 0 } = {} } = {},
-        isLoading,
-    } = useModule()
+    const { data: { Module: { Module_ID = 0 } = {} } = {}, isLoading } =
+        useModule()
+
+    const { data: objects } = useModulesGetListModuleObjects({
+        module_id: Number(moduleId),
+    })
 
     const store = useObjectTableStore()
     const moduleStates = useObjectTableStore(state => state.moduleStates)
@@ -159,12 +97,23 @@ const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
     const sortBy = store.getSortBy(Module_ID)
 
     const typeOptions = useMemo(
-        () => getUniqueOptions(objects, 'Object_Type'),
-        [objects]
+        () =>
+            Object.keys(models)
+                .filter(model => !models[model as ModelType].defaults.atemporal)
+                .map(model => ({
+                    label: models[model as ModelType].defaults
+                        .singularCapitalize,
+                    value: model,
+                })),
+        []
     )
     const actionOptions = useMemo(
-        () => getUniqueOptions(objects, 'ModuleObjectContext.Action'),
-        [objects]
+        () =>
+            Object.keys(ModuleObjectActionFull).map(key => ({
+                label: getObjectActionText(key),
+                value: key,
+            })),
+        [ModuleObjectActionFull]
     )
 
     const isModuleInitialized = Module_ID !== 0 && Module_ID in moduleStates
@@ -241,7 +190,7 @@ const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
         []
     )
 
-    const data = useFilteredAndSortedData(objects, filters, sortBy, navigate)
+    const data = useFormattedData(objects?.results || [], navigate)
 
     return (
         <div>

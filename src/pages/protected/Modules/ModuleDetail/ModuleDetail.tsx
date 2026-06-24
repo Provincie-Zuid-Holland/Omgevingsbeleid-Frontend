@@ -9,10 +9,8 @@ import {
     useParams,
 } from 'react-router-dom'
 
-import { Module } from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
 import ModuleHeader from '@/components/Modules/ModuleHeader'
-import { ModelReturnTypeBasic } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
@@ -31,30 +29,17 @@ const getActiveTab = (pathname: string): TabType => {
     )
 }
 
-const getDisabledTabs = (
-    objects?: ModelReturnTypeBasic[],
-    module?: Module
-): TabType[] => {
-    if (!objects?.length || !module?.Activated) return ['besluiten']
-    return []
-}
-
 const ModuleDetail = () => {
     const { moduleId } = useParams<{ moduleId: string }>()
     const location = useLocation()
     const navigate = useNavigate()
     const { canCreatePublication } = usePermissions()
 
-    const { data: { Module: module, Objects: objects } = {}, isLoading } =
-        useModule()
+    const { data: { Module: module } = {}, isLoading } = useModule()
 
     const activeTab = useMemo(
         () => getActiveTab(location.pathname),
         [location.pathname]
-    )
-    const disabledKeys = useMemo(
-        () => getDisabledTabs(objects, module),
-        [objects, module]
     )
 
     const handleTabChange: TabsProps['onSelectionChange'] = key => {
@@ -75,8 +60,7 @@ const ModuleDetail = () => {
                 })}>
                 <Tabs
                     selectedKey={activeTab}
-                    onSelectionChange={handleTabChange}
-                    disabledKeys={disabledKeys}>
+                    onSelectionChange={handleTabChange}>
                     {TABS.map(tab => (
                         <TabItem
                             key={tab}

@@ -128,6 +128,7 @@ import type {
     InputGeoWerkingsgebiedDetailed,
     ListAreaDesignationResponse,
     ListObjectsByGeometryRequestData,
+    ListThemaResponse,
     MaatregelFull,
     MaatregelGetListActiveModuleObjectsParams,
     MaatregelGetModuleListLineageTreeParams,
@@ -143,7 +144,7 @@ import type {
     ModuleEdit,
     ModuleEditObjectContext,
     ModuleObjectContext,
-    ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ModuleOverviewResponse,
     ModulePatchStatus,
     ModuleSnapshot,
     ModuleStatus,
@@ -1342,9 +1343,11 @@ export const modulesViewModuleOverview = (
     moduleId: number,
     signal?: AbortSignal
 ) => {
-    return customInstance<ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
-        { url: `/modules/${moduleId}`, method: 'GET', signal }
-    )
+    return customInstance<ModuleOverviewResponse>({
+        url: `/modules/${moduleId}`,
+        method: 'GET',
+        signal,
+    })
 }
 
 export const getModulesViewModuleOverviewQueryKey = (moduleId: number) => {
@@ -7014,6 +7017,80 @@ export const usePublicationValueListsGetAreaDesignation = <
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions =
         getPublicationValueListsGetAreaDesignationQueryOptions(options)
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary List the available themas to use for this publication
+ */
+export const publicationValueListsGetThema = (signal?: AbortSignal) => {
+    return customInstance<ListThemaResponse>({
+        url: `/publication-dso-value-lists/thema`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationValueListsGetThemaQueryKey = () => {
+    return [`/publication-dso-value-lists/thema`] as const
+}
+
+export const getPublicationValueListsGetThemaQueryOptions = <
+    TData = Awaited<ReturnType<typeof publicationValueListsGetThema>>,
+    TError = unknown,
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof publicationValueListsGetThema>>,
+            TError,
+            TData
+        >
+    >
+}) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getPublicationValueListsGetThemaQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationValueListsGetThema>>
+    > = ({ signal }) => publicationValueListsGetThema(signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationValueListsGetThema>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationValueListsGetThemaQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationValueListsGetThema>>
+>
+export type PublicationValueListsGetThemaQueryError = unknown
+
+/**
+ * @summary List the available themas to use for this publication
+ */
+export const usePublicationValueListsGetThema = <
+    TData = Awaited<ReturnType<typeof publicationValueListsGetThema>>,
+    TError = unknown,
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof publicationValueListsGetThema>>,
+            TError,
+            TData
+        >
+    >
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getPublicationValueListsGetThemaQueryOptions(options)
 
     const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
         queryKey: QueryKey

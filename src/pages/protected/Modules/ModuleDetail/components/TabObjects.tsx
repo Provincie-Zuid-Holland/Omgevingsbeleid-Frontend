@@ -16,14 +16,17 @@ import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 
+import { useModulesGetListModuleObjects } from '@/api/fetchers'
 import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import * as modules from '@/validation/modules'
+import { useParams } from 'react-router-dom'
 import ObjectsTable from './ObjectsTable'
 
 const TabObjects = () => {
+    const { moduleId } = useParams()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const {
@@ -34,17 +37,17 @@ const TabObjects = () => {
     } = usePermissions()
 
     const {
-        data: {
-            Module: module,
-            Objects: objects,
-            StatusHistory: statusHistory,
-        } = {},
+        data: { Module: module, StatusHistory: statusHistory } = {},
         isLoading,
         isModuleManager,
         isLocked,
         isClosed,
         canComplete,
     } = useModule()
+
+    const { data } = useModulesGetListModuleObjects({
+        module_id: Number(moduleId),
+    })
 
     if (isLoading || !module) return <LoaderContent />
 
@@ -71,7 +74,10 @@ const TabObjects = () => {
                 {!canEditModule && !isModuleManager ? (
                     <>
                         <div className="col-span-6 lg:col-span-4">
-                            <ModuleItemList objects={objects} module={module} />
+                            <ModuleItemList
+                                objects={data?.results}
+                                module={module}
+                            />
 
                             {(canAddExistingObjectToModule ||
                                 canAddNewObjectToModule) &&
