@@ -57,11 +57,9 @@ const PublicationVersionEdit = () => {
                 Promise.all([
                     queryClient.invalidateQueries({
                         queryKey: getPublicationVersionsGetListVersionsQueryKey(
-                            String(data?.Publication.UUID),
-                            {
-                                limit: 100,
-                            }
+                            String(data?.Publication.UUID)
                         ),
+                        refetchType: 'all',
                     }),
                     queryClient.invalidateQueries({
                         queryKey,
