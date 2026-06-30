@@ -7039,7 +7039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/qs@npm:^6":
+"@types/qs@npm:^6.15.1":
   version: 6.15.1
   resolution: "@types/qs@npm:6.15.1"
   checksum: fd04a36c683dbb1ec5819c01773905259955bfd84d7294af178ad609990a9b8d75d458629ca3bf97b151fe2934eb12ade7fdeb98f2e3ad40d138f0a7d195ac7c
@@ -13653,7 +13653,7 @@ __metadata:
     "@types/lodash.debounce": "npm:^4.0.7"
     "@types/lodash.groupby": "npm:^4.6.7"
     "@types/proj4leaflet": "npm:^1.0.10"
-    "@types/qs": "npm:^6"
+    "@types/qs": "npm:^6.15.1"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     "@types/react-router-dom": "npm:^5.3.3"
