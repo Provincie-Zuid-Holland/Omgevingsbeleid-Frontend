@@ -36,6 +36,7 @@ import type {
     AmbitieListValidLineagesParams,
     AmbitiePatch,
     AmbitieStaticPostStatics,
+    AmbitieStaticStatics,
     AmbitieUUID,
     AnnouncementCreatedResponse,
     AreasGetListObjectsByAreasParams,
@@ -50,6 +51,7 @@ import type {
     BeleidsdoelListValidLineagesParams,
     BeleidsdoelPatch,
     BeleidsdoelStaticPostStatics,
+    BeleidsdoelStaticStatics,
     BeleidsdoelUUID,
     BeleidskeuzeFull,
     BeleidskeuzeGetAcknowledgedRelationListParams,
@@ -59,6 +61,7 @@ import type {
     BeleidskeuzeListValidLineagesParams,
     BeleidskeuzePatch,
     BeleidskeuzeStaticPostStatics,
+    BeleidskeuzeStaticStatics,
     BeleidskeuzeUUID,
     BeleidsregelFull,
     BeleidsregelGetListActiveModuleObjectsParams,
@@ -67,6 +70,7 @@ import type {
     BeleidsregelListValidLineagesParams,
     BeleidsregelPatch,
     BeleidsregelStaticPostStatics,
+    BeleidsregelStaticStatics,
     BeleidsregelUUID,
     BodyAuthenticationPostAuthLoginAccessToken,
     BodyPublicationActReportsPostUploadActPackageReport,
@@ -81,6 +85,7 @@ import type {
     DocumentListValidLineagesParams,
     DocumentPatch,
     DocumentStaticPostStatics,
+    DocumentStaticStatics,
     DocumentUUID,
     EditAcknowledgedRelation,
     EditUser,
@@ -94,6 +99,7 @@ import type {
     GebiedListValidLineagesParams,
     GebiedPatch,
     GebiedStaticPostStatics,
+    GebiedStaticStatics,
     GebiedUUID,
     GebiedengroepFull,
     GebiedengroepGetListActiveModuleObjectsParams,
@@ -102,6 +108,7 @@ import type {
     GebiedengroepListValidLineagesParams,
     GebiedengroepPatch,
     GebiedengroepStaticPostStatics,
+    GebiedengroepStaticStatics,
     GebiedengroepUUID,
     GebiedsaanwijzingFull,
     GebiedsaanwijzingGetListActiveModuleObjectsParams,
@@ -110,6 +117,7 @@ import type {
     GebiedsaanwijzingListValidLineagesParams,
     GebiedsaanwijzingPatch,
     GebiedsaanwijzingStaticPostStatics,
+    GebiedsaanwijzingStaticStatics,
     GebiedsaanwijzingUUID,
     GebiedsprogrammaFull,
     GebiedsprogrammaGetListActiveModuleObjectsParams,
@@ -136,6 +144,7 @@ import type {
     MaatregelListValidLineagesParams,
     MaatregelPatch,
     MaatregelStaticPostStatics,
+    MaatregelStaticStatics,
     MaatregelUUID,
     ModuleAddExistingObject,
     ModuleAddNewObject,
@@ -155,6 +164,7 @@ import type {
     NationaalBelangFull,
     NationaalBelangListValidLineagesParams,
     NationaalBelangStaticPostStatics,
+    NationaalBelangStaticStatics,
     NationaalBelangUUID,
     NewObjectStaticResponse,
     ObjectsDoListAllLatestParams,
@@ -217,6 +227,7 @@ import type {
     ProgrammaAlgemeenListValidLineagesParams,
     ProgrammaAlgemeenPatch,
     ProgrammaAlgemeenStaticPostStatics,
+    ProgrammaAlgemeenStaticStatics,
     ProgrammaAlgemeenUUID,
     PublicModuleOverview,
     PublicModulesGetPublicListModulesParams,
@@ -286,6 +297,7 @@ import type {
     VerplichtProgrammaFull,
     VerplichtProgrammaListValidLineagesParams,
     VerplichtProgrammaStaticPostStatics,
+    VerplichtProgrammaStaticStatics,
     VerplichtProgrammaUUID,
     VisieAlgemeenFull,
     VisieAlgemeenGetListActiveModuleObjectsParams,
@@ -294,6 +306,7 @@ import type {
     VisieAlgemeenListValidLineagesParams,
     VisieAlgemeenPatch,
     VisieAlgemeenStaticPostStatics,
+    VisieAlgemeenStaticStatics,
     VisieAlgemeenUUID,
     WerkingsgebiedFull,
     WerkingsgebiedGetListActiveModuleObjectsParams,
@@ -302,12 +315,14 @@ import type {
     WerkingsgebiedListValidLineagesParams,
     WerkingsgebiedPatch,
     WerkingsgebiedStaticPostStatics,
+    WerkingsgebiedStaticStatics,
     WerkingsgebiedUUID,
     WettelijkeTaakCreate,
     WettelijkeTaakEdit,
     WettelijkeTaakFull,
     WettelijkeTaakListValidLineagesParams,
     WettelijkeTaakStaticPostStatics,
+    WettelijkeTaakStaticStatics,
     WettelijkeTaakUUID,
     WriteRelation,
 } from './fetchers.schemas'
@@ -9856,6 +9871,98 @@ export const useAmbitiePostRelationsOverwrite = <
 }
 
 /**
+ * @summary Get object static of ambitie by lineage id
+ */
+export const ambitieViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<AmbitieStaticStatics>({
+        url: `/ambitie/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getAmbitieViewGetObjectStaticQueryKey = (lineageId: number) => {
+    return [`/ambitie/static/${lineageId}`] as const
+}
+
+export const getAmbitieViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof ambitieViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof ambitieViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getAmbitieViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof ambitieViewGetObjectStatic>>
+    > = ({ signal }) => ambitieViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof ambitieViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type AmbitieViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof ambitieViewGetObjectStatic>>
+>
+export type AmbitieViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of ambitie by lineage id
+ */
+export const useAmbitieViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof ambitieViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof ambitieViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getAmbitieViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit static data of an object
  */
 export const ambitieEditObjectStatic = (
@@ -11065,6 +11172,100 @@ export const useBeleidsdoelPostRelationsOverwrite = <
         getBeleidsdoelPostRelationsOverwriteMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get object static of beleidsdoel by lineage id
+ */
+export const beleidsdoelViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsdoelStaticStatics>({
+        url: `/beleidsdoel/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getBeleidsdoelViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/beleidsdoel/static/${lineageId}`] as const
+}
+
+export const getBeleidsdoelViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof beleidsdoelViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof beleidsdoelViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidsdoelViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidsdoelViewGetObjectStatic>>
+    > = ({ signal }) => beleidsdoelViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof beleidsdoelViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type BeleidsdoelViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsdoelViewGetObjectStatic>>
+>
+export type BeleidsdoelViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of beleidsdoel by lineage id
+ */
+export const useBeleidsdoelViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof beleidsdoelViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof beleidsdoelViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getBeleidsdoelViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**
@@ -12294,6 +12495,100 @@ export const useBeleidskeuzePostRelationsOverwrite = <
         getBeleidskeuzePostRelationsOverwriteMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get object static of beleidskeuze by lineage id
+ */
+export const beleidskeuzeViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidskeuzeStaticStatics>({
+        url: `/beleidskeuze/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getBeleidskeuzeViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/beleidskeuze/static/${lineageId}`] as const
+}
+
+export const getBeleidskeuzeViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof beleidskeuzeViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof beleidskeuzeViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidskeuzeViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidskeuzeViewGetObjectStatic>>
+    > = ({ signal }) => beleidskeuzeViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof beleidskeuzeViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type BeleidskeuzeViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidskeuzeViewGetObjectStatic>>
+>
+export type BeleidskeuzeViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of beleidskeuze by lineage id
+ */
+export const useBeleidskeuzeViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof beleidskeuzeViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof beleidskeuzeViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getBeleidskeuzeViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**
@@ -13804,6 +14099,100 @@ export const useBeleidsregelPostRelationsOverwrite = <
 }
 
 /**
+ * @summary Get object static of beleidsregel by lineage id
+ */
+export const beleidsregelViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<BeleidsregelStaticStatics>({
+        url: `/beleidsregel/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getBeleidsregelViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/beleidsregel/static/${lineageId}`] as const
+}
+
+export const getBeleidsregelViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof beleidsregelViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof beleidsregelViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getBeleidsregelViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof beleidsregelViewGetObjectStatic>>
+    > = ({ signal }) => beleidsregelViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof beleidsregelViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type BeleidsregelViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof beleidsregelViewGetObjectStatic>>
+>
+export type BeleidsregelViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of beleidsregel by lineage id
+ */
+export const useBeleidsregelViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof beleidsregelViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof beleidsregelViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getBeleidsregelViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit static data of an object
  */
 export const beleidsregelEditObjectStatic = (
@@ -14870,6 +15259,98 @@ export const useDocumentViewObjectLatest = <
 }
 
 /**
+ * @summary Get object static of document by lineage id
+ */
+export const documentViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<DocumentStaticStatics>({
+        url: `/document/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getDocumentViewGetObjectStaticQueryKey = (lineageId: number) => {
+    return [`/document/static/${lineageId}`] as const
+}
+
+export const getDocumentViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof documentViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getDocumentViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof documentViewGetObjectStatic>>
+    > = ({ signal }) => documentViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof documentViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type DocumentViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof documentViewGetObjectStatic>>
+>
+export type DocumentViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of document by lineage id
+ */
+export const useDocumentViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof documentViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof documentViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getDocumentViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit static data of an object
  */
 export const documentEditObjectStatic = (
@@ -15894,6 +16375,98 @@ export const useGebiedViewObjectLatest = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getGebiedViewObjectLatestQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get object static of gebied by lineage id
+ */
+export const gebiedViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedStaticStatics>({
+        url: `/gebied/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGebiedViewGetObjectStaticQueryKey = (lineageId: number) => {
+    return [`/gebied/static/${lineageId}`] as const
+}
+
+export const getGebiedViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedViewGetObjectStatic>>
+    > = ({ signal }) => gebiedViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedViewGetObjectStatic>>
+>
+export type GebiedViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of gebied by lineage id
+ */
+export const useGebiedViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof gebiedViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedViewGetObjectStaticQueryOptions(
         lineageId,
         options
     )
@@ -16938,6 +17511,100 @@ export const useGebiedengroepViewObjectLatest = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getGebiedengroepViewObjectLatestQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get object static of gebiedengroep by lineage id
+ */
+export const gebiedengroepViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedengroepStaticStatics>({
+        url: `/gebiedengroep/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGebiedengroepViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/gebiedengroep/static/${lineageId}`] as const
+}
+
+export const getGebiedengroepViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedengroepViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedengroepViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedengroepViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedengroepViewGetObjectStatic>>
+    > = ({ signal }) => gebiedengroepViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedengroepViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedengroepViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedengroepViewGetObjectStatic>>
+>
+export type GebiedengroepViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of gebiedengroep by lineage id
+ */
+export const useGebiedengroepViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof gebiedengroepViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedengroepViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedengroepViewGetObjectStaticQueryOptions(
         lineageId,
         options
     )
@@ -18115,6 +18782,104 @@ export const useGebiedsaanwijzingViewObjectLatest = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getGebiedsaanwijzingViewObjectLatestQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get object static of gebiedsaanwijzing by lineage id
+ */
+export const gebiedsaanwijzingViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsaanwijzingStaticStatics>({
+        url: `/gebiedsaanwijzing/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGebiedsaanwijzingViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/gebiedsaanwijzing/static/${lineageId}`] as const
+}
+
+export const getGebiedsaanwijzingViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingViewGetObjectStatic>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsaanwijzingViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewGetObjectStatic>>
+    > = ({ signal }) => gebiedsaanwijzingViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsaanwijzingViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsaanwijzingViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsaanwijzingViewGetObjectStatic>>
+>
+export type GebiedsaanwijzingViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of gebiedsaanwijzing by lineage id
+ */
+export const useGebiedsaanwijzingViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof gebiedsaanwijzingViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof gebiedsaanwijzingViewGetObjectStatic>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedsaanwijzingViewGetObjectStaticQueryOptions(
         lineageId,
         options
     )
@@ -20690,6 +21455,98 @@ export const useMaatregelPostRelationsOverwrite = <
 }
 
 /**
+ * @summary Get object static of maatregel by lineage id
+ */
+export const maatregelViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<MaatregelStaticStatics>({
+        url: `/maatregel/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getMaatregelViewGetObjectStaticQueryKey = (lineageId: number) => {
+    return [`/maatregel/static/${lineageId}`] as const
+}
+
+export const getMaatregelViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof maatregelViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof maatregelViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getMaatregelViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof maatregelViewGetObjectStatic>>
+    > = ({ signal }) => maatregelViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof maatregelViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type MaatregelViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof maatregelViewGetObjectStatic>>
+>
+export type MaatregelViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of maatregel by lineage id
+ */
+export const useMaatregelViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof maatregelViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof maatregelViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getMaatregelViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit static data of an object
  */
 export const maatregelEditObjectStatic = (
@@ -21944,6 +22801,100 @@ export const useNationaalBelangPostRelationsOverwrite = <
 }
 
 /**
+ * @summary Get object static of nationaal_belang by lineage id
+ */
+export const nationaalBelangViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<NationaalBelangStaticStatics>({
+        url: `/nationaal-belang/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getNationaalBelangViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/nationaal-belang/static/${lineageId}`] as const
+}
+
+export const getNationaalBelangViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof nationaalBelangViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof nationaalBelangViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getNationaalBelangViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof nationaalBelangViewGetObjectStatic>>
+    > = ({ signal }) => nationaalBelangViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof nationaalBelangViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type NationaalBelangViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof nationaalBelangViewGetObjectStatic>>
+>
+export type NationaalBelangViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of nationaal_belang by lineage id
+ */
+export const useNationaalBelangViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof nationaalBelangViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof nationaalBelangViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getNationaalBelangViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit static data of an object
  */
 export const nationaalBelangEditObjectStatic = (
@@ -22394,6 +23345,104 @@ export const useProgrammaAlgemeenViewObjectLatest = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getProgrammaAlgemeenViewObjectLatestQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get object static of programma_algemeen by lineage id
+ */
+export const programmaAlgemeenViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<ProgrammaAlgemeenStaticStatics>({
+        url: `/programma-algemeen/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getProgrammaAlgemeenViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/programma-algemeen/static/${lineageId}`] as const
+}
+
+export const getProgrammaAlgemeenViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof programmaAlgemeenViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof programmaAlgemeenViewGetObjectStatic>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getProgrammaAlgemeenViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof programmaAlgemeenViewGetObjectStatic>>
+    > = ({ signal }) => programmaAlgemeenViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof programmaAlgemeenViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ProgrammaAlgemeenViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof programmaAlgemeenViewGetObjectStatic>>
+>
+export type ProgrammaAlgemeenViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of programma_algemeen by lineage id
+ */
+export const useProgrammaAlgemeenViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof programmaAlgemeenViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof programmaAlgemeenViewGetObjectStatic>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getProgrammaAlgemeenViewGetObjectStaticQueryOptions(
         lineageId,
         options
     )
@@ -23726,6 +24775,105 @@ export const useVerplichtProgrammaPostRelationsOverwrite = <
 }
 
 /**
+ * @summary Get object static of verplicht_programma by lineage id
+ */
+export const verplichtProgrammaViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaStaticStatics>({
+        url: `/verplicht-programma/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/verplicht-programma/static/${lineageId}`] as const
+}
+
+export const getVerplichtProgrammaViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof verplichtProgrammaViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaViewGetObjectStatic>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaViewGetObjectStatic>>
+    > = ({ signal }) => verplichtProgrammaViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type VerplichtProgrammaViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaViewGetObjectStatic>>
+>
+export type VerplichtProgrammaViewGetObjectStaticQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Get object static of verplicht_programma by lineage id
+ */
+export const useVerplichtProgrammaViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof verplichtProgrammaViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaViewGetObjectStatic>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getVerplichtProgrammaViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Edit static data of an object
  */
 export const verplichtProgrammaEditObjectStatic = (
@@ -24170,6 +25318,100 @@ export const useVisieAlgemeenViewObjectLatest = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getVisieAlgemeenViewObjectLatestQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get object static of visie_algemeen by lineage id
+ */
+export const visieAlgemeenViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<VisieAlgemeenStaticStatics>({
+        url: `/visie-algemeen/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getVisieAlgemeenViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/visie-algemeen/static/${lineageId}`] as const
+}
+
+export const getVisieAlgemeenViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof visieAlgemeenViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof visieAlgemeenViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVisieAlgemeenViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof visieAlgemeenViewGetObjectStatic>>
+    > = ({ signal }) => visieAlgemeenViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof visieAlgemeenViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type VisieAlgemeenViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof visieAlgemeenViewGetObjectStatic>>
+>
+export type VisieAlgemeenViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of visie_algemeen by lineage id
+ */
+export const useVisieAlgemeenViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof visieAlgemeenViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof visieAlgemeenViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getVisieAlgemeenViewGetObjectStaticQueryOptions(
         lineageId,
         options
     )
@@ -25249,6 +26491,100 @@ export const useWerkingsgebiedViewObjectLatest = <
     }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
     const queryOptions = getWerkingsgebiedViewObjectLatestQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Get object static of werkingsgebied by lineage id
+ */
+export const werkingsgebiedViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<WerkingsgebiedStaticStatics>({
+        url: `/werkingsgebied/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getWerkingsgebiedViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/werkingsgebied/static/${lineageId}`] as const
+}
+
+export const getWerkingsgebiedViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getWerkingsgebiedViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof werkingsgebiedViewGetObjectStatic>>
+    > = ({ signal }) => werkingsgebiedViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof werkingsgebiedViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type WerkingsgebiedViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof werkingsgebiedViewGetObjectStatic>>
+>
+export type WerkingsgebiedViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of werkingsgebied by lineage id
+ */
+export const useWerkingsgebiedViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof werkingsgebiedViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof werkingsgebiedViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getWerkingsgebiedViewGetObjectStaticQueryOptions(
         lineageId,
         options
     )
@@ -26548,6 +27884,100 @@ export const useWettelijkeTaakPostRelationsOverwrite = <
         getWettelijkeTaakPostRelationsOverwriteMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get object static of wettelijke_taak by lineage id
+ */
+export const wettelijkeTaakViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<WettelijkeTaakStaticStatics>({
+        url: `/wettelijke-taak/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getWettelijkeTaakViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/wettelijke-taak/static/${lineageId}`] as const
+}
+
+export const getWettelijkeTaakViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof wettelijkeTaakViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof wettelijkeTaakViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getWettelijkeTaakViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof wettelijkeTaakViewGetObjectStatic>>
+    > = ({ signal }) => wettelijkeTaakViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof wettelijkeTaakViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type WettelijkeTaakViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof wettelijkeTaakViewGetObjectStatic>>
+>
+export type WettelijkeTaakViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of wettelijke_taak by lineage id
+ */
+export const useWettelijkeTaakViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof wettelijkeTaakViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof wettelijkeTaakViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getWettelijkeTaakViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**

@@ -532,8 +532,9 @@ export type ObjectsDoListAllLatestParams = {
 }
 
 export type ModulesGetListModuleObjectsParams = {
-    object_type?: string | null
+    object_types?: string[]
     owner_uuid?: string | null
+    owner_type?: OwnerType
     minimum_status?: ModuleStatusCode | null
     only_active_modules?: boolean
     title?: string | null
@@ -603,6 +604,15 @@ export interface WriteRelation {
 export interface WettelijkeTaakUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type WettelijkeTaakStaticStaticsOwner2 = UserShort | null
+
+export type WettelijkeTaakStaticStaticsOwner1 = UserShort | null
+
+export interface WettelijkeTaakStaticStatics {
+    Owner_1?: WettelijkeTaakStaticStaticsOwner1
+    Owner_2?: WettelijkeTaakStaticStaticsOwner2
 }
 
 export type WettelijkeTaakStaticPostStaticsOwner2UUID = string | null
@@ -708,6 +718,15 @@ export interface WerkingsgebiedStatics {
     Object_Type: string
 }
 
+export type WerkingsgebiedStaticStaticsOwner2 = UserShort | null
+
+export type WerkingsgebiedStaticStaticsOwner1 = UserShort | null
+
+export interface WerkingsgebiedStaticStatics {
+    Owner_1?: WerkingsgebiedStaticStaticsOwner1
+    Owner_2?: WerkingsgebiedStaticStaticsOwner2
+}
+
 export type WerkingsgebiedStaticPostStaticsOwner2UUID = string | null
 
 export type WerkingsgebiedStaticPostStaticsOwner1UUID = string | null
@@ -717,6 +736,8 @@ export interface WerkingsgebiedStaticPostStatics {
     Owner_2_UUID?: WerkingsgebiedStaticPostStaticsOwner2UUID
 }
 
+export type WerkingsgebiedRelatedObjectShortTitle = string | null
+
 export interface WerkingsgebiedRelatedObjectShort {
     Object_ID: number
     Object_Type: string
@@ -724,13 +745,6 @@ export interface WerkingsgebiedRelatedObjectShort {
     UUID: string
     Werkingsgebied_Code: string
 }
-
-export interface WerkingsgebiedRelatedObjects {
-    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
-    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
-}
-
-export type WerkingsgebiedRelatedObjectShortTitle = string | null
 
 export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
 
@@ -746,6 +760,11 @@ export interface WerkingsgebiedRelatedModuleObjectShort {
     Title: WerkingsgebiedRelatedModuleObjectShortTitle
     UUID: string
     Werkingsgebied_Code: string
+}
+
+export interface WerkingsgebiedRelatedObjects {
+    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
+    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
 }
 
 export type WerkingsgebiedPatchTitle = string | null
@@ -887,6 +906,15 @@ export interface VisieAlgemeenUUID {
     UUID?: string
 }
 
+export type VisieAlgemeenStaticStaticsOwner2 = UserShort | null
+
+export type VisieAlgemeenStaticStaticsOwner1 = UserShort | null
+
+export interface VisieAlgemeenStaticStatics {
+    Owner_1?: VisieAlgemeenStaticStaticsOwner1
+    Owner_2?: VisieAlgemeenStaticStaticsOwner2
+}
+
 export type VisieAlgemeenStaticPostStaticsOwner2UUID = string | null
 
 export type VisieAlgemeenStaticPostStaticsOwner1UUID = string | null
@@ -1005,6 +1033,15 @@ export interface VerplichtProgrammaUUID {
     UUID?: string
 }
 
+export type VerplichtProgrammaStaticStaticsOwner2 = UserShort | null
+
+export type VerplichtProgrammaStaticStaticsOwner1 = UserShort | null
+
+export interface VerplichtProgrammaStaticStatics {
+    Owner_1?: VerplichtProgrammaStaticStaticsOwner1
+    Owner_2?: VerplichtProgrammaStaticStaticsOwner2
+}
+
 export type VerplichtProgrammaStaticPostStaticsOwner2UUID = string | null
 
 export type VerplichtProgrammaStaticPostStaticsOwner1UUID = string | null
@@ -1117,11 +1154,6 @@ export const ValidateModuleSeverity = {
     error: 'error',
 } as const
 
-export interface ValidateModuleResult {
-    errors: ValidateModuleError[]
-    readonly status: string
-}
-
 export interface ValidateModuleObject {
     code: string
     object_id: number
@@ -1134,6 +1166,11 @@ export interface ValidateModuleError {
     object: ValidateModuleObject
     rule: string
     severity?: ValidateModuleSeverity
+}
+
+export interface ValidateModuleResult {
+    errors: ValidateModuleError[]
+    readonly status: string
 }
 
 export type ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
@@ -1951,6 +1988,15 @@ export interface ProgrammaAlgemeenUUID {
     UUID?: string
 }
 
+export type ProgrammaAlgemeenStaticStaticsOwner2 = UserShort | null
+
+export type ProgrammaAlgemeenStaticStaticsOwner1 = UserShort | null
+
+export interface ProgrammaAlgemeenStaticStatics {
+    Owner_1?: ProgrammaAlgemeenStaticStaticsOwner1
+    Owner_2?: ProgrammaAlgemeenStaticStaticsOwner2
+}
+
 export type ProgrammaAlgemeenStaticPostStaticsOwner2UUID = string | null
 
 export type ProgrammaAlgemeenStaticPostStaticsOwner1UUID = string | null
@@ -2464,6 +2510,15 @@ export const PackageType = {
     publication: 'publication',
 } as const
 
+export type OwnerType = (typeof OwnerType)[keyof typeof OwnerType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const OwnerType = {
+    All: 'All',
+    Mine: 'Mine',
+    Others: 'Others',
+} as const
+
 export interface ObjectStatics {
     Cached_Title: string
     Code: string
@@ -2540,6 +2595,15 @@ export interface NewObjectStaticResponse {
 export interface NationaalBelangUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type NationaalBelangStaticStaticsOwner2 = UserShort | null
+
+export type NationaalBelangStaticStaticsOwner1 = UserShort | null
+
+export interface NationaalBelangStaticStatics {
+    Owner_1?: NationaalBelangStaticStaticsOwner1
+    Owner_2?: NationaalBelangStaticStaticsOwner2
 }
 
 export type NationaalBelangStaticPostStaticsOwner2UUID = string | null
@@ -2739,13 +2803,6 @@ export type ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBa
         | WerkingsgebiedBasic
         | WettelijkeTaakBasic
 
-export type ModuleObjectContextShortOriginalAdjustOn = string | null
-
-export interface ModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
-}
-
 export interface ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
     Model: ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
     Module_ID: number
@@ -2753,6 +2810,13 @@ export interface ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidske
     ModuleObjectContext: ModuleObjectContextShort
     Object_Type: string
     ObjectStatics: ObjectStaticShort
+}
+
+export type ModuleObjectContextShortOriginalAdjustOn = string | null
+
+export interface ModuleObjectContextShort {
+    Action: string
+    Original_Adjust_On?: ModuleObjectContextShortOriginalAdjustOn
 }
 
 export type ModuleObjectContextOriginalAdjustOn = string | null
@@ -2898,6 +2962,24 @@ export interface Module {
 export interface MaatregelUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type MaatregelStaticStaticsPortfolioHolder2 = UserShort | null
+
+export type MaatregelStaticStaticsPortfolioHolder1 = UserShort | null
+
+export type MaatregelStaticStaticsOwner2 = UserShort | null
+
+export type MaatregelStaticStaticsOwner1 = UserShort | null
+
+export type MaatregelStaticStaticsClient1 = UserShort | null
+
+export interface MaatregelStaticStatics {
+    Client_1?: MaatregelStaticStaticsClient1
+    Owner_1?: MaatregelStaticStaticsOwner1
+    Owner_2?: MaatregelStaticStaticsOwner2
+    Portfolio_Holder_1?: MaatregelStaticStaticsPortfolioHolder1
+    Portfolio_Holder_2?: MaatregelStaticStaticsPortfolioHolder2
 }
 
 export type MaatregelStaticPostStaticsPortfolioHolder2UUID = string | null
@@ -3102,6 +3184,12 @@ export interface ListThemaResponse {
     themas: Thema[]
 }
 
+export interface ListObjectsByGeometryRequestData {
+    Function?: GeometryFunctions
+    Geometry: string
+    Object_Types?: string[]
+}
+
 export interface ListAreaDesignationResponse {
     gebiedsaanwijzingen: Gebiedsaanwijzing[]
 }
@@ -3198,12 +3286,6 @@ export const GeometryFunctions = {
     OVERLAPS: 'OVERLAPS',
     INTERSECTS: 'INTERSECTS',
 } as const
-
-export interface ListObjectsByGeometryRequestData {
-    Function?: GeometryFunctions
-    Geometry: string
-    Object_Types?: string[]
-}
 
 export type GeoSearchResultTitel = string | null
 
@@ -3413,6 +3495,15 @@ export interface GebiedsaanwijzingType {
     uri: string
 }
 
+export type GebiedsaanwijzingStaticStaticsOwner2 = UserShort | null
+
+export type GebiedsaanwijzingStaticStaticsOwner1 = UserShort | null
+
+export interface GebiedsaanwijzingStaticStatics {
+    Owner_1?: GebiedsaanwijzingStaticStaticsOwner1
+    Owner_2?: GebiedsaanwijzingStaticStaticsOwner2
+}
+
 export type GebiedsaanwijzingStaticPostStaticsOwner2UUID = string | null
 
 export type GebiedsaanwijzingStaticPostStaticsOwner1UUID = string | null
@@ -3543,6 +3634,15 @@ export interface GebiedengroepUUID {
     UUID?: string
 }
 
+export type GebiedengroepStaticStaticsOwner2 = UserShort | null
+
+export type GebiedengroepStaticStaticsOwner1 = UserShort | null
+
+export interface GebiedengroepStaticStatics {
+    Owner_1?: GebiedengroepStaticStaticsOwner1
+    Owner_2?: GebiedengroepStaticStaticsOwner2
+}
+
 export type GebiedengroepStaticPostStaticsOwner2UUID = string | null
 
 export type GebiedengroepStaticPostStaticsOwner1UUID = string | null
@@ -3666,6 +3766,15 @@ export interface GebiedengroepBasic {
 export interface GebiedUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type GebiedStaticStaticsOwner2 = UserShort | null
+
+export type GebiedStaticStaticsOwner1 = UserShort | null
+
+export interface GebiedStaticStatics {
+    Owner_1?: GebiedStaticStaticsOwner1
+    Owner_2?: GebiedStaticStaticsOwner2
 }
 
 export type GebiedStaticPostStaticsOwner2UUID = string | null
@@ -3894,6 +4003,15 @@ export const DocumentType = {
     programma: 'programma',
 } as const
 
+export type DocumentStaticStaticsOwner2 = UserShort | null
+
+export type DocumentStaticStaticsOwner1 = UserShort | null
+
+export interface DocumentStaticStatics {
+    Owner_1?: DocumentStaticStaticsOwner1
+    Owner_2?: DocumentStaticStaticsOwner2
+}
+
 export type DocumentStaticPostStaticsOwner2UUID = string | null
 
 export type DocumentStaticPostStaticsOwner1UUID = string | null
@@ -4096,6 +4214,24 @@ export interface BeleidsregelUUID {
     UUID?: string
 }
 
+export type BeleidsregelStaticStaticsPortfolioHolder2 = UserShort | null
+
+export type BeleidsregelStaticStaticsPortfolioHolder1 = UserShort | null
+
+export type BeleidsregelStaticStaticsOwner2 = UserShort | null
+
+export type BeleidsregelStaticStaticsOwner1 = UserShort | null
+
+export type BeleidsregelStaticStaticsClient1 = UserShort | null
+
+export interface BeleidsregelStaticStatics {
+    Client_1?: BeleidsregelStaticStaticsClient1
+    Owner_1?: BeleidsregelStaticStaticsOwner1
+    Owner_2?: BeleidsregelStaticStaticsOwner2
+    Portfolio_Holder_1?: BeleidsregelStaticStaticsPortfolioHolder1
+    Portfolio_Holder_2?: BeleidsregelStaticStaticsPortfolioHolder2
+}
+
 export type BeleidsregelStaticPostStaticsPortfolioHolder2UUID = string | null
 
 export type BeleidsregelStaticPostStaticsPortfolioHolder1UUID = string | null
@@ -4252,6 +4388,24 @@ export interface BeleidsregelBasic {
 export interface BeleidskeuzeUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type BeleidskeuzeStaticStaticsPortfolioHolder2 = UserShort | null
+
+export type BeleidskeuzeStaticStaticsPortfolioHolder1 = UserShort | null
+
+export type BeleidskeuzeStaticStaticsOwner2 = UserShort | null
+
+export type BeleidskeuzeStaticStaticsOwner1 = UserShort | null
+
+export type BeleidskeuzeStaticStaticsClient1 = UserShort | null
+
+export interface BeleidskeuzeStaticStatics {
+    Client_1?: BeleidskeuzeStaticStaticsClient1
+    Owner_1?: BeleidskeuzeStaticStaticsOwner1
+    Owner_2?: BeleidskeuzeStaticStaticsOwner2
+    Portfolio_Holder_1?: BeleidskeuzeStaticStaticsPortfolioHolder1
+    Portfolio_Holder_2?: BeleidskeuzeStaticStaticsPortfolioHolder2
 }
 
 export type BeleidskeuzeStaticPostStaticsPortfolioHolder2UUID = string | null
@@ -4458,6 +4612,24 @@ export interface BeleidskeuzeBasic {
 export interface BeleidsdoelUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type BeleidsdoelStaticStaticsPortfolioHolder2 = UserShort | null
+
+export type BeleidsdoelStaticStaticsPortfolioHolder1 = UserShort | null
+
+export type BeleidsdoelStaticStaticsOwner2 = UserShort | null
+
+export type BeleidsdoelStaticStaticsOwner1 = UserShort | null
+
+export type BeleidsdoelStaticStaticsClient1 = UserShort | null
+
+export interface BeleidsdoelStaticStatics {
+    Client_1?: BeleidsdoelStaticStaticsClient1
+    Owner_1?: BeleidsdoelStaticStaticsOwner1
+    Owner_2?: BeleidsdoelStaticStaticsOwner2
+    Portfolio_Holder_1?: BeleidsdoelStaticStaticsPortfolioHolder1
+    Portfolio_Holder_2?: BeleidsdoelStaticStaticsPortfolioHolder2
 }
 
 export type BeleidsdoelStaticPostStaticsPortfolioHolder2UUID = string | null
@@ -4700,6 +4872,24 @@ export interface AmendmentAppendix {
 export interface AmbitieUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type AmbitieStaticStaticsPortfolioHolder2 = UserShort | null
+
+export type AmbitieStaticStaticsPortfolioHolder1 = UserShort | null
+
+export type AmbitieStaticStaticsOwner2 = UserShort | null
+
+export type AmbitieStaticStaticsOwner1 = UserShort | null
+
+export type AmbitieStaticStaticsClient1 = UserShort | null
+
+export interface AmbitieStaticStatics {
+    Client_1?: AmbitieStaticStaticsClient1
+    Owner_1?: AmbitieStaticStaticsOwner1
+    Owner_2?: AmbitieStaticStaticsOwner2
+    Portfolio_Holder_1?: AmbitieStaticStaticsPortfolioHolder1
+    Portfolio_Holder_2?: AmbitieStaticStaticsPortfolioHolder2
 }
 
 export type AmbitieStaticPostStaticsPortfolioHolder2UUID = string | null
