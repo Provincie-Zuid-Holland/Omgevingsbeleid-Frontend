@@ -84,6 +84,7 @@
     "@types/lodash.debounce": "^4.0.7",
     "@types/lodash.groupby": "^4.6.7",
     "@types/proj4leaflet": "^1.0.10",
+    "@types/qs": "^6.15.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-router-dom": "^5.3.3",
