@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { keepPreviousData } from '@tanstack/react-query'
+import { useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import Indicator from '@/components/Indicator'
@@ -9,7 +10,10 @@ import useModule from '@/hooks/useModule'
 import { getObjectActionText } from '@/utils/dynamicObject'
 
 import { useModulesGetListModuleObjects } from '@/api/fetchers'
-import { ModuleObjectActionFull } from '@/api/fetchers.schemas'
+import { ModuleObjectActionFull, OwnerType } from '@/api/fetchers.schemas'
+import { LoaderSpinner } from '@/components/Loader'
+import useAuth from '@/hooks/useAuth'
+import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import useObjectTableStore from '@/store/objectTableStore'
 import { parseUtc } from '@/utils/parseUtc'
@@ -24,13 +28,179 @@ import {
 } from '@pzh-ui/components'
 import { ListCheck, MagnifyingGlass } from '@pzh-ui/icons'
 
-type FilterOption = { label?: string; value?: string }
+type FilterOption = {
+    label?: string
+    value?: string
+}
+
+interface ObjectsTableProps {
+    isLocked: boolean
+    isClosed: boolean
+    owners?: OwnerType
+}
+
+interface ObjectsTableFiltersProps {
+    moduleId: number
+    isLocked: boolean
+    isClosed: boolean
+    typeOptions: FilterOption[]
+    actionOptions: FilterOption[]
+    onFilterChange: () => void
+    owners?: OwnerType
+}
+
+const ObjectsTableFilters = ({
+    moduleId,
+    isLocked,
+    isClosed,
+    typeOptions,
+    actionOptions,
+    onFilterChange,
+    owners,
+}: ObjectsTableFiltersProps) => {
+    const { canEditModule } = usePermissions()
+    const { isModuleManager } = useModule()
+
+    const tableStateId = `${moduleId}-${owners}`
+
+    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const store = useObjectTableStore()
+    const filters = store.getFilters(tableStateId)
+
+    const [title, setTitle] = useState(filters.Title)
+
+    const activeTypeFilters = filters.Object_Type.filter(filter =>
+        typeOptions.some(option => option.value === filter.value)
+    ).length
+
+    const activeActionFilters = filters.Action.filter(filter =>
+        actionOptions.some(option => option.value === filter.value)
+    ).length
+
+    const handleFilterChange = (
+        key: keyof typeof filters,
+        value: string | FilterOption[]
+    ) => {
+        onFilterChange()
+        store.setFilter(tableStateId, key, value)
+    }
+
+    const applyTitleFilter = () => {
+        onFilterChange()
+        store.setFilter(tableStateId, 'Title', title.trim())
+    }
+
+    return (
+        <div className="mb-6 flex items-center justify-between gap-4">
+            <div className="flex-2">
+                <FieldInput
+                    name="Title"
+                    placeholder="Zoek op titel van een onderdeel"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                            applyTitleFilter()
+                        }
+                    }}
+                    inlineButton={
+                        <Button
+                            className="absolute top-1 right-1 flex h-8 w-8 items-center justify-center p-0"
+                            aria-label="Zoeken"
+                            icon={MagnifyingGlass}
+                            iconSize={14}
+                            onPress={applyTitleFilter}
+                        />
+                    }
+                    variant="small"
+                />
+            </div>
+
+            <div className="relative flex-1">
+                {!!activeTypeFilters && (
+                    <Indicator
+                        amount={activeTypeFilters}
+                        className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
+                    />
+                )}
+                <FieldSelect
+                    name="Object_Type"
+                    options={typeOptions}
+                    placeholder="Filter op type"
+                    isMulti
+                    isClearable={false}
+                    closeMenuOnSelect={false}
+                    hideSelectedOptions={false}
+                    isSearchable={false}
+                    controlShouldRenderValue={false}
+                    value={filters.Object_Type}
+                    onChange={selected =>
+                        handleFilterChange(
+                            'Object_Type',
+                            selected as FilterOption[]
+                        )
+                    }
+                    variant="small"
+                />
+            </div>
+
+            <div className="relative flex-1">
+                {!!activeActionFilters && (
+                    <Indicator
+                        amount={activeActionFilters}
+                        className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
+                    />
+                )}
+                <FieldSelect
+                    name="Action"
+                    options={actionOptions}
+                    placeholder="Filter op actie"
+                    isMulti
+                    isClearable={false}
+                    closeMenuOnSelect={false}
+                    hideSelectedOptions={false}
+                    isSearchable={false}
+                    controlShouldRenderValue={false}
+                    value={filters.Action}
+                    onChange={selected =>
+                        handleFilterChange('Action', selected as FilterOption[])
+                    }
+                    variant="small"
+                />
+            </div>
+
+            {!isClosed && (
+                <>
+                    {owners !== 'Others' && (
+                        <Button
+                            onPress={() => setActiveModal('moduleAddObject')}
+                            isDisabled={isLocked}
+                            size="small">
+                            Onderdeel toevoegen
+                        </Button>
+                    )}
+                    {canEditModule && isModuleManager && (
+                        <Button
+                            onPress={() => setActiveModal('moduleScan')}
+                            variant="secondary"
+                            icon={ListCheck}
+                            iconSize={18}
+                            size="small"
+                            className="w-10"
+                        />
+                    )}
+                </>
+            )}
+        </div>
+    )
+}
 
 const useFormattedData = (
     objects: ModelReturnTypeBasic[],
-    navigate: ReturnType<typeof useNavigate>
-) => {
-    return useMemo(
+    navigate: ReturnType<typeof useNavigate>,
+    owners: OwnerType
+) =>
+    useMemo(
         () =>
             objects.map(obj => {
                 const { Object_Type, ModuleObjectContext, Model, ...rest } = obj
@@ -40,6 +210,9 @@ const useFormattedData = (
                     ModuleObjectContext?.Action
                 )
                 const modifiedDate = parseUtc(Model.Modified_Date || '')
+                const isEditable =
+                    !model.defaults.disabled &&
+                    ModuleObjectContext?.Action !== 'Terminate'
 
                 return {
                     Title: (
@@ -62,8 +235,8 @@ const useFormattedData = (
                             />
                         </span>
                     ),
-                    ...(!model.defaults.disabled &&
-                        ModuleObjectContext?.Action !== 'Terminate' && {
+                    ...(isEditable &&
+                        owners !== 'Others' && {
                             onClick: () =>
                                 navigate(
                                     `/muteer/modules/${rest.Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`
@@ -73,28 +246,25 @@ const useFormattedData = (
             }),
         [objects, navigate]
     )
-}
 
-interface ObjectsTableProps {
-    isLocked: boolean
-    isClosed: boolean
-}
-
-const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
+const ObjectsTable = ({
+    isLocked,
+    isClosed,
+    owners = 'All',
+}: ObjectsTableProps) => {
     const { moduleId } = useParams()
     const navigate = useNavigate()
+    const { user } = useAuth()
     const setActiveModal = useModalStore(state => state.setActiveModal)
-    const { data: { Module: { Module_ID = 0 } = {} } = {}, isLoading } =
-        useModule()
 
-    const { data: objects } = useModulesGetListModuleObjects({
-        module_id: Number(moduleId),
-    })
+    const { data: { Module: { Module_ID = 0 } = {} } = {} } = useModule()
+
+    const tableStateId = `${Module_ID}-${owners}`
 
     const store = useObjectTableStore()
-    const moduleStates = useObjectTableStore(state => state.moduleStates)
-    const filters = store.getFilters(Module_ID)
-    const sortBy = store.getSortBy(Module_ID)
+    const filters = store.getFilters(tableStateId)
+    const pagination = store.getPagination(tableStateId)
+    const sortBy = store.getSortBy(tableStateId)
 
     const typeOptions = useMemo(
         () =>
@@ -107,77 +277,56 @@ const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
                 })),
         []
     )
+
     const actionOptions = useMemo(
         () =>
             Object.keys(ModuleObjectActionFull).map(key => ({
                 label: getObjectActionText(key),
                 value: key,
             })),
-        [ModuleObjectActionFull]
+        []
     )
 
-    const isModuleInitialized = Module_ID !== 0 && Module_ID in moduleStates
-    const knownTypesRef = useRef<Set<string>>(new Set())
+    const hasActiveFilters =
+        !!filters.Title.trim() ||
+        !!filters.Object_Type.length ||
+        !!filters.Action.length
 
-    useEffect(() => {
-        if (Module_ID === 0 || typeOptions.length === 0) return
-
-        const isVisible = (opt: { value?: string }) =>
-            !models[opt.value as ModelType]?.defaults?.hideFromModuleFilter
-
-        if (!isModuleInitialized) {
-            knownTypesRef.current = new Set()
-            const filteredTypes = typeOptions.filter(isVisible)
-            store.setFilter(Module_ID, 'Object_Type', filteredTypes)
-            filteredTypes.forEach(opt => {
-                if (opt.value) knownTypesRef.current.add(opt.value)
-            })
-        } else {
-            const known = knownTypesRef.current
-
-            if (known.size === 0) {
-                typeOptions.forEach(opt => {
-                    if (opt.value) known.add(opt.value)
-                })
-            } else {
-                const newTypes = typeOptions.filter(
-                    opt => opt.value && !known.has(opt.value) && isVisible(opt)
-                )
-                typeOptions.forEach(opt => {
-                    if (opt.value) known.add(opt.value)
-                })
-                if (newTypes.length > 0) {
-                    const currentFilters = store.getFilters(Module_ID)
-                    store.setFilter(Module_ID, 'Object_Type', [
-                        ...currentFilters.Object_Type,
-                        ...newTypes,
-                    ])
-                }
-            }
+    const { data: objects, isFetching } = useModulesGetListModuleObjects(
+        {
+            module_id: Number(moduleId),
+            owner_type: owners,
+            ...(owners !== 'All' && {
+                owner_uuid: user?.UUID,
+            }),
+            object_types: filters.Object_Type.length
+                ? filters.Object_Type.map(type => type.value || '')
+                : undefined,
+            actions: filters.Action.length
+                ? filters.Action.map(
+                      type => type.value as ModuleObjectActionFull
+                  )
+                : undefined,
+            title: filters.Title ? `%${filters.Title}%` : undefined,
+            offset: (pagination.pageIndex - 1) * pagination.pageSize,
+            limit: pagination.pageSize,
+            sort_column: sortBy?.[0]?.id || 'Title',
+            sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
+        },
+        {
+            query: {
+                placeholderData: keepPreviousData,
+            },
         }
-    }, [isModuleInitialized, Module_ID, typeOptions, store])
-
-    const activeTypeFilters = filters.Object_Type.filter(f =>
-        typeOptions.some(opt => opt.value === f.value)
-    ).length
-    const activeActionFilters = filters.Action.filter(f =>
-        actionOptions.some(opt => opt.value === f.value)
-    ).length
-
-    const handleFilterChange = (
-        key: keyof typeof filters,
-        value: string | FilterOption[]
-    ) => {
-        store.setFilter(Module_ID, key, value)
-    }
+    )
 
     const handleSortChange: TableProps['onSortingChange'] = updater => {
         const newSort =
             typeof updater === 'function'
-                ? updater(store.getSortBy(Module_ID))
+                ? updater(store.getSortBy(tableStateId))
                 : updater
 
-        store.setSortBy(Module_ID, newSort)
+        store.setSortBy(tableStateId, newSort)
     }
 
     const columns = useMemo(
@@ -190,114 +339,68 @@ const ObjectsTable = ({ isLocked, isClosed }: ObjectsTableProps) => {
         []
     )
 
-    const data = useFormattedData(objects?.results || [], navigate)
+    const data = useFormattedData(objects?.results || [], navigate, owners)
 
     return (
         <div>
-            <div className="mb-6 flex items-center justify-between gap-4">
-                <div className="flex-2">
-                    <FieldInput
-                        name="Title"
-                        placeholder="Zoek op titel van een onderdeel"
-                        value={filters.Title}
-                        onChange={e =>
-                            handleFilterChange('Title', e.target.value)
+            {data.length || hasActiveFilters ? (
+                <>
+                    <ObjectsTableFilters
+                        moduleId={Module_ID}
+                        isLocked={isLocked}
+                        isClosed={isClosed}
+                        typeOptions={typeOptions}
+                        actionOptions={actionOptions}
+                        onFilterChange={() =>
+                            store.setPagination(tableStateId, prev => ({
+                                ...prev,
+                                pageIndex: 1,
+                            }))
                         }
-                        inlineButton={
-                            <Button
-                                className="absolute top-1 right-1 flex h-8 w-8 items-center justify-center p-0"
-                                aria-label="Zoeken"
-                                icon={MagnifyingGlass}
-                                iconSize={14}
-                            />
-                        }
-                        variant="small"
+                        owners={owners}
                     />
-                </div>
-                <div className="relative flex-1">
-                    {!!activeTypeFilters && (
-                        <Indicator
-                            amount={activeTypeFilters}
-                            className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
-                        />
-                    )}
-                    <FieldSelect
-                        name="Object_Type"
-                        options={typeOptions}
-                        placeholder="Filter op type"
-                        isMulti
-                        isClearable={false}
-                        closeMenuOnSelect={false}
-                        hideSelectedOptions={false}
-                        isSearchable={false}
-                        controlShouldRenderValue={false}
-                        value={filters.Object_Type}
-                        onChange={selected =>
-                            handleFilterChange(
-                                'Object_Type',
-                                selected as FilterOption[]
-                            )
-                        }
-                        variant="small"
-                    />
-                </div>
-                <div className="relative flex-1">
-                    {!!activeActionFilters && (
-                        <Indicator
-                            amount={activeActionFilters}
-                            className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
-                        />
-                    )}
-                    <FieldSelect
-                        name="Action"
-                        options={actionOptions}
-                        placeholder="Filter op actie"
-                        isMulti
-                        isClearable={false}
-                        closeMenuOnSelect={false}
-                        hideSelectedOptions={false}
-                        isSearchable={false}
-                        controlShouldRenderValue={false}
-                        value={filters.Action}
-                        onChange={selected =>
-                            handleFilterChange(
-                                'Action',
-                                selected as FilterOption[]
-                            )
-                        }
-                        variant="small"
-                    />
-                </div>
-                {!isClosed && (
-                    <>
-                        <Button
-                            onPress={() => setActiveModal('moduleAddObject')}
-                            isDisabled={isLocked}
-                            size="small">
-                            Onderdeel toevoegen
-                        </Button>
-                        <Button
-                            onPress={() => setActiveModal('moduleScan')}
-                            variant="secondary"
-                            icon={ListCheck}
-                            iconSize={18}
-                            size="small"
-                            className="w-10"
-                        />
-                    </>
-                )}
-            </div>
 
-            <Table
-                columns={columns}
-                data={data}
-                enableSortingRemoval={false}
-                enableMultiSort={false}
-                state={{ sorting: sortBy }}
-                onSortingChange={handleSortChange}
-                manualSorting
-                isLoading={isLoading}
-            />
+                    <Table
+                        columns={columns}
+                        data={data}
+                        enableSortingRemoval={false}
+                        enableMultiSort={false}
+                        limit={pagination.pageSize}
+                        total={objects?.total}
+                        current={pagination.pageIndex}
+                        onPaginationChange={pagination =>
+                            store.setPagination(tableStateId, pagination)
+                        }
+                        state={{ sorting: sortBy }}
+                        onSortingChange={handleSortChange}
+                        manualSorting
+                        isLoading={isFetching}
+                    />
+
+                    {!data.length && !isFetching && (
+                        <span className="italic">
+                            Geen onderdelen gevonden met deze filters.
+                        </span>
+                    )}
+                </>
+            ) : !isFetching ? (
+                <div className="flex items-center gap-8">
+                    <span className="italic">
+                        {owners === 'Mine' ? 'Je hebt' : 'Er zijn'} nog geen
+                        onderdelen in deze module.
+                    </span>
+                    <Button
+                        onPress={() => setActiveModal('moduleAddObject')}
+                        isDisabled={isLocked}
+                        variant="cta">
+                        Onderdeel toevoegen
+                    </Button>
+                </div>
+            ) : (
+                <div className="mt-8 flex justify-center">
+                    <LoaderSpinner />
+                </div>
+            )}
         </div>
     )
 }

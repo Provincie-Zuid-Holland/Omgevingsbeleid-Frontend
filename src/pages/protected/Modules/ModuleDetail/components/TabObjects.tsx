@@ -1,5 +1,3 @@
-import { Button, Divider } from '@pzh-ui/components'
-
 import { LoaderContent } from '@/components/Loader'
 import {
     ModuleActivateModal,
@@ -11,43 +9,34 @@ import {
 } from '@/components/Modals/ModuleModals'
 import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
-import ModuleItemList from '@/components/Modules/ModuleItemList'
 import ModuleLock from '@/components/Modules/ModuleLock'
-import ModuleTimeline from '@/components/Modules/ModuleTimeline'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
 
-import { useModulesGetListModuleObjects } from '@/api/fetchers'
+import { OwnerType } from '@/api/fetchers.schemas'
 import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
-import useModalStore from '@/store/modalStore'
 import * as modules from '@/validation/modules'
-import { useParams } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 import ObjectsTable from './ObjectsTable'
 
+type ObjectsOutletContext = {
+    owners?: OwnerType
+}
+
 const TabObjects = () => {
-    const { moduleId } = useParams()
-    const setActiveModal = useModalStore(state => state.setActiveModal)
+    const { owners = 'All' } = useOutletContext<ObjectsOutletContext>()
+
+    const { canPatchModuleStatus } = usePermissions()
 
     const {
-        canEditModule,
-        canPatchModuleStatus,
-        canAddExistingObjectToModule,
-        canAddNewObjectToModule,
-    } = usePermissions()
-
-    const {
-        data: { Module: module, StatusHistory: statusHistory } = {},
+        data: { Module: module } = {},
         isLoading,
         isModuleManager,
         isLocked,
         isClosed,
         canComplete,
     } = useModule()
-
-    const { data } = useModulesGetListModuleObjects({
-        module_id: Number(moduleId),
-    })
 
     if (isLoading || !module) return <LoaderContent />
 
@@ -63,58 +52,20 @@ const TabObjects = () => {
 
     return (
         <>
-            {module.Activated ? (
-                <ModuleLock />
-            ) : (
-                !canEditModule &&
-                !isModuleManager && <Divider className="mb-4" />
-            )}
+            {module.Activated && <ModuleLock />}
 
             <div className="grid grid-cols-6 gap-x-10 pt-6">
-                {!canEditModule && !isModuleManager ? (
-                    <>
-                        <div className="col-span-6 lg:col-span-4">
-                            <ModuleItemList
-                                objects={data?.results}
-                                module={module}
-                            />
+                <div className="col-span-6 flex flex-col gap-y-6">
+                    {showInactiveCard && <ModuleInactiveCard variant="row" />}
+                    {showVersionCard && <ModuleVersionCard variant="row" />}
+                    {showCompleteCard && <ModuleCompleteCard variant="row" />}
 
-                            {(canAddExistingObjectToModule ||
-                                canAddNewObjectToModule) &&
-                                !isLocked && (
-                                    <Button
-                                        variant="link"
-                                        onPress={() =>
-                                            setActiveModal('moduleAddObject')
-                                        }
-                                        className="text-pzh-green-500 hover:text-pzh-green-900 block">
-                                        Onderdeel toevoegen
-                                    </Button>
-                                )}
-                        </div>
-
-                        <div className="col-span-6 lg:col-span-2">
-                            {showInactiveCard && <ModuleInactiveCard />}
-                            {showVersionCard && <ModuleVersionCard />}
-                            {showCompleteCard && <ModuleCompleteCard />}
-                            {module.Activated && statusHistory && (
-                                <ModuleTimeline statusHistory={statusHistory} />
-                            )}
-                        </div>
-                    </>
-                ) : (
-                    <div className="col-span-6 flex flex-col gap-y-6">
-                        {showInactiveCard && (
-                            <ModuleInactiveCard variant="row" />
-                        )}
-                        {showVersionCard && <ModuleVersionCard variant="row" />}
-                        {showCompleteCard && (
-                            <ModuleCompleteCard variant="row" />
-                        )}
-
-                        <ObjectsTable isLocked={isLocked} isClosed={isClosed} />
-                    </div>
-                )}
+                    <ObjectsTable
+                        isLocked={isLocked}
+                        isClosed={isClosed}
+                        owners={owners}
+                    />
+                </div>
             </div>
 
             {/* Modals */}
