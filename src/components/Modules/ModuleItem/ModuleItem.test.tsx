@@ -21,6 +21,7 @@ describe('ModuleItem', () => {
                                 Object_Type="beleidskeuze"
                                 Module_ID={1}
                                 ModuleObjectContext={{ Action: 'Toevoegen' }}
+                                Module_Latest_Status=""
                                 Model={{
                                     Title: 'My Policy',
                                 }}

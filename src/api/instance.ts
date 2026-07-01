@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import qs from 'qs'
 
 import { ToastType } from '@/config/notifications'
 import { ACCESS_TOKEN_KEY, IDENTIFIER_KEY } from '@/context/AuthContext'
@@ -18,6 +19,12 @@ const instance = axios.create({
     baseURL: getApiUrl(),
     headers: {
         'Content-Type': 'application/json',
+    },
+    paramsSerializer: {
+        serialize: params =>
+            qs.stringify(params, {
+                arrayFormat: 'repeat',
+            }),
     },
 })
 

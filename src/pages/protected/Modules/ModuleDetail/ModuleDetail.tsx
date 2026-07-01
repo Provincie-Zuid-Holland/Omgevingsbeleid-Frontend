@@ -1,6 +1,5 @@
 import { TabItem, Tabs, TabsProps } from '@pzh-ui/components'
-import classNames from 'clsx'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import {
     matchPath,
     Outlet,
@@ -9,17 +8,17 @@ import {
     useParams,
 } from 'react-router-dom'
 
-import { Module } from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
 import ModuleHeader from '@/components/Modules/ModuleHeader'
-import { ModelReturnTypeBasic } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 
 type TabType = 'objecten' | 'besluiten' | 'tijdlijn'
+type RestrictedTabType = 'Mine' | 'Others'
 
 const TABS: TabType[] = ['objecten', 'besluiten', 'tijdlijn']
+const RESTRICTED_TABS: RestrictedTabType[] = ['Mine', 'Others']
 
 const getActiveTab = (pathname: string): TabType => {
     return (
@@ -31,31 +30,21 @@ const getActiveTab = (pathname: string): TabType => {
     )
 }
 
-const getDisabledTabs = (
-    objects?: ModelReturnTypeBasic[],
-    module?: Module
-): TabType[] => {
-    if (!objects?.length || !module?.Activated) return ['besluiten']
-    return []
-}
-
 const ModuleDetail = () => {
     const { moduleId } = useParams<{ moduleId: string }>()
     const location = useLocation()
     const navigate = useNavigate()
     const { canCreatePublication } = usePermissions()
 
-    const { data: { Module: module, Objects: objects } = {}, isLoading } =
-        useModule()
+    const { data: { Module: module } = {}, isLoading } = useModule()
 
     const activeTab = useMemo(
         () => getActiveTab(location.pathname),
         [location.pathname]
     )
-    const disabledKeys = useMemo(
-        () => getDisabledTabs(objects, module),
-        [objects, module]
-    )
+
+    const [selectedRestrictedTab, setSelectedRestrictedTab] =
+        useState<RestrictedTabType>('Mine')
 
     const handleTabChange: TabsProps['onSelectionChange'] = key => {
         navigate(
@@ -69,27 +58,43 @@ const ModuleDetail = () => {
         <MutateLayout title={module.Title} hasOwnBreadcrumbs>
             <ModuleHeader module={module} />
 
-            <div
-                className={classNames('col-span-6', {
-                    '[&_[role=tablist]]:hidden': !canCreatePublication,
-                })}>
+            <div className="col-span-6">
                 <Tabs
-                    selectedKey={activeTab}
-                    onSelectionChange={handleTabChange}
-                    disabledKeys={disabledKeys}>
-                    {TABS.map(tab => (
-                        <TabItem
-                            key={tab}
-                            title={
-                                tab === 'objecten'
-                                    ? 'Onderdelen'
-                                    : tab === 'besluiten'
-                                      ? 'Besluiten'
-                                      : 'Tijdlijn'
-                            }>
-                            <Outlet />
-                        </TabItem>
-                    ))}
+                    selectedKey={
+                        canCreatePublication ? activeTab : selectedRestrictedTab
+                    }
+                    onSelectionChange={key => {
+                        if (canCreatePublication) {
+                            handleTabChange(key)
+                        } else {
+                            setSelectedRestrictedTab(key as RestrictedTabType)
+                        }
+                    }}>
+                    {canCreatePublication
+                        ? TABS.map(tab => (
+                              <TabItem
+                                  key={tab}
+                                  title={
+                                      tab === 'objecten'
+                                          ? 'Onderdelen'
+                                          : tab === 'besluiten'
+                                            ? 'Besluiten'
+                                            : 'Tijdlijn'
+                                  }>
+                                  <Outlet context={{ owners: 'All' }} />
+                              </TabItem>
+                          ))
+                        : RESTRICTED_TABS.map(tab => (
+                              <TabItem
+                                  key={tab}
+                                  title={
+                                      tab === 'Mine'
+                                          ? 'Mijn onderdelen'
+                                          : 'Andere onderdelen'
+                                  }>
+                                  <Outlet context={{ owners: tab }} />
+                              </TabItem>
+                          ))}
                 </Tabs>
             </div>
         </MutateLayout>

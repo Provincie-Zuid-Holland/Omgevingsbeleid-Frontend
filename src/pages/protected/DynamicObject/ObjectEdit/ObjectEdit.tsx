@@ -6,6 +6,7 @@ import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import {
+    getModulesGetListModuleObjectsQueryKey,
     useGebiedengroepPatchInputGeoUseWerkingsgebied,
     useStorageFilePostFilesUpload,
 } from '@/api/fetchers'
@@ -211,7 +212,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: objectQueryKey }),
-                queryClient.invalidateQueries({ queryKey }),
+                queryClient.invalidateQueries({
+                    queryKey: getModulesGetListModuleObjectsQueryKey({
+                        module_id: parseInt(moduleId),
+                    }),
+                    refetchType: 'all',
+                    exact: false,
+                }),
             ])
 
             navigate(`/muteer/modules/${moduleId}`)
