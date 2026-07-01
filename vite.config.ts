@@ -68,6 +68,18 @@ export default defineConfig({
     },
     resolve: {
         tsconfigPaths: true,
+        dedupe: [
+            'react',
+            'react-dom',
+            '@tiptap/core',
+            '@tiptap/react',
+            '@tiptap/pm',
+            'prosemirror-model',
+            'prosemirror-state',
+            'prosemirror-view',
+            'prosemirror-transform',
+            'prosemirror-schema-list',
+        ],
     },
     plugins: [
         react(),
@@ -82,14 +94,19 @@ export default defineConfig({
     ],
     test: {
         globals: true,
+        pool: 'threads',
         environment: 'jsdom',
-        setupFiles: './src/setupTests.ts',
+        setupFiles: './src/setupTests.tsx',
         coverage: {
+            provider: 'v8',
             reporter: ['cobertura', 'text'],
+            include: ['src/**/*.{ts,tsx}'],
             exclude: [
-                'node_modules/',
-                'src/setupTests.ts',
+                'src/**/*.test.{ts,tsx}',
+                'src/**/*.stories.{ts,tsx}',
+                'src/setupTests.tsx',
                 'src/api/fetchers.*',
+                'src/index.tsx',
             ],
         },
         restoreMocks: true,

@@ -9,7 +9,6 @@ import imageProgramma from '@/images/landing-3.webp'
 import imageVerordening from '@/images/landing-4.webp'
 
 import DocumentLink from './DocumentLink'
-import SearchSection from './SearchSection'
 
 /**
  * Landing page component.
@@ -44,7 +43,7 @@ const Home = () => (
                 <img
                     src={imageLanding}
                     alt=""
-                    className="absolute left-0 top-0 inline-block h-[480px] min-w-[50vw] object-cover"
+                    className="absolute top-0 left-0 inline-block h-[480px] min-w-[50vw] object-cover"
                 />
             </div>
         </Container>
@@ -52,24 +51,10 @@ const Home = () => (
         <img
             src={imageLanding}
             alt=""
-            className="left-0 top-0 block h-64 w-full object-cover lg:hidden"
+            className="top-0 left-0 block h-64 w-full object-cover lg:hidden"
         />
 
         <Divider className="my-0" />
-
-        <Container className="py-6 md:py-8 lg:py-16">
-            <div className="col-span-6 lg:col-span-2">
-                <Heading level="2" id="homepage-zoeken" className="font-bold">
-                    Zoeken in het beleid
-                </Heading>
-                <Text className="mt-4">
-                    Hier kan je zoeken in het Omgevingsbeleid van Zuid-Holland.
-                    Je kan zowel zoeken op tekst als op locatie.
-                </Text>
-            </div>
-
-            <SearchSection />
-        </Container>
 
         <div className="bg-pzh-blue-500">
             <Container className="py-12">

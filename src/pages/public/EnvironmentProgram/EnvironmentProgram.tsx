@@ -1,19 +1,46 @@
-import { Heading, Text } from '@pzh-ui/components'
+import { Heading, ListLink, Text } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
+import { useProgrammaAlgemeenListValidLineages } from '@/api/fetchers'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
+import { LoaderSpinner } from '@/components/Loader'
 import PageHero from '@/components/PageHero'
+import model from '@/config/objects/programmaAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 
 const META = {
     title: 'Omgevingsprogramma',
     description:
         'In het Omgevingsprogramma staat beschreven welke maatregelen de provincie treft om de visie waar te maken. Het Omgevingsprogramma geeft bijvoorbeeld aan voor welke initiatieven subsidies worden verleend en aan welke provinciale wegen wordt gewerkt. Het Omgevingsprogramma is een overzicht van alle maatregelen inclusief de onderliggende activiteiten.',
+    externalUrls: [
+        {
+            title: 'Lokale wet en regelgeving',
+            url: 'https://lokaleregelgeving.overheid.nl/CVDR719187',
+        },
+        {
+            title: 'Regels op de kaart',
+            url: 'https://omgevingswet.overheid.nl/regels-op-de-kaart/documenten/_akn_nl_act_pv28_2024_programma_1/overzicht',
+        },
+    ],
 }
 
 function EnvironmentProgram() {
+    const { data, isFetching } = useProgrammaAlgemeenListValidLineages(
+        { limit: 100 },
+        {
+            query: {
+                select: data =>
+                    data.results.map(item => ({
+                        text: item.Title,
+                        to: `${model.defaults.plural}/${item.UUID}`,
+                    })),
+            },
+        }
+    )
+
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },
         { name: 'Omgevingsprogramma' },
@@ -29,9 +56,12 @@ function EnvironmentProgram() {
             <PageHero image={imgEnvironmentProgram} />
 
             <Container className="overflow-hidden pb-20">
-                <div className="col-span-6 lg:col-span-4">
+                <div className="col-span-6 mb-10">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
-                    <Heading level="1" size="xxl" className="mt-4">
+                </div>
+
+                <div className="col-span-6 lg:col-span-4">
+                    <Heading level="1" size="xxl">
                         Omgevingsprogramma
                     </Heading>
                     <Text size="l" className="mt-3">
@@ -43,6 +73,61 @@ function EnvironmentProgram() {
                         Omgevingsprogramma is een overzicht van alle maatregelen
                         inclusief de onderliggende activiteiten.
                     </Text>
+                </div>
+                <div className="col-span-6 mt-8 lg:col-span-2 lg:mt-0">
+                    <div className="bg-pzh-gray-200 p-6">
+                        <Text
+                            bold
+                            size="l"
+                            color="text-pzh-blue-500"
+                            className="mb-2 leading-[1]">
+                            Het omgevingsprogramma op
+                        </Text>
+                        <div className="flex flex-col">
+                            {META.externalUrls.map(link => (
+                                <ListLink
+                                    key={link.url}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noreferrer noopener">
+                                    {link.title}
+                                    <ArrowUpRightFromSquare
+                                        className="ml-2"
+                                        aria-label="opent een nieuwe browsertab"
+                                    />
+                                </ListLink>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="col-span-6">
+                    {!isFetching && !!data?.length && (
+                        <>
+                            <Heading level="2" className="mt-8">
+                                Inleidende hoofdstukken
+                            </Heading>
+
+                            <div className="mt-3 flex flex-col gap-1">
+                                {isFetching ? (
+                                    <LoaderSpinner />
+                                ) : (
+                                    <ul className="flex flex-col">
+                                        {data?.map(item => (
+                                            <ListLink key={item.to} asChild>
+                                                <li>
+                                                    <Link to={item.to}>
+                                                        {item.text}
+                                                    </Link>
+                                                </li>
+                                            </ListLink>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+                        </>
+                    )}
+
                     <Heading level="2" className="mt-8">
                         Verplichte programma’s
                     </Heading>

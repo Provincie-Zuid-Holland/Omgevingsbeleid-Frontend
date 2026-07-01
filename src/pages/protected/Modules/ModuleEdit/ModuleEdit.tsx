@@ -59,7 +59,7 @@ const ModuleEdit = () => {
 
     return (
         <MutateLayout title="Module bewerken" breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
+            <div className="col-span-6 lg:col-span-4 lg:col-start-2">
                 <Formik
                     onSubmit={handleSubmit}
                     initialValues={module || {}}
@@ -90,7 +90,7 @@ const ModuleEdit = () => {
                 </Formik>
 
                 <div className="grid grid-cols-6 gap-x-10 gap-y-0">
-                    <div className="col-span-6 my-10">
+                    <div className="col-span-6 my-8">
                         <Divider />
                     </div>
 

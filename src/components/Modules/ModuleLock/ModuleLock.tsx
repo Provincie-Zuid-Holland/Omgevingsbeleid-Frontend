@@ -20,7 +20,7 @@ const ModuleLock = () => {
     if (!canEditModule && !isModuleManager && isLocked && !isClosed) {
         return <LockedNotification />
     } else if (!canEditModule && !isModuleManager && (!isLocked || isClosed)) {
-        return <Divider className="mb-4" />
+        return null
     }
 
     return (

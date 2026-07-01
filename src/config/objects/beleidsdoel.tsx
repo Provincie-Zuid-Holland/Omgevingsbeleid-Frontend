@@ -71,12 +71,11 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
         { type: 'ambitie', key: 'Ambities' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },
     ],
-    connectionsDescription: (
+    connectionsDescription: object => (
         <>
-            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
-            beleidsdoel komt voort uit een ambitie, en wordt uitgewerkt in één
-            of meerdere beleidskeuzes. Hieronder een overzicht van de ambitie(s)
-            en beleidskeuze(s). Bekijk voor het volledige overzicht het{' '}
+            Dit beleidsdoel hoort bij de ambitie '{object}'. Het beleidsdoel is
+            verder uitgewerkt in beleidskeuzes die richting geven aan de
+            uitvoering. Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
             </Hyperlink>
@@ -85,9 +84,6 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
     ),
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot het beleidsdoel kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
                 {
                     name: 'Title',
@@ -102,7 +98,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     name: 'Description',
                     label: 'Omschrijving',
                     description:
-                        'Geef een korte omschrijving van dit beleidsdoel.',
+                        'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                     required: true,
@@ -111,11 +107,12 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
             ],
         },
         {
-            title: 'Primaire koppeling',
             fields: [
                 {
                     name: 'Hierarchy_Code',
-                    label: 'Ambitie',
+                    label: 'Koppel aan ambitie',
+                    description:
+                        'Geef aan uit welke ambitie dit beleidsdoel voortkomt.',
                     type: 'search',
                     required: true,
                     objectKey: 'Object_Code',

@@ -52,13 +52,12 @@ const nationaalBelang: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'Formuleer in enkele woorden de titel van het nationale belang.',
             fields: [
                 {
                     name: 'Title',
                     label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van het nationale belang.',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,

@@ -6,6 +6,7 @@ import { useMemo } from 'react'
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import {
+    getModulesGetListModuleObjectsQueryKey,
     useGebiedengroepPatchInputGeoUseWerkingsgebied,
     useStorageFilePostFilesUpload,
 } from '@/api/fetchers'
@@ -211,7 +212,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
 
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: objectQueryKey }),
-                queryClient.invalidateQueries({ queryKey }),
+                queryClient.invalidateQueries({
+                    queryKey: getModulesGetListModuleObjectsQueryKey({
+                        module_id: parseInt(moduleId),
+                    }),
+                    refetchType: 'all',
+                    exact: false,
+                }),
             ])
 
             navigate(`/muteer/modules/${moduleId}`)
@@ -266,14 +273,14 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         <MutateLayout
             title={`${singularCapitalize} bewerken`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
+            <div className="col-span-6 lg:col-span-4 lg:col-start-2">
                 {isLocked && (
                     <div className="mb-8">
                         <LockedNotification isDetail />
                     </div>
                 )}
 
-                <Heading level="1" size="xxl" className="mb-8">
+                <Heading level="1" size="xxl" className="mb-4">
                     {singularCapitalize} bewerken
                 </Heading>
 

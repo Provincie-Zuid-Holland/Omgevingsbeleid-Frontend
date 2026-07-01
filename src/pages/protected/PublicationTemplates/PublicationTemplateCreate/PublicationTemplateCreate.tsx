@@ -102,7 +102,7 @@ const PublicationTemplateCreate = () => {
         <MutateLayout
             title={`${singularCapitalize} toevoegen`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6">
+            <div className="col-span-6 md:col-span-4 md:col-start-2">
                 <Heading level="1" size="xxl" className="mb-8">
                     {singularCapitalize} toevoegen
                 </Heading>

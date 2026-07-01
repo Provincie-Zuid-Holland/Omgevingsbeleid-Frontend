@@ -1,9 +1,8 @@
-import { Transition } from '@headlessui/react'
 import { cn } from '@pzh-ui/components'
 import { ArrowUpRightFromSquareLight } from '@pzh-ui/icons'
 import { useClickOutside } from '@react-hookz/web'
 import classNames from 'clsx'
-import { ReactNode, useRef } from 'react'
+import { memo, ReactNode, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 export type DropdownItem = {
@@ -60,33 +59,29 @@ const DropdownContainer = ({
     hasBackdrop,
 }: DropdownContainerProps) => {
     const innerContainer = useRef<HTMLDivElement>(null)
-    useClickOutside(innerContainer, () => {
+    useClickOutside(innerContainer as React.RefObject<HTMLDivElement>, () => {
         setIsOpen(false)
     })
 
+    if (!isOpen) return null
+
     return (
         <>
-            <Transition
+            <div
                 data-testid="dropdown"
-                show={isOpen}
-                enter="transition-all ease-out duration-100 transform"
-                enterFrom="scale-90 -top-1"
-                enterTo="scale-100 top-0"
-                leave="transition-all ease-in duration-100 transform"
-                leaveFrom="scale-100 top-0"
-                leaveTo="scale-90 -top-1"
+                ref={innerContainer}
                 className={classNames(
                     'tooltip-right tooltip-triangle bg-pzh-white text-pzh-gray-700 absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded text-left shadow-[0_0_8px_1px_rgba(0,0,0,0.2)]',
                     className
-                )}
-                ref={innerContainer}>
+                )}>
                 <div className="relative h-full">
                     <ul className="text-pzh-blue-500 flex w-max flex-col gap-2 py-4">
                         {children}
                     </ul>
                 </div>
-            </Transition>
-            {hasBackdrop && isOpen && (
+            </div>
+
+            {hasBackdrop && (
                 <div className="bg-pzh-gray-800/30 fixed top-0 left-0 z-[1] block h-screen w-screen" />
             )}
         </>
@@ -145,4 +140,4 @@ const DropdownTextElement = ({ item, setIsOpen }: DropdownElementProps) => (
 )
 
 export { DropdownContainer }
-export default Dropdown
+export default memo(Dropdown)

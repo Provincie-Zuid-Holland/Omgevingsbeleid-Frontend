@@ -69,10 +69,10 @@ const ambitie: DynamicObject<typeof fetchers> = {
     allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
     connectionsDescription: (
         <>
-            Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
-            ambitie is veelal gekoppeld met beleidsdoelen. Hieronder een
-            overzicht van de beleidsdoelen van deze ambitie. Bekijk voor het
-            volledige overzicht het{' '}
+            Onder deze ambitie zijn beleidsdoelen uitgewerkt. Om deze ambitie
+            dichterbij te brengen, richten de beleidsdoelen zich op de
+            middellange tot lange termijn. Bekijk voor het volledige overzicht
+            het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
             </Hyperlink>
@@ -82,9 +82,6 @@ const ambitie: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de ambitie kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
                 {
                     name: 'Title',

@@ -134,7 +134,8 @@ const DynamicField = ({
                             })
                         }
                         aria-label="Gebiedsaanwijzing"
-                        title="Gebiedsaanwijzing">
+                        title="Gebiedsaanwijzing"
+                        disabled={isLocked}>
                         <DrawPolygon />
                     </RteMenuButton>,
                 ],

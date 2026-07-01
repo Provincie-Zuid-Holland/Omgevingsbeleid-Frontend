@@ -55,9 +55,6 @@ const werkingsgebied: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de werkingsgebied kwijt. Een goede omschrijving is kort, krachtig en actief opgeschreven.',
             fields: [
                 {
                     name: 'Title',
@@ -72,13 +69,6 @@ const werkingsgebied: DynamicObject<typeof fetchers> = {
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                 },
-            ],
-        },
-        {
-            title: 'Database shape',
-            description:
-                'In deze sectie kun je de bron selecteren waarop dit werkingsgebied is gebaseerd.',
-            fields: [
                 {
                     name: 'Area_UUID',
                     label: 'Bron',

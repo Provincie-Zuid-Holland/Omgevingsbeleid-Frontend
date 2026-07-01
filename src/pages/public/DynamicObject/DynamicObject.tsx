@@ -11,7 +11,6 @@ import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
 import ObjectContent from '@/components/DynamicObject/ObjectContent'
-import ObjectRelationsPublic from '@/components/DynamicObject/ObjectRelationsPublic'
 import ObjectRevisionNotification from '@/components/DynamicObject/ObjectRevisionNotification'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
@@ -272,35 +271,18 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         </div>
                     )}
 
-                    {!!model.allowedConnections &&
-                        !model.acknowledgedRelation && (
-                            <div
-                                className={classNames('order-8', {
-                                    'mt-4 md:mt-8':
-                                        !!data?.Werkingsgebied_Statics,
-                                    'line-through': isTerminate,
-                                })}>
-                                <ObjectConnectionsPublic
-                                    model={model}
-                                    data={data || {}}
-                                />
-                            </div>
-                        )}
-
-                    {!!model.allowedConnections &&
-                        !!model.acknowledgedRelation && (
-                            <div
-                                className={classNames('order-9', {
-                                    'mt-4 md:mt-8':
-                                        !!data?.Werkingsgebied_Statics,
-                                    'line-through': isTerminate,
-                                })}>
-                                <ObjectRelationsPublic
-                                    model={model}
-                                    data={data || {}}
-                                />
-                            </div>
-                        )}
+                    {!!model.allowedConnections && (
+                        <div
+                            className={classNames('order-8', {
+                                'mt-4 md:mt-8': !!data?.Werkingsgebied_Statics,
+                                'line-through': isTerminate,
+                            })}>
+                            <ObjectConnectionsPublic
+                                model={model}
+                                data={data || {}}
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <div className="order-1 col-span-6 xl:col-span-2">
@@ -322,6 +304,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                     isOpen={revisionModalOpen}
                     onClose={() => setRevisionModalOpen(false)}
                     latestUUID={latest?.UUID}
+                    moduleId={moduleId ? parseInt(moduleId) : undefined}
                 />
             )}
         </>

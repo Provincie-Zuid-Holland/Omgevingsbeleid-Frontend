@@ -10,6 +10,7 @@ import { DynamicObjectSearchProps } from '@/components/DynamicObject/DynamicObje
 import { Validation } from '@/validation/zodSchema'
 
 import { FieldAreaAnnotateProps } from '@/components/Form/FieldAreaAnnotate/FieldAreaAnnotate'
+import { NotificationProps } from '@pzh-ui/react'
 import { ModelReturnType, ModelType } from './objects/types'
 
 type DynamicFieldType =
@@ -28,10 +29,10 @@ type DynamicFieldType =
     | 'areaAnnotate'
 
 export type DynamicSection<FieldType = string> = {
-    /** Title of section */
-    title: string
     /** Description of section */
     description?: string
+    /** Notification of section */
+    notification?: NotificationProps
     /** Fields in section */
     fields: DynamicField<FieldType>[]
 }
@@ -42,7 +43,7 @@ export type DynamicField<FieldType = string> = {
     /** Label of field */
     label: string
     /** Description of field (optional) */
-    description?: string | JSX.Element
+    description?: string | React.JSX.Element
     /** Placeholder of field (optional) */
     placeholder?: string
     /** Type of field */

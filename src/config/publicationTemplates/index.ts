@@ -23,14 +23,13 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
     },
     dynamicSections: [
         {
-            title: 'Instrument, titel en omschrijving',
-            description:
-                'Geef aan voor welk instrument dit template is, en geef er een titel en omschrijving aan',
             fields: [
                 {
                     type: 'select',
                     label: 'Instrument',
-                    placeholder: 'Kies het instrument',
+                    description:
+                        'Geef aan voor welk instrument dit template is.',
+                    placeholder: 'Kies een instrument',
                     name: 'Document_Type',
                     options: Object.keys(DocumentType).map(type => ({
                         label: type,
@@ -41,6 +40,9 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                 {
                     name: 'Title',
                     label: 'Titel',
+                    description:
+                        'Formuleer in enkele woorden de titel van dit template.',
+                    placeholder: "Bijv. 'Programma Herziening 2024 Definitief'",
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
@@ -48,32 +50,32 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                 {
                     name: 'Description',
                     label: 'Omschrijving',
+                    description: 'Geef een omschrijving voor dit template.',
                     type: 'textarea',
                     required: true,
                 },
             ],
         },
         {
-            title: 'Text template',
-            description:
-                'Geef aan hoe de template er uit moet komen te zien voor de export. Je kunt hier object templates gebruiken. Deze moet je hieronder definiëren.',
             fields: [
                 {
                     name: 'Text_Template',
                     label: 'Text template',
+                    description:
+                        'Geef aan hoe de template er uit moet komen te zien voor de export. Je kunt hiervoor object templates gebruiken die je hieronder kan definiëren.',
                     type: 'textarea',
                     required: true,
                 },
             ],
         },
         {
-            title: 'Object types',
-            description: 'Selecteer een of meerdere object types.',
             fields: [
                 {
                     name: 'Object_Types',
                     type: 'select',
                     label: 'Object types',
+                    description:
+                        'Selecteer de object types die je gaat gebruiken voor het definiëren van hoe dit template eruit ziet.',
                     options: Object.keys(models)
                         .filter(model => !!!models[model].defaults.atemporal)
                         .map(model => ({
@@ -85,13 +87,6 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     required: true,
                     validation: schemaDefaults.options,
                 },
-            ],
-        },
-        {
-            title: 'Object template',
-            description:
-                'Geef per gebruikt object aan hoe het moet worden getoond in de export.',
-            fields: [
                 {
                     name: 'Object_Templates',
                     arrayLabel: 'Object Template',
@@ -99,7 +94,9 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     fields: [
                         {
                             type: 'select',
-                            placeholder: 'Selecteer een gebruikt object type',
+                            placeholder: 'Selecteer een gebruikt object',
+                            description:
+                                'Geef per gebruikt object aan hoe het moet worden getoond in de export.',
                             name: 'key',
                             required: true,
                             options: Object.keys(models)
@@ -128,7 +125,6 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
             ],
         },
         {
-            title: 'Field maps',
             fields: [
                 {
                     name: 'Object_Field_Map',

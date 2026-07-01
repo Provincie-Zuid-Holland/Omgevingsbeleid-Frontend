@@ -57,13 +57,13 @@ const visieAlgemeen: DynamicObject<typeof fetchers> = {
     fetchers,
     dynamicSections: [
         {
-            title: 'Algemene informatie',
-            description:
-                'In deze sectie kun je alle tekst met betrekking tot de visie algemeen kwijt.',
             fields: [
                 {
                     name: 'Title',
                     label: 'Titel',
+                    description:
+                        'Formulier in enkele woorden de titel van het visie algemeen.',
+                    placeholder: "Bijv. '3. Hier staat Zuid-Holland nu'",
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
@@ -71,6 +71,8 @@ const visieAlgemeen: DynamicObject<typeof fetchers> = {
                 {
                     name: 'Description',
                     label: 'Inhoud',
+                    description:
+                        'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
                     type: 'wysiwyg',
                     required: true,
                     hasAreaSelect: true,

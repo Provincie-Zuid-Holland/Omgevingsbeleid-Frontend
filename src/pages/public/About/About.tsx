@@ -74,8 +74,8 @@ const About = () => (
                             </Hyperlink>
                             ) waar iedereen het huidige beleid, maar ook het
                             gearchiveerd en toekomstig beleid kan inzien.
-                            Gebruikers kunnen zoeken op de kaart en verbindingen
-                            tussen de beleidsobjecten inzien.
+                            Gebruikers kunnen verbindingen tussen de
+                            beleidsobjecten inzien.
                         </Text>
                     </div>
                     <div className="flex flex-col gap-2">

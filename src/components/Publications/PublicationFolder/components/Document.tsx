@@ -22,6 +22,7 @@ import {
 } from '@/api/fetchers'
 import {
     DocumentType,
+    HTTPValidationError,
     ProcedureType,
     Publication,
     PublicationEnvironment,
@@ -33,9 +34,17 @@ import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
 import { parseUtc } from '@/utils/parseUtc'
+import { toastNotification } from '@/utils/toastNotification'
+import { AxiosError } from 'axios'
 import clsx from 'clsx'
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+
+const PDF_ERROR = [
+    'PDF preview service timed out',
+    'PDF preview service is unreachable',
+    'PDF preview service is unavailable',
+]
 
 const config = {
     omgevingsvisie: {
@@ -93,6 +102,19 @@ const Document = ({
                         `publication-versions/${versionUuid}/pdf_export`,
                         data
                     ),
+                onError: (err: AxiosError<HTTPValidationError>) => {
+                    const isPdfServiceError =
+                        err.response?.status === 503 &&
+                        err.response?.data?.detail?.some(detail =>
+                            PDF_ERROR.some(pdfError =>
+                                detail.msg?.includes(pdfError)
+                            )
+                        )
+
+                    if (isPdfServiceError) {
+                        toastNotification('pdfPreviewError')
+                    }
+                },
             },
         })
 

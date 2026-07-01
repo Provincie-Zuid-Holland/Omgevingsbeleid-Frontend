@@ -1,4 +1,4 @@
-import { Heading, ListLink, Text } from '@pzh-ui/components'
+import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
 import { Link, useParams } from 'react-router-dom'
 
 import { HierachyReference } from '@/api/fetchers.schemas'
@@ -13,6 +13,7 @@ import useAuth from '@/hooks/useAuth'
 import { generateObjectPath } from '@/utils/dynamicObject'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
+import ObjectNetwork from '../ObjectNetwork'
 
 interface ObjectConnectionsPublicProps {
     model: Model
@@ -87,40 +88,30 @@ const ObjectConnectionsPublic = ({
     }, [data.Hierarchy_Children])
 
     return (
-        <div data-section="Koppelingen">
+        <div data-section="Samenhang van het beleid">
             <Heading level="2" className="mb-4">
-                Koppelingen
+                Samenhang van het beleid
             </Heading>
             <Text className="first-letter:capitalize">
-                {model.connectionsDescription}
+                {typeof model.connectionsDescription === 'function'
+                    ? acknowledgedRelationModel &&
+                      model.connectionsDescription(
+                          <Hyperlink asChild>
+                              <Link
+                                  to={generateObjectPath(
+                                      acknowledgedRelationModel.defaults
+                                          .singular,
+                                      String(acknowledgedRelation?.UUID)
+                                  )}>
+                                  {data.Hierarchy_Statics?.Cached_Title}
+                              </Link>
+                          </Hyperlink>
+                      )
+                    : model.connectionsDescription}
             </Text>
 
-            {acknowledgedRelationModel && (
-                <div className="mt-6">
-                    <Heading level="3" size="m" className="mb-2">
-                        {acknowledgedRelationModel.defaults.pluralCapitalize}
-                    </Heading>
-
-                    <ul>
-                        <li>
-                            <ListLink
-                                asChild
-                                className="text-pzh-green-500 hover:text-pzh-green-900">
-                                <Link
-                                    to={generateObjectPath(
-                                        acknowledgedRelationModel.defaults
-                                            .singular,
-                                        String(acknowledgedRelation?.UUID)
-                                    )}>
-                                    {data.Hierarchy_Statics?.Cached_Title}
-                                </Link>
-                            </ListLink>
-                        </li>
-                    </ul>
-                </div>
-            )}
-
             {!!relationChildrens &&
+                !model.acknowledgedRelation &&
                 Object.keys(relationChildrens).map(type => {
                     const model = models[type as ModelType]
                     const items =
@@ -161,6 +152,12 @@ const ObjectConnectionsPublic = ({
                         </div>
                     )
                 })}
+
+            {!!model.acknowledgedRelation && (
+                <div className="mt-6">
+                    <ObjectNetwork data={data} model={model} />
+                </div>
+            )}
         </div>
     )
 }

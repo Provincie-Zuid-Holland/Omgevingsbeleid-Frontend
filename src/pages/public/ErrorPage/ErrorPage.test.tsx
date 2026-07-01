@@ -19,12 +19,21 @@ const TestComponent = () => {
 }
 
 describe('ErrorPage', () => {
+    let consoleErrorSpy: ReturnType<typeof vi.spyOn>
+
     beforeEach(() => {
-        render(<TestComponent />)
+        consoleErrorSpy = vi
+            .spyOn(console, 'error')
+            .mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+        consoleErrorSpy.mockRestore()
     })
 
     it('Should show the error page when an error is thrown', () => {
-        const errorPageTitle = screen.getByText('Er is iets fout gegaan')
-        expect(errorPageTitle).toBeTruthy()
+        render(<TestComponent />)
+
+        expect(screen.getByText('Er is iets fout gegaan')).toBeInTheDocument()
     })
 })

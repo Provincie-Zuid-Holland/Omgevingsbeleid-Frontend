@@ -77,8 +77,10 @@ afterAll(() => server.close())
  * Mock helmet module
  */
 vi.mock('react-helmet-async', () => ({
-    Helmet: () => vi.fn(),
-    HelmetProvider: () => vi.fn(),
+    Helmet: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
+    HelmetProvider: ({ children }: { children?: React.ReactNode }) => (
+        <>{children}</>
+    ),
 }))
 
 /**
@@ -92,3 +94,5 @@ vi.mock('react-router-dom', async () => {
         useNavigate: vi.fn(),
     }
 })
+
+vi.mock('leaflet.pattern', () => ({}))

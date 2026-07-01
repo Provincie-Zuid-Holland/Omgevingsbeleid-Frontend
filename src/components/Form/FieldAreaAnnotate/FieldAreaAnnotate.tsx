@@ -58,7 +58,10 @@ const FieldAreaAnnotate = ({
             {...props}
             options={options}
             isLoading={isLoading}
-            disabled={optionType === 'group' ? !values.Ref_Type : undefined}
+            disabled={
+                props.disabled ||
+                (optionType === 'group' ? !values.Ref_Type : undefined)
+            }
             blurInputOnSelect
         />
     )
