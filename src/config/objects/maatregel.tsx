@@ -327,6 +327,21 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     },
                 },
                 {
+                    name: 'Themas',
+                    label: "Thema's",
+                    description:
+                        "Om de maatregel beter vindbaar te maken in de landelijke voorziening kun je de maatregel voorzien van één of meerdere thema's.",
+                    type: 'theme',
+                    placeholder: 'Kies één of meerdere thema’s',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
+                {
                     name: 'Documents',
                     fieldName: 'Documents',
                     label: 'Documenten',

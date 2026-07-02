@@ -78,6 +78,12 @@ const normalizePayload = (payload: FormData, initialData: FormData) => {
         cleanedPayload.Gebiedengroep_Code = null
     }
 
+    if (Array.isArray(cleanedPayload.Themas)) {
+        cleanedPayload.Themas = cleanedPayload.Themas.map(
+            (item: any) => item?.value ?? item
+        )
+    }
+
     return cleanedPayload
 }
 
