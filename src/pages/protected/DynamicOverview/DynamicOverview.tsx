@@ -164,7 +164,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         sort_column: sortBy?.[0]?.id || 'Gebruikersnaam',
         sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
         ...(type === 'latest' && {
-            object_type: singular,
+            object_types: [singular],
             actions: ['Create', 'Edit'],
         }),
         ...(!!query && {
@@ -172,33 +172,37 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         }),
     }
 
-    const queryOptions = {
-        query: {
-            placeholderData: keepPreviousData,
-            select: (data: OverviewData) => {
-                if (type === 'valid') return data
+    const baseQueryOptions = {
+        placeholderData: keepPreviousData,
+        select: (data: OverviewData) => {
+            if (type === 'valid') return data
 
-                return {
-                    ...data,
-                    results: data.results.map(result =>
-                        'Model' in result ? result.Model : result
-                    ),
-                }
-            },
-            enabled:
-                type === 'valid'
-                    ? atemporal || (activeTab === 'valid' && !atemporal)
-                    : activeTab === 'latest' && !atemporal,
+            return {
+                ...data,
+                results: data.results.map(result =>
+                    'Model' in result ? result.Model : result
+                ),
+            }
         },
     }
 
     const validQuery = (
         useGetValid as OverviewQueryHook<OverviewData> | null | undefined
-    )?.(queryParams, queryOptions)
+    )?.(queryParams, {
+        query: {
+            ...baseQueryOptions,
+            enabled: atemporal || activeTab === 'valid',
+        },
+    })
 
     const latestQuery = (
         useModulesGetListModuleObjects as OverviewQueryHook<OverviewData>
-    )(queryParams, queryOptions)
+    )(queryParams, {
+        query: {
+            ...baseQueryOptions,
+            enabled: activeTab === 'latest' && !atemporal,
+        },
+    })
 
     const { data, isFetching } =
         (type === 'valid' ? validQuery : latestQuery) ?? {}
