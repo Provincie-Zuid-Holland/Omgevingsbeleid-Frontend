@@ -1,4 +1,4 @@
-import { AngleDown, DrawPolygon } from '@pzh-ui/icons'
+import { AngleDown, ObjectGroup } from '@pzh-ui/icons'
 
 import {
     useGebiedsaanwijzingEditObjectStatic,
@@ -48,7 +48,7 @@ const gebiedsaanwijzing: DynamicObject<typeof fetchers> = {
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
-        icon: DrawPolygon,
+        icon: ObjectGroup,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,

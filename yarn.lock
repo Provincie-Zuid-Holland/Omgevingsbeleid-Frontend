@@ -3132,6 +3132,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pzh-ui/icons@npm:^0.0.97":
+  version: 0.0.97
+  resolution: "@pzh-ui/icons@npm:0.0.97"
+  dependencies:
+    react: "npm:^19.2.6"
+  checksum: 6cab8c18726a336219969c18cda27a1ebc742c446f55fd6a214dfe8b528a9956e7a14f4f4c6d5652a8394ed0b2c01a62c1b65b2a751f1362a3dd7efb7d1f1812
+  languageName: node
+  linkType: hard
+
 "@pzh-ui/react@npm:^0.0.4":
   version: 0.0.4
   resolution: "@pzh-ui/react@npm:0.0.4"
@@ -13330,7 +13339,7 @@ __metadata:
     "@pzh-ui/components": "npm:^0.0.674"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.118"
-    "@pzh-ui/icons": "npm:^0.0.96"
+    "@pzh-ui/icons": "npm:^0.0.97"
     "@pzh-ui/react": "npm:^0.0.4"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
