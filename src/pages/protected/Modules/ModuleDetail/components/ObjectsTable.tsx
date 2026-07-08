@@ -179,7 +179,7 @@ const ObjectsTableFilters = ({
                             Onderdeel toevoegen
                         </Button>
                     )}
-                    {canEditModule && isModuleManager && (
+                    {(canEditModule || isModuleManager) && (
                         <Button
                             onPress={() => setActiveModal('moduleScan')}
                             variant="secondary"
