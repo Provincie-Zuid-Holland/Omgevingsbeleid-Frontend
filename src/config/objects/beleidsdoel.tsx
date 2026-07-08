@@ -10,6 +10,7 @@ import {
     useBeleidsdoelListValidLineages,
     useBeleidsdoelPostModulePatchObject,
     useBeleidsdoelPostRelationsOverwrite,
+    useBeleidsdoelViewGetObjectStatic,
     useBeleidsdoelViewModuleObjectLatest,
     useBeleidsdoelViewObjectLatest,
     useBeleidsdoelViewObjectVersion,
@@ -32,6 +33,7 @@ const fetchers = {
     usePatchObjectInModule: useBeleidsdoelPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
+    useGetStatic: useBeleidsdoelViewGetObjectStatic,
     usePostStatic: useBeleidsdoelEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -104,10 +106,6 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     required: true,
                     hasAreaSelect: true,
                 },
-            ],
-        },
-        {
-            fields: [
                 {
                     name: 'Hierarchy_Code',
                     label: 'Koppel aan ambitie',
@@ -119,6 +117,21 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     filterType: ['ambitie'],
                     status: 'all',
                     placeholder: 'Kies de ambitie',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
+                {
+                    name: 'Themas',
+                    label: "Thema's",
+                    description:
+                        "Om het beleidsdoel beter vindbaar te maken in de landelijke voorziening kun je het beleidsdoel voorzien van één of meerdere thema's.",
+                    type: 'theme',
+                    placeholder: 'Kies één of meerdere thema’s',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">

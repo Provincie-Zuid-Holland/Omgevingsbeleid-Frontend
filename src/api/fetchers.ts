@@ -39,8 +39,6 @@ import type {
     AmbitieStaticStatics,
     AmbitieUUID,
     AnnouncementCreatedResponse,
-    AreasGetListObjectsByAreasParams,
-    AreasGetListObjectsByGeometryParams,
     AttachmentShort,
     AuthToken,
     AuthenticationPostAuthResetPasswordParams,
@@ -126,6 +124,7 @@ import type {
     GebiedsprogrammaListValidLineagesParams,
     GebiedsprogrammaPatch,
     GebiedsprogrammaStaticPostStatics,
+    GebiedsprogrammaStaticStatics,
     GebiedsprogrammaUUID,
     GraphGetObjectGraphParams,
     GraphResponse,
@@ -135,7 +134,6 @@ import type {
     InputGeoWerkingsgebied,
     InputGeoWerkingsgebiedDetailed,
     ListAreaDesignationResponse,
-    ListObjectsByGeometryRequestData,
     ListThemaResponse,
     MaatregelFull,
     MaatregelGetListActiveModuleObjectsParams,
@@ -186,7 +184,6 @@ import type {
     PagedResponseGebiedsaanwijzingExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
-    PagedResponseGeoSearchResult,
     PagedResponseInputGeoWerkingsgebied,
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
@@ -272,7 +269,6 @@ import type {
     ResetPasswordResponse,
     ResponseOK,
     RootModelListObjectCount,
-    SearchGeoRequestData,
     SearchGetMssqlSearchParams,
     SearchGetMssqlValidSearchParams,
     SearchRequestData,
@@ -327,185 +323,6 @@ import type {
     WriteRelation,
 } from './fetchers.schemas'
 import { customInstance } from './instance'
-
-/**
- * @summary List the objects in the given areas
- */
-export const areasGetListObjectsByAreas = (
-    searchGeoRequestData: SearchGeoRequestData,
-    params?: AreasGetListObjectsByAreasParams
-) => {
-    return customInstance<PagedResponseGeoSearchResult>({
-        url: `/search/by-areas`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: searchGeoRequestData,
-        params,
-    })
-}
-
-export const getAreasGetListObjectsByAreasMutationOptions = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof areasGetListObjectsByAreas>>,
-        TError,
-        {
-            data: SearchGeoRequestData
-            params?: AreasGetListObjectsByAreasParams
-        },
-        TContext
-    >
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof areasGetListObjectsByAreas>>,
-    TError,
-    { data: SearchGeoRequestData; params?: AreasGetListObjectsByAreasParams },
-    TContext
-> => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof areasGetListObjectsByAreas>>,
-        {
-            data: SearchGeoRequestData
-            params?: AreasGetListObjectsByAreasParams
-        }
-    > = props => {
-        const { data, params } = props ?? {}
-
-        return areasGetListObjectsByAreas(data, params)
-    }
-
-    return { mutationFn, ...mutationOptions }
-}
-
-export type AreasGetListObjectsByAreasMutationResult = NonNullable<
-    Awaited<ReturnType<typeof areasGetListObjectsByAreas>>
->
-export type AreasGetListObjectsByAreasMutationBody = SearchGeoRequestData
-export type AreasGetListObjectsByAreasMutationError = HTTPValidationError
-
-/**
- * @summary List the objects in the given areas
- */
-export const useAreasGetListObjectsByAreas = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof areasGetListObjectsByAreas>>,
-        TError,
-        {
-            data: SearchGeoRequestData
-            params?: AreasGetListObjectsByAreasParams
-        },
-        TContext
-    >
-}): UseMutationResult<
-    Awaited<ReturnType<typeof areasGetListObjectsByAreas>>,
-    TError,
-    { data: SearchGeoRequestData; params?: AreasGetListObjectsByAreasParams },
-    TContext
-> => {
-    const mutationOptions =
-        getAreasGetListObjectsByAreasMutationOptions(options)
-
-    return useMutation(mutationOptions)
-}
-
-/**
- * @summary List the objects in werkingsgebieden by a geometry
- */
-export const areasGetListObjectsByGeometry = (
-    listObjectsByGeometryRequestData: ListObjectsByGeometryRequestData,
-    params?: AreasGetListObjectsByGeometryParams
-) => {
-    return customInstance<PagedResponseGeoSearchResult>({
-        url: `/search/by-geometry`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: listObjectsByGeometryRequestData,
-        params,
-    })
-}
-
-export const getAreasGetListObjectsByGeometryMutationOptions = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof areasGetListObjectsByGeometry>>,
-        TError,
-        {
-            data: ListObjectsByGeometryRequestData
-            params?: AreasGetListObjectsByGeometryParams
-        },
-        TContext
-    >
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof areasGetListObjectsByGeometry>>,
-    TError,
-    {
-        data: ListObjectsByGeometryRequestData
-        params?: AreasGetListObjectsByGeometryParams
-    },
-    TContext
-> => {
-    const { mutation: mutationOptions } = options ?? {}
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof areasGetListObjectsByGeometry>>,
-        {
-            data: ListObjectsByGeometryRequestData
-            params?: AreasGetListObjectsByGeometryParams
-        }
-    > = props => {
-        const { data, params } = props ?? {}
-
-        return areasGetListObjectsByGeometry(data, params)
-    }
-
-    return { mutationFn, ...mutationOptions }
-}
-
-export type AreasGetListObjectsByGeometryMutationResult = NonNullable<
-    Awaited<ReturnType<typeof areasGetListObjectsByGeometry>>
->
-export type AreasGetListObjectsByGeometryMutationBody =
-    ListObjectsByGeometryRequestData
-export type AreasGetListObjectsByGeometryMutationError = HTTPValidationError
-
-/**
- * @summary List the objects in werkingsgebieden by a geometry
- */
-export const useAreasGetListObjectsByGeometry = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof areasGetListObjectsByGeometry>>,
-        TError,
-        {
-            data: ListObjectsByGeometryRequestData
-            params?: AreasGetListObjectsByGeometryParams
-        },
-        TContext
-    >
-}): UseMutationResult<
-    Awaited<ReturnType<typeof areasGetListObjectsByGeometry>>,
-    TError,
-    {
-        data: ListObjectsByGeometryRequestData
-        params?: AreasGetListObjectsByGeometryParams
-    },
-    TContext
-> => {
-    const mutationOptions =
-        getAreasGetListObjectsByGeometryMutationOptions(options)
-
-    return useMutation(mutationOptions)
-}
 
 /**
  * @summary Login an user and receive a JWT token
@@ -20182,6 +19999,100 @@ export const useGebiedsprogrammaPostRelationsOverwrite = <
         getGebiedsprogrammaPostRelationsOverwriteMutationOptions(options)
 
     return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get object static of gebiedsprogramma by lineage id
+ */
+export const gebiedsprogrammaViewGetObjectStatic = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<GebiedsprogrammaStaticStatics>({
+        url: `/gebiedsprogrammas/static/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGebiedsprogrammaViewGetObjectStaticQueryKey = (
+    lineageId: number
+) => {
+    return [`/gebiedsprogrammas/static/${lineageId}`] as const
+}
+
+export const getGebiedsprogrammaViewGetObjectStaticQueryOptions = <
+    TData = Awaited<ReturnType<typeof gebiedsprogrammaViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsprogrammaViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGebiedsprogrammaViewGetObjectStaticQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof gebiedsprogrammaViewGetObjectStatic>>
+    > = ({ signal }) => gebiedsprogrammaViewGetObjectStatic(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof gebiedsprogrammaViewGetObjectStatic>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type GebiedsprogrammaViewGetObjectStaticQueryResult = NonNullable<
+    Awaited<ReturnType<typeof gebiedsprogrammaViewGetObjectStatic>>
+>
+export type GebiedsprogrammaViewGetObjectStaticQueryError = HTTPValidationError
+
+/**
+ * @summary Get object static of gebiedsprogramma by lineage id
+ */
+export const useGebiedsprogrammaViewGetObjectStatic = <
+    TData = Awaited<ReturnType<typeof gebiedsprogrammaViewGetObjectStatic>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof gebiedsprogrammaViewGetObjectStatic>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getGebiedsprogrammaViewGetObjectStaticQueryOptions(
+        lineageId,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
 }
 
 /**

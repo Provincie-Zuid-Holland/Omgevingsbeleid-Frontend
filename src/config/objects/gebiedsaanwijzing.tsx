@@ -1,4 +1,4 @@
-import { AngleDown, DrawPolygon } from '@pzh-ui/icons'
+import { AngleDown, ObjectGroup } from '@pzh-ui/icons'
 
 import {
     useGebiedsaanwijzingEditObjectStatic,
@@ -6,6 +6,7 @@ import {
     useGebiedsaanwijzingListValidLineageTree,
     useGebiedsaanwijzingListValidLineages,
     useGebiedsaanwijzingPostModulePatchObject,
+    useGebiedsaanwijzingViewGetObjectStatic,
     useGebiedsaanwijzingViewModuleObjectLatest,
     useGebiedsaanwijzingViewObjectLatest,
     useGebiedsaanwijzingViewObjectVersion,
@@ -28,6 +29,7 @@ const fetchers = {
     usePatchObjectInModule: useGebiedsaanwijzingPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
+    useGetStatic: useGebiedsaanwijzingViewGetObjectStatic,
     usePostStatic: useGebiedsaanwijzingEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -48,7 +50,7 @@ const gebiedsaanwijzing: DynamicObject<typeof fetchers> = {
         prefixPlural: 'de',
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
-        icon: DrawPolygon,
+        icon: ObjectGroup,
     },
     staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
     fetchers,

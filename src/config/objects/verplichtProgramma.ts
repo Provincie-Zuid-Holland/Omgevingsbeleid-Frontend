@@ -26,6 +26,7 @@ const fetchers = {
     usePatchObjectInModule: null,
     usePatchObject: useVerplichtProgrammaAtemporalEditObject,
     useDeleteObject: useVerplichtProgrammaAtemporalDeleteObject,
+    useGetStatic: null,
     usePostStatic: null,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
