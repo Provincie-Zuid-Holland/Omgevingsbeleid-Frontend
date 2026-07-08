@@ -334,6 +334,21 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                         ),
                     },
                 },
+                {
+                    name: 'Themas',
+                    label: "Thema's",
+                    description:
+                        "Om de beleidskeuze beter vindbaar te maken in de landelijke voorziening kun je de beleidskeuze voorzien van één of meerdere thema's.",
+                    type: 'theme',
+                    placeholder: 'Kies één of meerdere thema’s',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
             ],
         },
     ],
