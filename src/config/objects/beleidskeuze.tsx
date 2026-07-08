@@ -88,7 +88,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
         <>
             Deze beleidskeuze hoort bij het beleidsdoel '{object}'. De
             beleidskeuze is uitgewerkt in maatregelen. Een maatregel beschrijft
-            wat de provincie doet om de beleidskeuze tot uitvoering brengen.
+            wat de provincie doet om de beleidskeuze tot uitvoering te brengen.
             Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>

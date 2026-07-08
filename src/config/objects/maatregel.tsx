@@ -78,7 +78,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
         <>
             Deze maatregel hoort bij de beleidskeuze '{object}'. Een maatregel
             beschrijft wat de provincie doet om de beleidskeuze tot uitvoering
-            brengen. Daarnaast kan deze maatregel ook uitvoering geven aan
+            te brengen. Daarnaast kan deze maatregel ook uitvoering geven aan
             andere beleidskeuzes. Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
