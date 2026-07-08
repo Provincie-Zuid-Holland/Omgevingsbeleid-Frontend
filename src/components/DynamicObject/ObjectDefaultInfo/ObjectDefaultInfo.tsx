@@ -1,7 +1,6 @@
 import { cn, Heading, Text } from '@pzh-ui/components'
-import { useMemo } from 'react'
 
-import { UserShort } from '@/api/fetchers.schemas'
+import { AmbitieStaticStatics, UserShort } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ObjectPersonModal from '@/components/Modals/ObjectModals/ObjectPersonModal'
 import { Model } from '@/config/objects/types'
@@ -13,20 +12,26 @@ import {
     getStaticDataLabel,
     getStaticDataPropertyKey,
 } from '@/utils/dynamicObject'
+import { useParams } from 'react-router-dom'
 
 interface ObjectDefaultInfoProps {
     model: Model
 }
 
 const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
+    const { objectId } = useParams()
     const { canCreateModule, canPatchObjectInModule } = usePermissions()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { staticData } = model
+    const { useGetStatic } = model.fetchers
 
-    const { data: object, isLoading, isOwner, isClient } = useObject()
-    const data = useMemo(() => object?.ObjectStatics, [object?.ObjectStatics])
+    const { isOwner, isClient } = useObject()
+    const { data, isLoading } =
+        useGetStatic?.<AmbitieStaticStatics>(parseInt(objectId!), {
+            query: { enabled: !!objectId },
+        }) || {}
 
     if (!!!staticData?.length) return null
 

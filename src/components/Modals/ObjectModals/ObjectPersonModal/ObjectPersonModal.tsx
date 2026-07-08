@@ -1,11 +1,11 @@
 import { Button, FormikSelect } from '@pzh-ui/components'
 import { Form, Formik } from 'formik'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { useUserGetListUsers } from '@/api/fetchers'
-import { ObjectStaticShort } from '@/api/fetchers.schemas'
+import { AmbitieStaticStatics, ObjectStaticShort } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
 import { ModalFooter } from '@/components/Modal/Modal'
@@ -32,9 +32,12 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { staticData } = model
+    const { useGetStatic } = model.fetchers
 
-    const { data: object } = useObject()
-    const data = useMemo(() => object?.ObjectStatics, [object?.ObjectStatics])
+    const { data } =
+        useGetStatic?.<AmbitieStaticStatics>(parseInt(objectId!), {
+            query: { enabled: !!objectId },
+        }) || {}
 
     const {
         data: users,
