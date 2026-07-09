@@ -8,6 +8,7 @@ import {
     getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryKey,
     getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey,
     getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey,
+    getPublicationEnvironmentsGetDetailEnvironmentQueryKey,
     getPublicationPackagesGetListUnifiedPackagesQueryKey,
     getPublicationVersionsGetListVersionsQueryKey,
     usePublicationActPackagesPostCreateActPackage,
@@ -15,7 +16,7 @@ import {
     usePublicationAnnouncementPackagesPostCreateAnnouncementPackage,
     usePublicationAnnouncementReportsPostUploadAnnouncementPackageReport,
 } from '@/api/fetchers'
-import { HTTPValidationError } from '@/api/fetchers.schemas'
+import { HTTPValidationError, PackageType } from '@/api/fetchers.schemas'
 import { downloadFile } from '@/utils/file'
 
 import useModalStore from '@/store/modalStore'
@@ -23,20 +24,24 @@ import { PublicationType } from '../../types'
 
 interface ActionsProps {
     publicationType: PublicationType
+    packageType?: PackageType
     versionUUID?: string
     announcementUUID?: string
     publicationUUID: string
     packageUUID?: string
     reportUUID?: string
+    environmentUUID?: string
 }
 
 export const useActions = ({
     publicationType,
+    packageType,
     versionUUID,
     announcementUUID,
     publicationUUID,
     packageUUID,
     reportUUID,
+    environmentUUID,
 }: ActionsProps) => {
     const queryClient = useQueryClient()
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -87,6 +92,15 @@ export const useActions = ({
                     refetchType: 'all',
                     exact: false,
                 })
+
+                if (packageType === 'publication' && environmentUUID) {
+                    queryClient.invalidateQueries({
+                        queryKey:
+                            getPublicationEnvironmentsGetDetailEnvironmentQueryKey(
+                                environmentUUID
+                            ),
+                    })
+                }
             },
             onError: (error: AxiosError<HTTPValidationError>) => {
                 if (
@@ -188,6 +202,15 @@ export const useActions = ({
                     refetchType: 'all',
                     exact: false,
                 })
+
+                if (packageType === 'publication' && environmentUUID) {
+                    queryClient.invalidateQueries({
+                        queryKey:
+                            getPublicationEnvironmentsGetDetailEnvironmentQueryKey(
+                                environmentUUID
+                            ),
+                    })
+                }
             },
         },
     })
