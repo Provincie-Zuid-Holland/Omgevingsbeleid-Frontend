@@ -91,7 +91,7 @@ export const notifications: Record<
         type: 'success',
     },
     moduleLocked: {
-        message: 'De module is op slot',
+        message: 'De module is vergrendeld',
         type: 'success',
     },
     moduleUnlocked: {

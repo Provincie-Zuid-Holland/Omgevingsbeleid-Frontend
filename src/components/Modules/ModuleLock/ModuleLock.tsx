@@ -38,7 +38,11 @@ const ModuleLock = () => {
             {!canComplete && !isClosed && (
                 <div className="ml-auto">
                     <ToggleSwitch
-                        title={isLocked ? 'Module unlocken' : 'Module locken'}
+                        title={
+                            isLocked
+                                ? 'Module ontgrendelen'
+                                : 'Module vergrendelen'
+                        }
                         checked={!isLocked}
                         onClick={checked => {
                             if (!checked) {
@@ -66,7 +70,7 @@ interface LockedNotificationProps {
 export const LockedNotification = ({ isDetail }: LockedNotificationProps) => (
     <Notification
         variant="warning"
-        title="De module is op dit moment gelockt, er kunnen geen wijzigingen worden aangebracht."
+        title="De module is op dit moment vergrendeld, er kunnen geen wijzigingen worden aangebracht."
         className={cn('w-full', { 'mt-6': !isDetail })}
     />
 )
