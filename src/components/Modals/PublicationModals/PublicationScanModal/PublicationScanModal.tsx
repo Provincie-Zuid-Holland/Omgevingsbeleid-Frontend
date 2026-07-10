@@ -25,7 +25,10 @@ const PublicationScanModal = () => {
         for (const err of data.errors) {
             const key = err.object?.code
 
-            if (!err.object?.object_id || err.rule === RULE_ATTACHMENT_IN_BILL) {
+            if (
+                !err.object?.object_id ||
+                err.rule === RULE_ATTACHMENT_IN_BILL
+            ) {
                 otherMessages.push(...(err.messages ?? []))
                 continue
             }
@@ -85,7 +88,10 @@ const ObjectIssueCard = ({ item }: { item: ValidateModuleError }) => {
     const { object, messages, rule } = item
 
     const link =
-        object.object_type && object.object_type !== 'gebied' && rule !== RULE_OTHER_ISSUES && rule !== RULE_ATTACHMENT_IN_BILL
+        object.object_type &&
+        object.object_type !== 'gebied' &&
+        rule !== RULE_OTHER_ISSUES &&
+        rule !== RULE_ATTACHMENT_IN_BILL
             ? `/muteer/modules/${moduleId}/${object.object_type}/${object.object_id}/bewerk`
             : undefined
     const title =

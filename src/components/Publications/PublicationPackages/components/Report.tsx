@@ -22,14 +22,6 @@ type ReportData =
     | PublicationActPackageReportShort
     | PublicationAnnouncementPackageReportShort
 
-const statusStyles: Record<ReportStatusType, string> = {
-    valid: 'border-pzh-green-500 bg-pzh-green-10 text-pzh-green-500',
-    failed: 'border-pzh-red-500 bg-pzh-red-10',
-    pending: 'border-pzh-blue-500 text-pzh-blue-500',
-    not_applicable: 'border-pzh-blue-500 text-pzh-blue-500',
-    aborted: 'border-pzh-red-500 bg-pzh-red-10 text-pzh-red-500',
-}
-
 const statusIcons: Record<ReportStatusType, React.JSX.Element> = {
     valid: (
         <CircleCheckSolid

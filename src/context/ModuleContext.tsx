@@ -18,7 +18,7 @@ import {
 import {
     HTTPValidationError,
     ModuleEdit,
-    ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    ModuleOverviewResponse,
     ResponseOK,
 } from '@/api/fetchers.schemas'
 import { ToastType } from '@/config/notifications'
@@ -27,7 +27,7 @@ import { toastNotification } from '@/utils/toastNotification'
 
 interface ModuleContextType {
     /** Data of the module */
-    data?: ModuleOverviewResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+    data?: ModuleOverviewResponse
     /** Is module data loading */
     isLoading: boolean
     /** Can be used to edit the module */
@@ -88,17 +88,6 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
     const module = useModulesViewModuleOverview(parseInt(moduleId!), {
         query: {
             enabled: !!moduleId,
-            select: ({ Objects, ...rest }) => ({
-                ...rest,
-                Objects: Objects.slice().sort(
-                    (a, b) =>
-                        a.Object_Type.localeCompare(b.Object_Type) ||
-                        (a.Model?.Title &&
-                            b.Model?.Title &&
-                            a.Model.Title.localeCompare(b.Model.Title)) ||
-                        0
-                ),
-            }),
         },
     })
 

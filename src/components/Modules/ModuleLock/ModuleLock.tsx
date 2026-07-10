@@ -1,4 +1,4 @@
-import { cn, Divider, Notification, Text } from '@pzh-ui/components'
+import { cn, Notification, Text } from '@pzh-ui/components'
 import { Lock, LockOpen } from '@pzh-ui/icons'
 import { useParams } from 'react-router-dom'
 
@@ -20,7 +20,7 @@ const ModuleLock = () => {
     if (!canEditModule && !isModuleManager && isLocked && !isClosed) {
         return <LockedNotification />
     } else if (!canEditModule && !isModuleManager && (!isLocked || isClosed)) {
-        return <Divider className="mb-4" />
+        return null
     }
 
     return (
@@ -64,14 +64,11 @@ interface LockedNotificationProps {
 }
 
 export const LockedNotification = ({ isDetail }: LockedNotificationProps) => (
-    <>
-        {!isDetail && <Divider className="mt-3" />}
-        <Notification
-            variant="warning"
-            title="De module is op dit moment vergrendeld, er kunnen geen wijzigingen worden aangebracht."
-            className={cn('w-full', { 'mt-6': !isDetail })}
-        />
-    </>
+    <Notification
+        variant="warning"
+        title="De module is op dit moment gelockt, er kunnen geen wijzigingen worden aangebracht."
+        className={cn('w-full', { 'mt-6': !isDetail })}
+    />
 )
 
 export default ModuleLock

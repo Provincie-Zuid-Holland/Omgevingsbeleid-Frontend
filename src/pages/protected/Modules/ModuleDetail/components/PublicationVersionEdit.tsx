@@ -59,6 +59,7 @@ const PublicationVersionEdit = () => {
                         queryKey: getPublicationVersionsGetListVersionsQueryKey(
                             String(data?.Publication.UUID)
                         ),
+                        refetchType: 'all',
                     }),
                     queryClient.invalidateQueries({
                         queryKey,

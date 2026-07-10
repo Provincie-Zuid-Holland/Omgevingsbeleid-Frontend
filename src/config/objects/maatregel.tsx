@@ -12,6 +12,7 @@ import {
     useMaatregelListValidLineages,
     useMaatregelPostModulePatchObject,
     useMaatregelPostRelationsOverwrite,
+    useMaatregelViewGetObjectStatic,
     useMaatregelViewModuleObjectLatest,
     useMaatregelViewObjectLatest,
     useMaatregelViewObjectVersion,
@@ -34,6 +35,7 @@ const fetchers = {
     usePatchObjectInModule: useMaatregelPostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
+    useGetStatic: useMaatregelViewGetObjectStatic,
     usePostStatic: useMaatregelEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -76,7 +78,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
         <>
             Deze maatregel hoort bij de beleidskeuze '{object}'. Een maatregel
             beschrijft wat de provincie doet om de beleidskeuze tot uitvoering
-            brengen. Daarnaast kan deze maatregel ook uitvoering geven aan
+            te brengen. Daarnaast kan deze maatregel ook uitvoering geven aan
             andere beleidskeuzes. Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
@@ -318,6 +320,21 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     filterType: ['beleidskeuze'],
                     status: 'all',
                     placeholder: 'Kies de beleidskeuze',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
+                {
+                    name: 'Themas',
+                    label: "Thema's",
+                    description:
+                        "Om de maatregel beter vindbaar te maken in de landelijke voorziening kun je de maatregel voorzien van één of meerdere thema's.",
+                    type: 'theme',
+                    placeholder: 'Kies één of meerdere thema’s',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">

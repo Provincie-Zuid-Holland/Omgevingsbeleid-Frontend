@@ -45,6 +45,7 @@ const Package = ({
 
     const { downloadPackage } = useActions({
         publicationType,
+        packageType: Package_Type as PackageType,
         publicationUUID,
         versionUUID,
         announcementUUID,

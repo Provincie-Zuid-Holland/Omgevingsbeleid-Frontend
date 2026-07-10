@@ -11,11 +11,11 @@ export const StepTwo = () => {
 
     const { data } = useModule()
 
-    const objects = useMemo(
-        () =>
-            data?.Objects.filter(object => object.Object_Type !== 'Terminate'),
-        [data]
-    )
+    // const objects = useMemo(
+    //     () =>
+    //         data?.Objects.filter(object => object.Object_Type !== 'Terminate'),
+    //     [data]
+    // )
 
     const date = useMemo(
         () =>

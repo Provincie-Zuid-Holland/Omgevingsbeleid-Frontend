@@ -63,6 +63,14 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                                 ? schemaDefaults.requiredArray()
                                 : schemaDefaults.optionalArray) as any),
                     }))
+                case 'theme':
+                    return (dynamicSchema = dynamicSchema.extend({
+                        [field.name]:
+                            field.validation ||
+                            ((field.required
+                                ? schemaDefaults.requiredOptions
+                                : schemaDefaults.options) as any),
+                    }))
                 default:
                     return dynamicSchema
             }

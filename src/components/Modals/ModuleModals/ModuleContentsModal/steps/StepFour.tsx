@@ -9,8 +9,8 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
+    useModulesGetListModuleObjects,
     useModulesGetListModules,
-    useModulesViewModuleOverview,
     useObjectsDoListAllLatest,
 } from '@/api/fetchers'
 import * as models from '@/config/objects'
@@ -80,25 +80,32 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
         )
 
     const { data: moduleObjects, isFetching: moduleIsFetching } =
-        useModulesViewModuleOverview(values.validOrModule as number, {
-            query: {
-                enabled:
-                    !!values.validOrModule && values.validOrModule !== 'valid',
-                select: data =>
-                    data.Objects.map(object => ({
-                        label: (
-                            <div className="flex justify-between gap-4">
-                                <span>{object.Model.Title}</span>
-                                <span className="whitespace-nowrap capitalize opacity-50">
-                                    {object.Object_Type.replace('_', ' ')}
-                                </span>
-                            </div>
-                        ),
-                        value: object.Model.UUID,
-                        objectContext: object,
-                    })),
+        useModulesGetListModuleObjects(
+            {
+                module_id: values.validOrModule as number,
+                limit: 100,
             },
-        })
+            {
+                query: {
+                    enabled:
+                        !!values.validOrModule &&
+                        values.validOrModule !== 'valid',
+                    select: data =>
+                        data.results.map(object => ({
+                            label: (
+                                <div className="flex justify-between gap-4">
+                                    <span>{object.Model.Title}</span>
+                                    <span className="whitespace-nowrap capitalize opacity-50">
+                                        {object.Object_Type.replace('_', ' ')}
+                                    </span>
+                                </div>
+                            ),
+                            value: object.Model.UUID,
+                            objectContext: object,
+                        })),
+                },
+            }
+        )
 
     const options = useMemo(() => {
         const defaultOption = {

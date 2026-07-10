@@ -7,7 +7,6 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import {
     getModulesGetListModuleObjectsQueryKey,
-    getModulesViewModuleOverviewQueryKey,
     useModulesPostModuleAddExistingObject,
     useModulesPostModuleAddNewObject,
 } from '@/api/fetchers'
@@ -103,12 +102,9 @@ const ModuleContentsModal = ({
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries({
-                        queryKey: getModulesViewModuleOverviewQueryKey(
-                            parseInt(moduleId!)
-                        ),
-                    }),
-                    queryClient.invalidateQueries({
-                        queryKey: getModulesGetListModuleObjectsQueryKey(),
+                        queryKey: getModulesGetListModuleObjectsQueryKey({
+                            module_id: parseInt(moduleId!),
+                        }),
                         refetchType: 'all',
                         exact: false,
                     }),
@@ -127,12 +123,9 @@ const ModuleContentsModal = ({
             onSuccess: () => {
                 Promise.all([
                     queryClient.invalidateQueries({
-                        queryKey: getModulesViewModuleOverviewQueryKey(
-                            parseInt(moduleId!)
-                        ),
-                    }),
-                    queryClient.invalidateQueries({
-                        queryKey: getModulesGetListModuleObjectsQueryKey(),
+                        queryKey: getModulesGetListModuleObjectsQueryKey({
+                            module_id: parseInt(moduleId!),
+                        }),
                         refetchType: 'all',
                         exact: false,
                     }),

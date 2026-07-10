@@ -16,7 +16,7 @@ import {
     usePublicationAnnouncementPackagesPostCreateAnnouncementPackage,
     usePublicationAnnouncementReportsPostUploadAnnouncementPackageReport,
 } from '@/api/fetchers'
-import { HTTPValidationError } from '@/api/fetchers.schemas'
+import { HTTPValidationError, PackageType } from '@/api/fetchers.schemas'
 import { downloadFile } from '@/utils/file'
 
 import useModalStore from '@/store/modalStore'
@@ -24,6 +24,7 @@ import { PublicationType } from '../../types'
 
 interface ActionsProps {
     publicationType: PublicationType
+    packageType?: PackageType
     versionUUID?: string
     announcementUUID?: string
     publicationUUID: string
@@ -34,6 +35,7 @@ interface ActionsProps {
 
 export const useActions = ({
     publicationType,
+    packageType,
     versionUUID,
     announcementUUID,
     publicationUUID,
@@ -90,7 +92,8 @@ export const useActions = ({
                     refetchType: 'all',
                     exact: false,
                 })
-                if (environmentUUID) {
+
+                if (packageType === 'publication' && environmentUUID) {
                     queryClient.invalidateQueries({
                         queryKey:
                             getPublicationEnvironmentsGetDetailEnvironmentQueryKey(
@@ -199,7 +202,8 @@ export const useActions = ({
                     refetchType: 'all',
                     exact: false,
                 })
-                if (environmentUUID) {
+
+                if (packageType === 'publication' && environmentUUID) {
                     queryClient.invalidateQueries({
                         queryKey:
                             getPublicationEnvironmentsGetDetailEnvironmentQueryKey(

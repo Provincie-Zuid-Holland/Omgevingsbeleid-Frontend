@@ -17,26 +17,35 @@ import type {
     ActCreatedResponse,
     ActiveModuleObjectsResponse,
     AmbitieFull,
+    AmbitieStaticStatics,
     AmbitieUUID,
     AnnouncementCreatedResponse,
     AttachmentShort,
     AuthToken,
     BeleidsdoelFull,
+    BeleidsdoelStaticStatics,
     BeleidsdoelUUID,
     BeleidskeuzeFull,
+    BeleidskeuzeStaticStatics,
     BeleidskeuzeUUID,
     BeleidsregelFull,
+    BeleidsregelStaticStatics,
     BeleidsregelUUID,
     DocumentFull,
+    DocumentStaticStatics,
     DocumentUUID,
     EnvironmentCreatedResponse,
     GebiedFull,
+    GebiedStaticStatics,
     GebiedUUID,
     GebiedengroepFull,
+    GebiedengroepStaticStatics,
     GebiedengroepUUID,
     GebiedsaanwijzingFull,
+    GebiedsaanwijzingStaticStatics,
     GebiedsaanwijzingUUID,
     GebiedsprogrammaFull,
+    GebiedsprogrammaStaticStatics,
     GebiedsprogrammaUUID,
     GraphResponse,
     InputGeoWerkingsgebied,
@@ -44,6 +53,7 @@ import type {
     ListAreaDesignationResponse,
     ListThemaResponse,
     MaatregelFull,
+    MaatregelStaticStatics,
     MaatregelUUID,
     ModuleCreatedResponse,
     ModuleObjectContext,
@@ -51,6 +61,7 @@ import type {
     ModuleSnapshot,
     ModuleStatus,
     NationaalBelangFull,
+    NationaalBelangStaticStatics,
     NationaalBelangUUID,
     NewObjectStaticResponse,
     PagedResponseAmbitieBasic,
@@ -71,7 +82,6 @@ import type {
     PagedResponseGebiedsaanwijzingExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
-    PagedResponseGeoSearchResult,
     PagedResponseInputGeoWerkingsgebied,
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
@@ -106,6 +116,7 @@ import type {
     PagedResponseWettelijkeTaakBasic,
     PatchResponse,
     ProgrammaAlgemeenFull,
+    ProgrammaAlgemeenStaticStatics,
     ProgrammaAlgemeenUUID,
     PublicModuleOverview,
     Publication,
@@ -136,12 +147,16 @@ import type {
     UserCreateResponse,
     ValidateModuleResult,
     VerplichtProgrammaFull,
+    VerplichtProgrammaStaticStatics,
     VerplichtProgrammaUUID,
     VisieAlgemeenFull,
+    VisieAlgemeenStaticStatics,
     VisieAlgemeenUUID,
     WerkingsgebiedFull,
+    WerkingsgebiedStaticStatics,
     WerkingsgebiedUUID,
     WettelijkeTaakFull,
+    WettelijkeTaakStaticStatics,
     WettelijkeTaakUUID,
 } from './fetchers.schemas'
 import {
@@ -153,74 +168,6 @@ import {
     ReportStatusType,
     ValidateModuleSeverity,
 } from './fetchers.schemas'
-
-export const getAreasGetListObjectsByAreasResponseMock = (
-    overrideResponse: Partial<PagedResponseGeoSearchResult> = {}
-): PagedResponseGeoSearchResult => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Area_UUID: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_Type: faker.word.sample(),
-        Omschrijving: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Titel: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        UUID: faker.word.sample(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-    ...overrideResponse,
-})
-
-export const getAreasGetListObjectsByGeometryResponseMock = (
-    overrideResponse: Partial<PagedResponseGeoSearchResult> = {}
-): PagedResponseGeoSearchResult => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Area_UUID: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_Type: faker.word.sample(),
-        Omschrijving: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Titel: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        UUID: faker.word.sample(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-    ...overrideResponse,
-})
 
 export const getAuthenticationPostAuthLoginAccessTokenResponseMock = (
     overrideResponse: Partial<AuthToken> = {}
@@ -3185,6 +3132,32 @@ export const getAmbitiePostRelationsOverwriteResponseMock = (
     ...overrideResponse,
 })
 
+export const getAmbitieViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<AmbitieStaticStatics> = {}
+): AmbitieStaticStatics => ({
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getAmbitieEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -4702,6 +4675,32 @@ export const getBeleidsdoelPostRelationsOverwriteResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
     message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    ...overrideResponse,
+})
+
+export const getBeleidsdoelViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<BeleidsdoelStaticStatics> = {}
+): BeleidsdoelStaticStatics => ({
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -6905,6 +6904,32 @@ export const getBeleidskeuzePostRelationsOverwriteResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
     message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    ...overrideResponse,
+})
+
+export const getBeleidskeuzeViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<BeleidskeuzeStaticStatics> = {}
+): BeleidskeuzeStaticStatics => ({
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -9266,6 +9291,32 @@ export const getBeleidsregelPostRelationsOverwriteResponseMock = (
     ...overrideResponse,
 })
 
+export const getBeleidsregelViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<BeleidsregelStaticStatics> = {}
+): BeleidsregelStaticStatics => ({
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getBeleidsregelEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -10386,6 +10437,20 @@ export const getDocumentViewObjectLatestResponseMock = (
     ...overrideResponse,
 })
 
+export const getDocumentViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<DocumentStaticStatics> = {}
+): DocumentStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getDocumentEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -11304,6 +11369,20 @@ export const getGebiedViewObjectLatestResponseMock = (
     ...overrideResponse,
 })
 
+export const getGebiedViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<GebiedStaticStatics> = {}
+): GebiedStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getGebiedEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -12142,6 +12221,20 @@ export const getGebiedengroepViewObjectLatestResponseMock = (
     ...overrideResponse,
 })
 
+export const getGebiedengroepViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<GebiedengroepStaticStatics> = {}
+): GebiedengroepStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getGebiedengroepEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -12871,6 +12964,20 @@ export const getGebiedsaanwijzingViewObjectLatestResponseMock = (
     ]),
     Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    ...overrideResponse,
+})
+
+export const getGebiedsaanwijzingViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<GebiedsaanwijzingStaticStatics> = {}
+): GebiedsaanwijzingStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -13833,6 +13940,32 @@ export const getGebiedsprogrammaPostRelationsOverwriteResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
     message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    ...overrideResponse,
+})
+
+export const getGebiedsprogrammaViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<GebiedsprogrammaStaticStatics> = {}
+): GebiedsprogrammaStaticStatics => ({
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -15437,6 +15570,32 @@ export const getMaatregelPostRelationsOverwriteResponseMock = (
     ...overrideResponse,
 })
 
+export const getMaatregelViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<MaatregelStaticStatics> = {}
+): MaatregelStaticStatics => ({
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getMaatregelEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -16880,6 +17039,20 @@ export const getNationaalBelangPostRelationsOverwriteResponseMock = (
     ...overrideResponse,
 })
 
+export const getNationaalBelangViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<NationaalBelangStaticStatics> = {}
+): NationaalBelangStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getNationaalBelangEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -17274,6 +17447,20 @@ export const getProgrammaAlgemeenViewObjectLatestResponseMock = (
     ]),
     Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    ...overrideResponse,
+})
+
+export const getProgrammaAlgemeenViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<ProgrammaAlgemeenStaticStatics> = {}
+): ProgrammaAlgemeenStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -18020,6 +18207,20 @@ export const getVerplichtProgrammaPostRelationsOverwriteResponseMock = (
     ...overrideResponse,
 })
 
+export const getVerplichtProgrammaViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<VerplichtProgrammaStaticStatics> = {}
+): VerplichtProgrammaStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getVerplichtProgrammaEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -18414,6 +18615,20 @@ export const getVisieAlgemeenViewObjectLatestResponseMock = (
     ]),
     Title: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    ...overrideResponse,
+})
+
+export const getVisieAlgemeenViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<VisieAlgemeenStaticStatics> = {}
+): VisieAlgemeenStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -19332,6 +19547,20 @@ export const getWerkingsgebiedViewObjectLatestResponseMock = (
     ...overrideResponse,
 })
 
+export const getWerkingsgebiedViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<WerkingsgebiedStaticStatics> = {}
+): WerkingsgebiedStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getWerkingsgebiedEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -20134,70 +20363,26 @@ export const getWettelijkeTaakPostRelationsOverwriteResponseMock = (
     ...overrideResponse,
 })
 
+export const getWettelijkeTaakViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<WettelijkeTaakStaticStatics> = {}
+): WettelijkeTaakStaticStatics => ({
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getWettelijkeTaakEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
     message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
 })
-
-export const getAreasGetListObjectsByAreasMockHandler = (
-    overrideResponse?:
-        | PagedResponseGeoSearchResult
-        | ((
-              info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) =>
-              | Promise<PagedResponseGeoSearchResult>
-              | PagedResponseGeoSearchResult)
-) => {
-    return http.post('*/search/by-areas', async info => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getAreasGetListObjectsByAreasResponseMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    })
-}
-
-export const getAreasGetListObjectsByGeometryMockHandler = (
-    overrideResponse?:
-        | PagedResponseGeoSearchResult
-        | ((
-              info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) =>
-              | Promise<PagedResponseGeoSearchResult>
-              | PagedResponseGeoSearchResult)
-) => {
-    return http.post('*/search/by-geometry', async info => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getAreasGetListObjectsByGeometryResponseMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    })
-}
 
 export const getAuthenticationPostAuthLoginAccessTokenMockHandler = (
     overrideResponse?:
@@ -22979,6 +23164,33 @@ export const getAmbitiePostRelationsOverwriteMockHandler = (
     })
 }
 
+export const getAmbitieViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | AmbitieStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<AmbitieStaticStatics> | AmbitieStaticStatics)
+) => {
+    return http.get('*/ambitie/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getAmbitieViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getAmbitieEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -23356,6 +23568,33 @@ export const getBeleidsdoelPostRelationsOverwriteMockHandler = (
     })
 }
 
+export const getBeleidsdoelViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | BeleidsdoelStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<BeleidsdoelStaticStatics> | BeleidsdoelStaticStatics)
+) => {
+    return http.get('*/beleidsdoel/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getBeleidsdoelViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getBeleidsdoelEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -23722,6 +23961,33 @@ export const getBeleidskeuzePostRelationsOverwriteMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getBeleidskeuzePostRelationsOverwriteResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getBeleidskeuzeViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | BeleidskeuzeStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<BeleidskeuzeStaticStatics> | BeleidskeuzeStaticStatics)
+) => {
+    return http.get('*/beleidskeuze/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getBeleidskeuzeViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -24200,6 +24466,33 @@ export const getBeleidsregelPostRelationsOverwriteMockHandler = (
     })
 }
 
+export const getBeleidsregelViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | BeleidsregelStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<BeleidsregelStaticStatics> | BeleidsregelStaticStatics)
+) => {
+    return http.get('*/beleidsregel/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getBeleidsregelViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getBeleidsregelEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -24508,6 +24801,33 @@ export const getDocumentViewObjectLatestMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getDocumentViewObjectLatestResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getDocumentViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | DocumentStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<DocumentStaticStatics> | DocumentStaticStatics)
+) => {
+    return http.get('*/document/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getDocumentViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -24838,6 +25158,33 @@ export const getGebiedViewObjectLatestMockHandler = (
     })
 }
 
+export const getGebiedViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | GebiedStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<GebiedStaticStatics> | GebiedStaticStatics)
+) => {
+    return http.get('*/gebied/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGebiedViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getGebiedEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -25147,6 +25494,33 @@ export const getGebiedengroepViewObjectLatestMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getGebiedengroepViewObjectLatestResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getGebiedengroepViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | GebiedengroepStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<GebiedengroepStaticStatics> | GebiedengroepStaticStatics)
+) => {
+    return http.get('*/gebiedengroep/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGebiedengroepViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -25500,6 +25874,35 @@ export const getGebiedsaanwijzingViewObjectLatestMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getGebiedsaanwijzingViewObjectLatestResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getGebiedsaanwijzingViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | GebiedsaanwijzingStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<GebiedsaanwijzingStaticStatics>
+              | GebiedsaanwijzingStaticStatics)
+) => {
+    return http.get('*/gebiedsaanwijzing/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGebiedsaanwijzingViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -25888,6 +26291,35 @@ export const getGebiedsprogrammaPostRelationsOverwriteMockHandler = (
     })
 }
 
+export const getGebiedsprogrammaViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | GebiedsprogrammaStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<GebiedsprogrammaStaticStatics>
+              | GebiedsprogrammaStaticStatics)
+) => {
+    return http.get('*/gebiedsprogrammas/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGebiedsprogrammaViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getGebiedsprogrammaEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -26254,6 +26686,33 @@ export const getMaatregelPostRelationsOverwriteMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getMaatregelPostRelationsOverwriteResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getMaatregelViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | MaatregelStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<MaatregelStaticStatics> | MaatregelStaticStatics)
+) => {
+    return http.get('*/maatregel/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getMaatregelViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -26667,6 +27126,35 @@ export const getNationaalBelangPostRelationsOverwriteMockHandler = (
     })
 }
 
+export const getNationaalBelangViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | NationaalBelangStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<NationaalBelangStaticStatics>
+              | NationaalBelangStaticStatics)
+) => {
+    return http.get('*/nationaal-belang/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getNationaalBelangViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getNationaalBelangEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -26795,6 +27283,35 @@ export const getProgrammaAlgemeenViewObjectLatestMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getProgrammaAlgemeenViewObjectLatestResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getProgrammaAlgemeenViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | ProgrammaAlgemeenStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<ProgrammaAlgemeenStaticStatics>
+              | ProgrammaAlgemeenStaticStatics)
+) => {
+    return http.get('*/programma-algemeen/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getProgrammaAlgemeenViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -27214,6 +27731,35 @@ export const getVerplichtProgrammaPostRelationsOverwriteMockHandler = (
     )
 }
 
+export const getVerplichtProgrammaViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | VerplichtProgrammaStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<VerplichtProgrammaStaticStatics>
+              | VerplichtProgrammaStaticStatics)
+) => {
+    return http.get('*/verplicht-programma/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVerplichtProgrammaViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getVerplichtProgrammaEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -27342,6 +27888,33 @@ export const getVisieAlgemeenViewObjectLatestMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getVisieAlgemeenViewObjectLatestResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getVisieAlgemeenViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | VisieAlgemeenStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<VisieAlgemeenStaticStatics> | VisieAlgemeenStaticStatics)
+) => {
+    return http.get('*/visie-algemeen/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVisieAlgemeenViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -27665,6 +28238,35 @@ export const getWerkingsgebiedViewObjectLatestMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getWerkingsgebiedViewObjectLatestResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getWerkingsgebiedViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | WerkingsgebiedStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<WerkingsgebiedStaticStatics>
+              | WerkingsgebiedStaticStatics)
+) => {
+    return http.get('*/werkingsgebied/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getWerkingsgebiedViewGetObjectStaticResponseMock()
             ),
             {
                 status: 200,
@@ -28078,6 +28680,35 @@ export const getWettelijkeTaakPostRelationsOverwriteMockHandler = (
     })
 }
 
+export const getWettelijkeTaakViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | WettelijkeTaakStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<WettelijkeTaakStaticStatics>
+              | WettelijkeTaakStaticStatics)
+) => {
+    return http.get('*/wettelijke-taak/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getWettelijkeTaakViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getWettelijkeTaakEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -28117,8 +28748,6 @@ export const getHealthCheckMockHandler = () => {
     })
 }
 export const getOmgevingsbeleidAPIMock = () => [
-    getAreasGetListObjectsByAreasMockHandler(),
-    getAreasGetListObjectsByGeometryMockHandler(),
     getAuthenticationPostAuthLoginAccessTokenMockHandler(),
     getAuthenticationPostAuthResetPasswordMockHandler(),
     getGraphGetFullGraphMockHandler(),
@@ -28220,6 +28849,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getAmbitieViewObjectLatestMockHandler(),
     getAmbitieGetRelationsListMockHandler(),
     getAmbitiePostRelationsOverwriteMockHandler(),
+    getAmbitieViewGetObjectStaticMockHandler(),
     getAmbitieEditObjectStaticMockHandler(),
     getAmbitiePostModulePatchObjectMockHandler(),
     getAmbitieGetModuleListLineageTreeMockHandler(),
@@ -28233,6 +28863,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getBeleidsdoelViewObjectLatestMockHandler(),
     getBeleidsdoelGetRelationsListMockHandler(),
     getBeleidsdoelPostRelationsOverwriteMockHandler(),
+    getBeleidsdoelViewGetObjectStaticMockHandler(),
     getBeleidsdoelEditObjectStaticMockHandler(),
     getBeleidsdoelPostModulePatchObjectMockHandler(),
     getBeleidsdoelGetModuleListLineageTreeMockHandler(),
@@ -28246,6 +28877,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getBeleidskeuzeViewObjectLatestMockHandler(),
     getBeleidskeuzeGetRelationsListMockHandler(),
     getBeleidskeuzePostRelationsOverwriteMockHandler(),
+    getBeleidskeuzeViewGetObjectStaticMockHandler(),
     getBeleidskeuzeEditObjectStaticMockHandler(),
     getBeleidskeuzeGetAcknowledgedRelationListMockHandler(),
     getBeleidskeuzeGetAcknowledgedRelationRequestMockHandler(),
@@ -28262,6 +28894,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getBeleidsregelViewObjectLatestMockHandler(),
     getBeleidsregelGetRelationsListMockHandler(),
     getBeleidsregelPostRelationsOverwriteMockHandler(),
+    getBeleidsregelViewGetObjectStaticMockHandler(),
     getBeleidsregelEditObjectStaticMockHandler(),
     getBeleidsregelPostModulePatchObjectMockHandler(),
     getBeleidsregelGetModuleListLineageTreeMockHandler(),
@@ -28273,6 +28906,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getDocumentListValidLineageTreeMockHandler(),
     getDocumentViewObjectVersionMockHandler(),
     getDocumentViewObjectLatestMockHandler(),
+    getDocumentViewGetObjectStaticMockHandler(),
     getDocumentEditObjectStaticMockHandler(),
     getDocumentPostModulePatchObjectMockHandler(),
     getDocumentGetModuleListLineageTreeMockHandler(),
@@ -28284,6 +28918,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getGebiedListValidLineageTreeMockHandler(),
     getGebiedViewObjectVersionMockHandler(),
     getGebiedViewObjectLatestMockHandler(),
+    getGebiedViewGetObjectStaticMockHandler(),
     getGebiedEditObjectStaticMockHandler(),
     getGebiedPostModulePatchObjectMockHandler(),
     getGebiedGetModuleListLineageTreeMockHandler(),
@@ -28295,6 +28930,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getGebiedengroepListValidLineageTreeMockHandler(),
     getGebiedengroepViewObjectVersionMockHandler(),
     getGebiedengroepViewObjectLatestMockHandler(),
+    getGebiedengroepViewGetObjectStaticMockHandler(),
     getGebiedengroepEditObjectStaticMockHandler(),
     getGebiedengroepPostModulePatchObjectMockHandler(),
     getGebiedengroepGetModuleListLineageTreeMockHandler(),
@@ -28307,6 +28943,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getGebiedsaanwijzingListValidLineageTreeMockHandler(),
     getGebiedsaanwijzingViewObjectVersionMockHandler(),
     getGebiedsaanwijzingViewObjectLatestMockHandler(),
+    getGebiedsaanwijzingViewGetObjectStaticMockHandler(),
     getGebiedsaanwijzingEditObjectStaticMockHandler(),
     getGebiedsaanwijzingPostModulePatchObjectMockHandler(),
     getGebiedsaanwijzingGetModuleListLineageTreeMockHandler(),
@@ -28320,6 +28957,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getGebiedsprogrammaViewObjectLatestMockHandler(),
     getGebiedsprogrammaGetRelationsListMockHandler(),
     getGebiedsprogrammaPostRelationsOverwriteMockHandler(),
+    getGebiedsprogrammaViewGetObjectStaticMockHandler(),
     getGebiedsprogrammaEditObjectStaticMockHandler(),
     getGebiedsprogrammaPostModulePatchObjectMockHandler(),
     getGebiedsprogrammaGetModuleListLineageTreeMockHandler(),
@@ -28333,6 +28971,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getMaatregelViewObjectLatestMockHandler(),
     getMaatregelGetRelationsListMockHandler(),
     getMaatregelPostRelationsOverwriteMockHandler(),
+    getMaatregelViewGetObjectStaticMockHandler(),
     getMaatregelEditObjectStaticMockHandler(),
     getMaatregelPostModulePatchObjectMockHandler(),
     getMaatregelGetModuleListLineageTreeMockHandler(),
@@ -28347,11 +28986,13 @@ export const getOmgevingsbeleidAPIMock = () => [
     getNationaalBelangViewObjectLatestMockHandler(),
     getNationaalBelangGetRelationsListMockHandler(),
     getNationaalBelangPostRelationsOverwriteMockHandler(),
+    getNationaalBelangViewGetObjectStaticMockHandler(),
     getNationaalBelangEditObjectStaticMockHandler(),
     getProgrammaAlgemeenListValidLineagesMockHandler(),
     getProgrammaAlgemeenListValidLineageTreeMockHandler(),
     getProgrammaAlgemeenViewObjectVersionMockHandler(),
     getProgrammaAlgemeenViewObjectLatestMockHandler(),
+    getProgrammaAlgemeenViewGetObjectStaticMockHandler(),
     getProgrammaAlgemeenEditObjectStaticMockHandler(),
     getProgrammaAlgemeenPostModulePatchObjectMockHandler(),
     getProgrammaAlgemeenGetModuleListLineageTreeMockHandler(),
@@ -28366,11 +29007,13 @@ export const getOmgevingsbeleidAPIMock = () => [
     getVerplichtProgrammaViewObjectLatestMockHandler(),
     getVerplichtProgrammaGetRelationsListMockHandler(),
     getVerplichtProgrammaPostRelationsOverwriteMockHandler(),
+    getVerplichtProgrammaViewGetObjectStaticMockHandler(),
     getVerplichtProgrammaEditObjectStaticMockHandler(),
     getVisieAlgemeenListValidLineagesMockHandler(),
     getVisieAlgemeenListValidLineageTreeMockHandler(),
     getVisieAlgemeenViewObjectVersionMockHandler(),
     getVisieAlgemeenViewObjectLatestMockHandler(),
+    getVisieAlgemeenViewGetObjectStaticMockHandler(),
     getVisieAlgemeenEditObjectStaticMockHandler(),
     getVisieAlgemeenPostModulePatchObjectMockHandler(),
     getVisieAlgemeenGetModuleListLineageTreeMockHandler(),
@@ -28382,6 +29025,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getWerkingsgebiedListValidLineageTreeMockHandler(),
     getWerkingsgebiedViewObjectVersionMockHandler(),
     getWerkingsgebiedViewObjectLatestMockHandler(),
+    getWerkingsgebiedViewGetObjectStaticMockHandler(),
     getWerkingsgebiedEditObjectStaticMockHandler(),
     getWerkingsgebiedPostModulePatchObjectMockHandler(),
     getWerkingsgebiedGetModuleListLineageTreeMockHandler(),
@@ -28396,6 +29040,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getWettelijkeTaakViewObjectLatestMockHandler(),
     getWettelijkeTaakGetRelationsListMockHandler(),
     getWettelijkeTaakPostRelationsOverwriteMockHandler(),
+    getWettelijkeTaakViewGetObjectStaticMockHandler(),
     getWettelijkeTaakEditObjectStaticMockHandler(),
     getHealthCheckMockHandler(),
 ]

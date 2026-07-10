@@ -76,6 +76,7 @@ const Packages = ({
 
     const { createPackage } = useActions({
         publicationType,
+        packageType,
         versionUUID: version.UUID,
         announcementUUID: announcement?.UUID,
         publicationUUID: String(publication?.UUID),
@@ -146,9 +147,10 @@ const Packages = ({
                                     {...item}
                                 />
                             ))}
-                            {(!version.Is_Locked ||
+
+                            {((!version.Is_Locked && !environment?.Is_Locked) ||
                                 (environment?.Is_Locked &&
-                                    packageType === 'publication')) && (
+                                    packageType !== 'publication')) && (
                                 <PackageCreate
                                     createPackage={createPackage}
                                     announcementUUID={announcement?.UUID}

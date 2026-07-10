@@ -12,18 +12,19 @@ import { DrawPolygon } from '@pzh-ui/icons'
 import clsx from 'clsx'
 import { FormikValues, useFormikContext } from 'formik'
 
+import FieldAreaAnnotate from '@/components/Form/FieldAreaAnnotate'
 import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
 import FieldFile from '@/components/Form/FieldFile'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
+import FieldTheme from '@/components/Form/FieldTheme'
 import { Model } from '@/config/objects/types'
 import { DynamicField as DynamicFieldProps } from '@/config/types'
 import { useRteEditorStore } from '@/store/editorStore'
 import useModalStore from '@/store/modalStore'
 import { fileToBase64 } from '@/utils/file'
-
-import FieldAreaAnnotate from '@/components/Form/FieldAreaAnnotate'
 import { EMPTY_TAGS_ERROR } from '@/validation/zodSchema'
+
 import DynamicObjectSearch, { Option } from '../../DynamicObjectSearch'
 import { Area } from './extensions/area'
 
@@ -41,6 +42,7 @@ const inputFieldMap = {
     checkbox: FormikCheckboxGroup,
     file: FieldFile,
     areaAnnotate: FieldAreaAnnotate,
+    theme: FieldTheme,
 }
 
 type Props = DynamicFieldProps & {
