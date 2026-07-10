@@ -16,6 +16,7 @@ export type ToastType =
     | 'moduleUnlocked'
     | 'moduleClosed'
     | 'moduleCompleted'
+    | 'objectAlreadyInModule'
     | 'objectRemoved'
     | 'acknowledgedRelationSaved'
     | 'acknowledgedRelationPatched'
@@ -105,6 +106,10 @@ export const notifications: Record<
     moduleCompleted: {
         message: 'De module is afgesloten',
         type: 'success',
+    },
+    objectAlreadyInModule: {
+        message: 'Dit onderdeel is al toegevoegd aan deze module',
+        type: 'error',
     },
     objectRemoved: {
         message: 'Het object is verwijderd',
