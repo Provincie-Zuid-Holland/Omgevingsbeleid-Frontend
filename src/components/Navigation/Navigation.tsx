@@ -15,6 +15,7 @@ import getEnvironmentText from '@/utils/getEnvironmentName'
 
 import { Container } from '../Container'
 import NavigationPopupMenu from '../NavigationPopupMenu'
+import SearchBar from '../SearchBar'
 import UserMenu from '../Users/UserMenu'
 
 /**
@@ -25,6 +26,7 @@ const Navigation = () => {
     const { user } = useAuth()
     const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
+    const isSearchResultsPage = usePage('/zoekresultaten')
 
     const headerRef = useRef<HTMLElement>(null)
 
@@ -104,6 +106,16 @@ const Navigation = () => {
                         </MenuIcon>
                     ) : null}
 
+                    {!isSearchResultsPage && (
+                        <SearchBar
+                            placeholder="Zoeken"
+                            className="hidden sm:block"
+                            callBack={() => {
+                                setIsOpen(false)
+                            }}
+                        />
+                    )}
+
                     {!!!user && !isOpen ? (
                         <MenuIcon
                             setIsOpen={setIsOpen}
@@ -169,7 +181,7 @@ const MenuIcon = ({
         onClick={() => {
             setIsOpen(false)
         }}>
-        <span>
+        <span className="flex items-center">
             {icon}
             <span className={classNames('font-bold', className)}>{label}</span>
         </span>
