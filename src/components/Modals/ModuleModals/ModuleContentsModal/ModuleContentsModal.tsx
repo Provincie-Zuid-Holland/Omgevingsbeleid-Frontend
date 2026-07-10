@@ -1,5 +1,6 @@
 import { Button } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -26,6 +27,19 @@ import { StepFive, StepFour, StepOne, StepThree, StepTwo } from './steps'
 import { StepProps } from './steps/types'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour, StepFive]
+
+const OBJECT_ALREADY_IN_MODULE_ERROR = 'Object already exists in module'
+
+/**
+ * Show a toast when the object is already part of the module
+ */
+const handleAddObjectError = (error: AxiosError<{ detail?: string }>) => {
+    if (error.response?.data?.detail === OBJECT_ALREADY_IN_MODULE_ERROR) {
+        toastNotification('objectAlreadyInModule')
+    } else {
+        toastNotification('error')
+    }
+}
 
 export type ContentsModalForm = (
     | ModuleAddNewObject
@@ -112,6 +126,7 @@ const ModuleContentsModal = ({
 
                 toastNotification('saved')
             },
+            onError: handleAddObjectError,
         },
     })
 
@@ -133,6 +148,7 @@ const ModuleContentsModal = ({
 
                 toastNotification('saved')
             },
+            onError: handleAddObjectError,
         },
     })
 
