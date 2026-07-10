@@ -19,6 +19,7 @@ import {
     getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey,
     getPublicationAnnouncementReportsGetListAnnnouncementPackageReportsQueryKey,
     getPublicationAnnouncementsGetListAnnouncementsQueryKey,
+    getPublicationEnvironmentsGetDetailEnvironmentQueryKey,
     getPublicationVersionsGetDetailVersionQueryKey,
     usePublicationActReportsGetListActPackageReports,
     usePublicationAnnouncementReportsGetListAnnnouncementPackageReports,
@@ -107,6 +108,20 @@ const PublicationPackageReportUploadModal = () => {
                         queryKey:
                             getPublicationAnnouncementsGetListAnnouncementsQueryKey(),
                         refetchType: 'all',
+                    })
+                }
+
+                if (
+                    (res.Status === 'valid' ||
+                        res.Status === 'failed' ||
+                        res.Status === 'aborted') &&
+                    modalState.packageType === 'publication'
+                ) {
+                    queryClient.invalidateQueries({
+                        queryKey:
+                            getPublicationEnvironmentsGetDetailEnvironmentQueryKey(
+                                modalState.environmentUUID
+                            ),
                     })
                 }
 

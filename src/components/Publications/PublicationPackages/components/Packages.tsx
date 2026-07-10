@@ -76,9 +76,11 @@ const Packages = ({
 
     const { createPackage } = useActions({
         publicationType,
+        packageType,
         versionUUID: version.UUID,
         announcementUUID: announcement?.UUID,
         publicationUUID: String(publication?.UUID),
+        environmentUUID: environment?.UUID,
     })
 
     return (
@@ -140,13 +142,15 @@ const Packages = ({
                                     publicationUUID={String(publication?.UUID)}
                                     versionUUID={version.UUID}
                                     announcementUUID={announcement?.UUID}
+                                    environmentUUID={environment?.UUID}
                                     canPublicate={environment?.Can_Publicate}
                                     {...item}
                                 />
                             ))}
-                            {(!version.Is_Locked ||
+
+                            {((!version.Is_Locked && !environment?.Is_Locked) ||
                                 (environment?.Is_Locked &&
-                                    packageType === 'publication')) && (
+                                    packageType !== 'publication')) && (
                                 <PackageCreate
                                     createPackage={createPackage}
                                     announcementUUID={announcement?.UUID}
