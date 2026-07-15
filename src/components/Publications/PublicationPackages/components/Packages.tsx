@@ -165,11 +165,11 @@ const Packages = ({
 
                 {environment?.Is_Locked && packageType === 'publication' && (
                     <Notification
-                        title="De publicatieomgeving is gelockt"
+                        title="De publicatieomgeving is vergrendeld"
                         variant="warning"
                         className="mt-4">
-                        Deze publicatieomgeving is momenteel gelockt omdat er
-                        een publicatielevering is gemaakt, deze wordt weer
+                        Deze publicatieomgeving is momenteel vergrendeld omdat
+                        er een publicatielevering is gemaakt, deze wordt weer
                         vrijgegeven zodra er een leveringsrapport is upload. Tot
                         die tijd kun je geen nieuwe publicatie leveringen
                         aanmaken. Je kan wel validatie leveringen maken.

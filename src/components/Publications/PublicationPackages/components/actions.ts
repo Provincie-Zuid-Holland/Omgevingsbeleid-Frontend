@@ -28,9 +28,9 @@ interface ActionsProps {
     versionUUID?: string
     announcementUUID?: string
     publicationUUID: string
+    environmentUUID?: string
     packageUUID?: string
     reportUUID?: string
-    environmentUUID?: string
 }
 
 export const useActions = ({
@@ -39,9 +39,9 @@ export const useActions = ({
     versionUUID,
     announcementUUID,
     publicationUUID,
+    environmentUUID,
     packageUUID,
     reportUUID,
-    environmentUUID,
 }: ActionsProps) => {
     const queryClient = useQueryClient()
     const setActiveModal = useModalStore(state => state.setActiveModal)

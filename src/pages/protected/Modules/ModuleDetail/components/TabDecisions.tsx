@@ -79,16 +79,16 @@ export const Publications = () => {
                             key={environment.UUID}>
                             {isEnvironmentLocked && (
                                 <Notification
-                                    title="De publicatieomgeving is gelockt"
+                                    title="De publicatieomgeving is vergrendeld"
                                     variant="warning"
                                     className="mb-6">
-                                    Deze publicatieomgeving is momenteel gelockt
-                                    omdat er een publicatielevering is gemaakt,
-                                    deze wordt weer vrijgegeven zodra er een
-                                    leveringsrapport is upload. Tot die tijd kun
-                                    je geen nieuwe publicatie leveringen
-                                    aanmaken. Je kan wel validatie leveringen
-                                    maken.
+                                    Deze publicatieomgeving is momenteel
+                                    vergrendeld omdat er een publicatielevering
+                                    is gemaakt, deze wordt weer vrijgegeven
+                                    zodra er een leveringsrapport is upload. Tot
+                                    die tijd kun je geen nieuwe publicatie
+                                    leveringen aanmaken. Je kan wel validatie
+                                    leveringen maken.
                                 </Notification>
                             )}
 
