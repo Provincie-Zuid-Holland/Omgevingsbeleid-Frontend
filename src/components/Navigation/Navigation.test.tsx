@@ -14,11 +14,11 @@ describe('Navigation', () => {
         loggedIn: false,
     }
 
-    const setup = (customProps?: any) => {
+    const setup = (customProps?: any, initialEntries: string[] = ['/']) => {
         const props = { ...defaultProps, ...customProps }
         render(
             <QueryClientProvider client={queryClient}>
-                <MemoryRouter>
+                <MemoryRouter initialEntries={initialEntries}>
                     <AuthProvider>
                         <Navigation {...props} />
                     </AuthProvider>
@@ -35,10 +35,20 @@ describe('Navigation', () => {
 
     it('Toggles the menu', () => {
         setup()
-        const button = screen.getByRole('button')
+        const button = screen.getByRole('button', { name: 'Menu' })
         expect(button).toBeTruthy()
         fireEvent.click(button)
         const popupTitle = screen.queryByText('Omgevingsvisie')
         expect(popupTitle).toBeTruthy()
+    })
+
+    it('Hides the search bar on the search results page', () => {
+        setup(undefined, ['/zoekresultaten'])
+        expect(screen.queryByPlaceholderText('Zoeken')).toBeFalsy()
+    })
+
+    it('Shows the search bar outside of the search results page', () => {
+        setup()
+        expect(screen.getByPlaceholderText('Zoeken')).toBeTruthy()
     })
 })
