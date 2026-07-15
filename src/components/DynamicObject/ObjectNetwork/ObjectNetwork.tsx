@@ -33,7 +33,9 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
         const sorted = Object.keys(grouped)
             .sort()
             .reduce((obj: any, key) => {
-                obj[key] = grouped[key]
+                obj[key] = grouped[key].sort((a, b) =>
+                    a.Title.localeCompare(b.Title)
+                )
                 return obj
             }, {})
 
