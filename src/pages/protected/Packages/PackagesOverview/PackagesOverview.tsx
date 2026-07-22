@@ -77,7 +77,7 @@ const PackagesOverview = () => {
         setSorting([
             {
                 id: params.get('sort_column') || 'Created_Date',
-                desc: params.get('sort_order') === 'DESC',
+                desc: true,
             },
         ])
     }, [environments])
@@ -134,7 +134,7 @@ const PackagesOverview = () => {
             setSorting([
                 {
                     id: params.get('sort_column') || 'Created_Date',
-                    desc: params.get('sort_order') === 'DESC',
+                    desc: true,
                 },
             ])
         }
