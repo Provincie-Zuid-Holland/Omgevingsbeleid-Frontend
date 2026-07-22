@@ -312,7 +312,7 @@ const Articles = () => (
         </div>
 
         <div>
-            <FormikTextArea
+            <FormikRte
                 name="Bill_Compact.Time_Article"
                 label="Inwerkingstredingartikel"
             />
