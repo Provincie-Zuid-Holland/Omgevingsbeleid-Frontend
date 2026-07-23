@@ -87,6 +87,13 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                 const label = element.attribs['data-title']
 
                 if (objectArea) {
+                    /** AB#38403: Return plain text for now */
+                    return (
+                        <Text as="span">
+                            {domToReact(element.children, options)}
+                        </Text>
+                    )
+
                     return (
                         <Tooltip
                             label={
