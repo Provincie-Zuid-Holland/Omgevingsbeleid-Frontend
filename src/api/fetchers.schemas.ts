@@ -531,6 +531,10 @@ export type ObjectsDoListAllLatestParams = {
     sort_order?: SortOrder | null
 }
 
+export type ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams = {
+    related_file_uuid: string
+}
+
 export type ModulesGetListModuleObjectsParams = {
     object_types?: string[]
     owner_uuid?: string | null
@@ -1140,6 +1144,11 @@ export const ValidateModuleSeverity = {
     error: 'error',
 } as const
 
+export interface ValidateModuleResult {
+    errors: ValidateModuleError[]
+    readonly status: string
+}
+
 export interface ValidateModuleObject {
     code: string
     object_id: number
@@ -1152,11 +1161,6 @@ export interface ValidateModuleError {
     object: ValidateModuleObject
     rule: string
     severity?: ValidateModuleSeverity
-}
-
-export interface ValidateModuleResult {
-    errors: ValidateModuleError[]
-    readonly status: string
 }
 
 export type ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
@@ -1505,6 +1509,8 @@ export interface PublicationVersionEditResponse {
 
 export type PublicationVersionEditProcedural = Procedural | null
 
+export type PublicationVersionEditMutationStrategy = MutationStrategy | null
+
 export type PublicationVersionEditModuleStatusID = number | null
 
 export type PublicationVersionEditEffectiveDate = string | null
@@ -1521,6 +1527,7 @@ export interface PublicationVersionEdit {
     Bill_Metadata?: PublicationVersionEditBillMetadata
     Effective_Date?: PublicationVersionEditEffectiveDate
     Module_Status_ID?: PublicationVersionEditModuleStatusID
+    Mutation_Strategy?: PublicationVersionEditMutationStrategy
     Procedural?: PublicationVersionEditProcedural
 }
 
@@ -1530,6 +1537,7 @@ export interface PublicationVersionCreatedResponse {
 
 export interface PublicationVersionCreate {
     Module_Status_ID: number
+    Mutation_Strategy?: MutationStrategy
 }
 
 export type PublicationVersionProcedural = { [key: string]: unknown }
@@ -1553,6 +1561,7 @@ export interface PublicationVersion {
     Is_Locked: boolean
     Modified_Date: string
     Module_Status: ModuleStatus
+    Mutation_Strategy: MutationStrategy
     Procedural: PublicationVersionProcedural
     Publication: PublicationShort
     Status: PublicationVersionStatus
@@ -1612,8 +1621,10 @@ export interface PublicationPackageShort {
     UUID: string
 }
 
+export type PublicationPackagePdfMutation = MutationStrategy | null
+
 export interface PublicationPackagePdf {
-    Mutation?: MutationStrategy
+    Mutation?: PublicationPackagePdfMutation
 }
 
 export interface PublicationPackageCreatedResponse {
@@ -1927,9 +1938,6 @@ export interface PublicModuleShort {
     Title: string
 }
 
-export type PublicModuleObjectShortModuleObjectContext =
-    PublicModuleObjectContextShort | null
-
 export interface PublicModuleObjectShort {
     Code: string
     Description: string
@@ -1963,6 +1971,9 @@ export interface PublicModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: PublicModuleObjectContextShortOriginalAdjustOn
 }
+
+export type PublicModuleObjectShortModuleObjectContext =
+    PublicModuleObjectContextShort | null
 
 export interface ProgrammaAlgemeenUUID {
     Object_ID?: number
@@ -2516,6 +2527,15 @@ export interface ObjectStaticShort {
     Owner_2_UUID?: ObjectStaticShortOwner2UUID
     Portfolio_Holder_1_UUID?: ObjectStaticShortPortfolioHolder1UUID
     Portfolio_Holder_2_UUID?: ObjectStaticShortPortfolioHolder2UUID
+}
+
+export interface ObjectRelatedFileResponse {
+    Code: string
+    Created_By_UUID: string
+    Created_Date: string
+    File_UUID: string
+    Title: string
+    UUID: string
 }
 
 export type ObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
@@ -3171,6 +3191,14 @@ export const InputGeoWerkingsgebiedenSortColumn = {
     Created_Date: 'Created_Date',
 } as const
 
+export interface InputGeoWerkingsgebiedDetailed {
+    Created_Date: string
+    Description: string
+    Onderverdelingen: InputGeoOnderverdeling[]
+    Title: string
+    UUID: string
+}
+
 export interface InputGeoWerkingsgebied {
     Created_Date: string
     Description: string
@@ -3182,14 +3210,6 @@ export interface InputGeoOnderverdeling {
     Created_Date: string
     Description: string
     Geometry_Hash: string
-    Title: string
-    UUID: string
-}
-
-export interface InputGeoWerkingsgebiedDetailed {
-    Created_Date: string
-    Description: string
-    Onderverdelingen: InputGeoOnderverdeling[]
     Title: string
     UUID: string
 }
@@ -4132,6 +4152,12 @@ export interface BodyPublicationActReportsPostUploadActPackageReport {
     uploaded_files: string[]
 }
 
+export interface BodyObjectRelatedFilesPostObjectRelatedFilesUpload {
+    ignore_report: boolean
+    title: string
+    uploaded_file: string
+}
+
 export type BodyAuthenticationPostAuthLoginAccessTokenGrantType = string | null
 
 export type BodyAuthenticationPostAuthLoginAccessTokenClientSecret =
@@ -4684,6 +4710,7 @@ export interface BeleidsdoelFull {
     Object_ID?: number
     ObjectStatics?: BeleidsdoelFullStatics
     Public_Revisions?: PublicModuleObjectRevision[]
+    Related_Files?: ObjectRelatedFileResponse[]
     Start_Validity?: BeleidsdoelFullStartValidity
     Themas?: string[]
     Title?: string

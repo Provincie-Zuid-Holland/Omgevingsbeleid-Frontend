@@ -73,6 +73,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
         { type: 'ambitie', key: 'Ambities' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },
     ],
+    hasRelatedFiles: true,
     connectionsDescription: object => (
         <>
             Dit beleidsdoel hoort bij de ambitie '{object}'. Het beleidsdoel is

@@ -4,6 +4,7 @@ import {
     AttachmentShort,
     DocumentType,
     Module,
+    ObjectRelatedFileResponse,
     PackageType,
     ProcedureType,
     Publication,
@@ -56,6 +57,8 @@ export type ModalType =
     | 'publicationPackageReportUpload'
     | 'publicationAttachmentDelete'
     | 'publicationAttachmentAdd'
+    | 'objectRelatedFileAdd'
+    | 'objectRelatedFileDelete'
 
 export interface ModalStateMap {
     moduleEditObject: {
@@ -118,5 +121,8 @@ export interface ModalStateMap {
     }
     publicationAttachmentDelete: {
         attachment: AttachmentShort
+    }
+    objectRelatedFileDelete: {
+        file: ObjectRelatedFileResponse
     }
 }

@@ -71,6 +71,7 @@ import type {
     BeleidsregelStaticStatics,
     BeleidsregelUUID,
     BodyAuthenticationPostAuthLoginAccessToken,
+    BodyObjectRelatedFilesPostObjectRelatedFilesUpload,
     BodyPublicationActReportsPostUploadActPackageReport,
     BodyPublicationAnnouncementReportsPostUploadAnnouncementPackageReport,
     BodyPublicationVersionsPostUploadAttachment,
@@ -165,6 +166,8 @@ import type {
     NationaalBelangStaticStatics,
     NationaalBelangUUID,
     NewObjectStaticResponse,
+    ObjectRelatedFileResponse,
+    ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams,
     ObjectsDoListAllLatestParams,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
@@ -2446,6 +2449,352 @@ export const useModulesGetListModuleObjects = <
     query.queryKey = queryOptions.queryKey
 
     return query
+}
+
+/**
+ * @summary List related files for an object
+ */
+export const objectRelatedFilesGetObjectRelatedFilesList = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<ObjectRelatedFileResponse[]>({
+        url: `/beleidsdoel/${lineageId}/object-related-files`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getObjectRelatedFilesGetObjectRelatedFilesListQueryKey = (
+    lineageId: number
+) => {
+    return [`/beleidsdoel/${lineageId}/object-related-files`] as const
+}
+
+export const getObjectRelatedFilesGetObjectRelatedFilesListQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof objectRelatedFilesGetObjectRelatedFilesList
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getObjectRelatedFilesGetObjectRelatedFilesListQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>>
+    > = ({ signal }) =>
+        objectRelatedFilesGetObjectRelatedFilesList(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ObjectRelatedFilesGetObjectRelatedFilesListQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>>
+    >
+export type ObjectRelatedFilesGetObjectRelatedFilesListQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List related files for an object
+ */
+export const useObjectRelatedFilesGetObjectRelatedFilesList = <
+    TData = Awaited<
+        ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof objectRelatedFilesGetObjectRelatedFilesList
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getObjectRelatedFilesGetObjectRelatedFilesListQueryOptions(
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Upload and link a file to an object
+ */
+export const objectRelatedFilesPostObjectRelatedFilesUpload = (
+    lineageId: number,
+    bodyObjectRelatedFilesPostObjectRelatedFilesUpload: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+) => {
+    const formData = new FormData()
+    formData.append(
+        'title',
+        bodyObjectRelatedFilesPostObjectRelatedFilesUpload.title
+    )
+    formData.append(
+        'ignore_report',
+        bodyObjectRelatedFilesPostObjectRelatedFilesUpload.ignore_report.toString()
+    )
+    formData.append(
+        'uploaded_file',
+        bodyObjectRelatedFilesPostObjectRelatedFilesUpload.uploaded_file
+    )
+
+    return customInstance<ObjectRelatedFileResponse>({
+        url: `/beleidsdoel/${lineageId}/object-related-files`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export const getObjectRelatedFilesPostObjectRelatedFilesUploadMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesPostObjectRelatedFilesUpload
+                >
+            >,
+            TError,
+            {
+                lineageId: number
+                data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+            },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>
+        >,
+        TError,
+        {
+            lineageId: number
+            data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+        },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesPostObjectRelatedFilesUpload
+                >
+            >,
+            {
+                lineageId: number
+                data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+            }
+        > = props => {
+            const { lineageId, data } = props ?? {}
+
+            return objectRelatedFilesPostObjectRelatedFilesUpload(
+                lineageId,
+                data
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type ObjectRelatedFilesPostObjectRelatedFilesUploadMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>
+        >
+    >
+export type ObjectRelatedFilesPostObjectRelatedFilesUploadMutationBody =
+    BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+export type ObjectRelatedFilesPostObjectRelatedFilesUploadMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Upload and link a file to an object
+ */
+export const useObjectRelatedFilesPostObjectRelatedFilesUpload = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>
+        >,
+        TError,
+        {
+            lineageId: number
+            data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+        },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>>,
+    TError,
+    {
+        lineageId: number
+        data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+    },
+    TContext
+> => {
+    const mutationOptions =
+        getObjectRelatedFilesPostObjectRelatedFilesUploadMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete a related file
+ */
+export const objectRelatedFilesDeleteObjectRelatedFilesDelete = (
+    lineageId: number,
+    params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+) => {
+    return customInstance<ResponseOK>({
+        url: `/beleidsdoel/${lineageId}/object-related-files/delete`,
+        method: 'DELETE',
+        params,
+    })
+}
+
+export const getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesDeleteObjectRelatedFilesDelete
+                >
+            >,
+            TError,
+            {
+                lineageId: number
+                params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+            },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+        >,
+        TError,
+        {
+            lineageId: number
+            params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+        },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesDeleteObjectRelatedFilesDelete
+                >
+            >,
+            {
+                lineageId: number
+                params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+            }
+        > = props => {
+            const { lineageId, params } = props ?? {}
+
+            return objectRelatedFilesDeleteObjectRelatedFilesDelete(
+                lineageId,
+                params
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type ObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+        >
+    >
+
+export type ObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Delete a related file
+ */
+export const useObjectRelatedFilesDeleteObjectRelatedFilesDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+        >,
+        TError,
+        {
+            lineageId: number
+            params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+        },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<
+        ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+    >,
+    TError,
+    {
+        lineageId: number
+        params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+    },
+    TContext
+> => {
+    const mutationOptions =
+        getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
 }
 
 /**
