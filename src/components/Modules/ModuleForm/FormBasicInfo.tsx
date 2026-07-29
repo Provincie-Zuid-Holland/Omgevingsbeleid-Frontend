@@ -55,6 +55,7 @@ const FormBasicInfo = () => {
                     name="Title"
                     label="Titel"
                     placeholder="Titel van de module"
+                    description="Formuleer in enkele woorden de titel van de module."
                     required
                 />
                 <div className="mt-6 grid grid-cols-1 gap-x-10 sm:grid-cols-2">

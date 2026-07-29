@@ -98,7 +98,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
     dynamicSections: [
         {
             description:
-                'Een beleidskeuze is een uitwerking van het beleidsdoel. Een beleidskeuze beschrijft welk effect (outcome) wordt beoogd en wat er nodig is om van de huidige naar de gewenste situatie te komen. In de beleidskeuze wordt door PS bepaald wat de provinciale rol is die wordt ingenomen om het gewenste effect te bereiken. Om een beleidsdoel te bereiken kan PS meerdere Maatregelen maken. Een beleidskeuze richt zich op de middellange termijn (zo’n 5 jaar).',
+                'Een beleidskeuze is een uitwerking van het beleidsdoel. Een beleidskeuze beschrijft welk effect (outcome) wordt beoogd en wat er nodig is om van de huidige naar de gewenste situatie te komen. In de beleidskeuze wordt door PS bepaald wat de provinciale rol is die wordt ingenomen om het gewenste effect te bereiken. Om een beleidsdoel te bereiken kan PS meerdere beleidskeuzes nemen. Een beleidskeuze richt zich op de middellange termijn (zo’n 5 jaar).',
             notification: {
                 title: 'Tips voor het schrijven van beleid',
                 children: (
@@ -134,7 +134,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     name: 'Title',
                     label: 'Titel',
                     description:
-                        'De titel moet de lading dekken van het onderwerp en een richting aangeven in maximaal 10 woorden.',
+                        'De titel moet de lading dekken van het onderwerp en een richting aangeven in maximaal 5 woorden.',
                     placeholder:
                         "Bijv. 'Transitie havencomplex', ’Nieuwe natuur realiseren’, ‘Stikstofreductie’",
                     type: 'text',

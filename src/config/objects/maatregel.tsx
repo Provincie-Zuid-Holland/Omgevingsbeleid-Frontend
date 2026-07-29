@@ -186,7 +186,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                                     beleidsinstrumenten zoals de beleidskeuze of
                                     verordening. De LTA biedt ruimte om
                                     trajecten weer te geven waarin beleidsmatige
-                                    sturden wordt uitgewerkt of onderzocht.
+                                    sturing wordt uitgewerkt of onderzocht.
                                 </Text>
                                 <img
                                     src={nsobImage}
