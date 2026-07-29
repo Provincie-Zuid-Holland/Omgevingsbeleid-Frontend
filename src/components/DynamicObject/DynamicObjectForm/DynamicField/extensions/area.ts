@@ -80,27 +80,47 @@ export const Area = Mark.create({
             setArea:
                 attributes =>
                 ({ chain, state }) => {
-                    const { empty } = state.selection
+                    const { from, to, empty } = state.selection
+                    const selectedText = state.doc.textBetween(from, to)
+                    const isEmptySelection =
+                        empty || selectedText.trim().length === 0
 
-                    if (empty) {
-                        const { text = 'Locatie', ...rest } = attributes
+                    if (isEmptySelection) {
+                        const {
+                            text,
+                            [AREA_DATA_ATTRS.Cached_Title]: cachedTitle,
+                            ...markAttributes
+                        } = attributes
+
+                        const insertedText =
+                            text ||
+                            (typeof cachedTitle === 'string'
+                                ? cachedTitle
+                                : undefined) ||
+                            'Locatie'
+
                         return chain()
-                            .insertContentAt(state.selection.anchor, [
+                            .insertContentAt(
+                                { from, to },
                                 {
                                     type: 'text',
-                                    text,
+                                    text: insertedText,
                                     marks: [
                                         {
                                             type: this.name,
-                                            attrs: rest,
+                                            attrs: {
+                                                ...markAttributes,
+                                                [AREA_DATA_ATTRS.Cached_Title]:
+                                                    cachedTitle,
+                                            },
                                         },
                                     ],
-                                },
-                            ])
+                                }
+                            )
                             .run()
-                    } else {
-                        return chain().setMark(this.name, attributes).run()
                     }
+
+                    return chain().setMark(this.name, attributes).run()
                 },
         }
     },
