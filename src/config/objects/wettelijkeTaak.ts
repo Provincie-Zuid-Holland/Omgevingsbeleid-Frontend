@@ -58,7 +58,7 @@ const wettelijkeTaak: DynamicObject<typeof fetchers> = {
                     name: 'Title',
                     label: 'Titel',
                     description:
-                        'Formuleer in enkele woorden de titel de wettelijke taak.',
+                        'Formuleer in enkele woorden de titel van de wettelijke taak.',
                     placeholder: "Bijv. 'Actieplan geluid'",
                     type: 'text',
                     required: true,
