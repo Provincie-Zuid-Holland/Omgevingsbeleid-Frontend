@@ -46,10 +46,11 @@ instance.interceptors.response.use(
 
 const handleAxiosError = (error: AxiosError) => {
     const status = error.response?.status
+    const isLoginPage = error.response?.config.url === '/login/access-token'
     console.error(`Axios error: ${error.message}`)
 
     // Handle authentication errors
-    if (status && (status === 401 || status === 403)) {
+    if (status && (status === 401 || status === 403) && !isLoginPage) {
         // clear auth
         localStorage.removeItem(ACCESS_TOKEN_KEY)
         localStorage.removeItem(IDENTIFIER_KEY)

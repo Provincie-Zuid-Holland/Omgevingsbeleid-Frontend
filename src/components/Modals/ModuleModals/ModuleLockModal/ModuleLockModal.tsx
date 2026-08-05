@@ -15,17 +15,17 @@ const ModuleLockModal = () => {
     const { mutate } = useEditModule('moduleLocked', () => setActiveModal(null))
 
     return (
-        <Modal id="moduleLock" title="Module locken">
+        <Modal id="moduleLock" title="Module vergrendelen">
             <Text>
-                Je staat op het punt om de module te locken. Dit houdt in dat de
-                onderdelen in deze module tijdelijk niet meer kunnen worden
-                bewerkt. Dit is handig voor het maken van (technische) exports
-                van de stukken.
+                Je staat op het punt om de module te vergrendelen. Dit houdt in
+                dat de onderdelen in deze module tijdelijk niet meer kunnen
+                worden bewerkt. Dit is handig voor het maken van (technische)
+                exports van de stukken.
                 <br />
                 <br />
-                Let op, je moet handmatig de lock weer van de module afhalen
-                zodra de behandelend ambtenaren weer aan hun stukken mogen
-                werken.
+                Let op: je moet de vergrendeling van de module handmatig
+                verwijderen zodra de behandelend ambtenaren weer aan hun stukken
+                mogen werken.
             </Text>
 
             <ModalFooter>
@@ -40,7 +40,7 @@ const ModuleLockModal = () => {
                             data: { Temporary_Locked: true },
                         })
                     }>
-                    Locken
+                    Vergrendelen
                 </Button>
             </ModalFooter>
         </Modal>

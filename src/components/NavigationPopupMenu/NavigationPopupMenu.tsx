@@ -90,15 +90,16 @@ const NavigationPopupMenu = ({
                         <Container
                             className="h-full overflow-y-auto"
                             style={isMobile ? containerHeightStyle : undefined}>
-                            <div className="col-span-6 mt-6 flex flex-col sm:flex-row md:items-baseline">
-                                <div className="relative flex w-full flex-1 items-center">
+                            {isMobile && (
+                                <div className="col-span-6 mt-6 flex w-full items-center">
                                     <SearchBar
+                                        placeholder="Zoeken"
                                         callBack={() => {
                                             setIsOpen(false)
                                         }}
                                     />
                                 </div>
-                            </div>
+                            )}
                             {menuGroups.map(group => (
                                 <div
                                     key={group.title}
@@ -107,11 +108,11 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to={group.to}
                                             onClick={() => setIsOpen(false)}
-                                            className="group hover:text-pzh-green-900 flex items-center gap-1">
+                                            className="group hover:text-pzh-green-500 flex items-center gap-1">
                                             <Heading
                                                 level="3"
                                                 size="m"
-                                                className="group-hover:text-pzh-green-900 group-hover:underline">
+                                                className="group-hover:text-pzh-green-500 group-hover:underline">
                                                 {group.title}
                                             </Heading>
                                             <AngleRight size={20} />
@@ -140,19 +141,21 @@ const NavigationPopupMenu = ({
                         </Container>
                     </nav>
 
-                    <div className="fixed right-0 bottom-0 z-50">
-                        <button
-                            type="button"
-                            className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
-                            aria-label="Menu"
-                            onClick={() => setIsOpen(false)}>
-                            <Xmark
-                                aria-hidden="true"
-                                size={18}
-                                className="absolute"
-                            />
-                        </button>
-                    </div>
+                    {isMobile && (
+                        <div className="fixed right-0 bottom-0 z-50">
+                            <button
+                                type="button"
+                                className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
+                                aria-label="Menu"
+                                onClick={() => setIsOpen(false)}>
+                                <Xmark
+                                    aria-hidden="true"
+                                    size={18}
+                                    className="absolute"
+                                />
+                            </button>
+                        </div>
+                    )}
                 </FocusTrap>
             ) : null}
         </>
@@ -179,7 +182,7 @@ const ToggleMenuButton = ({
         }}
         id="popup-menu-toggle"
         className={classNames(
-            'relative mb-1 flex items-center justify-center rounded px-2 pt-2 pb-1 transition-colors duration-100 ease-in lg:-mr-6',
+            'relative mb-1 flex shrink-0 items-center justify-center rounded px-2 pt-2 pb-1 whitespace-nowrap transition-colors duration-100 ease-in lg:-mr-6',
             {
                 hidden: isMobile,
                 'text-pzh-white hover:bg-pzh-gray-100 hover:text-pzh-blue-500':
@@ -218,31 +221,33 @@ const ListItem = ({
 }: ListItemProps) => {
     if (targetBlank) {
         return (
-            <li className="text-pzh-green-500 hover:text-pzh-green-900 pt-1">
+            <li className="pt-1">
                 <a
                     onKeyDown={onKeyDown}
                     href={to}
                     target={targetBlank ? '_blank' : ''}
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
+                    id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}
+                    className="text-pzh-blue-500 hover:text-pzh-green-500 hover:underline">
                     <AngleRight className="-mt-0.5 mr-2 inline-block" />
-                    <span className="underline">{text}</span>
+                    <span>{text}</span>
                 </a>
             </li>
         )
     }
 
     return (
-        <li className="text-pzh-green-500 hover:text-pzh-green-900 pt-1">
+        <li className="pt-1">
             <Link
                 onKeyDown={onKeyDown}
                 to={to}
                 state={state}
                 onClick={() => setIsOpen(false)}
-                id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}>
+                id={`menu-item-${text.replace(/\s+/g, '-').toLowerCase()}`}
+                className="text-pzh-blue-500 hover:text-pzh-green-500 hover:underline">
                 <AngleRight className="-mt-0.5 mr-2 inline-block" />
-                <span className="underline">{text}</span>
+                <span>{text}</span>
             </Link>
         </li>
     )

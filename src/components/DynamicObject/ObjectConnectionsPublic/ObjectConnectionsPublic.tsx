@@ -82,7 +82,9 @@ const ObjectConnectionsPublic = ({
             .reduce<
                 Partial<Record<ModelType, HierachyReference[]>>
             >((acc, key) => {
-                acc[key] = grouped[key]
+                acc[key] = (grouped[key] ?? []).sort((a, b) =>
+                    (a.Title ?? '').localeCompare(b.Title ?? '')
+                )
                 return acc
             }, {})
     }, [data.Hierarchy_Children])

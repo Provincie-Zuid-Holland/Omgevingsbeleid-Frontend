@@ -33,14 +33,17 @@ const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
 }
 
 export const handleFileError = <T>(err: Error, helpers: FormikHelpers<T>) => {
-    Array.isArray(err.data?.detail) &&
-        err.data?.detail?.forEach((item: any) => {
+    if (Array.isArray(err.data?.detail)) {
+        err.data.detail.forEach((item: any) => {
+            const metadataField = KEYS[item.key] ?? item.key
+
+            helpers.setFieldTouched('File', true, false)
             helpers.setFieldError(
                 'File',
-                `Het veld '${KEYS[item.key]}' in de meta-data van het document is gevuld, de waarde hiervan is “${item.value}”`
+                `Het veld '${metadataField}' in de meta-data van het document is gevuld, de waarde hiervan is “${item.value}”`
             )
-            helpers.setFieldTouched('File', true)
         })
+    }
 
     helpers.setSubmitting(false)
 }
