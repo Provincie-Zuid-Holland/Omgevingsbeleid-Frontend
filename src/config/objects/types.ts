@@ -102,6 +102,7 @@ export interface ModelFetchers {
     usePatchObjectInModule?: MutationHook | null
     usePatchObject?: MutationHook | null
     useDeleteObject?: MutationHook | null
+    useGetStatic?: QueryHook | null
     usePostStatic?: MutationHook | null
     useGetAcknowledgedRelations?: QueryHook | null
     usePostAcknowledgedRelations?: MutationHook | null

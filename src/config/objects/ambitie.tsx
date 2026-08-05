@@ -1,5 +1,5 @@
 import { Hyperlink } from '@pzh-ui/components'
-import { ArrowTrendUp } from '@pzh-ui/icons'
+import { AngleDown, ArrowTrendUp } from '@pzh-ui/icons'
 import { Link } from 'react-router-dom'
 
 import {
@@ -10,6 +10,7 @@ import {
     useAmbitieListValidLineages,
     useAmbitiePostModulePatchObject,
     useAmbitiePostRelationsOverwrite,
+    useAmbitieViewGetObjectStatic,
     useAmbitieViewModuleObjectLatest,
     useAmbitieViewObjectLatest,
     useAmbitieViewObjectVersion,
@@ -32,6 +33,7 @@ const fetchers = {
     usePatchObjectInModule: useAmbitiePostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
+    useGetStatic: useAmbitieViewGetObjectStatic,
     usePostStatic: useAmbitieEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
@@ -101,6 +103,21 @@ const ambitie: DynamicObject<typeof fetchers> = {
                     customMenuOptions: ['heading'],
                     required: true,
                     hasAreaSelect: true,
+                },
+                {
+                    name: 'Themas',
+                    label: "Thema's",
+                    description:
+                        "Om de ambitie beter vindbaar te maken in de landelijke voorziening kun je de ambitie voorzien van één of meerdere thema's.",
+                    type: 'theme',
+                    placeholder: 'Kies één of meerdere thema’s',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
                 },
             ],
         },

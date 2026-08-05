@@ -581,20 +581,6 @@ export type AuthenticationPostAuthResetPasswordParams = {
     new_password: string
 }
 
-export type AreasGetListObjectsByGeometryParams = {
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
-export type AreasGetListObjectsByAreasParams = {
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
 export interface WriteRelation {
     Description?: string
     Object_ID: number
@@ -746,6 +732,11 @@ export interface WerkingsgebiedRelatedObjectShort {
     Werkingsgebied_Code: string
 }
 
+export interface WerkingsgebiedRelatedObjects {
+    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
+    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
+}
+
 export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
 
 export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
@@ -760,11 +751,6 @@ export interface WerkingsgebiedRelatedModuleObjectShort {
     Title: WerkingsgebiedRelatedModuleObjectShortTitle
     UUID: string
     Werkingsgebied_Code: string
-}
-
-export interface WerkingsgebiedRelatedObjects {
-    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
-    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
 }
 
 export type WerkingsgebiedPatchTitle = string | null
@@ -1387,11 +1373,6 @@ export interface SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicB
     Module_ID?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModuleID
     Object_Type: string
     Score: number
-}
-
-export interface SearchGeoRequestData {
-    Area_List: string[]
-    Object_Types?: string[]
 }
 
 export type RootModelListObjectCount = ObjectCount[]
@@ -2358,13 +2339,6 @@ export interface PagedResponseInputGeoWerkingsgebied {
     total: number
 }
 
-export interface PagedResponseGeoSearchResult {
-    limit?: number
-    offset?: number
-    results: GeoSearchResult[]
-    total: number
-}
-
 export interface PagedResponseGebiedsprogrammaExtended {
     limit?: number
     offset?: number
@@ -3184,12 +3158,6 @@ export interface ListThemaResponse {
     themas: Thema[]
 }
 
-export interface ListObjectsByGeometryRequestData {
-    Function?: GeometryFunctions
-    Geometry: string
-    Object_Types?: string[]
-}
-
 export interface ListAreaDesignationResponse {
     gebiedsaanwijzingen: Gebiedsaanwijzing[]
 }
@@ -3276,34 +3244,27 @@ export interface GraphResponse {
     Vertices: GraphVertice[]
 }
 
-export type GeometryFunctions =
-    (typeof GeometryFunctions)[keyof typeof GeometryFunctions]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GeometryFunctions = {
-    CONTAINS: 'CONTAINS',
-    WITHIN: 'WITHIN',
-    OVERLAPS: 'OVERLAPS',
-    INTERSECTS: 'INTERSECTS',
-} as const
-
-export type GeoSearchResultTitel = string | null
-
-export type GeoSearchResultOmschrijving = string | null
-
-export type GeoSearchResultAreaUUID = string | null
-
-export interface GeoSearchResult {
-    Area_UUID?: GeoSearchResultAreaUUID
-    Object_Type: string
-    Omschrijving?: GeoSearchResultOmschrijving
-    Titel?: GeoSearchResultTitel
-    UUID: string
-}
-
 export interface GebiedsprogrammaUUID {
     Object_ID?: number
     UUID?: string
+}
+
+export type GebiedsprogrammaStaticStaticsPortfolioHolder2 = UserShort | null
+
+export type GebiedsprogrammaStaticStaticsPortfolioHolder1 = UserShort | null
+
+export type GebiedsprogrammaStaticStaticsOwner2 = UserShort | null
+
+export type GebiedsprogrammaStaticStaticsOwner1 = UserShort | null
+
+export type GebiedsprogrammaStaticStaticsClient1 = UserShort | null
+
+export interface GebiedsprogrammaStaticStatics {
+    Client_1?: GebiedsprogrammaStaticStaticsClient1
+    Owner_1?: GebiedsprogrammaStaticStaticsOwner1
+    Owner_2?: GebiedsprogrammaStaticStaticsOwner2
+    Portfolio_Holder_1?: GebiedsprogrammaStaticStaticsPortfolioHolder1
+    Portfolio_Holder_2?: GebiedsprogrammaStaticStaticsPortfolioHolder2
 }
 
 export type GebiedsprogrammaStaticPostStaticsPortfolioHolder2UUID =

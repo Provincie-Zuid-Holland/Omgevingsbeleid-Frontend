@@ -107,7 +107,7 @@ const ModelTile = ({ model }: { model: Model }) => {
             <div className="group border-pzh-gray-200 flex items-center justify-between rounded border px-6 py-7">
                 <div className="flex items-center">
                     <Icon size={20} className="text-pzh-blue-500 mr-4" />
-                    <Heading level="3" size="s" className="-mb-1.5">
+                    <Heading level="3" size="s">
                         {pluralCapitalize}
                     </Heading>
                 </div>

@@ -14,6 +14,7 @@ import {
     useBeleidskeuzePostAcknowledgedRelationEdit,
     useBeleidskeuzePostModulePatchObject,
     useBeleidskeuzePostRelationsOverwrite,
+    useBeleidskeuzeViewGetObjectStatic,
     useBeleidskeuzeViewModuleObjectLatest,
     useBeleidskeuzeViewObjectLatest,
     useBeleidskeuzeViewObjectVersion,
@@ -36,6 +37,7 @@ const fetchers = {
     usePatchObjectInModule: useBeleidskeuzePostModulePatchObject,
     usePatchObject: null,
     useDeleteObject: null,
+    useGetStatic: useBeleidskeuzeViewGetObjectStatic,
     usePostStatic: useBeleidskeuzeEditObjectStatic,
     useGetAcknowledgedRelations: useBeleidskeuzeGetAcknowledgedRelationList,
     usePostAcknowledgedRelations: useBeleidskeuzeGetAcknowledgedRelationRequest,
@@ -86,7 +88,7 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
         <>
             Deze beleidskeuze hoort bij het beleidsdoel '{object}'. De
             beleidskeuze is uitgewerkt in maatregelen. Een maatregel beschrijft
-            wat de provincie doet om de beleidskeuze tot uitvoering brengen.
+            wat de provincie doet om de beleidskeuze tot uitvoering te brengen.
             Bekijk voor het volledige overzicht het{' '}
             <Hyperlink asChild>
                 <Link to="/beleidsnetwerk">beleidsnetwerk</Link>
@@ -326,6 +328,21 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     filterType: ['beleidsdoel'],
                     status: 'all',
                     placeholder: 'Kies het beleidsdoel',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
+                {
+                    name: 'Themas',
+                    label: "Thema's",
+                    description:
+                        "Om de beleidskeuze beter vindbaar te maken in de landelijke voorziening kun je de beleidskeuze voorzien van één of meerdere thema's.",
+                    type: 'theme',
+                    placeholder: 'Kies één of meerdere thema’s',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">

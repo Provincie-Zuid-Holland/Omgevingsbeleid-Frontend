@@ -45,6 +45,7 @@ import type {
     GebiedsaanwijzingStaticStatics,
     GebiedsaanwijzingUUID,
     GebiedsprogrammaFull,
+    GebiedsprogrammaStaticStatics,
     GebiedsprogrammaUUID,
     GraphResponse,
     InputGeoWerkingsgebied,
@@ -81,7 +82,6 @@ import type {
     PagedResponseGebiedsaanwijzingExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
-    PagedResponseGeoSearchResult,
     PagedResponseInputGeoWerkingsgebied,
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
@@ -168,74 +168,6 @@ import {
     ReportStatusType,
     ValidateModuleSeverity,
 } from './fetchers.schemas'
-
-export const getAreasGetListObjectsByAreasResponseMock = (
-    overrideResponse: Partial<PagedResponseGeoSearchResult> = {}
-): PagedResponseGeoSearchResult => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Area_UUID: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_Type: faker.word.sample(),
-        Omschrijving: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Titel: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        UUID: faker.word.sample(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-    ...overrideResponse,
-})
-
-export const getAreasGetListObjectsByGeometryResponseMock = (
-    overrideResponse: Partial<PagedResponseGeoSearchResult> = {}
-): PagedResponseGeoSearchResult => ({
-    limit: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    offset: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined,
-    ]),
-    results: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Area_UUID: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Object_Type: faker.word.sample(),
-        Omschrijving: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        Titel: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
-            undefined,
-        ]),
-        UUID: faker.word.sample(),
-    })),
-    total: faker.number.int({ min: undefined, max: undefined }),
-    ...overrideResponse,
-})
 
 export const getAuthenticationPostAuthLoginAccessTokenResponseMock = (
     overrideResponse: Partial<AuthToken> = {}
@@ -14011,6 +13943,32 @@ export const getGebiedsprogrammaPostRelationsOverwriteResponseMock = (
     ...overrideResponse,
 })
 
+export const getGebiedsprogrammaViewGetObjectStaticResponseMock = (
+    overrideResponse: Partial<GebiedsprogrammaStaticStatics> = {}
+): GebiedsprogrammaStaticStatics => ({
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Portfolio_Holder_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
 export const getGebiedsprogrammaEditObjectStaticResponseMock = (
     overrideResponse: Partial<ResponseOK> = {}
 ): ResponseOK => ({
@@ -20426,64 +20384,6 @@ export const getWettelijkeTaakEditObjectStaticResponseMock = (
     ...overrideResponse,
 })
 
-export const getAreasGetListObjectsByAreasMockHandler = (
-    overrideResponse?:
-        | PagedResponseGeoSearchResult
-        | ((
-              info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) =>
-              | Promise<PagedResponseGeoSearchResult>
-              | PagedResponseGeoSearchResult)
-) => {
-    return http.post('*/search/by-areas', async info => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getAreasGetListObjectsByAreasResponseMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    })
-}
-
-export const getAreasGetListObjectsByGeometryMockHandler = (
-    overrideResponse?:
-        | PagedResponseGeoSearchResult
-        | ((
-              info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) =>
-              | Promise<PagedResponseGeoSearchResult>
-              | PagedResponseGeoSearchResult)
-) => {
-    return http.post('*/search/by-geometry', async info => {
-        await delay(1000)
-        return new HttpResponse(
-            JSON.stringify(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getAreasGetListObjectsByGeometryResponseMock()
-            ),
-            {
-                status: 200,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
-    })
-}
-
 export const getAuthenticationPostAuthLoginAccessTokenMockHandler = (
     overrideResponse?:
         | AuthToken
@@ -26391,6 +26291,35 @@ export const getGebiedsprogrammaPostRelationsOverwriteMockHandler = (
     })
 }
 
+export const getGebiedsprogrammaViewGetObjectStaticMockHandler = (
+    overrideResponse?:
+        | GebiedsprogrammaStaticStatics
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<GebiedsprogrammaStaticStatics>
+              | GebiedsprogrammaStaticStatics)
+) => {
+    return http.get('*/gebiedsprogrammas/static/:lineageId', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGebiedsprogrammaViewGetObjectStaticResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getGebiedsprogrammaEditObjectStaticMockHandler = (
     overrideResponse?:
         | ResponseOK
@@ -28819,8 +28748,6 @@ export const getHealthCheckMockHandler = () => {
     })
 }
 export const getOmgevingsbeleidAPIMock = () => [
-    getAreasGetListObjectsByAreasMockHandler(),
-    getAreasGetListObjectsByGeometryMockHandler(),
     getAuthenticationPostAuthLoginAccessTokenMockHandler(),
     getAuthenticationPostAuthResetPasswordMockHandler(),
     getGraphGetFullGraphMockHandler(),
@@ -29030,6 +28957,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getGebiedsprogrammaViewObjectLatestMockHandler(),
     getGebiedsprogrammaGetRelationsListMockHandler(),
     getGebiedsprogrammaPostRelationsOverwriteMockHandler(),
+    getGebiedsprogrammaViewGetObjectStaticMockHandler(),
     getGebiedsprogrammaEditObjectStaticMockHandler(),
     getGebiedsprogrammaPostModulePatchObjectMockHandler(),
     getGebiedsprogrammaGetModuleListLineageTreeMockHandler(),
