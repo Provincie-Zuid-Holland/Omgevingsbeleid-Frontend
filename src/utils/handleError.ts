@@ -14,8 +14,18 @@ const ERRORS: { [key: string]: string } = {
 
 const KEYS: { [key: string]: string } = {
     '/Author': 'auteur',
-    '/Creator': 'auteur',
+    '/Creator': 'creator',
+    '/Producer': 'producent',
+    '/Title': 'titel',
+    '/Subject': 'onderwerp',
+    '/Keywords': 'trefwoorden',
 }
+
+/**
+ * Falls back to the raw metadata key (without leading slash) for fields
+ * the backend can return that aren't in the translation table above.
+ */
+const getFieldLabel = (key: string) => KEYS[key] || key.replace(/^\//, '')
 
 const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
     Array.isArray(err.data?.detail) &&
@@ -32,15 +42,22 @@ const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
     helpers.setSubmitting(false)
 }
 
-export const handleFileError = <T>(err: Error, helpers: FormikHelpers<T>) => {
-    Array.isArray(err.data?.detail) &&
-        err.data?.detail?.forEach((item: any) => {
-            helpers.setFieldError(
-                'File',
-                `Het veld '${KEYS[item.key]}' in de meta-data van het document is gevuld, de waarde hiervan is “${item.value}”`
+export const handleFileError = <T>(
+    err: Error,
+    helpers: FormikHelpers<T>,
+    fieldName = 'File'
+) => {
+    if (Array.isArray(err.data?.detail)) {
+        const message = err.data.detail
+            .map(
+                (item: any) =>
+                    `Het veld '${getFieldLabel(item.key)}' in de meta-data van het document is gevuld, de waarde hiervan is '${item.value}'`
             )
-            helpers.setFieldTouched('File', true)
-        })
+            .join('\n')
+
+        helpers.setFieldError(fieldName, message)
+        helpers.setFieldTouched(fieldName, true, false)
+    }
 
     helpers.setSubmitting(false)
 }

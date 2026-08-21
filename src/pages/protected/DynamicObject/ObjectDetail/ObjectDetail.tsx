@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom'
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import LineageCard from '@/components/DynamicObject/ObjectLineageCard'
-import ObjectRelatedFiles from '@/components/DynamicObject/ObjectRelatedFiles'
 import ObjectRelatedObjects from '@/components/DynamicObject/ObjectRelatedObjects'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
 import MutateLayout from '@/templates/MutateLayout'
@@ -140,7 +139,8 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             <div className="col-span-6 mt-6 sm:col-span-2 sm:mt-0">
                 <ObjectDefaultInfo model={model} />
 
-                {Boolean(model.allowedConnections?.length) && (
+                {(Boolean(model.allowedConnections?.length) ||
+                    model.hasRelatedFiles) && (
                     <ObjectConnections model={model} />
                 )}
 
@@ -151,8 +151,6 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                 {model.hasRelatedObjects && !!object?.Related_Objects && (
                     <ObjectRelatedObjects objects={object.Related_Objects} />
                 )}
-
-                {model.hasRelatedFiles && <ObjectRelatedFiles />}
             </div>
         </MutateLayout>
     )

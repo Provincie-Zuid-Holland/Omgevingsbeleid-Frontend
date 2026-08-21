@@ -2,8 +2,7 @@ import { getStorageFileGetFilesDownloadQueryKey } from '@/api/fetchers'
 import { ObjectRelatedFileResponse } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
 import { downloadFile } from '@/utils/file'
-import { parseUtc } from '@/utils/parseUtc'
-import { formatDate, Heading, Text } from '@pzh-ui/components'
+import { Heading, ListLink } from '@pzh-ui/components'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
@@ -33,7 +32,7 @@ const ObjectRelatedFilesPublic = ({ data }: ObjectRelatedFilesPublicProps) => {
                     Er zijn nog geen bestanden gekoppeld
                 </span>
             ) : (
-                <ul className="flex flex-col gap-3">
+                <ul>
                     {files.map(file => (
                         <li key={file.UUID}>
                             <RelatedFile file={file} />
@@ -58,20 +57,11 @@ const RelatedFile = ({ file }: { file: ObjectRelatedFileResponse }) => {
     })
 
     return (
-        <button
-            type="button"
-            onClick={() => download.refetch()}
-            className="text-left">
-            <Text
-                as="span"
-                bold
-                className="text-pzh-green-500 hover:underline">
+        <ListLink asChild>
+            <button type="button" onClick={() => download.refetch()}>
                 {file.Title}
-            </Text>
-            <Text size="s" color="text-pzh-gray-500">
-                Geüpload op {formatDate(parseUtc(file.Created_Date), 'dd-MM-yyyy')}
-            </Text>
-        </button>
+            </button>
+        </ListLink>
     )
 }
 
