@@ -54,7 +54,7 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchGetSearch({ query, ...filterParams }, { limit: 50 })
+        searchGetSearch({ query: `%${query}%`, ...filterParams }, { limit: 50 })
             .then(data => {
                 let filteredObject = data.results
 
