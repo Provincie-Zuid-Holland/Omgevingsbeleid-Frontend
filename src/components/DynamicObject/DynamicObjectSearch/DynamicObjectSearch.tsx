@@ -9,6 +9,7 @@ import {
     RequestData,
     SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
+import { useParams } from 'react-router-dom'
 
 export type Option = {
     label: React.JSX.Element
@@ -32,6 +33,8 @@ export interface DynamicObjectSearchProps
     filter?: number | string | number[] | string[]
     /** Filter params */
     filterParams?: Omit<RequestData, 'query'>
+    /** Filter on moduleId */
+    filterOnModule?: boolean
     /** Initial options  */
     initialOptions?: Option[]
 }
@@ -43,9 +46,11 @@ const DynamicObjectSearch = ({
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
     filterParams,
+    filterOnModule,
     initialOptions = [],
     ...rest
 }: DynamicObjectSearchProps) => {
+    const { moduleId } = useParams()
     const { setFieldValue } = useFormikContext()
 
     const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
@@ -54,7 +59,15 @@ const DynamicObjectSearch = ({
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchGetSearch({ query: `%${query}%`, ...filterParams }, { limit: 50 })
+        searchGetSearch(
+            {
+                query: `%${query}%`,
+                ...filterParams,
+                ...(filterOnModule &&
+                    moduleId && { module_id: parseInt(moduleId) }),
+            },
+            { limit: 50 }
+        )
             .then(data => {
                 let filteredObject = data.results
 
