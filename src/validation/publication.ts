@@ -38,7 +38,7 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
     Bill_Compact: object({
         Preamble: schemaDefaults.optionalRte(),
         Amendment_Article: schemaDefaults.requiredString(),
-        Time_Article: schemaDefaults.requiredString(),
+        Time_Article: schemaDefaults.rte(),
         Custom_Articles: array(
             object({
                 Number: schemaDefaults.requiredString(),

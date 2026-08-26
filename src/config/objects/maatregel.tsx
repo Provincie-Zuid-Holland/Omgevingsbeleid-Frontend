@@ -144,13 +144,16 @@ const maatregel: DynamicObject<typeof fetchers> = {
                 },
                 {
                     name: 'Description',
-                    label: 'Output/prestaties',
+                    label: 'Wat gaat de provincie doen?',
                     description: (
                         <>
-                            Een output/prestatie is de telbare eigen inzet die
-                            een effect tot gevolg heeft. Benoem hierbij geen
-                            geldbedragen en noem geen namen van collega’s of
-                            afdelingen.
+                            Benoem hier <u>puntsgewijs</u> <b>wat</b> de
+                            prestaties/acties/handelingen (output) zijn die wij
+                            als provincie verrichten en <b>hoe</b> er invulling
+                            aan wordt gegeven. Een output/prestatie is de
+                            telbare eigen inzet die een effect tot gevolg heeft.
+                            Benoem hierbij geen geldbedragen. (Gebruik geen
+                            namen van collega’s of afdelingen.)
                             <br />
                             <br />
                             Gebruik ieder van deze punten voor de gelijknamige
@@ -188,7 +191,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                                     beleidsinstrumenten zoals de beleidskeuze of
                                     verordening. De LTA biedt ruimte om
                                     trajecten weer te geven waarin beleidsmatige
-                                    sturden wordt uitgewerkt of onderzocht.
+                                    sturing wordt uitgewerkt of onderzocht.
                                 </Text>
                                 <img
                                     src={nsobImage}

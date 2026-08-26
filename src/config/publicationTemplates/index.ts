@@ -89,6 +89,9 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                 },
                 {
                     name: 'Object_Templates',
+                    label: 'Object templates',
+                    description:
+                        'Geef per gebruikt object aan hoe het moet worden getoond in de export.',
                     arrayLabel: 'Object Template',
                     type: 'array',
                     fields: [
@@ -129,7 +132,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                 {
                     name: 'Object_Field_Map',
                     label: 'Field maps',
-                    description: 'Geef per gebruikt object een field map',
+                    description: 'Geef per gebruikt object een field map.',
                     arrayLabel: 'Field map',
                     type: 'array',
                     fields: [

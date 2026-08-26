@@ -1,4 +1,4 @@
-const EMPTY_TAG_SELECTOR = 'em, strong, b, i, u, sub, sup'
+const EMPTY_TAG_SELECTOR = 'em, strong, b, i, u, sub, sup, a'
 
 export function isVisuallyEmpty(value: string): boolean {
     return (

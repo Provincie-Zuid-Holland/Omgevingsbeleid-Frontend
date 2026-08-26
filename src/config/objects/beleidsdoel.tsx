@@ -92,7 +92,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     name: 'Title',
                     label: 'Titel',
                     description:
-                        'Formuleer in enkele woorden de titel van de beleidskeuze.',
+                        'Formuleer in enkele woorden de titel van het beleidsdoel.',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,

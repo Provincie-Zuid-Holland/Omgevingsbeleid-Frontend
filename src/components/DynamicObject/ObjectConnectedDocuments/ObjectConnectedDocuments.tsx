@@ -18,7 +18,7 @@ interface ObjectConnectedDocumentsProps {
 const ObjectConnectedDocuments = ({
     documents,
 }: ObjectConnectedDocumentsProps) => (
-    <>
+    <div className="mb-6 group-has-[div:empty]:hidden">
         <Heading level="3" size="m" className="mb-2">
             Gekoppelde documenten
         </Heading>
@@ -28,7 +28,7 @@ const ObjectConnectedDocuments = ({
                 <Document key={document.Code} {...document} />
             ))}
         </div>
-    </>
+    </div>
 )
 
 const Document = ({ Cached_Title, Object_ID }: ObjectStatics) => {
@@ -49,7 +49,7 @@ const Document = ({ Cached_Title, Object_ID }: ObjectStatics) => {
         query: {
             enabled:
                 (!moduleId && !!Object_ID) ||
-                (!!moduleId && !!Object_ID && !moduleData && isSuccess) ||
+                (!!moduleId && !!Object_ID && !moduleData) ||
                 isError,
         },
     })

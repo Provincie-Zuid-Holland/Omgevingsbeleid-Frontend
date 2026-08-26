@@ -36,10 +36,14 @@ export const downloadFile = async (
     openInNewTab = false
 ) => {
     try {
+        const accessToken = getAccessToken()
+
         const response = await fetch(`${getApiUrl()}/${path}`, {
             method: postData ? 'POST' : 'GET',
             headers: {
-                Authorization: `Bearer ${getAccessToken()}`,
+                ...(accessToken && {
+                    Authorization: `Bearer ${accessToken}`,
+                }),
                 'Content-Type': 'application/json',
             },
             ...(postData && { body: JSON.stringify(postData) }),

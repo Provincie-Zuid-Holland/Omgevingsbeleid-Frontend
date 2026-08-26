@@ -42,21 +42,17 @@ const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
     helpers.setSubmitting(false)
 }
 
-export const handleFileError = <T>(
-    err: Error,
-    helpers: FormikHelpers<T>,
-    fieldName = 'File'
-) => {
+export const handleFileError = <T>(err: Error, helpers: FormikHelpers<T>) => {
     if (Array.isArray(err.data?.detail)) {
-        const message = err.data.detail
-            .map(
-                (item: any) =>
-                    `Het veld '${getFieldLabel(item.key)}' in de meta-data van het document is gevuld, de waarde hiervan is '${item.value}'`
-            )
-            .join('\n')
+        err.data.detail.forEach((item: any) => {
+            const metadataField = KEYS[item.key] ?? item.key
 
-        helpers.setFieldError(fieldName, message)
-        helpers.setFieldTouched(fieldName, true, false)
+            helpers.setFieldTouched('File', true, false)
+            helpers.setFieldError(
+                'File',
+                `Het veld '${metadataField}' in de meta-data van het document is gevuld, de waarde hiervan is “${item.value}”`
+            )
+        })
     }
 
     helpers.setSubmitting(false)
