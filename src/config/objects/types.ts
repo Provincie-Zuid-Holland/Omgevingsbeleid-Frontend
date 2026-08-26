@@ -76,6 +76,7 @@ export interface DynamicObjectBase<Q extends ModelQueryKeys = ModelQueryKeys> {
         | ((object: React.JSX.Element) => string | React.JSX.Element)
     acknowledgedRelation?: ModelType
     hasRelatedObjects?: boolean
+    hasRelatedFiles?: boolean
 }
 
 export type QueryHook<TArgs extends unknown[] = any[]> = <TData = any>(

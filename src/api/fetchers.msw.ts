@@ -64,6 +64,7 @@ import type {
     NationaalBelangStaticStatics,
     NationaalBelangUUID,
     NewObjectStaticResponse,
+    ObjectRelatedFileResponse,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
     PagedResponseBeleidsdoelBasic,
@@ -163,6 +164,7 @@ import {
     GraphEdgeType,
     ModuleObjectActionFull,
     ModuleStatusCode,
+    MutationStrategy,
     PublicModuleStatusCode,
     PublicationVersionStatus,
     ReportStatusType,
@@ -741,6 +743,39 @@ export const getModulesGetListModuleObjectsResponseMock = (
         },
     })),
     total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getObjectRelatedFilesGetObjectRelatedFilesListResponseMock =
+    (): ObjectRelatedFileResponse[] =>
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Code: faker.word.sample(),
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            File_UUID: faker.string.uuid(),
+            Title: faker.word.sample(),
+            UUID: faker.string.uuid(),
+        }))
+
+export const getObjectRelatedFilesPostObjectRelatedFilesUploadResponseMock = (
+    overrideResponse: Partial<ObjectRelatedFileResponse> = {}
+): ObjectRelatedFileResponse => ({
+    Code: faker.word.sample(),
+    Created_By_UUID: faker.string.uuid(),
+    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+    File_UUID: faker.string.uuid(),
+    Title: faker.word.sample(),
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
+export const getObjectRelatedFilesDeleteObjectRelatedFilesDeleteResponseMock = (
+    overrideResponse: Partial<ResponseOK> = {}
+): ResponseOK => ({
+    message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
 })
 
@@ -1938,6 +1973,9 @@ export const getPublicationVersionsGetDetailVersionResponseMock = (
         Module_ID: faker.number.int({ min: undefined, max: undefined }),
         Status: faker.word.sample(),
     },
+    Mutation_Strategy: faker.helpers.arrayElement(
+        Object.values(MutationStrategy)
+    ),
     Procedural: {},
     Publication: {
         Act_UUID: faker.helpers.arrayElement([
@@ -4370,6 +4408,20 @@ export const getBeleidsdoelViewObjectVersionResponseMock = (
         })),
         undefined,
     ]),
+    Related_Files: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Code: faker.word.sample(),
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            File_UUID: faker.string.uuid(),
+            Title: faker.word.sample(),
+            UUID: faker.string.uuid(),
+        })),
+        undefined,
+    ]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -4635,6 +4687,20 @@ export const getBeleidsdoelViewObjectLatestResponseMock = (
                 Object.values(ModuleStatusCode)
             ),
             Module_Title: faker.word.sample(),
+        })),
+        undefined,
+    ]),
+    Related_Files: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Code: faker.word.sample(),
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            File_UUID: faker.string.uuid(),
+            Title: faker.word.sample(),
+            UUID: faker.string.uuid(),
         })),
         undefined,
     ]),
@@ -5087,6 +5153,20 @@ export const getBeleidsdoelViewModuleObjectLatestResponseMock = (
         })),
         undefined,
     ]),
+    Related_Files: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Code: faker.word.sample(),
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            File_UUID: faker.string.uuid(),
+            Title: faker.word.sample(),
+            UUID: faker.string.uuid(),
+        })),
+        undefined,
+    ]),
     Start_Validity: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split('.')[0]}Z`,
@@ -5352,6 +5432,20 @@ export const getGetModulesObjectBeleidsdoelVersionResponseMock = (
                 Object.values(ModuleStatusCode)
             ),
             Module_Title: faker.word.sample(),
+        })),
+        undefined,
+    ]),
+    Related_Files: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Code: faker.word.sample(),
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            File_UUID: faker.string.uuid(),
+            Title: faker.word.sample(),
+            UUID: faker.string.uuid(),
         })),
         undefined,
     ]),
@@ -5682,6 +5776,20 @@ export const getGetRevisionsBeleidsdoelVersionResponseMock = (
                 Object.values(ModuleStatusCode)
             ),
             Module_Title: faker.word.sample(),
+        })),
+        undefined,
+    ]),
+    Related_Files: faker.helpers.arrayElement([
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Code: faker.word.sample(),
+            Created_By_UUID: faker.string.uuid(),
+            Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+            File_UUID: faker.string.uuid(),
+            Title: faker.word.sample(),
+            UUID: faker.string.uuid(),
         })),
         undefined,
     ]),
@@ -21050,6 +21158,98 @@ export const getModulesGetListModuleObjectsMockHandler = (
     })
 }
 
+export const getObjectRelatedFilesGetObjectRelatedFilesListMockHandler = (
+    overrideResponse?:
+        | ObjectRelatedFileResponse[]
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<ObjectRelatedFileResponse[]>
+              | ObjectRelatedFileResponse[])
+) => {
+    return http.get(
+        '*/beleidsdoel/:lineageId/object-related-files',
+        async info => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse !== undefined
+                        ? typeof overrideResponse === 'function'
+                            ? await overrideResponse(info)
+                            : overrideResponse
+                        : getObjectRelatedFilesGetObjectRelatedFilesListResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getObjectRelatedFilesPostObjectRelatedFilesUploadMockHandler = (
+    overrideResponse?:
+        | ObjectRelatedFileResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0]
+          ) => Promise<ObjectRelatedFileResponse> | ObjectRelatedFileResponse)
+) => {
+    return http.post(
+        '*/beleidsdoel/:lineageId/object-related-files',
+        async info => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse !== undefined
+                        ? typeof overrideResponse === 'function'
+                            ? await overrideResponse(info)
+                            : overrideResponse
+                        : getObjectRelatedFilesPostObjectRelatedFilesUploadResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
+export const getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMockHandler = (
+    overrideResponse?:
+        | ResponseOK
+        | ((
+              info: Parameters<Parameters<typeof http.delete>[1]>[0]
+          ) => Promise<ResponseOK> | ResponseOK)
+) => {
+    return http.delete(
+        '*/beleidsdoel/:lineageId/object-related-files/delete',
+        async info => {
+            await delay(1000)
+            return new HttpResponse(
+                JSON.stringify(
+                    overrideResponse !== undefined
+                        ? typeof overrideResponse === 'function'
+                            ? await overrideResponse(info)
+                            : overrideResponse
+                        : getObjectRelatedFilesDeleteObjectRelatedFilesDeleteResponseMock()
+                ),
+                {
+                    status: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            )
+        }
+    )
+}
+
 export const getObjectsViewObjectCountsMockHandler = (
     overrideResponse?:
         | RootModelListObjectCount
@@ -28772,6 +28972,9 @@ export const getOmgevingsbeleidAPIMock = () => [
     getModulesPostModuleRemoveObjectMockHandler(),
     getModulesGetModuleSnapshotMockHandler(),
     getModulesGetListModuleObjectsMockHandler(),
+    getObjectRelatedFilesGetObjectRelatedFilesListMockHandler(),
+    getObjectRelatedFilesPostObjectRelatedFilesUploadMockHandler(),
+    getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMockHandler(),
     getObjectsViewObjectCountsMockHandler(),
     getObjectsDoListAllLatestMockHandler(),
     getPublicModulesGetPublicListModulesMockHandler(),
