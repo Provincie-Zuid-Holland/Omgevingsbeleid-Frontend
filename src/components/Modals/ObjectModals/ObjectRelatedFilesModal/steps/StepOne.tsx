@@ -1,9 +1,7 @@
-import { getStorageFileGetFilesDownloadQueryKey } from '@/api/fetchers'
 import { ObjectRelatedFileResponse } from '@/api/fetchers.schemas'
-import { downloadFile } from '@/utils/file'
+import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
 import { Button, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, TrashCan } from '@pzh-ui/icons'
-import { useQuery } from '@tanstack/react-query'
 
 import { StepProps } from './types'
 
@@ -77,16 +75,7 @@ const RelatedFileRow = ({
     userCanEdit,
     onDelete,
 }: RelatedFileRowProps) => {
-    const download = useQuery({
-        queryKey: ['downloadStorageFile', file.File_UUID],
-        queryFn: () =>
-            downloadFile(
-                getStorageFileGetFilesDownloadQueryKey(file.File_UUID)[0],
-                undefined,
-                true
-            ),
-        enabled: false,
-    })
+    const download = useDownloadStorageFile(file.File_UUID)
 
     return (
         <div className="border-pzh-gray-300 bg-pzh-gray-100 flex items-center justify-between gap-4 rounded border p-4">

@@ -65,7 +65,6 @@ const ObjectRelatedFilesModal = ({
     const [step, setStep] = useState(initialStep)
     const [selectedFile, setSelectedFile] =
         useState<ObjectRelatedFileResponse>()
-    const [fileName, setFileName] = useState<string | undefined>()
     const [avgWarning, setAvgWarning] = useState(false)
     const formikRef = useRef<FormikProps<FormValues>>(null)
 
@@ -84,7 +83,6 @@ const ObjectRelatedFilesModal = ({
         setTimeout(() => {
             setStep(initialStep)
             setSelectedFile(undefined)
-            setFileName(undefined)
             setAvgWarning(false)
             formikRef.current?.resetForm()
         }, 300)
@@ -187,8 +185,6 @@ const ObjectRelatedFilesModal = ({
                             selectedFile={selectedFile}
                             setStep={setStep}
                             setSelectedFile={setSelectedFile}
-                            fileName={fileName}
-                            setFileName={setFileName}
                             avgWarning={avgWarning}
                             setAvgWarning={setAvgWarning}
                         />

@@ -1,9 +1,7 @@
-import { getStorageFileGetFilesDownloadQueryKey } from '@/api/fetchers'
 import { ObjectRelatedFileResponse } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
-import { downloadFile } from '@/utils/file'
+import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
 import { Heading, ListLink } from '@pzh-ui/components'
-import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 interface ObjectRelatedFilesPublicProps {
@@ -45,16 +43,7 @@ const ObjectRelatedFilesPublic = ({ data }: ObjectRelatedFilesPublicProps) => {
 }
 
 const RelatedFile = ({ file }: { file: ObjectRelatedFileResponse }) => {
-    const download = useQuery({
-        queryKey: ['downloadStorageFile', file.File_UUID],
-        queryFn: () =>
-            downloadFile(
-                getStorageFileGetFilesDownloadQueryKey(file.File_UUID)[0],
-                undefined,
-                true
-            ),
-        enabled: false,
-    })
+    const download = useDownloadStorageFile(file.File_UUID)
 
     return (
         <ListLink asChild>

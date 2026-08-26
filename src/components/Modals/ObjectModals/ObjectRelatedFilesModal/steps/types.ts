@@ -8,8 +8,6 @@ export interface StepProps {
     selectedFile?: ObjectRelatedFileResponse
     setStep: (step: number) => void
     setSelectedFile: (file?: ObjectRelatedFileResponse) => void
-    fileName?: string
-    setFileName: (fileName?: string) => void
     avgWarning: boolean
     setAvgWarning: (avgWarning: boolean) => void
 }
