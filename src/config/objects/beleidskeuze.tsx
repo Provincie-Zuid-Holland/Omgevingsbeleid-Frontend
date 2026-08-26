@@ -302,9 +302,10 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     name: 'Gebiedengroep_Code',
                     label: 'Gebiedengroep',
                     type: 'search',
-                    status: 'all',
                     placeholder: 'Selecteer een gebiedengroep',
-                    filterType: ['gebiedengroep'],
+                    filterParams: {
+                        object_types: ['gebiedengroep'],
+                    },
                     objectKey: 'Object_Code',
                     components: {
                         DropdownIndicator: () => (
@@ -323,8 +324,9 @@ const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
                     type: 'search',
                     required: true,
                     objectKey: 'Object_Code',
-                    filterType: ['beleidsdoel'],
-                    status: 'all',
+                    filterParams: {
+                        object_types: ['beleidsdoel'],
+                    },
                     placeholder: 'Kies het beleidsdoel',
                     components: {
                         DropdownIndicator: () => (

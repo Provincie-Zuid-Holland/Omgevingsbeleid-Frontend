@@ -90,11 +90,12 @@ const gebiedsaanwijzing: DynamicObject<typeof fetchers> = {
                     description:
                         'Hiermee selecteer je de bijbehorende geo-data, meestal is dit de legenda laag van een kaart. Denk hierbij aan gebieden, lijnen en punten en de groepen hiervan.',
                     type: 'search',
-                    status: 'all',
                     isMulti: true,
                     closeMenuOnSelect: false,
                     placeholder: 'Zoek op locaties',
-                    filterType: ['gebiedengroep', 'gebied'],
+                    filterParams: {
+                        object_types: ['gebiedengroep', 'gebied'],
+                    },
                     objectKey: 'Object_Code',
                     components: {
                         DropdownIndicator: () => (

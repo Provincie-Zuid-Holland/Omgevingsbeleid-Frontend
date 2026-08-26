@@ -4,13 +4,11 @@ import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
 import { useState } from 'react'
 
-import { searchGetMssqlSearch, searchGetMssqlValidSearch } from '@/api/fetchers'
+import { searchGetSearch } from '@/api/fetchers'
 import {
+    RequestData,
     SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-    ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
-import { ModelType } from '@/config/objects/types'
-import { useParams } from 'react-router-dom'
 
 export type Option = {
     label: React.JSX.Element
@@ -32,12 +30,8 @@ export interface DynamicObjectSearchProps
     label?: string
     /** Filter items by UUID or Object_ID */
     filter?: number | string | number[] | string[]
-    /** Filter items by Object_Type */
-    filterType?: ModelType[]
-    /** Filter on Module ID */
-    filterOnModule?: boolean
-    /** Status of object */
-    status?: 'valid' | 'all'
+    /** Filter params */
+    filterParams?: Omit<RequestData, 'query'>
     /** Initial options  */
     initialOptions?: Option[]
 }
@@ -48,29 +42,19 @@ const DynamicObjectSearch = ({
     fieldName,
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
-    filterType,
-    filterOnModule,
-    status = 'valid',
+    filterParams,
     initialOptions = [],
     ...rest
 }: DynamicObjectSearchProps) => {
-    const { moduleId } = useParams()
-
     const { setFieldValue } = useFormikContext()
 
     const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
-
-    const searchEndpoint =
-        status === 'valid' ? searchGetMssqlValidSearch : searchGetMssqlSearch
 
     const loadSuggestions = (
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchEndpoint(
-            { Object_Types: filterType, Like: true },
-            { query, limit: 50 }
-        )
+        searchGetSearch({ query, ...filterParams }, { limit: 50 })
             .then(data => {
                 let filteredObject = data.results
 
@@ -90,25 +74,9 @@ const DynamicObjectSearch = ({
                     )
                 }
 
-                if (filterOnModule && !!moduleId) {
-                    filteredObject = filteredObject.filter(object => {
-                        if (
-                            'Module_ID' in object &&
-                            (object.Module_ID === null ||
-                                object.Module_ID === parseInt(moduleId))
-                        ) {
-                            return true
-                        }
-
-                        return false
-                    })
-                }
-
                 const options = filteredObject.map(
                     (
-                        object:
-                            | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
-                            | ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+                        object: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
                     ) => ({
                         label: (
                             <div className="flex justify-between gap-4">

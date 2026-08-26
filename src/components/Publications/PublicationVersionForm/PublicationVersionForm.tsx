@@ -17,7 +17,7 @@ import { Form, Formik, FormikConfig, FormikProps, FormikValues } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import {
-    getStorageFileGetFilesDownloadQueryKey,
+    getPublicationVersionsGetDownloadAttachmentQueryKey,
     usePublicationVersionsGetListAttachments,
 } from '@/api/fetchers'
 import {
@@ -456,6 +456,8 @@ const Document = ({
     isUsed,
     ...rest
 }: AttachmentShort & { isUsed: boolean }) => {
+    const { versionUUID } = useParams()
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [copied, setCopied] = useState(false)
@@ -472,10 +474,13 @@ const Document = ({
     }
 
     const downloadDocument = useQuery({
-        queryKey: ['downloadStorageFile', File_UUID],
+        queryKey: ['downloadAttachmentFile', File_UUID],
         queryFn: () =>
             downloadFile(
-                getStorageFileGetFilesDownloadQueryKey(String(File_UUID))[0],
+                getPublicationVersionsGetDownloadAttachmentQueryKey(
+                    String(versionUUID),
+                    ID
+                )[0],
                 undefined,
                 true
             ),
