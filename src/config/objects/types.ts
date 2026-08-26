@@ -2,32 +2,32 @@ import { Schema } from 'zod'
 
 import {
     AmbitieFull,
-    AmbitiePatch,
+    AmbitiePostModulePatchObjectBody,
     BeleidsdoelFull,
-    BeleidsdoelPatch,
+    BeleidsdoelPostModulePatchObjectBody,
     BeleidskeuzeFull,
-    BeleidskeuzePatch,
-    BeleidsregelPatch,
+    BeleidskeuzePostModulePatchObjectBody,
+    BeleidsregelPostModulePatchObjectBody,
     DocumentFull,
-    DocumentPatch,
+    DocumentPostModulePatchObjectBody,
     GebiedengroepFull,
-    GebiedengroepPatch,
+    GebiedengroepPostModulePatchObjectBody,
     GebiedFull,
-    GebiedPatch,
+    GebiedPostModulePatchObjectBody,
     GebiedsprogrammaFull,
-    GebiedsprogrammaPatch,
+    GebiedsprogrammaPostModulePatchObjectBody,
     MaatregelFull,
-    MaatregelPatch,
+    MaatregelPostModulePatchObjectBody,
     ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
     NationaalBelangFull,
     ObjectStaticShort,
     ProgrammaAlgemeenFull,
-    ProgrammaAlgemeenPatch,
+    ProgrammaAlgemeenPostModulePatchObjectBody,
     VisieAlgemeenFull,
-    VisieAlgemeenPatch,
+    VisieAlgemeenPostModulePatchObjectBody,
     WerkingsgebiedFull,
-    WerkingsgebiedPatch,
+    WerkingsgebiedPostModulePatchObjectBody,
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
@@ -140,18 +140,18 @@ export type ModelReturnTypeBasic =
 export type ModelReturnTypeBasicUnion =
     ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
 
-export type ModelPatchType = BeleidsdoelPatch &
-    AmbitiePatch &
-    BeleidskeuzePatch &
-    MaatregelPatch &
-    GebiedPatch &
-    GebiedengroepPatch &
-    GebiedsprogrammaPatch &
-    BeleidsregelPatch &
-    VisieAlgemeenPatch &
-    WerkingsgebiedPatch &
-    ProgrammaAlgemeenPatch &
-    DocumentPatch
+export type ModelPatchType = BeleidsdoelPostModulePatchObjectBody &
+    AmbitiePostModulePatchObjectBody &
+    BeleidskeuzePostModulePatchObjectBody &
+    MaatregelPostModulePatchObjectBody &
+    GebiedPostModulePatchObjectBody &
+    GebiedengroepPostModulePatchObjectBody &
+    GebiedsprogrammaPostModulePatchObjectBody &
+    BeleidsregelPostModulePatchObjectBody &
+    VisieAlgemeenPostModulePatchObjectBody &
+    WerkingsgebiedPostModulePatchObjectBody &
+    ProgrammaAlgemeenPostModulePatchObjectBody &
+    DocumentPostModulePatchObjectBody
 
 export type Model = DynamicObject
 

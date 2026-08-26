@@ -27,6 +27,18 @@ export type WerkingsgebiedGetModuleListLineageTreeParams = {
     sort_order?: SortOrder | null
 }
 
+export type WerkingsgebiedPostModulePatchObjectBodyTitle = string | null
+
+export type WerkingsgebiedPostModulePatchObjectBodyDescription = string | null
+
+export type WerkingsgebiedPostModulePatchObjectBodyAreaUUID = string | null
+
+export type WerkingsgebiedPostModulePatchObjectBody = {
+    Area_UUID?: WerkingsgebiedPostModulePatchObjectBodyAreaUUID
+    Description?: WerkingsgebiedPostModulePatchObjectBodyDescription
+    Title?: WerkingsgebiedPostModulePatchObjectBodyTitle
+}
+
 export type WerkingsgebiedListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
@@ -51,6 +63,15 @@ export type VisieAlgemeenGetModuleListLineageTreeParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type VisieAlgemeenPostModulePatchObjectBodyTitle = string | null
+
+export type VisieAlgemeenPostModulePatchObjectBodyDescription = string | null
+
+export type VisieAlgemeenPostModulePatchObjectBody = {
+    Description?: VisieAlgemeenPostModulePatchObjectBodyDescription
+    Title?: VisieAlgemeenPostModulePatchObjectBodyTitle
 }
 
 export type VisieAlgemeenListValidLineageTreeParams = {
@@ -87,6 +108,17 @@ export type ProgrammaAlgemeenGetModuleListLineageTreeParams = {
     sort_order?: SortOrder | null
 }
 
+export type ProgrammaAlgemeenPostModulePatchObjectBodyTitle = string | null
+
+export type ProgrammaAlgemeenPostModulePatchObjectBodyDescription =
+    | string
+    | null
+
+export type ProgrammaAlgemeenPostModulePatchObjectBody = {
+    Description?: ProgrammaAlgemeenPostModulePatchObjectBodyDescription
+    Title?: ProgrammaAlgemeenPostModulePatchObjectBodyTitle
+}
+
 export type ProgrammaAlgemeenListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
@@ -121,6 +153,36 @@ export type MaatregelGetModuleListLineageTreeParams = {
     sort_order?: SortOrder | null
 }
 
+export type MaatregelPostModulePatchObjectBodyWerkingsgebiedCode = string | null
+
+export type MaatregelPostModulePatchObjectBodyTitle = string | null
+
+export type MaatregelPostModulePatchObjectBodyThemas = string[] | null
+
+export type MaatregelPostModulePatchObjectBodyRole = string | null
+
+export type MaatregelPostModulePatchObjectBodyHierarchyCode = string | null
+
+export type MaatregelPostModulePatchObjectBodyGebiedengroepCode = string | null
+
+export type MaatregelPostModulePatchObjectBodyEffect = string | null
+
+export type MaatregelPostModulePatchObjectBodyDocuments = string[] | null
+
+export type MaatregelPostModulePatchObjectBodyDescription = string | null
+
+export type MaatregelPostModulePatchObjectBody = {
+    Description?: MaatregelPostModulePatchObjectBodyDescription
+    Documents?: MaatregelPostModulePatchObjectBodyDocuments
+    Effect?: MaatregelPostModulePatchObjectBodyEffect
+    Gebiedengroep_Code?: MaatregelPostModulePatchObjectBodyGebiedengroepCode
+    Hierarchy_Code?: MaatregelPostModulePatchObjectBodyHierarchyCode
+    Role?: MaatregelPostModulePatchObjectBodyRole
+    Themas?: MaatregelPostModulePatchObjectBodyThemas
+    Title?: MaatregelPostModulePatchObjectBodyTitle
+    Werkingsgebied_Code?: MaatregelPostModulePatchObjectBodyWerkingsgebiedCode
+}
+
 export type MaatregelListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
@@ -145,6 +207,18 @@ export type GebiedsprogrammaGetModuleListLineageTreeParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type GebiedsprogrammaPostModulePatchObjectBodyTitle = string | null
+
+export type GebiedsprogrammaPostModulePatchObjectBodyImage = string | null
+
+export type GebiedsprogrammaPostModulePatchObjectBodyDescription = string | null
+
+export type GebiedsprogrammaPostModulePatchObjectBody = {
+    Description?: GebiedsprogrammaPostModulePatchObjectBodyDescription
+    Image?: GebiedsprogrammaPostModulePatchObjectBodyImage
+    Title?: GebiedsprogrammaPostModulePatchObjectBodyTitle
 }
 
 export type GebiedsprogrammaListValidLineageTreeParams = {
@@ -173,6 +247,15 @@ export type GebiedsaanwijzingGetModuleListLineageTreeParams = {
     sort_order?: SortOrder | null
 }
 
+export type GebiedsaanwijzingPostModulePatchObjectBodyTitle = string | null
+
+export type GebiedsaanwijzingPostModulePatchObjectBody = {
+    Ref_Group?: string
+    Ref_Type?: string
+    Target_Codes?: string[]
+    Title?: GebiedsaanwijzingPostModulePatchObjectBodyTitle
+}
+
 export type GebiedsaanwijzingListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
@@ -197,6 +280,18 @@ export type GebiedengroepGetModuleListLineageTreeParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type GebiedengroepPostModulePatchObjectBodyTitle = string | null
+
+export type GebiedengroepPostModulePatchObjectBodySourceTitle = string | null
+
+export type GebiedengroepPostModulePatchObjectBodyDescription = string | null
+
+export type GebiedengroepPostModulePatchObjectBody = {
+    Description?: GebiedengroepPostModulePatchObjectBodyDescription
+    Source_Title?: GebiedengroepPostModulePatchObjectBodySourceTitle
+    Title?: GebiedengroepPostModulePatchObjectBodyTitle
 }
 
 export type GebiedengroepListValidLineageTreeParams = {
@@ -225,6 +320,12 @@ export type GebiedGetModuleListLineageTreeParams = {
     sort_order?: SortOrder | null
 }
 
+export type GebiedPostModulePatchObjectBodyTitle = string | null
+
+export type GebiedPostModulePatchObjectBody = {
+    Title?: GebiedPostModulePatchObjectBodyTitle
+}
+
 export type GebiedListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
@@ -249,6 +350,21 @@ export type DocumentGetModuleListLineageTreeParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type DocumentPostModulePatchObjectBodyTitle = string | null
+
+export type DocumentPostModulePatchObjectBodyFilename = string | null
+
+export type DocumentPostModulePatchObjectBodyFileUUID = string | null
+
+export type DocumentPostModulePatchObjectBodyDescription = string | null
+
+export type DocumentPostModulePatchObjectBody = {
+    Description?: DocumentPostModulePatchObjectBodyDescription
+    File_UUID?: DocumentPostModulePatchObjectBodyFileUUID
+    Filename?: DocumentPostModulePatchObjectBodyFilename
+    Title?: DocumentPostModulePatchObjectBodyTitle
 }
 
 export type DocumentListValidLineageTreeParams = {
@@ -277,6 +393,18 @@ export type BeleidsregelGetModuleListLineageTreeParams = {
     sort_order?: SortOrder | null
 }
 
+export type BeleidsregelPostModulePatchObjectBodyWeblink = string | null
+
+export type BeleidsregelPostModulePatchObjectBodyTitle = string | null
+
+export type BeleidsregelPostModulePatchObjectBodyDescription = string | null
+
+export type BeleidsregelPostModulePatchObjectBody = {
+    Description?: BeleidsregelPostModulePatchObjectBodyDescription
+    Title?: BeleidsregelPostModulePatchObjectBodyTitle
+    Weblink?: BeleidsregelPostModulePatchObjectBodyWeblink
+}
+
 export type BeleidsregelListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
@@ -301,6 +429,42 @@ export type BeleidskeuzeGetModuleListLineageTreeParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type BeleidskeuzePostModulePatchObjectBodyWerkingsgebiedCode =
+    | string
+    | null
+
+export type BeleidskeuzePostModulePatchObjectBodyTitle = string | null
+
+export type BeleidskeuzePostModulePatchObjectBodyThemas = string[] | null
+
+export type BeleidskeuzePostModulePatchObjectBodyProvincialInterest =
+    | string
+    | null
+
+export type BeleidskeuzePostModulePatchObjectBodyHierarchyCode = string | null
+
+export type BeleidskeuzePostModulePatchObjectBodyGebiedengroepCode =
+    | string
+    | null
+
+export type BeleidskeuzePostModulePatchObjectBodyExplanation = string | null
+
+export type BeleidskeuzePostModulePatchObjectBodyDescription = string | null
+
+export type BeleidskeuzePostModulePatchObjectBodyCause = string | null
+
+export type BeleidskeuzePostModulePatchObjectBody = {
+    Cause?: BeleidskeuzePostModulePatchObjectBodyCause
+    Description?: BeleidskeuzePostModulePatchObjectBodyDescription
+    Explanation?: BeleidskeuzePostModulePatchObjectBodyExplanation
+    Gebiedengroep_Code?: BeleidskeuzePostModulePatchObjectBodyGebiedengroepCode
+    Hierarchy_Code?: BeleidskeuzePostModulePatchObjectBodyHierarchyCode
+    Provincial_Interest?: BeleidskeuzePostModulePatchObjectBodyProvincialInterest
+    Themas?: BeleidskeuzePostModulePatchObjectBodyThemas
+    Title?: BeleidskeuzePostModulePatchObjectBodyTitle
+    Werkingsgebied_Code?: BeleidskeuzePostModulePatchObjectBodyWerkingsgebiedCode
 }
 
 export type BeleidskeuzeGetAcknowledgedRelationListParams = {
@@ -335,6 +499,21 @@ export type BeleidsdoelGetModuleListLineageTreeParams = {
     sort_order?: SortOrder | null
 }
 
+export type BeleidsdoelPostModulePatchObjectBodyTitle = string | null
+
+export type BeleidsdoelPostModulePatchObjectBodyThemas = string[] | null
+
+export type BeleidsdoelPostModulePatchObjectBodyHierarchyCode = string | null
+
+export type BeleidsdoelPostModulePatchObjectBodyDescription = string | null
+
+export type BeleidsdoelPostModulePatchObjectBody = {
+    Description?: BeleidsdoelPostModulePatchObjectBodyDescription
+    Hierarchy_Code?: BeleidsdoelPostModulePatchObjectBodyHierarchyCode
+    Themas?: BeleidsdoelPostModulePatchObjectBodyThemas
+    Title?: BeleidsdoelPostModulePatchObjectBodyTitle
+}
+
 export type BeleidsdoelListValidLineageTreeParams = {
     offset?: number | null
     limit?: number | null
@@ -359,6 +538,18 @@ export type AmbitieGetModuleListLineageTreeParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type AmbitiePostModulePatchObjectBodyTitle = string | null
+
+export type AmbitiePostModulePatchObjectBodyThemas = string[] | null
+
+export type AmbitiePostModulePatchObjectBodyDescription = string | null
+
+export type AmbitiePostModulePatchObjectBody = {
+    Description?: AmbitiePostModulePatchObjectBodyDescription
+    Themas?: AmbitiePostModulePatchObjectBodyThemas
+    Title?: AmbitiePostModulePatchObjectBodyTitle
 }
 
 export type AmbitieListValidLineageTreeParams = {
@@ -416,8 +607,7 @@ export type SearchGetMssqlValidSearchParams = {
     limit?: number | null
 }
 
-export type SearchGetMssqlSearchParams = {
-    query: string
+export type SearchGetSearchParams = {
     offset?: number | null
     limit?: number | null
 }
@@ -529,6 +719,10 @@ export type ObjectsDoListAllLatestParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams = {
+    related_file_uuid: string
 }
 
 export type ModulesGetListModuleObjectsParams = {
@@ -732,17 +926,6 @@ export interface WerkingsgebiedRelatedObjectShort {
     Werkingsgebied_Code: string
 }
 
-export interface WerkingsgebiedRelatedObjects {
-    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
-    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
-}
-
-export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
-
-export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
-
-export type WerkingsgebiedRelatedModuleObjectShortModuleID = number | null
-
 export interface WerkingsgebiedRelatedModuleObjectShort {
     Module_ID?: WerkingsgebiedRelatedModuleObjectShortModuleID
     Module_Title?: WerkingsgebiedRelatedModuleObjectShortModuleTitle
@@ -753,17 +936,16 @@ export interface WerkingsgebiedRelatedModuleObjectShort {
     Werkingsgebied_Code: string
 }
 
-export type WerkingsgebiedPatchTitle = string | null
-
-export type WerkingsgebiedPatchDescription = string | null
-
-export type WerkingsgebiedPatchAreaUUID = string | null
-
-export interface WerkingsgebiedPatch {
-    Area_UUID?: WerkingsgebiedPatchAreaUUID
-    Description?: WerkingsgebiedPatchDescription
-    Title?: WerkingsgebiedPatchTitle
+export interface WerkingsgebiedRelatedObjects {
+    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
+    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
 }
+
+export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
+
+export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
+
+export type WerkingsgebiedRelatedModuleObjectShortModuleID = number | null
 
 export type WerkingsgebiedFullStaticsOwner2 = UserShort | null
 
@@ -908,15 +1090,6 @@ export type VisieAlgemeenStaticPostStaticsOwner1UUID = string | null
 export interface VisieAlgemeenStaticPostStatics {
     Owner_1_UUID?: VisieAlgemeenStaticPostStaticsOwner1UUID
     Owner_2_UUID?: VisieAlgemeenStaticPostStaticsOwner2UUID
-}
-
-export type VisieAlgemeenPatchTitle = string | null
-
-export type VisieAlgemeenPatchDescription = string | null
-
-export interface VisieAlgemeenPatch {
-    Description?: VisieAlgemeenPatchDescription
-    Title?: VisieAlgemeenPatchTitle
 }
 
 export type VisieAlgemeenFullStaticsOwner2 = UserShort | null
@@ -1218,6 +1391,18 @@ export interface User {
     UUID: string
 }
 
+export type ReportStatusType =
+    (typeof ReportStatusType)[keyof typeof ReportStatusType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ReportStatusType = {
+    not_applicable: 'not_applicable',
+    pending: 'pending',
+    valid: 'valid',
+    failed: 'failed',
+    aborted: 'aborted',
+} as const
+
 export interface UploadPackageReportResponse {
     Duplicate_Count: number
     Status: ReportStatusType
@@ -1332,13 +1517,6 @@ export const SortOrder = {
     DESC: 'DESC',
 } as const
 
-export type SearchRequestDataWithLikeObjectTypes = string[] | null
-
-export interface SearchRequestDataWithLike {
-    Like?: boolean
-    Object_Types?: SearchRequestDataWithLikeObjectTypes
-}
-
 export type SearchRequestDataObjectTypes = string[] | null
 
 export interface SearchRequestData {
@@ -1372,7 +1550,7 @@ export interface SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicB
     Model: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
     Module_ID?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModuleID
     Object_Type: string
-    Score: number
+    Title: string
 }
 
 export type RootModelListObjectCount = ObjectCount[]
@@ -1386,6 +1564,19 @@ export interface ResetPasswordResponse {
     UUID: string
 }
 
+export type RequestDataModuleId = number | null
+
+export interface RequestData {
+    /** Search in Module Objects? */
+    include_modules?: boolean
+    /** Search in Objects? */
+    include_valids?: boolean
+    module_id?: RequestDataModuleId
+    object_types?: string[]
+    /** @minLength 1 */
+    query: string
+}
+
 export type RequestAcknowledgedRelationExplanation = string | null
 
 export interface RequestAcknowledgedRelation {
@@ -1393,18 +1584,6 @@ export interface RequestAcknowledgedRelation {
     Object_ID: number
     Object_Type: string
 }
-
-export type ReportStatusType =
-    (typeof ReportStatusType)[keyof typeof ReportStatusType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ReportStatusType = {
-    not_applicable: 'not_applicable',
-    pending: 'pending',
-    valid: 'valid',
-    failed: 'failed',
-    aborted: 'aborted',
-} as const
 
 export interface ReadRelationShort {
     Description?: string
@@ -1505,6 +1684,8 @@ export interface PublicationVersionEditResponse {
 
 export type PublicationVersionEditProcedural = Procedural | null
 
+export type PublicationVersionEditMutationStrategy = MutationStrategy | null
+
 export type PublicationVersionEditModuleStatusID = number | null
 
 export type PublicationVersionEditEffectiveDate = string | null
@@ -1521,6 +1702,7 @@ export interface PublicationVersionEdit {
     Bill_Metadata?: PublicationVersionEditBillMetadata
     Effective_Date?: PublicationVersionEditEffectiveDate
     Module_Status_ID?: PublicationVersionEditModuleStatusID
+    Mutation_Strategy?: PublicationVersionEditMutationStrategy
     Procedural?: PublicationVersionEditProcedural
 }
 
@@ -1530,6 +1712,7 @@ export interface PublicationVersionCreatedResponse {
 
 export interface PublicationVersionCreate {
     Module_Status_ID: number
+    Mutation_Strategy?: MutationStrategy
 }
 
 export type PublicationVersionProcedural = { [key: string]: unknown }
@@ -1553,6 +1736,7 @@ export interface PublicationVersion {
     Is_Locked: boolean
     Modified_Date: string
     Module_Status: ModuleStatus
+    Mutation_Strategy: MutationStrategy
     Procedural: PublicationVersionProcedural
     Publication: PublicationShort
     Status: PublicationVersionStatus
@@ -1612,8 +1796,10 @@ export interface PublicationPackageShort {
     UUID: string
 }
 
+export type PublicationPackagePdfMutation = MutationStrategy | null
+
 export interface PublicationPackagePdf {
-    Mutation?: MutationStrategy
+    Mutation?: PublicationPackagePdfMutation
 }
 
 export interface PublicationPackageCreatedResponse {
@@ -1713,6 +1899,20 @@ export interface PublicationAnnouncementPackageReport {
 export type PublicationAnnouncementPackageDetailResponseUsedEnvironmentStateUUID =
     string | null
 
+export type PublicationAnnouncementPackageDetailResponseModuleTitle =
+    | string
+    | null
+
+export type PublicationAnnouncementPackageDetailResponseModuleStatusStatus =
+    | string
+    | null
+
+export type PublicationAnnouncementPackageDetailResponseModuleStatusID =
+    | number
+    | null
+
+export type PublicationAnnouncementPackageDetailResponseModuleID = number | null
+
 export type PublicationAnnouncementPackageDetailResponseDocVersionUUID =
     | string
     | null
@@ -1732,10 +1932,10 @@ export interface PublicationAnnouncementPackageDetailResponse {
     Environment_UUID: string
     Modified_By_UUID: string
     Modified_Date: string
-    Module_ID: number
-    Module_Status_ID: number
-    Module_Status_Status: string
-    Module_Title: string
+    Module_ID: PublicationAnnouncementPackageDetailResponseModuleID
+    Module_Status_ID: PublicationAnnouncementPackageDetailResponseModuleStatusID
+    Module_Status_Status: PublicationAnnouncementPackageDetailResponseModuleStatusStatus
+    Module_Title: PublicationAnnouncementPackageDetailResponseModuleTitle
     Package_Type: string
     Report_Status: string
     Used_Environment_State_UUID: PublicationAnnouncementPackageDetailResponseUsedEnvironmentStateUUID
@@ -1829,6 +2029,16 @@ export type PublicationActPackageDetailResponseUsedEnvironmentStateUUID =
     | string
     | null
 
+export type PublicationActPackageDetailResponseModuleTitle = string | null
+
+export type PublicationActPackageDetailResponseModuleStatusStatus =
+    | string
+    | null
+
+export type PublicationActPackageDetailResponseModuleStatusID = number | null
+
+export type PublicationActPackageDetailResponseModuleID = number | null
+
 export type PublicationActPackageDetailResponseCreatedEnvironmentStateUUID =
     | string
     | null
@@ -1849,14 +2059,32 @@ export interface PublicationActPackageDetailResponse {
     Environment_UUID: string
     Modified_By_UUID: string
     Modified_Date: string
-    Module_ID: number
-    Module_Status_ID: number
-    Module_Status_Status: string
-    Module_Title: string
+    Module_ID: PublicationActPackageDetailResponseModuleID
+    Module_Status_ID: PublicationActPackageDetailResponseModuleStatusID
+    Module_Status_Status: PublicationActPackageDetailResponseModuleStatusStatus
+    Module_Title: PublicationActPackageDetailResponseModuleTitle
     Package_Type: string
     Publication_Version_UUID: string
     Report_Status: string
     Used_Environment_State_UUID: PublicationActPackageDetailResponseUsedEnvironmentStateUUID
+    UUID: string
+    Zip: PackageZipShort
+}
+
+export type PublicationActPackageModuleStatus = ModuleStatus | null
+
+export type PublicationActPackageModuleID = number | null
+
+export interface PublicationActPackage {
+    Created_By_UUID: string
+    Created_Date: string
+    Delivery_ID: string
+    Modified_By_UUID: string
+    Modified_Date: string
+    Module_ID?: PublicationActPackageModuleID
+    Module_Status?: PublicationActPackageModuleStatus
+    Package_Type: string
+    Report_Status: string
     UUID: string
     Zip: PackageZipShort
 }
@@ -1985,15 +2213,6 @@ export type ProgrammaAlgemeenStaticPostStaticsOwner1UUID = string | null
 export interface ProgrammaAlgemeenStaticPostStatics {
     Owner_1_UUID?: ProgrammaAlgemeenStaticPostStaticsOwner1UUID
     Owner_2_UUID?: ProgrammaAlgemeenStaticPostStaticsOwner2UUID
-}
-
-export type ProgrammaAlgemeenPatchTitle = string | null
-
-export type ProgrammaAlgemeenPatchDescription = string | null
-
-export interface ProgrammaAlgemeenPatch {
-    Description?: ProgrammaAlgemeenPatchDescription
-    Title?: ProgrammaAlgemeenPatchTitle
 }
 
 export type ProgrammaAlgemeenFullStaticsOwner2 = UserShort | null
@@ -2252,6 +2471,13 @@ export interface PagedResponsePublicationActShort {
     limit?: number
     offset?: number
     results: PublicationActShort[]
+    total: number
+}
+
+export interface PagedResponsePublicationActPackage {
+    limit?: number
+    offset?: number
+    results: PublicationActPackage[]
     total: number
 }
 
@@ -2516,6 +2742,15 @@ export interface ObjectStaticShort {
     Owner_2_UUID?: ObjectStaticShortOwner2UUID
     Portfolio_Holder_1_UUID?: ObjectStaticShortPortfolioHolder1UUID
     Portfolio_Holder_2_UUID?: ObjectStaticShortPortfolioHolder2UUID
+}
+
+export interface ObjectRelatedFileResponse {
+    Code: string
+    Created_By_UUID: string
+    Created_Date: string
+    File_UUID: string
+    Title: string
+    UUID: string
 }
 
 export type ObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
@@ -2974,36 +3209,6 @@ export interface MaatregelStaticPostStatics {
     Portfolio_Holder_2_UUID?: MaatregelStaticPostStaticsPortfolioHolder2UUID
 }
 
-export type MaatregelPatchWerkingsgebiedCode = string | null
-
-export type MaatregelPatchTitle = string | null
-
-export type MaatregelPatchThemas = string[] | null
-
-export type MaatregelPatchRole = string | null
-
-export type MaatregelPatchHierarchyCode = string | null
-
-export type MaatregelPatchGebiedengroepCode = string | null
-
-export type MaatregelPatchEffect = string | null
-
-export type MaatregelPatchDocuments = string[] | null
-
-export type MaatregelPatchDescription = string | null
-
-export interface MaatregelPatch {
-    Description?: MaatregelPatchDescription
-    Documents?: MaatregelPatchDocuments
-    Effect?: MaatregelPatchEffect
-    Gebiedengroep_Code?: MaatregelPatchGebiedengroepCode
-    Hierarchy_Code?: MaatregelPatchHierarchyCode
-    Role?: MaatregelPatchRole
-    Themas?: MaatregelPatchThemas
-    Title?: MaatregelPatchTitle
-    Werkingsgebied_Code?: MaatregelPatchWerkingsgebiedCode
-}
-
 export interface MaatregelMinimal {
     Object_ID?: number
     Object_Type?: string
@@ -3289,18 +3494,6 @@ export interface GebiedsprogrammaStaticPostStatics {
     Portfolio_Holder_2_UUID?: GebiedsprogrammaStaticPostStaticsPortfolioHolder2UUID
 }
 
-export type GebiedsprogrammaPatchTitle = string | null
-
-export type GebiedsprogrammaPatchImage = string | null
-
-export type GebiedsprogrammaPatchDescription = string | null
-
-export interface GebiedsprogrammaPatch {
-    Description?: GebiedsprogrammaPatchDescription
-    Image?: GebiedsprogrammaPatchImage
-    Title?: GebiedsprogrammaPatchTitle
-}
-
 export interface GebiedsprogrammaMinimal {
     Object_ID?: number
     Object_Type?: string
@@ -3474,15 +3667,6 @@ export interface GebiedsaanwijzingStaticPostStatics {
     Owner_2_UUID?: GebiedsaanwijzingStaticPostStaticsOwner2UUID
 }
 
-export type GebiedsaanwijzingPatchTitle = string | null
-
-export interface GebiedsaanwijzingPatch {
-    Ref_Group?: string
-    Ref_Type?: string
-    Target_Codes?: string[]
-    Title?: GebiedsaanwijzingPatchTitle
-}
-
 export interface GebiedsaanwijzingGroep {
     label: string
     omschrijving: string
@@ -3613,18 +3797,6 @@ export interface GebiedengroepStaticPostStatics {
     Owner_2_UUID?: GebiedengroepStaticPostStaticsOwner2UUID
 }
 
-export type GebiedengroepPatchTitle = string | null
-
-export type GebiedengroepPatchSourceTitle = string | null
-
-export type GebiedengroepPatchDescription = string | null
-
-export interface GebiedengroepPatch {
-    Description?: GebiedengroepPatchDescription
-    Source_Title?: GebiedengroepPatchSourceTitle
-    Title?: GebiedengroepPatchTitle
-}
-
 export type GebiedengroepFullStaticsOwner2 = UserShort | null
 
 export type GebiedengroepFullStaticsOwner1 = UserShort | null
@@ -3745,12 +3917,6 @@ export type GebiedStaticPostStaticsOwner1UUID = string | null
 export interface GebiedStaticPostStatics {
     Owner_1_UUID?: GebiedStaticPostStaticsOwner1UUID
     Owner_2_UUID?: GebiedStaticPostStaticsOwner2UUID
-}
-
-export type GebiedPatchTitle = string | null
-
-export interface GebiedPatch {
-    Title?: GebiedPatchTitle
 }
 
 export type GebiedFullStaticsOwner2 = UserShort | null
@@ -3982,21 +4148,6 @@ export interface DocumentStaticPostStatics {
     Owner_2_UUID?: DocumentStaticPostStaticsOwner2UUID
 }
 
-export type DocumentPatchTitle = string | null
-
-export type DocumentPatchFilename = string | null
-
-export type DocumentPatchFileUUID = string | null
-
-export type DocumentPatchDescription = string | null
-
-export interface DocumentPatch {
-    Description?: DocumentPatchDescription
-    File_UUID?: DocumentPatchFileUUID
-    Filename?: DocumentPatchFilename
-    Title?: DocumentPatchTitle
-}
-
 export type DocumentFullStaticsOwner2 = UserShort | null
 
 export type DocumentFullStaticsOwner1 = UserShort | null
@@ -4132,6 +4283,12 @@ export interface BodyPublicationActReportsPostUploadActPackageReport {
     uploaded_files: string[]
 }
 
+export interface BodyObjectRelatedFilesPostObjectRelatedFilesUpload {
+    ignore_report: boolean
+    title: string
+    uploaded_file: string
+}
+
 export type BodyAuthenticationPostAuthLoginAccessTokenGrantType = string | null
 
 export type BodyAuthenticationPostAuthLoginAccessTokenClientSecret =
@@ -4209,18 +4366,6 @@ export interface BeleidsregelStaticPostStatics {
     Owner_2_UUID?: BeleidsregelStaticPostStaticsOwner2UUID
     Portfolio_Holder_1_UUID?: BeleidsregelStaticPostStaticsPortfolioHolder1UUID
     Portfolio_Holder_2_UUID?: BeleidsregelStaticPostStaticsPortfolioHolder2UUID
-}
-
-export type BeleidsregelPatchWeblink = string | null
-
-export type BeleidsregelPatchTitle = string | null
-
-export type BeleidsregelPatchDescription = string | null
-
-export interface BeleidsregelPatch {
-    Description?: BeleidsregelPatchDescription
-    Title?: BeleidsregelPatchTitle
-    Weblink?: BeleidsregelPatchWeblink
 }
 
 export interface BeleidsregelMinimal {
@@ -4385,36 +4530,6 @@ export interface BeleidskeuzeStaticPostStatics {
     Owner_2_UUID?: BeleidskeuzeStaticPostStaticsOwner2UUID
     Portfolio_Holder_1_UUID?: BeleidskeuzeStaticPostStaticsPortfolioHolder1UUID
     Portfolio_Holder_2_UUID?: BeleidskeuzeStaticPostStaticsPortfolioHolder2UUID
-}
-
-export type BeleidskeuzePatchWerkingsgebiedCode = string | null
-
-export type BeleidskeuzePatchTitle = string | null
-
-export type BeleidskeuzePatchThemas = string[] | null
-
-export type BeleidskeuzePatchProvincialInterest = string | null
-
-export type BeleidskeuzePatchHierarchyCode = string | null
-
-export type BeleidskeuzePatchGebiedengroepCode = string | null
-
-export type BeleidskeuzePatchExplanation = string | null
-
-export type BeleidskeuzePatchDescription = string | null
-
-export type BeleidskeuzePatchCause = string | null
-
-export interface BeleidskeuzePatch {
-    Cause?: BeleidskeuzePatchCause
-    Description?: BeleidskeuzePatchDescription
-    Explanation?: BeleidskeuzePatchExplanation
-    Gebiedengroep_Code?: BeleidskeuzePatchGebiedengroepCode
-    Hierarchy_Code?: BeleidskeuzePatchHierarchyCode
-    Provincial_Interest?: BeleidskeuzePatchProvincialInterest
-    Themas?: BeleidskeuzePatchThemas
-    Title?: BeleidskeuzePatchTitle
-    Werkingsgebied_Code?: BeleidskeuzePatchWerkingsgebiedCode
 }
 
 export interface BeleidskeuzeMinimal {
@@ -4611,21 +4726,6 @@ export interface BeleidsdoelStaticPostStatics {
     Portfolio_Holder_2_UUID?: BeleidsdoelStaticPostStaticsPortfolioHolder2UUID
 }
 
-export type BeleidsdoelPatchTitle = string | null
-
-export type BeleidsdoelPatchThemas = string[] | null
-
-export type BeleidsdoelPatchHierarchyCode = string | null
-
-export type BeleidsdoelPatchDescription = string | null
-
-export interface BeleidsdoelPatch {
-    Description?: BeleidsdoelPatchDescription
-    Hierarchy_Code?: BeleidsdoelPatchHierarchyCode
-    Themas?: BeleidsdoelPatchThemas
-    Title?: BeleidsdoelPatchTitle
-}
-
 export interface BeleidsdoelMinimal {
     Object_ID?: number
     Object_Type?: string
@@ -4684,6 +4784,7 @@ export interface BeleidsdoelFull {
     Object_ID?: number
     ObjectStatics?: BeleidsdoelFullStatics
     Public_Revisions?: PublicModuleObjectRevision[]
+    Related_Files?: ObjectRelatedFileResponse[]
     Start_Validity?: BeleidsdoelFullStartValidity
     Themas?: string[]
     Title?: string
@@ -4869,18 +4970,6 @@ export interface AmbitieStaticPostStatics {
     Owner_2_UUID?: AmbitieStaticPostStaticsOwner2UUID
     Portfolio_Holder_1_UUID?: AmbitieStaticPostStaticsPortfolioHolder1UUID
     Portfolio_Holder_2_UUID?: AmbitieStaticPostStaticsPortfolioHolder2UUID
-}
-
-export type AmbitiePatchTitle = string | null
-
-export type AmbitiePatchThemas = string[] | null
-
-export type AmbitiePatchDescription = string | null
-
-export interface AmbitiePatch {
-    Description?: AmbitiePatchDescription
-    Themas?: AmbitiePatchThemas
-    Title?: AmbitiePatchTitle
 }
 
 export interface AmbitieMinimal {

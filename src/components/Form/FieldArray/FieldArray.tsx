@@ -68,7 +68,11 @@ const FieldArray = ({
                                     )}>
                                     <div className="flex justify-between">
                                         {!!arrayLabel && (
-                                            <Text bold>{arrayLabel}</Text>
+                                            <Text
+                                                bold
+                                                color="text-pzh-blue-500">
+                                                {arrayLabel}
+                                            </Text>
                                         )}
                                         {!disabled && (
                                             <Button
