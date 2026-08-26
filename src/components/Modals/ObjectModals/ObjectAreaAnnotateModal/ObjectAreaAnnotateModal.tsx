@@ -132,8 +132,6 @@ const InnerForm = <TData extends Values>({
                     filterParams={{
                         object_types: ['gebiedsaanwijzing'],
                         module_id: moduleId ? parseInt(moduleId) : undefined,
-                        include_modules: true,
-                        include_valids: true,
                     }}
                     label="Gebiedsaanwijzing"
                     required
