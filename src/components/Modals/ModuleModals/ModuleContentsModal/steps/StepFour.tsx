@@ -4,9 +4,8 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
-import { useInfiniteQuery } from '@tanstack/react-query'
 import { useFormikContext } from 'formik'
-import { CSSProperties, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -14,9 +13,13 @@ import {
     modulesGetListModules,
     useObjectsDoListAllLatest,
 } from '@/api/fetchers'
-import { LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import {
+    useInfiniteSelectComponents,
+    useInfiniteSelectQuery,
+    useStableInfiniteOptions,
+} from '@/hooks/useInfiniteSelect'
 
 import { ContentsModalForm } from '../ModuleContentsModal'
 import { StepProps } from './types'
@@ -26,7 +29,7 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
     const [moduleFilter, setModuleFilter] = useState('')
     const [moduleObjectFilter, setModuleObjectFilter] = useState('')
 
-    const { values, setFieldValue, setFieldError } =
+    const { values, setFieldValue, setFieldError, setFieldTouched } =
         useFormikContext<ContentsModalForm>()
 
     const availableTypes = Object.keys(models).filter(
@@ -39,9 +42,9 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
         hasNextPage: hasNextModules,
         isFetching,
         isFetchingNextPage: isFetchingNextModules,
-    } = useInfiniteQuery({
+    } = useInfiniteSelectQuery({
         queryKey: ['module-contents-modules', moduleFilter],
-        queryFn: ({ pageParam, signal }) =>
+        queryFn: (offset, signal) =>
             modulesGetListModules(
                 {
                     only_mine: false,
@@ -50,17 +53,11 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                     filter_title: moduleFilter
                         ? `%${moduleFilter}%`
                         : undefined,
-                    offset: pageParam,
+                    offset,
                     limit: 100,
                 },
                 signal
             ),
-        initialPageParam: 0,
-        getNextPageParam: lastPage => {
-            const nextOffset = (lastPage.offset ?? 0) + lastPage.results.length
-
-            return nextOffset < lastPage.total ? nextOffset : undefined
-        },
     })
 
     const { data: validObjects, isFetching: validIsFetching } =
@@ -101,73 +98,62 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
         hasNextPage: hasNextModuleObjects,
         isFetching: moduleIsFetching,
         isFetchingNextPage: isFetchingNextModuleObjects,
-    } = useInfiniteQuery({
+    } = useInfiniteSelectQuery({
         queryKey: [
             'module-contents-objects',
             values.validOrModule,
             moduleObjectFilter,
         ],
-        queryFn: ({ pageParam, signal }) =>
+        queryFn: (offset, signal) =>
             modulesGetListModuleObjects(
                 {
                     module_id: values.validOrModule as number,
                     title: moduleObjectFilter
                         ? `%${moduleObjectFilter}%`
                         : undefined,
-                    offset: pageParam,
+                    offset,
                     limit: 100,
                 },
                 signal
             ),
-        initialPageParam: 0,
-        getNextPageParam: lastPage => {
-            const nextOffset = (lastPage.offset ?? 0) + lastPage.results.length
-
-            return nextOffset < lastPage.total ? nextOffset : undefined
-        },
         enabled: !!values.validOrModule && values.validOrModule !== 'valid',
     })
 
-    const moduleObjects = useMemo(
-        () =>
-            moduleObjectPages?.pages.flatMap(page =>
-                page.results.map(object => ({
-                    label: (
-                        <div className="flex justify-between gap-4">
-                            <span>{object.Model.Title}</span>
-                            <span className="whitespace-nowrap capitalize opacity-50">
-                                {object.Object_Type.replace('_', ' ')}
-                            </span>
-                        </div>
-                    ),
-                    value: object.Model.UUID,
-                    objectContext: object,
-                }))
+    const moduleObjects = useStableInfiniteOptions({
+        pages: moduleObjectPages?.pages,
+        getKey: object => object.Model.UUID as string,
+        toOption: object => ({
+            label: (
+                <div className="flex justify-between gap-4">
+                    <span>{object.Model.Title}</span>
+                    <span className="whitespace-nowrap capitalize opacity-50">
+                        {object.Object_Type.replace('_', ' ')}
+                    </span>
+                </div>
             ),
-        [moduleObjectPages]
+            value: object.Model.UUID,
+            objectContext: object,
+        }),
+    })
+
+    const moduleOptions = useStableInfiniteOptions({
+        pages: modulePages?.pages,
+        getKey: module => module.Module_ID,
+        includeItem: module =>
+            !!moduleId && module.Module_ID !== parseInt(moduleId),
+        toOption: module => ({
+            label: module.Title,
+            value: module.Module_ID,
+        }),
+    })
+
+    const options = useMemo(
+        () => [
+            { label: 'Alle vigerende objecten', value: 'valid' },
+            ...(moduleOptions || []),
+        ],
+        [moduleOptions]
     )
-
-    const options = useMemo(() => {
-        const defaultOption = {
-            label: 'Alle vigerende objecten',
-            value: 'valid',
-        }
-
-        return [
-            defaultOption,
-            ...(modulePages?.pages.flatMap(page =>
-                page.results
-                    .filter(
-                        module =>
-                            moduleId && module.Module_ID !== parseInt(moduleId)
-                    )
-                    .map(module => ({
-                        label: module.Title,
-                        value: module.Module_ID,
-                    }))
-            ) || []),
-        ]
-    }, [moduleId, modulePages])
 
     const selectedModule = useMemo(() => {
         if (values.validOrModule === 'valid') return
@@ -180,65 +166,17 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
     const objectsFetching =
         values.validOrModule === 'valid' ? validIsFetching : moduleIsFetching
 
-    const isFetchingNextModulesRef = useRef(isFetchingNextModules)
-    const isFetchingNextModuleObjectsRef = useRef(isFetchingNextModuleObjects)
+    const moduleSelectComponents = useInfiniteSelectComponents({
+        fetchNextPage: fetchNextModules,
+        hasNextPage: hasNextModules,
+        isFetchingNextPage: isFetchingNextModules,
+    })
 
-    isFetchingNextModulesRef.current = isFetchingNextModules
-    isFetchingNextModuleObjectsRef.current = isFetchingNextModuleObjects
-
-    const moduleSelectComponents = useMemo<FieldSelectProps['components']>(
-        () => ({
-            MenuList: props => (
-                <div
-                    {...props.innerProps}
-                    ref={props.innerRef}
-                    className={props.cx(
-                        {
-                            'menu-list': true,
-                            'menu-list--is-multi': props.isMulti,
-                        },
-                        props.getClassNames('menuList', props)
-                    )}
-                    style={props.getStyles('menuList', props) as CSSProperties}>
-                    {props.children}
-                    {isFetchingNextModulesRef.current && (
-                        <div className="flex justify-center py-3">
-                            <LoaderSpinner />
-                        </div>
-                    )}
-                </div>
-            ),
-        }),
-        []
-    )
-
-    const moduleObjectSelectComponents = useMemo<
-        FieldSelectProps['components']
-    >(
-        () => ({
-            MenuList: props => (
-                <div
-                    {...props.innerProps}
-                    ref={props.innerRef}
-                    className={props.cx(
-                        {
-                            'menu-list': true,
-                            'menu-list--is-multi': props.isMulti,
-                        },
-                        props.getClassNames('menuList', props)
-                    )}
-                    style={props.getStyles('menuList', props) as CSSProperties}>
-                    {props.children}
-                    {isFetchingNextModuleObjectsRef.current && (
-                        <div className="flex justify-center py-3">
-                            <LoaderSpinner />
-                        </div>
-                    )}
-                </div>
-            ),
-        }),
-        []
-    )
+    const moduleObjectSelectComponents = useInfiniteSelectComponents({
+        fetchNextPage: fetchNextModuleObjects,
+        hasNextPage: values.validOrModule !== 'valid' && hasNextModuleObjects,
+        isFetchingNextPage: isFetchingNextModuleObjects,
+    })
 
     /**
      * Handle filtering of select field
@@ -291,16 +229,12 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
 
                     return inputValue
                 }}
-                onMenuScrollToBottom={() => {
-                    if (hasNextModules && !isFetchingNextModules) {
-                        fetchNextModules()
-                    }
-                }}
                 onChange={() => {
                     setModuleObjectFilter('')
                     setExistingObject(undefined)
                     setFieldValue('Object_UUID', null)
                     setFieldError('Object_UUID', undefined)
+                    setFieldTouched('Object_UUID', false)
                 }}
                 components={moduleSelectComponents}
                 styles={{
@@ -316,6 +250,7 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
 
             <div>
                 <FormikSelect
+                    key={values.validOrModule}
                     name="Object_UUID"
                     optimized={false}
                     label="Selecteer een onderdeel"
@@ -350,15 +285,6 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                         }
 
                         return inputValue
-                    }}
-                    onMenuScrollToBottom={() => {
-                        if (
-                            values.validOrModule !== 'valid' &&
-                            hasNextModuleObjects &&
-                            !isFetchingNextModuleObjects
-                        ) {
-                            fetchNextModuleObjects()
-                        }
                     }}
                     components={moduleObjectSelectComponents}
                     styles={{
