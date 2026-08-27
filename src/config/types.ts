@@ -66,7 +66,8 @@ export type DynamicField<FieldType = string> = {
     ArrayProps &
     CheckboxProps &
     AreaAnnotateProps &
-    ThemeProps
+    ThemeProps &
+    AreaProps
 
 type TextProps =
     | ({ type: 'text' } & FieldInputProps)
@@ -141,4 +142,10 @@ type ThemeProps =
     | ({ type: 'theme' } & FieldSelectProps)
     | {
           type: Exclude<DynamicFieldType, 'theme'>
+      }
+
+type AreaProps =
+    | ({ type: 'area' } & FieldSelectProps)
+    | {
+          type: Exclude<DynamicFieldType, 'area'>
       }
