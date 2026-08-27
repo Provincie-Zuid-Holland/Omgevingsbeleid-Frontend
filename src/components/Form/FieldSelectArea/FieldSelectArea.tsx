@@ -1,5 +1,6 @@
 import {
     cn,
+    Divider,
     FieldLabel,
     formatDate,
     FormikError,
@@ -17,6 +18,7 @@ import AreaPreview from '@/components/AreaPreview'
 import { LoaderSpinner } from '@/components/Loader'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
+import useObject from '@/hooks/useObject'
 import { parseUtc } from '@/utils/parseUtc'
 import { useUpdateEffect } from '@react-hookz/web'
 
@@ -27,6 +29,8 @@ const FieldSelectArea = ({
     description,
     disabled,
 }: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
+    const { data } = useObject()
+
     const { values, setFieldValue, setFieldTouched, errors, touched } =
         useFormikContext<
             ModelReturnType & { Source_Title?: string; Source_UUID?: string }
@@ -69,6 +73,24 @@ const FieldSelectArea = ({
 
     return (
         <>
+            {!!data?.Gebieden_Statics?.length && (
+                <>
+                    <div className="prose text-m text-pzh-blue-500 marker:text-pzh-blue-500 prose-li:my-0 prose-ul:my-0 prose-ul:pl-6 marker:text-s">
+                        <p className="text-heading-s mb-2 font-bold">
+                            Huidige onderliggende gebieden
+                        </p>
+
+                        <ul>
+                            {data.Gebieden_Statics.map(item => (
+                                <li key={item.Code}>{item.Cached_Title}</li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <Divider className="my-8" />
+                </>
+            )}
+
             {label && (
                 <FieldLabel
                     name={name}
@@ -77,7 +99,6 @@ const FieldSelectArea = ({
                     required={required}
                 />
             )}
-
             <FormikSelect
                 key={isLoading?.toString()}
                 name="Source_Title"
@@ -86,7 +107,6 @@ const FieldSelectArea = ({
                 isLoading={isLoading}
                 disabled={disabled}
             />
-
             {!!values.Source_Title && !!versions?.length && (
                 <>
                     <div className="mt-4">
