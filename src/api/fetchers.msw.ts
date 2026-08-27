@@ -95,6 +95,7 @@ import type {
     PagedResponsePublicModuleShort,
     PagedResponsePublication,
     PagedResponsePublicationAOJ,
+    PagedResponsePublicationActPackage,
     PagedResponsePublicationActPackageReportShort,
     PagedResponsePublicationActShort,
     PagedResponsePublicationAnnouncementPackageReportShort,
@@ -1081,8 +1082,8 @@ export const getPublicationActPackagesPostCreateActPackageResponseMock = (
 })
 
 export const getPublicationActPackagesGetListActPackagesResponseMock = (
-    overrideResponse: Partial<PagedResponsePublicationPackage> = {}
-): PagedResponsePublicationPackage => ({
+    overrideResponse: Partial<PagedResponsePublicationActPackage> = {}
+): PagedResponsePublicationActPackage => ({
     limit: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         undefined,
@@ -1100,6 +1101,29 @@ export const getPublicationActPackagesGetListActPackagesResponseMock = (
         Delivery_ID: faker.word.sample(),
         Modified_By_UUID: faker.string.uuid(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+        Module_ID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.number.int({ min: undefined, max: undefined }),
+                null,
+            ]),
+            undefined,
+        ]),
+        Module_Status: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    Created_By_UUID: faker.string.uuid(),
+                    Created_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
+                    ID: faker.number.int({ min: undefined, max: undefined }),
+                    Module_ID: faker.number.int({
+                        min: undefined,
+                        max: undefined,
+                    }),
+                    Status: faker.word.sample(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
         Package_Type: faker.word.sample(),
         Report_Status: faker.word.sample(),
         UUID: faker.string.uuid(),
@@ -1140,10 +1164,19 @@ export const getPublicationActPackagesGetDetailActPackageResponseMock = (
     Environment_UUID: faker.string.uuid(),
     Modified_By_UUID: faker.string.uuid(),
     Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-    Module_ID: faker.number.int({ min: undefined, max: undefined }),
-    Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
-    Module_Status_Status: faker.word.sample(),
-    Module_Title: faker.word.sample(),
+    Module_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+    ]),
+    Module_Status_ID: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+    ]),
+    Module_Status_Status: faker.helpers.arrayElement([
+        faker.word.sample(),
+        null,
+    ]),
+    Module_Title: faker.helpers.arrayElement([faker.word.sample(), null]),
     Package_Type: faker.word.sample(),
     Publication_Version_UUID: faker.string.uuid(),
     Report_Status: faker.word.sample(),
@@ -1392,10 +1425,19 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageRespo
         Environment_UUID: faker.string.uuid(),
         Modified_By_UUID: faker.string.uuid(),
         Modified_Date: `${faker.date.past().toISOString().split('.')[0]}Z`,
-        Module_ID: faker.number.int({ min: undefined, max: undefined }),
-        Module_Status_ID: faker.number.int({ min: undefined, max: undefined }),
-        Module_Status_Status: faker.word.sample(),
-        Module_Title: faker.word.sample(),
+        Module_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            null,
+        ]),
+        Module_Status_ID: faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            null,
+        ]),
+        Module_Status_Status: faker.helpers.arrayElement([
+            faker.word.sample(),
+            null,
+        ]),
+        Module_Title: faker.helpers.arrayElement([faker.word.sample(), null]),
         Package_Type: faker.word.sample(),
         Report_Status: faker.word.sample(),
         Used_Environment_State_UUID: faker.helpers.arrayElement([
@@ -2116,7 +2158,7 @@ export const getPublicationsPostEditPublicationResponseMock = (
     ...overrideResponse,
 })
 
-export const getSearchGetMssqlSearchResponseMock = (
+export const getSearchGetSearchResponseMock = (
     overrideResponse: Partial<PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic> = {}
 ): PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic => ({
     limit: faker.helpers.arrayElement([
@@ -2256,7 +2298,7 @@ export const getSearchGetMssqlSearchResponseMock = (
             undefined,
         ]),
         Object_Type: faker.word.sample(),
-        Score: faker.number.int({ min: undefined, max: undefined }),
+        Title: faker.word.sample(),
     })),
     total: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
@@ -21452,12 +21494,12 @@ export const getPublicationActPackagesPostCreateActPackageMockHandler = (
 
 export const getPublicationActPackagesGetListActPackagesMockHandler = (
     overrideResponse?:
-        | PagedResponsePublicationPackage
+        | PagedResponsePublicationActPackage
         | ((
               info: Parameters<Parameters<typeof http.get>[1]>[0]
           ) =>
-              | Promise<PagedResponsePublicationPackage>
-              | PagedResponsePublicationPackage)
+              | Promise<PagedResponsePublicationActPackage>
+              | PagedResponsePublicationActPackage)
 ) => {
     return http.get('*/publication-act-packages', async info => {
         await delay(1000)
@@ -22735,6 +22777,21 @@ export const getPublicationVersionsPostDeleteAttachmentMockHandler = (
     )
 }
 
+export const getPublicationVersionsGetDownloadAttachmentMockHandler = () => {
+    return http.get(
+        '*/publication-versions/:versionUuid/attachments/:attachmentId',
+        async () => {
+            await delay(1000)
+            return new HttpResponse(null, {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+        }
+    )
+}
+
 export const getPublicationVersionsPostCreateVersionPdfMockHandler = () => {
     return http.post(
         '*/publication-versions/:versionUuid/pdf_export',
@@ -22858,7 +22915,7 @@ export const getPublicationsPostEditPublicationMockHandler = (
     })
 }
 
-export const getSearchGetMssqlSearchMockHandler = (
+export const getSearchGetSearchMockHandler = (
     overrideResponse?:
         | PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
         | ((
@@ -22875,7 +22932,7 @@ export const getSearchGetMssqlSearchMockHandler = (
                     ? typeof overrideResponse === 'function'
                         ? await overrideResponse(info)
                         : overrideResponse
-                    : getSearchGetMssqlSearchResponseMock()
+                    : getSearchGetSearchResponseMock()
             ),
             {
                 status: 200,
@@ -29028,12 +29085,13 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationVersionsPostUploadAttachmentMockHandler(),
     getPublicationVersionsGetListAttachmentsMockHandler(),
     getPublicationVersionsPostDeleteAttachmentMockHandler(),
+    getPublicationVersionsGetDownloadAttachmentMockHandler(),
     getPublicationVersionsPostCreateVersionPdfMockHandler(),
     getPublicationsGetListPublicationsMockHandler(),
     getPublicationsPostCreatePublicationMockHandler(),
     getPublicationsGetDetailPublicationMockHandler(),
     getPublicationsPostEditPublicationMockHandler(),
-    getSearchGetMssqlSearchMockHandler(),
+    getSearchGetSearchMockHandler(),
     getSearchGetMssqlValidSearchMockHandler(),
     getSourceWerkingsgebiedenGetListWerkingsgebiedenMockHandler(),
     getStorageFileGetFilesListMockHandler(),
