@@ -24,7 +24,7 @@ interface ObjectContentProps {
 const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
     <div data-section="Inhoud">
         {fields.map(field => {
-            const content = data[field.value]
+            let content = data[field.value]
 
             if (field.list && Array.isArray(content) && !!content.length) {
                 return (
@@ -39,6 +39,10 @@ const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
                         {...field}
                     />
                 )
+            }
+
+            if (field.array && Array.isArray(content)) {
+                content = content.join('<br />')
             }
 
             if (typeof content !== 'string') return null
@@ -219,6 +223,7 @@ export const fields: {
     value: keyof ModelReturnType
     hidden?: boolean
     list?: boolean
+    array?: boolean
 }[] = [
     {
         title: 'Omschrijving',
@@ -226,8 +231,9 @@ export const fields: {
         hidden: true,
     },
     {
-        title: 'Rol',
+        title: 'Sturingsstijl',
         value: 'Role',
+        array: true,
     },
     {
         title: 'Nadere uitwerking',

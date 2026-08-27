@@ -177,21 +177,28 @@ const maatregel: DynamicObject<typeof fetchers> = {
                 },
                 {
                     name: 'Role',
-                    label: 'Beleidsrol',
+                    label: 'Sturingsstijl',
                     description:
-                        'Kies één van de NSOB rollen. Heb je het gevoel dat er meerdere rollen worden ingenomen bij het uitvoeren van dit beleid? Kies dan de meest uitgesproken rol. ',
+                        'Kies de rol die je inneemt met deze maatregel, dit kunnen meerdere rollen zijn.',
                     notification: {
-                        title: 'Overzicht NSOB rollen',
+                        title: 'Overzicht sturingsstijlen',
                         className: 'prose-img:my-0 mt-2',
                         children: (
                             <>
                                 <Text size="s">
-                                    Het kan zo zijn dat de overige rollen worden
-                                    ondervangen door complementaire
-                                    beleidsinstrumenten zoals de beleidskeuze of
-                                    verordening. De LTA biedt ruimte om
-                                    trajecten weer te geven waarin beleidsmatige
-                                    sturing wordt uitgewerkt of onderzocht.
+                                    De provinciale belangen en opgaven zijn de
+                                    basis voor de provinciale rolneming. De
+                                    sturing kan variëren van het bieden van
+                                    eigen initiatiefruimte voor partners,
+                                    samenwerken, maken van afspraken tot
+                                    afdwingen. Het uitgangspunt is daarbij om
+                                    bewust te kiezen voor de sturingsstijl die
+                                    het meeste bijdraagt aan de betreffende
+                                    opgave. In onderstaande figuur zijn de
+                                    rollen overzichtelijk weergegeven. Zie voor
+                                    verdere uitwerking hoofdstuk
+                                    ‘Sturingsfilosofie Provincie Zuid-Holland’
+                                    uit de Omgevingsvisie.
                                 </Text>
                                 <img
                                     src={nsobImage}
@@ -201,21 +208,58 @@ const maatregel: DynamicObject<typeof fetchers> = {
                             </>
                         ),
                     },
-                    placeholder: 'Kies een NSOB rol',
+                    placeholder: 'Kies een of meerdere rollen',
                     type: 'select',
                     isSearchable: false,
+                    isMulti: true,
                     options: [
-                        { label: 'Presterend', value: 'Presterend' },
-                        { label: 'Samenwerkend', value: 'Samenwerkend' },
-                        { label: 'Rechtmatig', value: 'Rechtmatig' },
-                        { label: 'Responsief', value: 'Responsief' },
+                        {
+                            label: (
+                                <span className="text-s inline-block leading-snug">
+                                    <b>Presterende provincie:</b> waar
+                                    overheidsinvesteringen onmisbaar zijn, zelf
+                                    prestaties leveren.
+                                </span>
+                            ),
+                            value: 'Presterende provincie: waar overheidsinvesteringen onmisbaar zijn, zelf prestaties leveren.',
+                        },
+                        {
+                            label: (
+                                <span className="text-s inline-block leading-snug">
+                                    <b>Samenwerkende provincie:</b> waar (meer)
+                                    regie nodig is, netwerkend werken.
+                                </span>
+                            ),
+                            value: 'Samenwerkende provincie: waar (meer) regie nodig is, netwerkend werken.',
+                        },
+                        {
+                            label: (
+                                <span className="text-s inline-block leading-snug">
+                                    <b>Rechtmatige provincie:</b> waar normerend
+                                    optreden noodzakelijk is, wettelijke
+                                    bevoegdheden inzetten.
+                                </span>
+                            ),
+                            value: 'Rechtmatige provincie: waar normerend optreden noodzakelijk is, wettelijke bevoegdheden inzetten.',
+                        },
+                        {
+                            label: (
+                                <span className="text-s inline-block leading-snug">
+                                    <b>Responsieve provincie:</b> zoveel
+                                    mogelijk overlaten aan initiatieven uit de
+                                    samenleving.
+                                </span>
+                            ),
+                            value: 'Responsieve provincie: zoveel mogelijk overlaten aan initiatieven uit de samenleving.',
+                        },
                     ],
+                    validation: schemaDefaults.options,
                 },
                 {
                     name: 'Effect',
                     label: 'Nadere uitwerking',
                     description:
-                        'Licht de invulling van de beleidsrol toe. Werk uit hoe je de genoemde prestaties/acties/handelingen vormgeeft.',
+                        'Werk, aan de hand van prestaties, acties en handelingen, uit hoe je invulling geeft aan de genoemde sturingsstijl(en). Benut hiervoor het hoofdstuk ‘Sturingsfilosofie Provincie Zuid-Holland’ uit de Omgevingsvisie.',
                     notification: {
                         title: 'Overzicht beleidsinstrumenten',
                         children: (
