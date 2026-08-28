@@ -98,6 +98,7 @@ const gebiedsaanwijzing: DynamicObject<typeof fetchers> = {
                     filterParams: {
                         object_types: ['gebiedengroep', 'gebied'],
                     },
+                    filterOnModule: true,
                     objectKey: 'Object_Code',
                     components: {
                         DropdownIndicator: () => (
