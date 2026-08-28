@@ -74,6 +74,10 @@ const gebiedengroep: DynamicObject<typeof fetchers> = {
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                 },
+            ],
+        },
+        {
+            fields: [
                 {
                     name: 'Source_UUID',
                     label: 'Geodata koppelen',
