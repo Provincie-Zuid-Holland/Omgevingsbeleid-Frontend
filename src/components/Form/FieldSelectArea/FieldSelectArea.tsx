@@ -116,14 +116,12 @@ const FieldSelectArea = ({
                     <div className="mt-4">
                         <div className="grid grid-cols-6 gap-12">
                             <div className="col-span-6 lg:col-span-2">
-                                <Text bold color="text-pzh-blue-500">
+                                <Text
+                                    bold
+                                    color="text-pzh-blue-500"
+                                    className="mb-2">
                                     Selecteer een versie
                                 </Text>
-
-                                <span className="mb-2 block text-xs">
-                                    Je herkent versies met dezelfde geo-data aan
-                                    de genummerde pin.
-                                </span>
 
                                 <FieldInput
                                     name="query"
@@ -136,7 +134,7 @@ const FieldSelectArea = ({
 
                                 <div
                                     className={cn(
-                                        'mt-2 flex h-102.5 flex-col gap-2 overflow-y-auto',
+                                        'mt-2 flex h-106.5 flex-col gap-2 overflow-y-auto',
                                         {
                                             'border-pzh-red-500':
                                                 !!errors?.[
@@ -172,15 +170,6 @@ const FieldSelectArea = ({
                                                             'd MMMM yyyy'
                                                         )}
                                                     </FormikRadio>
-
-                                                    {/* <Tooltip label="Overeenkomende geo-data">
-                                                        <div className="relative size-4.5 cursor-help">
-                                                            <span className="absolute inset-0 flex items-center justify-center text-xs">
-                                                                1
-                                                            </span>
-                                                            <LocationPin className="size-4.5" />
-                                                        </div>
-                                                    </Tooltip> */}
                                                 </div>
 
                                                 <span className="text-s ml-7 block">
