@@ -82,7 +82,7 @@ const gebiedengroep: DynamicObject<typeof fetchers> = {
                     type: 'area',
                     required: true,
                     notification: {
-                        title: 'Alleen wanneer nodig',
+                        title: 'Onderliggende gebieden worden ook toegevoegd',
                         children:
                             'Een werkingsgebied (ook wel gebiedengroep) kan uit meerdere onderverdelingen (gebieden) bestaan. Zodra een versie van een gebiedengroep wordt gekozen, worden ook onderliggende gebieden toegevoegd aan de module.',
                     },
