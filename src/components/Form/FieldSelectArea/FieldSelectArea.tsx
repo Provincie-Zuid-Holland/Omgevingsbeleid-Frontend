@@ -1,11 +1,13 @@
 import {
     cn,
     Divider,
+    FieldInput,
     FieldLabel,
     formatDate,
     FormikError,
     FormikRadio,
     FormikSelect,
+    Heading,
     Text,
 } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
@@ -20,7 +22,10 @@ import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
 import { parseUtc } from '@/utils/parseUtc'
+import { MagnifyingGlass } from '@pzh-ui/icons'
+import { NotificationProps } from '@pzh-ui/react'
 import { useUpdateEffect } from '@react-hookz/web'
+import { useMemo, useState } from 'react'
 
 const FieldSelectArea = ({
     name,
@@ -28,13 +33,19 @@ const FieldSelectArea = ({
     required,
     description,
     disabled,
-}: Omit<DynamicField, 'type'> & { disabled?: boolean }) => {
+    notification,
+}: Omit<DynamicField, 'type'> & {
+    disabled?: boolean
+    notification?: NotificationProps
+}) => {
     const { data } = useObject()
 
     const { values, setFieldValue, setFieldTouched, errors, touched } =
         useFormikContext<
             ModelReturnType & { Source_Title?: string; Source_UUID?: string }
         >()
+
+    const [query, setQuery] = useState('')
 
     const { data: options, isLoading } =
         useInputGeoGetInputGeoListLatestWerkingsgebieden(
@@ -65,6 +76,18 @@ const FieldSelectArea = ({
                 },
             }
         )
+
+    const filteredVersions = useMemo(
+        () =>
+            !!versions?.length
+                ? versions.filter(version =>
+                      version.Description.toLowerCase().includes(
+                          query.toLowerCase()
+                      )
+                  )
+                : undefined,
+        [query, versions]
+    )
 
     useUpdateEffect(() => {
         setFieldValue('Source_UUID', null)
@@ -97,6 +120,7 @@ const FieldSelectArea = ({
                     label={label}
                     description={description}
                     required={required}
+                    notification={notification}
                 />
             )}
             <FormikSelect
@@ -110,15 +134,27 @@ const FieldSelectArea = ({
             {!!values.Source_Title && !!versions?.length && (
                 <>
                     <div className="mt-4">
-                        <Text bold className="mb-2" color="text-pzh-blue-500">
-                            Selecteer een versie
-                        </Text>
-
                         <div className="grid grid-cols-6 gap-12">
-                            <div className="col-span-2">
+                            <div className="col-span-6 lg:col-span-2">
+                                <Text
+                                    bold
+                                    color="text-pzh-blue-500"
+                                    className="mb-2">
+                                    Selecteer een versie
+                                </Text>
+
+                                <FieldInput
+                                    name="query"
+                                    placeholder="Zoek op omschrijving"
+                                    aria-label="Zoek op omschrijving"
+                                    className="pr-12 text-ellipsis"
+                                    icon={MagnifyingGlass}
+                                    onChange={e => setQuery(e.target.value)}
+                                />
+
                                 <div
                                     className={cn(
-                                        'border-pzh-gray-200 flex h-[500px] flex-col gap-2 overflow-y-auto rounded border p-2',
+                                        'mt-2 flex h-106.5 flex-col gap-2 overflow-y-auto',
                                         {
                                             'border-pzh-red-500':
                                                 !!errors?.[
@@ -133,12 +169,12 @@ const FieldSelectArea = ({
                                         <div className="flex h-full w-full items-center justify-center">
                                             <LoaderSpinner />
                                         </div>
-                                    ) : (
-                                        versions?.map((version, index) => (
+                                    ) : !!filteredVersions?.length ? (
+                                        filteredVersions.map(version => (
                                             <div
                                                 key={version.UUID}
-                                                className="border-pzh-gray-200 relative rounded border px-4 py-2">
-                                                <div className="flex items-center gap-2 [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
+                                                className="border-pzh-gray-600 relative rounded border px-4 py-2">
+                                                <div className="flex items-center justify-between [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
                                                     <FormikRadio
                                                         name="Source_UUID"
                                                         value={version.UUID}
@@ -147,26 +183,33 @@ const FieldSelectArea = ({
                                                             values.Source_UUID
                                                         }
                                                         disabled={disabled}>
-                                                        Versie{' '}
-                                                        {versions.length -
-                                                            index}
+                                                        {formatDate(
+                                                            parseUtc(
+                                                                version.Created_Date
+                                                            ),
+                                                            'd MMMM yyyy'
+                                                        )}
                                                     </FormikRadio>
                                                 </div>
 
-                                                <span className="text-s -mt-1 ml-7 block">
-                                                    {formatDate(
-                                                        parseUtc(
-                                                            version.Created_Date
-                                                        ),
-                                                        'd MMMM yyyy'
-                                                    )}
+                                                <span className="text-s ml-7 block">
+                                                    {version.Description}
                                                 </span>
                                             </div>
                                         ))
+                                    ) : (
+                                        <span className="text-s italic">
+                                            Geen onderdelen gevonden met deze
+                                            omschrijving.
+                                        </span>
                                     )}
                                 </div>
                             </div>
-                            <div className="col-span-4 flex flex-col">
+                            <div className="col-span-6 flex flex-col gap-2 lg:col-span-4">
+                                <Heading level="2" size="m">
+                                    Kaartweergave
+                                </Heading>
+
                                 <div className="border-pzh-gray-200 flex flex-1 rounded border">
                                     <AreaPreview
                                         key={values?.Source_UUID}
