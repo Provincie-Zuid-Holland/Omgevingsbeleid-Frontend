@@ -105,12 +105,18 @@ function ThemeDetail() {
                         </Hyperlink>
                     </div>
 
-                    {data?.Beleidskeuzes?.map(object => (
-                        <ConnectedObject
-                            key={object.Object?.UUID}
-                            {...object}
-                        />
-                    ))}
+                    {[...(data?.Beleidskeuzes ?? [])]
+                        .sort((a, b) =>
+                            (a.Object?.Title ?? '').localeCompare(
+                                b.Object?.Title ?? ''
+                            )
+                        )
+                        .map(object => (
+                            <ConnectedObject
+                                key={object.Object?.UUID}
+                                {...object}
+                            />
+                        ))}
                 </div>
             </Container>
         </>
@@ -140,24 +146,30 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                 <LoaderSpinner />
             ) : !!data?.Maatregelen?.length ? (
                 <div className="flex flex-col">
-                    {data.Maatregelen.map(item => {
-                        if (!item.Object) return null
-                        const model =
-                            models[item.Object.Object_Type as ModelType]
-                        const { slugOverview, plural } = model.defaults
-
-                        return (
-                            <ListLink
-                                asChild
-                                key={item.Object.UUID}
-                                className="text-pzh-green-500 hover:text-pzh-blue-500">
-                                <Link
-                                    to={`/${slugOverview}/${plural}/${item.Object.UUID}`}>
-                                    {item.Object.Title}
-                                </Link>
-                            </ListLink>
+                    {[...data.Maatregelen]
+                        .sort((a, b) =>
+                            (a.Object?.Title ?? '').localeCompare(
+                                b.Object?.Title ?? ''
+                            )
                         )
-                    })}
+                        .map(item => {
+                            if (!item.Object) return null
+                            const model =
+                                models[item.Object.Object_Type as ModelType]
+                            const { slugOverview, plural } = model.defaults
+
+                            return (
+                                <ListLink
+                                    asChild
+                                    key={item.Object.UUID}
+                                    className="text-pzh-green-500 hover:text-pzh-blue-500">
+                                    <Link
+                                        to={`/${slugOverview}/${plural}/${item.Object.UUID}`}>
+                                        {item.Object.Title}
+                                    </Link>
+                                </ListLink>
+                            )
+                        })}
                 </div>
             ) : (
                 <span className="text-pzh-gray-600 italic">
