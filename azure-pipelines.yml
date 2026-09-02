@@ -1,135 +1,94 @@
-trigger:
-    branches:
-        include:
-            - dev
-            - test
-            - acc
-            - main
+trigger: none
+pr: none
+
+parameters:
+  - name: githubBranch
+    displayName: GitHub branch to deploy
+    type: string
+    default: dev
+    values:
+       - dev
+       - main
+       - test
+
+resources:
+  repositories:
+    - repository: githubCode
+      type: github
+      name: Provincie-Zuid-Holland/Omgevingsbeleid-Frontend
+      endpoint: 'Provincie-Zuid-Holland'
+      ref: refs/heads/${{ parameters.githubBranch }}
 
 pool:
-    name: 'PZH-Agent'
+  name: "PZH-Ubuntu-Agent"
 
 variables:
-    VITE_API_ENV: $(Build.SourceBranchName)
-    NODE_OPTIONS: --max_old_space_size=4096
-    YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
+  VITE_API_ENV: ${{ parameters.githubBranch }}
+  NODE_OPTIONS: --max_old_space_size=4096
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
 stages:
-    - stage: Build
-      displayName: Build and test application
-      jobs:
-          - job: Build
-            displayName: Install, test and build
-            steps:
-                - task: Cache@2
-                  displayName: Cache Yarn
+  - stage: Build
+    displayName: Build React App
+    jobs:
+      - job: Build
+        steps:
+          - checkout: githubCode
+            path: app-omgb-fe
+
+          - task: UseNode@1
+            displayName: Install Node.js
+            inputs:
+              version: "22.x"
+
+          - script: |
+              corepack enable
+            displayName: Configure Yarn
+            workingDirectory: "$(Agent.BuildDirectory)/app-omgb-fe"
+
+          - script: yarn --immutable
+            displayName: Install dependencies
+            workingDirectory: "$(Agent.BuildDirectory)/app-omgb-fe"
+
+          - script: yarn build
+            displayName: Build
+            workingDirectory: "$(Agent.BuildDirectory)/app-omgb-fe"
+
+          - publish: "$(Agent.BuildDirectory)/app-omgb-fe/build"
+            artifact: "omgb_FE_build_$(Build.BuildId)"
+
+  - stage: Deploy
+    displayName: Deploy selected GitHub branch
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+      - deployment: DevDeploy
+        displayName: Deploy to Dev
+        environment: Dev
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: "omgb_FE_build_$(Build.BuildId)"
+
+                - task: AzureCLI@2
+                  displayName: Deploy to Azure Blob Storage
                   inputs:
-                      key: 'yarn | "$(Agent.OS)" | yarn.lock'
-                      restoreKeys: |
-                          yarn | "$(Agent.OS)"
-                      path: $(YARN_CACHE_FOLDER)
+                    azureSubscription: "app-omgevingsbeleid-ont"
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      az storage blob delete-batch \
+                        --account-name "omgevingsbeleidontst" \
+                        --source '$web' \
+                        --auth-mode login \
+                        --only-show-errors
 
-                - task: NodeTool@0
-                  displayName: Install Node.js
-                  inputs:
-                      versionSpec: '22.x'
-
-                - script: |
-                      corepack enable
-                      yarn config set cacheFolder $(YARN_CACHE_FOLDER)
-                  displayName: Enable Corepack and configure Yarn cache
-
-                - script: yarn --immutable
-                  displayName: Install dependencies
-
-                - script: yarn test:no-watch
-                  displayName: Run tests
-                  condition: ne(variables['Build.SourceBranchName'], 'main')
-
-                - script: yarn test:coverage
-                  displayName: Run tests with coverage
-                  condition: eq(variables['Build.SourceBranchName'], 'main')
-
-                - task: PublishCodeCoverageResults@2
-                  displayName: Publish code coverage
-                  condition: eq(variables['Build.SourceBranchName'], 'main')
-                  inputs:
-                      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
-
-                - script: yarn build
-                  displayName: Build
-
-                - task: PublishBuildArtifacts@1
-                  displayName: Publish build artifact
-                  inputs:
-                      PathtoPublish: $(Build.SourcesDirectory)/build
-                      ArtifactName: BuildedApp_$(Build.BuildId)
-
-    - stage: Dev
-      displayName: Dev deploy
-      dependsOn: Build
-      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'dev'))
-      jobs:
-          - deployment: DevDeploy
-            displayName: Dev deploy
-            environment: Dev
-            strategy:
-                runOnce:
-                    deploy:
-                        steps:
-                            - template: azure-file-copy.yml
-                              parameters:
-                                  storageName: obfrontenddev
-
-    - stage: Test
-      displayName: Test deploy
-      dependsOn: Build
-      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
-      jobs:
-          - deployment: TestDeploy
-            displayName: Test deploy
-            environment: Test
-            strategy:
-                runOnce:
-                    deploy:
-                        steps:
-                            - template: azure-file-copy.yml
-                              parameters:
-                                  storageName: obfrontendtest
-
-    - stage: Acc
-      displayName: Acc deploy
-      dependsOn: Build
-      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'acc'))
-      jobs:
-          - deployment: AccDeploy
-            displayName: Acc deploy
-            environment: Acc
-            strategy:
-                runOnce:
-                    deploy:
-                        steps:
-                            - template: azure-file-copy.yml
-                              parameters:
-                                  storageName: obfrontendacc
-
-    - stage: Prod
-      displayName: Prod deploy
-      dependsOn: Build
-      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'main'))
-      jobs:
-          - deployment: ProdDeploy
-            displayName: Prod deploy
-            environment: Prod
-            strategy:
-                runOnce:
-                    deploy:
-                        steps:
-                            - template: azure-file-copy.yml
-                              parameters:
-                                  storageName: obfrontendprod
-
-                            - template: azure-purge-cdn.yml
-                              parameters:
-                                  name: obzhprod
-                                  profileName: dta-obfrontendprod-cdn
+                      az storage blob upload-batch \
+                        --account-name "omgevingsbeleidontst" \
+                        --destination '$web' \
+                        --source "$(Pipeline.Workspace)/omgb_FE_build_$(Build.BuildId)" \
+                        --auth-mode login \
+                        --overwrite true \
+                        --only-show-errors
