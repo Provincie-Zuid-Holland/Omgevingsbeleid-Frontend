@@ -3123,21 +3123,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pzh-ui/icons@npm:^0.0.100":
+  version: 0.0.100
+  resolution: "@pzh-ui/icons@npm:0.0.100"
+  peerDependencies:
+    react: ^18.3.0 || ^19.0.0
+  checksum: e5bce6b934ee6c1dd1f4e67eaee3269175661e37e6b1c5737d7ca0f65b9d4810065f84b36f7033397770920782c1ae334b61131ab7223b01023bf79cbcf5f38c
+  languageName: node
+  linkType: hard
+
 "@pzh-ui/icons@npm:^0.0.96":
   version: 0.0.96
   resolution: "@pzh-ui/icons@npm:0.0.96"
   dependencies:
     react: "npm:^19.2.6"
   checksum: 6fb22b2d9b0f3dcbfaa73767630d87c677a84fb20c9888b8daa86a33960a7060d12b148481513ca4acedaf0a3fb25387bb1ebb2fc3a4e105d8978f9d25849ebd
-  languageName: node
-  linkType: hard
-
-"@pzh-ui/icons@npm:^0.0.97":
-  version: 0.0.97
-  resolution: "@pzh-ui/icons@npm:0.0.97"
-  dependencies:
-    react: "npm:^19.2.6"
-  checksum: 6cab8c18726a336219969c18cda27a1ebc742c446f55fd6a214dfe8b528a9956e7a14f4f4c6d5652a8394ed0b2c01a62c1b65b2a751f1362a3dd7efb7d1f1812
   languageName: node
   linkType: hard
 
@@ -13339,7 +13339,7 @@ __metadata:
     "@pzh-ui/components": "npm:^0.0.674"
     "@pzh-ui/config": "npm:^0.0.81"
     "@pzh-ui/css": "npm:^0.0.118"
-    "@pzh-ui/icons": "npm:^0.0.97"
+    "@pzh-ui/icons": "npm:^0.0.100"
     "@pzh-ui/react": "npm:^0.0.4"
     "@react-hookz/web": "npm:^24.0.4"
     "@tailwindcss/cli": "npm:^4.1.4"
