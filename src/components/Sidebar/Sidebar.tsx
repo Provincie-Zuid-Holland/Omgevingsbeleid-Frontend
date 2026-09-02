@@ -18,7 +18,7 @@ const Sidebar = () => {
     const {
         canEditUser,
         canViewPublicationTemplate,
-        canViewPublicationPackage,
+        canViewUnifiedPackages,
     } = usePermissions()
 
     const [expanded, setExpanded] = useState(false)
@@ -108,10 +108,10 @@ const Sidebar = () => {
                     })}
 
                     {(canViewPublicationTemplate ||
-                        canViewPublicationPackage) && (
+                        canViewUnifiedPackages) && (
                         <>
                             <div className="bg-pzh-blue-500 h-px w-full" />
-                            {canViewPublicationPackage && (
+                            {canViewUnifiedPackages && (
                                 <MenuItem
                                     name="Leveringen"
                                     path="/muteer/leveringen"
