@@ -56,7 +56,7 @@ export default function PasswordChangeModal() {
                 {({ handleSubmit, isValid, isSubmitting }) => (
                     <Form onSubmit={handleSubmit}>
                         <Notification className="mb-4 w-full">
-                            <>
+                            <p>
                                 Ben je je huidige wachtwoord vergeten? Neem dan
                                 contact op met
                                 <a
@@ -65,7 +65,7 @@ export default function PasswordChangeModal() {
                                     data-testid="wachtwoord-reset-mail">
                                     omgevingsbeleid@pzh.nl
                                 </a>
-                            </>
+                            </p>
                         </Notification>
                         <FormikInput
                             label="Huidig wachtwoord"

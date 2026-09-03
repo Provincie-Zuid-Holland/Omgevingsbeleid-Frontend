@@ -160,7 +160,7 @@ export const getObjectRevisionBannerText = (
             return `Op dit moment wordt er in module '${revision.Module_Title}' gewerkt aan een nieuwe versie van ${model.defaults.demonstrative} ${model.defaults.singularReadable}`
         case 'Ter Inzage':
             return (
-                <>
+                <p>
                     Op dit moment ligt er in de module ‘{revision.Module_Title}’
                     een nieuwe versie van {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable} ter inzage,{' '}
@@ -168,17 +168,17 @@ export const getObjectRevisionBannerText = (
                         <Link to={path}>bekijk deze versie hier</Link>
                     </Hyperlink>
                     .
-                </>
+                </p>
             )
         case 'Definitief ontwerp GS Concept':
             return (
-                <>
+                <p>
                     Is in inspraak geweest in module ‘{revision.Module_Title}’,{' '}
                     <Hyperlink asChild>
                         <Link to={path}>bekijk deze versie hier</Link>
                     </Hyperlink>
                     .
-                </>
+                </p>
             )
 
         case 'Ontwerp GS':
@@ -186,7 +186,7 @@ export const getObjectRevisionBannerText = (
         case 'Definitief ontwerp GS':
         case 'Definitief ontwerp PS':
             return (
-                <>
+                <p>
                     Op dit moment wordt er in module ‘{revision.Module_Title}’
                     gewerkt aan een nieuwe versie van{' '}
                     {model.defaults.demonstrative}{' '}
@@ -195,11 +195,11 @@ export const getObjectRevisionBannerText = (
                         <Link to={path}>bekijk deze versie hier</Link>
                     </Hyperlink>
                     .
-                </>
+                </p>
             )
         case 'Vastgesteld':
             return (
-                <>
+                <p>
                     Er is in module ‘{revision.Module_Title}’ een nieuwe versie
                     van {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable} vastgesteld maar nog niet
@@ -208,7 +208,7 @@ export const getObjectRevisionBannerText = (
                         <Link to={path}>Bekijk deze versie hier</Link>
                     </Hyperlink>
                     .
-                </>
+                </p>
             )
         default:
             return ''
