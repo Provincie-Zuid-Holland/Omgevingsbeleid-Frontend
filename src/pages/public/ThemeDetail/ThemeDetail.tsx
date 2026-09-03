@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
 
 import { useBeleidsdoelViewObjectVersion } from '@/api/fetchers'
-import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
+import { HierachyReference } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
@@ -105,11 +105,8 @@ function ThemeDetail() {
                         </Hyperlink>
                     </div>
 
-                    {data?.Beleidskeuzes?.map(object => (
-                        <ConnectedObject
-                            key={object.Object?.UUID}
-                            {...object}
-                        />
+                    {data?.Hierarchy_Children?.map(object => (
+                        <ConnectedObject key={object.UUID} {...object} />
                     ))}
                 </div>
             </Container>
@@ -117,43 +114,39 @@ function ThemeDetail() {
     )
 }
 
-const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
-    if (!Object) return null
-
-    const model = models[Object.Object_Type as ModelType]
+const ConnectedObject = ({ UUID, Object_Type, Title }: HierachyReference) => {
+    const model = models[Object_Type as ModelType]
     const { slugOverview, singularReadable, prefixSingular, plural } =
         model.defaults
     const { useGetVersion } = model.fetchers
 
     const { data, isFetching } =
-        useGetVersion<ModelReturnType>?.(Object.UUID!, {
-            query: { enabled: !!Object.UUID },
+        useGetVersion<ModelReturnType>?.(UUID!, {
+            query: { enabled: !!UUID },
         }) || {}
 
     return (
-        <div className="grid gap-3" data-section={Object.Title}>
+        <div className="grid gap-3" data-section={Title}>
             <Heading level="2" size="m">
-                {Object.Title}
+                {Title}
             </Heading>
 
             {isFetching ? (
                 <LoaderSpinner />
-            ) : !!data?.Maatregelen?.length ? (
+            ) : !!data?.Hierarchy_Children?.length ? (
                 <div className="flex flex-col">
-                    {data.Maatregelen.map(item => {
-                        if (!item.Object) return null
-                        const model =
-                            models[item.Object.Object_Type as ModelType]
+                    {data.Hierarchy_Children.map(item => {
+                        const model = models[item.Object_Type as ModelType]
                         const { slugOverview, plural } = model.defaults
 
                         return (
                             <ListLink
                                 asChild
-                                key={item.Object.UUID}
+                                key={item.UUID}
                                 className="text-pzh-green-500 hover:text-pzh-blue-500">
                                 <Link
-                                    to={`/${slugOverview}/${plural}/${item.Object.UUID}`}>
-                                    {item.Object.Title}
+                                    to={`/${slugOverview}/${plural}/${item.UUID}`}>
+                                    {item.Title}
                                 </Link>
                             </ListLink>
                         )
@@ -166,9 +159,9 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
             )}
 
             <Hyperlink asChild>
-                <Link to={`/${slugOverview}/${plural}/${Object.UUID}`}>
+                <Link to={`/${slugOverview}/${plural}/${UUID}`}>
                     Lees meer informatie over {prefixSingular}{' '}
-                    {singularReadable} '{Object.Title}'
+                    {singularReadable} '{Title}'
                 </Link>
             </Hyperlink>
         </div>
