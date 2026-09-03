@@ -1,14 +1,16 @@
 import { Heading, Text } from '@pzh-ui/components'
 
-import { DashboardAdmin, DashboardUser } from '@/components/Dashboard'
 import useAuth from '@/hooks/useAuth'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import { formatRoles } from '@/utils/formatRoles'
+import Models from './components/Models'
+import Modules from './components/Modules'
+import UserObjects from './components/UserObjects'
 
 const Dashboard = () => {
     const { user, roles } = useAuth()
-    const { canCreateModule } = usePermissions()
+    const { canViewPublication } = usePermissions()
 
     return (
         <MutateLayout title="Dashboard">
@@ -23,21 +25,35 @@ const Dashboard = () => {
                 </Text>
             </div>
 
+            {canViewPublication && (
+                <>
+                    <div className="col-span-6 mb-4 lg:col-span-3 lg:col-start-1">
+                        <Heading level="2" size="m" className="mb-3">
+                            Onderdelen
+                        </Heading>
+                        <Text>
+                            Als beheerder kan je alle onderdelen van het
+                            digitaal omgevingsbeleid inzien en waar nodig
+                            aanpassen. Hieronder vind je een lijst van de
+                            onderdelen die voor jou als beheerder relevant zijn.
+                        </Text>
+                    </div>
+
+                    <div className="col-span-6 mb-10">
+                        <Models />
+                    </div>
+                </>
+            )}
+
             <div className="col-span-6">
-                <Overview isAdmin={canCreateModule} />
+                <Modules />
+
+                <div className="mt-10 grid grid-cols-6">
+                    <UserObjects />
+                </div>
             </div>
         </MutateLayout>
     )
-}
-
-interface OverviewProps {
-    isAdmin: boolean
-}
-
-const Overview = ({ isAdmin }: OverviewProps) => {
-    if (isAdmin) return <DashboardAdmin />
-
-    return <DashboardUser />
 }
 
 export default Dashboard

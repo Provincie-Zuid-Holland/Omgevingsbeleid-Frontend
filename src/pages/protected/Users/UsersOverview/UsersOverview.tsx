@@ -103,6 +103,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
             active: activeTab === 'active',
             ...filter,
+            role: filter?.role ? filter.role : undefined,
         },
         {
             query: {

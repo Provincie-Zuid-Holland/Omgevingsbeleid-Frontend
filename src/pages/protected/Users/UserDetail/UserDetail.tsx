@@ -167,7 +167,7 @@ const Item = ({
     isLoading: boolean
 }) => (
     <div className="border-pzh-gray-200 flex border-b pb-2">
-        <Text bold className="w-40">
+        <Text bold className="min-w-40">
             {label}
         </Text>
         {isLoading && <LoaderCard height="30" className="w-auto" />}
