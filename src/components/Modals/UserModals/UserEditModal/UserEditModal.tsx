@@ -38,8 +38,13 @@ const UserEditModal = () => {
         },
     })
 
-    const handleSubmit = (user: EditUser) =>
+    const handleSubmit = (user: EditUser) => {
+        if (Array.isArray(user.Roles)) {
+            user.Roles = user.Roles.map((item: any) => item?.value ?? item)
+        }
+
         mutateAsync({ userUuid: uuid!, data: user })
+    }
 
     return (
         <Modal id="userEdit" title="Gegevens wijzigen">
@@ -47,7 +52,7 @@ const UserEditModal = () => {
                 initialValues={{
                     Gebruikersnaam: data?.Gebruikersnaam || '',
                     Email: data?.Email || '',
-                    Rol: data?.Rol || '',
+                    Roles: data?.Roles || [],
                 }}
                 onSubmit={handleSubmit}
                 handleClose={() => setActiveModal(null)}

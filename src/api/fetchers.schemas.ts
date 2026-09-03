@@ -766,6 +766,21 @@ export type InputGeoGetInputGeoListLatestWerkingsgebiedenParams = {
     sort_order?: SortOrder | null
 }
 
+export type HoofdlijnPostHoofdlijnenSearchParams = {
+    query: string
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type HoofdlijnGetHoofdlijnenListParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
 export type GraphGetObjectGraphParams = {
     uuid: string
 }
@@ -926,16 +941,6 @@ export interface WerkingsgebiedRelatedObjectShort {
     Werkingsgebied_Code: string
 }
 
-export interface WerkingsgebiedRelatedModuleObjectShort {
-    Module_ID?: WerkingsgebiedRelatedModuleObjectShortModuleID
-    Module_Title?: WerkingsgebiedRelatedModuleObjectShortModuleTitle
-    Object_ID: number
-    Object_Type: string
-    Title: WerkingsgebiedRelatedModuleObjectShortTitle
-    UUID: string
-    Werkingsgebied_Code: string
-}
-
 export interface WerkingsgebiedRelatedObjects {
     Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
     Valid_Objects: WerkingsgebiedRelatedObjectShort[]
@@ -946,6 +951,16 @@ export type WerkingsgebiedRelatedModuleObjectShortTitle = string | null
 export type WerkingsgebiedRelatedModuleObjectShortModuleTitle = string | null
 
 export type WerkingsgebiedRelatedModuleObjectShortModuleID = number | null
+
+export interface WerkingsgebiedRelatedModuleObjectShort {
+    Module_ID?: WerkingsgebiedRelatedModuleObjectShortModuleID
+    Module_Title?: WerkingsgebiedRelatedModuleObjectShortModuleTitle
+    Object_ID: number
+    Object_Type: string
+    Title: WerkingsgebiedRelatedModuleObjectShortTitle
+    UUID: string
+    Werkingsgebied_Code: string
+}
 
 export type WerkingsgebiedFullStaticsOwner2 = UserShort | null
 
@@ -1313,11 +1328,6 @@ export const ValidateModuleSeverity = {
     error: 'error',
 } as const
 
-export interface ValidateModuleResult {
-    errors: ValidateModuleError[]
-    readonly status: string
-}
-
 export interface ValidateModuleObject {
     code: string
     object_id: number
@@ -1330,6 +1340,11 @@ export interface ValidateModuleError {
     object: ValidateModuleObject
     rule: string
     severity?: ValidateModuleSeverity
+}
+
+export interface ValidateModuleResult {
+    errors: ValidateModuleError[]
+    readonly status: string
 }
 
 export type ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel =
@@ -1364,14 +1379,14 @@ export interface UserShort {
 
 export interface UserLoginDetail {
     Gebruikersnaam: string
-    Rol: string
+    Roles: string[]
     UUID: string
 }
 
 export interface UserCreateResponse {
     Email: string
     Password: string
-    Rol: string
+    Roles: string[]
     UUID: string
 }
 
@@ -1379,29 +1394,17 @@ export interface UserCreate {
     Email: string
     /** @minLength 3 */
     Gebruikersnaam: string
-    Rol: string
+    Roles: string[]
 }
 
 export interface User {
     Email: string
     Gebruikersnaam: string
     IsActive: boolean
-    Rol: string
+    Roles: string[]
     Status: string
     UUID: string
 }
-
-export type ReportStatusType =
-    (typeof ReportStatusType)[keyof typeof ReportStatusType]
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ReportStatusType = {
-    not_applicable: 'not_applicable',
-    pending: 'pending',
-    valid: 'valid',
-    failed: 'failed',
-    aborted: 'aborted',
-} as const
 
 export interface UploadPackageReportResponse {
     Duplicate_Count: number
@@ -1584,6 +1587,18 @@ export interface RequestAcknowledgedRelation {
     Object_ID: number
     Object_Type: string
 }
+
+export type ReportStatusType =
+    (typeof ReportStatusType)[keyof typeof ReportStatusType]
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ReportStatusType = {
+    not_applicable: 'not_applicable',
+    pending: 'pending',
+    valid: 'valid',
+    failed: 'failed',
+    aborted: 'aborted',
+} as const
 
 export interface ReadRelationShort {
     Description?: string
@@ -2155,6 +2170,9 @@ export interface PublicModuleShort {
     Title: string
 }
 
+export type PublicModuleObjectShortModuleObjectContext =
+    PublicModuleObjectContextShort | null
+
 export interface PublicModuleObjectShort {
     Code: string
     Description: string
@@ -2188,9 +2206,6 @@ export interface PublicModuleObjectContextShort {
     Action: string
     Original_Adjust_On?: PublicModuleObjectContextShortOriginalAdjustOn
 }
-
-export type PublicModuleObjectShortModuleObjectContext =
-    PublicModuleObjectContextShort | null
 
 export interface ProgrammaAlgemeenUUID {
     Object_ID?: number
@@ -2562,6 +2577,13 @@ export interface PagedResponseInputGeoWerkingsgebied {
     limit?: number
     offset?: number
     results: InputGeoWerkingsgebied[]
+    total: number
+}
+
+export interface PagedResponseHoofdlijn {
+    limit?: number
+    offset?: number
+    results: Hoofdlijn[]
     total: number
 }
 
@@ -3376,14 +3398,6 @@ export const InputGeoWerkingsgebiedenSortColumn = {
     Created_Date: 'Created_Date',
 } as const
 
-export interface InputGeoWerkingsgebiedDetailed {
-    Created_Date: string
-    Description: string
-    Onderverdelingen: InputGeoOnderverdeling[]
-    Title: string
-    UUID: string
-}
-
 export interface InputGeoWerkingsgebied {
     Created_Date: string
     Description: string
@@ -3396,6 +3410,24 @@ export interface InputGeoOnderverdeling {
     Description: string
     Geometry_Hash: string
     Title: string
+    UUID: string
+}
+
+export interface InputGeoWerkingsgebiedDetailed {
+    Created_Date: string
+    Description: string
+    Onderverdelingen: InputGeoOnderverdeling[]
+    Title: string
+    UUID: string
+}
+
+export interface HoofdlijnCreatedResponse {
+    UUID: string
+}
+
+export interface Hoofdlijn {
+    Name: string
+    Type: string
     UUID: string
 }
 
@@ -4085,7 +4117,7 @@ export interface EnvironmentCreate {
     Title: string
 }
 
-export type EditUserRol = string | null
+export type EditUserRoles = string[] | null
 
 export type EditUserIsActive = boolean | null
 
@@ -4097,7 +4129,16 @@ export interface EditUser {
     Email?: EditUserEmail
     Gebruikersnaam?: EditUserGebruikersnaam
     IsActive?: EditUserIsActive
-    Rol?: EditUserRol
+    Roles?: EditUserRoles
+}
+
+export type EditHoofdlijnType = string | null
+
+export type EditHoofdlijnName = string | null
+
+export interface EditHoofdlijn {
+    Name?: EditHoofdlijnName
+    Type?: EditHoofdlijnType
 }
 
 export type EditAcknowledgedRelationExplanation = string | null
@@ -4255,6 +4296,19 @@ export interface DocumentBasic {
     Start_Validity?: DocumentBasicStartValidity
     Title?: string
     UUID?: string
+}
+
+export interface CreateHoofdlijn {
+    /**
+     * @minLength 3
+     * @maxLength 255
+     */
+    Name: string
+    /**
+     * @minLength 3
+     * @maxLength 255
+     */
+    Type: string
 }
 
 export type CompleteModuleStartValidity = string | null

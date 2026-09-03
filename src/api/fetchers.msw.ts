@@ -48,6 +48,8 @@ import type {
     GebiedsprogrammaStaticStatics,
     GebiedsprogrammaUUID,
     GraphResponse,
+    Hoofdlijn,
+    HoofdlijnCreatedResponse,
     InputGeoWerkingsgebied,
     InputGeoWerkingsgebiedDetailed,
     ListAreaDesignationResponse,
@@ -83,6 +85,7 @@ import type {
     PagedResponseGebiedsaanwijzingExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
+    PagedResponseHoofdlijn,
     PagedResponseInputGeoWerkingsgebied,
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
@@ -178,7 +181,10 @@ export const getAuthenticationPostAuthLoginAccessTokenResponseMock = (
     access_token: faker.word.sample(),
     identifier: {
         Gebruikersnaam: faker.word.sample(),
-        Rol: faker.word.sample(),
+        Roles: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.word.sample()),
         UUID: faker.string.uuid(),
     },
     token_type: faker.word.sample(),
@@ -237,6 +243,82 @@ export const getGraphGetObjectGraphResponseMock = (
         Title: faker.word.sample(),
         UUID: faker.string.uuid(),
     })),
+    ...overrideResponse,
+})
+
+export const getHoofdlijnPostHoofdlijnenCreateResponseMock = (
+    overrideResponse: Partial<HoofdlijnCreatedResponse> = {}
+): HoofdlijnCreatedResponse => ({
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
+export const getHoofdlijnGetHoofdlijnenListResponseMock = (
+    overrideResponse: Partial<PagedResponseHoofdlijn> = {}
+): PagedResponseHoofdlijn => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Name: faker.word.sample(),
+        Type: faker.word.sample(),
+        UUID: faker.string.uuid(),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getHoofdlijnPostHoofdlijnenSearchResponseMock = (
+    overrideResponse: Partial<PagedResponseHoofdlijn> = {}
+): PagedResponseHoofdlijn => ({
+    limit: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    offset: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined,
+    ]),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Name: faker.word.sample(),
+        Type: faker.word.sample(),
+        UUID: faker.string.uuid(),
+    })),
+    total: faker.number.int({ min: undefined, max: undefined }),
+    ...overrideResponse,
+})
+
+export const getHoofdlijnDeleteHoofdlijnenResponseMock = (
+    overrideResponse: Partial<ResponseOK> = {}
+): ResponseOK => ({
+    message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+    ...overrideResponse,
+})
+
+export const getHoofdlijnGetHoofdlijnenDetailResponseMock = (
+    overrideResponse: Partial<Hoofdlijn> = {}
+): Hoofdlijn => ({
+    Name: faker.word.sample(),
+    Type: faker.word.sample(),
+    UUID: faker.string.uuid(),
+    ...overrideResponse,
+})
+
+export const getHoofdlijnPostHoofdlijnenEditResponseMock = (
+    overrideResponse: Partial<ResponseOK> = {}
+): ResponseOK => ({
+    message: faker.helpers.arrayElement([faker.word.sample(), undefined]),
     ...overrideResponse,
 })
 
@@ -2554,7 +2636,10 @@ export const getUserGetListUsersResponseMock = (
         Email: faker.word.sample(),
         Gebruikersnaam: faker.word.sample(),
         IsActive: faker.datatype.boolean(),
-        Rol: faker.word.sample(),
+        Roles: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.word.sample()),
         Status: faker.word.sample(),
         UUID: faker.string.uuid(),
     })),
@@ -2567,7 +2652,10 @@ export const getUserPostCreateUserResponseMock = (
 ): UserCreateResponse => ({
     Email: faker.word.sample(),
     Password: faker.word.sample(),
-    Rol: faker.word.sample(),
+    Roles: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.word.sample()),
     UUID: faker.string.uuid(),
     ...overrideResponse,
 })
@@ -2590,7 +2678,10 @@ export const getUserGetSearchUsersResponseMock = (
         Email: faker.word.sample(),
         Gebruikersnaam: faker.word.sample(),
         IsActive: faker.datatype.boolean(),
-        Rol: faker.word.sample(),
+        Roles: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.word.sample()),
         Status: faker.word.sample(),
         UUID: faker.string.uuid(),
     })),
@@ -2604,7 +2695,10 @@ export const getUserViewGetUserResponseMock = (
     Email: faker.word.sample(),
     Gebruikersnaam: faker.word.sample(),
     IsActive: faker.datatype.boolean(),
-    Rol: faker.word.sample(),
+    Roles: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.word.sample()),
     Status: faker.word.sample(),
     UUID: faker.string.uuid(),
     ...overrideResponse,
@@ -20642,6 +20736,168 @@ export const getGraphGetObjectGraphMockHandler = (
     })
 }
 
+export const getHoofdlijnPostHoofdlijnenCreateMockHandler = (
+    overrideResponse?:
+        | HoofdlijnCreatedResponse
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0]
+          ) => Promise<HoofdlijnCreatedResponse> | HoofdlijnCreatedResponse)
+) => {
+    return http.post('*/hoofdlijnen', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getHoofdlijnPostHoofdlijnenCreateResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getHoofdlijnGetHoofdlijnenListMockHandler = (
+    overrideResponse?:
+        | PagedResponseHoofdlijn
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<PagedResponseHoofdlijn> | PagedResponseHoofdlijn)
+) => {
+    return http.get('*/hoofdlijnen', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getHoofdlijnGetHoofdlijnenListResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenSearchMockHandler = (
+    overrideResponse?:
+        | PagedResponseHoofdlijn
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0]
+          ) => Promise<PagedResponseHoofdlijn> | PagedResponseHoofdlijn)
+) => {
+    return http.post('*/hoofdlijnen/search', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getHoofdlijnPostHoofdlijnenSearchResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getHoofdlijnDeleteHoofdlijnenMockHandler = (
+    overrideResponse?:
+        | ResponseOK
+        | ((
+              info: Parameters<Parameters<typeof http.delete>[1]>[0]
+          ) => Promise<ResponseOK> | ResponseOK)
+) => {
+    return http.delete('*/hoofdlijnen/:hoofdlijnUuid', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getHoofdlijnDeleteHoofdlijnenResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getHoofdlijnGetHoofdlijnenDetailMockHandler = (
+    overrideResponse?:
+        | Hoofdlijn
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<Hoofdlijn> | Hoofdlijn)
+) => {
+    return http.get('*/hoofdlijnen/:hoofdlijnUuid', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getHoofdlijnGetHoofdlijnenDetailResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenEditMockHandler = (
+    overrideResponse?:
+        | ResponseOK
+        | ((
+              info: Parameters<Parameters<typeof http.post>[1]>[0]
+          ) => Promise<ResponseOK> | ResponseOK)
+) => {
+    return http.post('*/hoofdlijnen/:hoofdlijnUuid', async info => {
+        await delay(1000)
+        return new HttpResponse(
+            JSON.stringify(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getHoofdlijnPostHoofdlijnenEditResponseMock()
+            ),
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        )
+    })
+}
+
 export const getInputGeoGetInputGeoListLatestWerkingsgebiedenMockHandler = (
     overrideResponse?:
         | PagedResponseInputGeoWerkingsgebied
@@ -29009,6 +29265,12 @@ export const getOmgevingsbeleidAPIMock = () => [
     getAuthenticationPostAuthResetPasswordMockHandler(),
     getGraphGetFullGraphMockHandler(),
     getGraphGetObjectGraphMockHandler(),
+    getHoofdlijnPostHoofdlijnenCreateMockHandler(),
+    getHoofdlijnGetHoofdlijnenListMockHandler(),
+    getHoofdlijnPostHoofdlijnenSearchMockHandler(),
+    getHoofdlijnDeleteHoofdlijnenMockHandler(),
+    getHoofdlijnGetHoofdlijnenDetailMockHandler(),
+    getHoofdlijnPostHoofdlijnenEditMockHandler(),
     getInputGeoGetInputGeoListLatestWerkingsgebiedenMockHandler(),
     getInputGeoGetInputGeoWerkingsgebiedenHistoryMockHandler(),
     getInputGeoGetInputGeoWerkingsgebiedenDetailMockHandler(),
