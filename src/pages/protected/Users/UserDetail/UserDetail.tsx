@@ -123,7 +123,11 @@ const UserDetail = () => {
                         value={data?.Email}
                         isLoading={isLoading}
                     />
-                    <Item label="Rol" value={data?.Rol} isLoading={isLoading} />
+                    <Item
+                        label="Rol"
+                        value={data?.Roles.join(', ')}
+                        isLoading={isLoading}
+                    />
                 </div>
                 <div className="col-span-6 mt-6 lg:col-span-3 lg:mt-0 xl:col-span-2">
                     <div className="bg-pzh-gray-100 px-8 py-6">

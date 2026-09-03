@@ -122,7 +122,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
             },
             {
                 header: 'Rol',
-                accessorKey: 'Rol',
+                accessorKey: 'Roles',
             },
             {
                 header: 'E-mailadres',
@@ -137,13 +137,13 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
      */
     const formattedData = useMemo(
         () =>
-            data?.results?.map(({ Gebruikersnaam, Rol, Email, UUID }) => ({
+            data?.results?.map(({ Gebruikersnaam, Roles, Email, UUID }) => ({
                 Gebruikersnaam: (
                     <Text bold color="text-pzh-blue-500">
                         {Gebruikersnaam}
                     </Text>
                 ),
-                Rol,
+                Roles: Roles.join(', '),
                 Email: (
                     <span className="flex items-center justify-between">
                         {Email}

@@ -4,9 +4,10 @@ import { DashboardAdmin, DashboardUser } from '@/components/Dashboard'
 import useAuth from '@/hooks/useAuth'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
+import { formatRoles } from '@/utils/formatRoles'
 
 const Dashboard = () => {
-    const { user, role } = useAuth()
+    const { user, roles } = useAuth()
     const { canCreateModule } = usePermissions()
 
     return (
@@ -18,7 +19,7 @@ const Dashboard = () => {
                 <Text>
                     Het digitaal omgevingsbeleid van de provincie Zuid-Holland.
                     Hieronder een overzicht van onderdelen die voor jou relevant
-                    zijn als {role?.toLowerCase()}.
+                    zijn als {formatRoles(roles)}.
                 </Text>
             </div>
 
