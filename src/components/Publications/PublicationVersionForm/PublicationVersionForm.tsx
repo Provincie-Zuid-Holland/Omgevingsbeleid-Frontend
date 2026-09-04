@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react'
+
 import {
     Button,
     cn,
@@ -12,6 +14,8 @@ import {
     Text,
     Tooltip,
 } from '@pzh-ui/components'
+import { TrashCan, TriangleExclamationSolid } from '@pzh-ui/icons'
+
 import { useMountEffect } from '@react-hookz/web'
 import { Form, Formik, FormikConfig, FormikProps, FormikValues } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -31,8 +35,6 @@ import useModalStore from '@/store/modalStore'
 import { collectStringValues } from '@/utils/collectStringValues'
 import handleError from '@/utils/handleError'
 import { parseUtc } from '@/utils/parseUtc'
-import { TrashCan, TriangleExclamationSolid } from '@pzh-ui/icons'
-import { useMemo, useState } from 'react'
 
 const DOCUMENT_REF = 'REF_BILL_PDF'
 
@@ -195,7 +197,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     />
                 </div>
 
-                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                     <div>
                         <Text bold color="text-pzh-blue-500">
                             Documenten bij het besluit
@@ -227,7 +229,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
 
                 <Appendices />
 
-                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                     <Text>Procedureverloop</Text>
 
                     <div className="flex gap-4 [&_>div]:flex-1">
@@ -257,7 +259,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     </div>
                 </div>
 
-                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                     <Text>Juridische data</Text>
 
                     <div className="flex gap-4 [&_>div]:flex-1">
@@ -299,7 +301,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
 }
 
 const Articles = () => (
-    <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
         <Text bold color="text-pzh-blue-500">
             Artikelen
         </Text>
@@ -346,7 +348,7 @@ const Articles = () => (
 )
 
 const Appendices = () => (
-    <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
         <div>
             <Text bold color="text-pzh-blue-500">
                 Bijlages bij het besluit
@@ -465,7 +467,7 @@ const Document = ({
         <div className="flex min-w-0 gap-2">
             <div
                 className={cn(
-                    'border-pzh-gray-600 bg-pzh-white flex min-w-0 flex-1 justify-between gap-2 rounded-sm border px-4 py-2',
+                    'flex min-w-0 flex-1 justify-between gap-2 rounded-sm border border-pzh-gray-600 bg-pzh-white px-4 py-2',
                     {
                         'border-pzh-yellow-500 bg-pzh-yellow-10': !isUsed,
                     }
@@ -473,7 +475,7 @@ const Document = ({
                 <div className="flex min-w-0 flex-1 items-center gap-4">
                     <Text
                         bold
-                        className="text-heading-xs border-pzh-gray-600 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border">
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pzh-gray-600 text-heading-xs">
                         {ID}
                     </Text>
 
@@ -481,7 +483,7 @@ const Document = ({
                         <Text
                             bold
                             color="text-pzh-blue-500"
-                            className="text-heading-xs block truncate"
+                            className="block truncate text-heading-xs"
                             title={Filename}>
                             {Filename}
                         </Text>
@@ -519,7 +521,7 @@ const Document = ({
 
             <Button
                 variant="default"
-                className="text-pzh-red-500 shrink-0"
+                className="shrink-0 text-pzh-red-500"
                 onPress={() =>
                     setActiveModal('publicationAttachmentDelete', {
                         attachment: { Created_Date, ID, Filename, ...rest },

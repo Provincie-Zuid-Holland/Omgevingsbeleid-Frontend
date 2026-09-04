@@ -1,5 +1,6 @@
 import { Heading } from '@pzh-ui/components'
 import { PersonDigging } from '@pzh-ui/icons'
+
 import { Helmet } from 'react-helmet-async'
 
 import { Container } from '@/components/Container'
@@ -21,7 +22,7 @@ const MaintenancePage = () => (
                 <div className="col-span-6 flex flex-col items-center gap-2 text-center">
                     <PersonDigging
                         size={160}
-                        className="text-pzh-blue-500 mb-4"
+                        className="mb-4 text-pzh-blue-500"
                     />
                     <Heading size="xxl">
                         Deze applicatie is even aan het updaten

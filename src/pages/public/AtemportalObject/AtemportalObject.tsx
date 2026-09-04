@@ -1,6 +1,8 @@
-import { Heading, Text } from '@pzh-ui/components'
-import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
+
+import { Heading, Text } from '@pzh-ui/components'
+
+import groupBy from 'lodash.groupby'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 
@@ -63,7 +65,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
             name: slugOverview || '',
             to: `/${slugOverview}`,
         },
-        { name: pluralCapitalize, to: `/${slugOverview}/${plural}` || '' },
+        { name: pluralCapitalize, to: `/${slugOverview}/${plural}` },
         { name: data.Title || '', isCurrent: true },
     ]
 
@@ -88,7 +90,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                     </Heading>
                     {data?.Description && (
                         <Text
-                            className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line"
+                            className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
                                 __html: data.Description,
                             }}

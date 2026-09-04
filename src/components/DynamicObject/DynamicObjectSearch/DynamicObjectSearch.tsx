@@ -1,8 +1,11 @@
+import { useState } from 'react'
+
 import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
-import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { searchGetMssqlSearch, searchGetMssqlValidSearch } from '@/api/fetchers'
 import {
@@ -10,7 +13,6 @@ import {
     ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
 import { ModelType } from '@/config/objects/types'
-import { useParams } from 'react-router-dom'
 
 export type Option = {
     label: React.JSX.Element
@@ -18,8 +20,10 @@ export type Option = {
     object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 }
 
-export interface DynamicObjectSearchProps
-    extends Omit<FieldSelectProps, 'onChange' | 'name'> {
+export interface DynamicObjectSearchProps extends Omit<
+    FieldSelectProps,
+    'onChange' | 'name'
+> {
     /** Gets called when selecting an option */
     onChange?: (object?: Option | Option[] | null) => void
     /** Key of model */

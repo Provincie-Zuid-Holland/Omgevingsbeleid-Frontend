@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import {
     Badge,
     Button,
@@ -8,9 +10,9 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
-import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -26,12 +28,12 @@ import {
 } from '@/api/fetchers'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import { useActions } from '@/components/Publications/PublicationPackages/components/actions'
 import { getReportStatus } from '@/components/Publications/PublicationPackages/components/utils'
 import useModalStore from '@/store/modalStore'
-
-import { ModalFooter } from '@/components/Modal/Modal'
 import { parseUtc } from '@/utils/parseUtc'
+
 import { ModalStateMap } from '../../types'
 
 const PublicationPackageReportUploadModal = () => {
@@ -204,7 +206,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                 accept={{ '*': [] }}
             />
             {!!values.uploaded_files.length && (
-                <div className="border-pzh-gray-300 mt-6 rounded border p-4">
+                <div className="mt-6 rounded border border-pzh-gray-300 p-4">
                     <Text bold color="text-pzh-blue-500 mb-2">
                         Geselecteerde bestanden
                     </Text>
@@ -212,7 +214,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                         {values.uploaded_files.map((file, index) => (
                             <li
                                 key={file.path || `file-${index}`}
-                                className="pzh-form-input border-pzh-gray-200 overflow-hidden">
+                                className="pzh-form-input overflow-hidden border-pzh-gray-200">
                                 <div className="flex items-center justify-between gap-2 px-4">
                                     <Text
                                         bold
@@ -235,10 +237,10 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                                             {!isSubmitting ? (
                                                 <TrashCan
                                                     size={16}
-                                                    className="text-pzh-red-500 -mt-[2px] ml-4"
+                                                    className="-mt-[2px] ml-4 text-pzh-red-500"
                                                 />
                                             ) : (
-                                                <LoaderSpinner className="text-pzh-blue-500 -mt-[2px] ml-4" />
+                                                <LoaderSpinner className="-mt-[2px] ml-4 text-pzh-blue-500" />
                                             )}
                                         </Button>
                                     </div>
@@ -257,7 +259,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                 </div>
             )}
             {!!reports?.results.length && (
-                <div className="border-pzh-gray-300 mt-6 rounded border p-4">
+                <div className="mt-6 rounded border border-pzh-gray-300 p-4">
                     <Text bold color="text-pzh-blue-500 mb-2">
                         Laatst geüploade rapporten
                     </Text>
@@ -268,7 +270,7 @@ const InnerForm = <TData extends { uploaded_files: File[] }>({
                             return (
                                 <li
                                     key={file.UUID}
-                                    className="pzh-form-input border-pzh-gray-200 overflow-hidden">
+                                    className="pzh-form-input overflow-hidden border-pzh-gray-200">
                                     <div className="flex items-center justify-between gap-2 px-4">
                                         <Text
                                             bold

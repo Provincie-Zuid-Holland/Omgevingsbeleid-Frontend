@@ -1,3 +1,18 @@
+import { useState } from 'react'
+
+import {
+    Button,
+    FieldInput,
+    FieldLabel,
+    FormikCheckbox,
+    FormikInput,
+} from '@pzh-ui/components'
+
+import { useQueryClient } from '@tanstack/react-query'
+import { Form, Formik, useFormikContext } from 'formik'
+import { useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
 import {
     getPublicationVersionsGetListAttachmentsQueryKey,
     usePublicationVersionsPostUploadAttachment,
@@ -8,18 +23,6 @@ import { DynamicField } from '@/config/types'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import { PUBLICATION_VERSION_ATTACHMENT_SCHEMA } from '@/validation/publication'
-import {
-    Button,
-    FieldInput,
-    FieldLabel,
-    FormikCheckbox,
-    FormikInput,
-} from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
-import { Form, Formik, useFormikContext } from 'formik'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 const PublicationAttachmentAddModal = () => {
     const queryClient = useQueryClient()
@@ -114,7 +117,7 @@ const PublicationAttachmentAddModal = () => {
                                 variant="link"
                                 type="button"
                                 onPress={onClose}
-                                className="text-pzh-blue-500 mr-3">
+                                className="mr-3 text-pzh-blue-500">
                                 Annuleren
                             </Button>
                             <div className="flex gap-4">

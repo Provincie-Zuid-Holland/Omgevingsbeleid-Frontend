@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react'
+
 import { Text } from '@pzh-ui/components'
 import {
     FileImport,
@@ -6,8 +8,8 @@ import {
     LayerGroupLight,
     Users,
 } from '@pzh-ui/icons'
+
 import classNames from 'clsx'
-import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import * as models from '@/config/objects'
@@ -53,7 +55,7 @@ const Sidebar = () => {
             data-testid="sidebar">
             <div
                 className={classNames(
-                    'after:content-[" "] bg-pzh-gray-100 after:bg-pzh-gray-100 relative transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:top-0 after:left-0 after:-z-[1] after:h-[calc(100vh-97px)] after:w-full after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
+                    'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:top-0 after:left-0 after:-z-[1] after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
                     {
                         'min-w-[56px]': !expanded,
                         'min-w-[260px]': expanded,
@@ -72,7 +74,7 @@ const Sidebar = () => {
                         onClick={clearHoverTimer}
                     />
 
-                    <div className="bg-pzh-blue-500 h-px w-full" />
+                    <div className="h-px w-full bg-pzh-blue-500" />
 
                     <MenuItem
                         name="Modules"
@@ -83,7 +85,7 @@ const Sidebar = () => {
                         onClick={clearHoverTimer}
                     />
 
-                    <div className="bg-pzh-blue-500 h-px w-full" />
+                    <div className="h-px w-full bg-pzh-blue-500" />
 
                     {Object.keys(models).map(key => {
                         const model = models[key as ModelType]
@@ -110,7 +112,7 @@ const Sidebar = () => {
                     {(canViewPublicationTemplate ||
                         canViewPublicationPackage) && (
                         <>
-                            <div className="bg-pzh-blue-500 h-px w-full" />
+                            <div className="h-px w-full bg-pzh-blue-500" />
                             {canViewPublicationPackage && (
                                 <MenuItem
                                     name="Leveringen"
@@ -136,7 +138,7 @@ const Sidebar = () => {
 
                     {canEditUser && (
                         <>
-                            <div className="bg-pzh-blue-500 h-px w-full" />
+                            <div className="h-px w-full bg-pzh-blue-500" />
                             <MenuItem
                                 name="Gebruikers"
                                 path="/muteer/gebruikers"
@@ -179,7 +181,7 @@ const MenuItem = ({
         <Link
             to={path}
             className={classNames(
-                'group hover:text-pzh-green-500 flex h-10 items-center rounded',
+                'group flex h-10 items-center rounded hover:text-pzh-green-500',
                 {
                     'bg-pzh-gray-200 text-pzh-green-500':
                         path === pathname ||
@@ -201,7 +203,7 @@ const MenuItem = ({
             />
             <Text
                 className={classNames(
-                    'group-hover:text-pzh-green-500 -mb-0.5 ml-2',
+                    '-mb-0.5 ml-2 group-hover:text-pzh-green-500',
                     {
                         'opacity-0': !expanded,
                         'text-pzh-green-500': path === pathname,

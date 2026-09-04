@@ -1,6 +1,8 @@
-import { Button, cn, Notification, Text } from '@pzh-ui/components'
-import { keepPreviousData } from '@tanstack/react-query'
 import { useCallback, useState } from 'react'
+
+import { Button, cn, Notification, Text } from '@pzh-ui/components'
+
+import { keepPreviousData } from '@tanstack/react-query'
 
 import {
     usePublicationActPackagesGetListActPackages,
@@ -18,8 +20,8 @@ import {
 } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import useModalStore from '@/store/modalStore'
-
 import { parseUtc } from '@/utils/parseUtc'
+
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import Package from './Package'
@@ -84,7 +86,7 @@ const Packages = ({
     })
 
     return (
-        <div className="border-pzh-gray-200 grid grid-cols-12 border-b last:border-b-0">
+        <div className="grid grid-cols-12 border-b border-pzh-gray-200 last:border-b-0">
             <div className="col-span-3 p-6 pt-9">
                 <Text
                     bold
@@ -98,7 +100,7 @@ const Packages = ({
             <div className="col-span-9 px-6 py-4">
                 <div
                     className={cn(
-                        'border-pzh-gray-200 bg-pzh-white rounded-lg border',
+                        'rounded-lg border border-pzh-gray-200 bg-pzh-white',
                         {
                             'bg-pzh-gray-100': isLocked && !!!data?.length,
                         }
@@ -120,14 +122,14 @@ const Packages = ({
                     ) : (
                         <>
                             {!!total && total > 3 && (
-                                <div className="bg-pzh-gray-100 flex px-6 py-4">
+                                <div className="flex bg-pzh-gray-100 px-6 py-4">
                                     <Button
                                         onPress={handleShowAll}
                                         isLoading={isFetching}
                                         isDisabled={isFetching}
                                         variant="default"
                                         iconSize={19}
-                                        className="text-pzh-green-500 flex items-center gap-4 font-bold [&>svg]:-mt-1 [&>svg]:mr-0">
+                                        className="flex items-center gap-4 font-bold text-pzh-green-500 [&>svg]:-mt-1 [&>svg]:mr-0">
                                         {!showAll
                                             ? `Alle ${total} leveringen tonen`
                                             : 'Minder tonen'}

@@ -1,5 +1,6 @@
 import { Badge, Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Key } from '@pzh-ui/icons'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
@@ -73,7 +74,7 @@ const UserDetail = () => {
                     </Heading>
                 </div>
                 <div className="col-span-6 lg:col-span-3 xl:col-span-2">
-                    <div className="border-pzh-gray-200 flex items-center justify-between gap-4 rounded border px-6 py-4">
+                    <div className="flex items-center justify-between gap-4 rounded border border-pzh-gray-200 px-6 py-4">
                         <Text
                             bold
                             className="-mb-1 whitespace-nowrap"
@@ -108,7 +109,7 @@ const UserDetail = () => {
                         </Heading>
                         <button
                             onClick={() => setActiveModal('userEdit')}
-                            className="text-s text-pzh-green-500 hover:text-pzh-green-900 underline">
+                            className="text-s text-pzh-green-500 underline hover:text-pzh-green-900">
                             Gegevens wijzigen
                         </button>
                     </div>
@@ -162,7 +163,7 @@ const Item = ({
     value?: string
     isLoading: boolean
 }) => (
-    <div className="border-pzh-gray-200 flex border-b pb-2">
+    <div className="flex border-b border-pzh-gray-200 pb-2">
         <Text bold className="w-40">
             {label}
         </Text>

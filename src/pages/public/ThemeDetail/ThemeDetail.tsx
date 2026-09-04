@@ -1,4 +1,5 @@
 import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
+
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
 
@@ -6,11 +7,11 @@ import { useBeleidsdoelViewObjectVersion } from '@/api/fetchers'
 import { ReadRelationShortBeleidskeuzeMinimal } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
+import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
-import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import NotFoundPage from '../NotFoundPage'
 
 function ThemeDetail() {
@@ -91,7 +92,7 @@ function ThemeDetail() {
                     <div data-section="Inhoud">
                         {data?.Description && (
                             <Text
-                                className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line"
+                                className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 prose-li:my-0"
                                 dangerouslySetInnerHTML={{
                                     __html: data.Description,
                                 }}

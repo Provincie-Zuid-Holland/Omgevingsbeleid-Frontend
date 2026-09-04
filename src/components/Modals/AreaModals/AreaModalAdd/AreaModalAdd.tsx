@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react'
+
 import {
     Button,
     FieldInput,
@@ -6,9 +8,9 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+
 import { Form, Formik } from 'formik'
 import debounce from 'lodash.debounce'
-import { useMemo, useState } from 'react'
 
 import { useSourceWerkingsgebiedenGetListWerkingsgebieden } from '@/api/fetchers'
 import AreaPreview from '@/components/AreaPreview'
@@ -123,7 +125,7 @@ const AreaModalAdd = ({
                                         />
                                     </div>
 
-                                    <div className="border-pzh-gray-200 h-[444px] overflow-y-auto rounded border p-4">
+                                    <div className="h-[444px] overflow-y-auto rounded border border-pzh-gray-200 p-4">
                                         {isLoading ? (
                                             <div className="flex h-full w-full items-center justify-center">
                                                 <LoaderSpinner />

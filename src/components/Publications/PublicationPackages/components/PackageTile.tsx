@@ -1,8 +1,10 @@
 import { Badge, Button, Heading, Text } from '@pzh-ui/components'
+
 import { Link } from 'react-router-dom'
 
 import { DocumentType, UnifiedPackage } from '@/api/fetchers.schemas'
 import { config } from '@/pages/protected/Packages/config'
+
 import { getPackageStatus } from './utils'
 
 const PackageTile = ({
@@ -18,7 +20,7 @@ const PackageTile = ({
         <Link
             to={`/muteer/leveringen/${Publication_Type}/${UUID}`}
             data-testid="dashboard-module-tile"
-            className="group border-pzh-gray-200 flex flex-col justify-between rounded border p-6">
+            className="group flex flex-col justify-between rounded border border-pzh-gray-200 p-6">
             <div className="mb-4">
                 <Heading level="3" size="m">
                     {config.documentType[Document_Type as DocumentType].label}

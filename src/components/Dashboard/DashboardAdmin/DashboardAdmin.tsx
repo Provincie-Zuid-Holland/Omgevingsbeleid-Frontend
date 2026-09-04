@@ -1,5 +1,6 @@
 import { Button, Heading, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+
 import { keepPreviousData } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
@@ -104,9 +105,9 @@ const ModelTile = ({ model }: { model: Model }) => {
 
     return (
         <Link to={`/muteer/${plural}`} data-testid="dashboard-model-tile">
-            <div className="group border-pzh-gray-200 flex items-center justify-between rounded border px-6 py-7">
+            <div className="group flex items-center justify-between rounded border border-pzh-gray-200 px-6 py-7">
                 <div className="flex items-center">
-                    <Icon size={20} className="text-pzh-blue-500 mr-4" />
+                    <Icon size={20} className="mr-4 text-pzh-blue-500" />
                     <Heading level="3" size="s">
                         {pluralCapitalize}
                     </Heading>

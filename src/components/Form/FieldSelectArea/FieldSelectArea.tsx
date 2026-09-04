@@ -7,6 +7,8 @@ import {
     FormikSelect,
     Text,
 } from '@pzh-ui/components'
+
+import { useUpdateEffect } from '@react-hookz/web'
 import { useFormikContext } from 'formik'
 
 import {
@@ -18,7 +20,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import { parseUtc } from '@/utils/parseUtc'
-import { useUpdateEffect } from '@react-hookz/web'
 
 const FieldSelectArea = ({
     name,
@@ -98,7 +99,7 @@ const FieldSelectArea = ({
                             <div className="col-span-2">
                                 <div
                                     className={cn(
-                                        'border-pzh-gray-200 flex h-[500px] flex-col gap-2 overflow-y-auto rounded border p-2',
+                                        'flex h-[500px] flex-col gap-2 overflow-y-auto rounded border border-pzh-gray-200 p-2',
                                         {
                                             'border-pzh-red-500':
                                                 !!errors?.[
@@ -117,7 +118,7 @@ const FieldSelectArea = ({
                                         versions?.map((version, index) => (
                                             <div
                                                 key={version.UUID}
-                                                className="border-pzh-gray-200 relative rounded border px-4 py-2">
+                                                className="relative rounded border border-pzh-gray-200 px-4 py-2">
                                                 <div className="flex items-center gap-2 [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
                                                     <FormikRadio
                                                         name="Source_UUID"
@@ -133,7 +134,7 @@ const FieldSelectArea = ({
                                                     </FormikRadio>
                                                 </div>
 
-                                                <span className="text-s -mt-1 ml-7 block">
+                                                <span className="-mt-1 ml-7 block text-s">
                                                     {formatDate(
                                                         parseUtc(
                                                             version.Created_Date
@@ -147,7 +148,7 @@ const FieldSelectArea = ({
                                 </div>
                             </div>
                             <div className="col-span-4 flex flex-col">
-                                <div className="border-pzh-gray-200 flex flex-1 rounded border">
+                                <div className="flex flex-1 rounded border border-pzh-gray-200">
                                     <AreaPreview
                                         key={values?.Source_UUID}
                                         UUID={values.Source_UUID}
