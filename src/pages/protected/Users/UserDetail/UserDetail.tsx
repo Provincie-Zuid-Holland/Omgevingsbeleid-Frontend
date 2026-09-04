@@ -123,7 +123,11 @@ const UserDetail = () => {
                         value={data?.Email}
                         isLoading={isLoading}
                     />
-                    <Item label="Rol" value={data?.Rol} isLoading={isLoading} />
+                    <Item
+                        label="Rol"
+                        value={data?.Roles.join(', ')}
+                        isLoading={isLoading}
+                    />
                 </div>
                 <div className="col-span-6 mt-6 lg:col-span-3 lg:mt-0 xl:col-span-2">
                     <div className="bg-pzh-gray-100 px-8 py-6">
@@ -163,7 +167,7 @@ const Item = ({
     isLoading: boolean
 }) => (
     <div className="border-pzh-gray-200 flex border-b pb-2">
-        <Text bold className="w-40">
+        <Text bold className="min-w-40">
             {label}
         </Text>
         {isLoading && <LoaderCard height="30" className="w-auto" />}

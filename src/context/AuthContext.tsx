@@ -16,26 +16,26 @@ export const IDENTIFIER_KEY =
 export const availableRoleTypes = [
     'Ambtelijk opdrachtgever',
     'Behandelend Ambtenaar',
-    'Functioneel beheerder',
+    'Regisseur Omgevingsbeleid',
+    'Technisch Beheerder',
     'Portefeuillehouder',
     'Basic',
-] as Role[]
+] satisfies Role[]
 export type Role =
-    | 'Ambtelijk opdrachtgever'
     | 'Behandelend Ambtenaar'
-    | 'Functioneel beheerder'
-    | 'Beheerder'
+    | 'Regisseur Omgevingsbeleid'
+    | 'Publiceerder'
+    | 'Technisch Beheerder'
+    | 'Ambtelijk opdrachtgever'
     | 'Portefeuillehouder'
-    | 'Technisch beheerder'
+    | 'Basic'
     | 'Superuser'
-    | 'Test runner'
-    | 'Tester'
 
 interface AuthContextType {
     /** Logged in user object */
     user?: UserLoginDetail
     /** Role of logged in user */
-    role?: Role
+    roles?: Role[]
     /** Function to signin */
     signin: (username: string, password: string) => Promise<AuthToken>
     /** Function to signout */
@@ -131,7 +131,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
     const value = {
         user: identifier,
-        role: identifier?.Rol as Role,
+        roles: identifier?.Roles as Role[],
         signin,
         signout,
     }

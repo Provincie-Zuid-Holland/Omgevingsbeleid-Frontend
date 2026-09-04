@@ -77,6 +77,7 @@ import type {
     BodyPublicationVersionsPostUploadAttachment,
     BodyStorageFilePostFilesUpload,
     CompleteModule,
+    CreateHoofdlijn,
     DocumentFull,
     DocumentGetListActiveModuleObjectsParams,
     DocumentGetModuleListLineageTreeParams,
@@ -87,6 +88,7 @@ import type {
     DocumentStaticStatics,
     DocumentUUID,
     EditAcknowledgedRelation,
+    EditHoofdlijn,
     EditUser,
     EnvironmentCreate,
     EnvironmentCreatedResponse,
@@ -130,6 +132,10 @@ import type {
     GraphGetObjectGraphParams,
     GraphResponse,
     HTTPValidationError,
+    Hoofdlijn,
+    HoofdlijnCreatedResponse,
+    HoofdlijnGetHoofdlijnenListParams,
+    HoofdlijnPostHoofdlijnenSearchParams,
     InputGeoGetInputGeoListLatestWerkingsgebiedenParams,
     InputGeoGetInputGeoWerkingsgebiedenHistoryParams,
     InputGeoWerkingsgebied,
@@ -187,6 +193,7 @@ import type {
     PagedResponseGebiedsaanwijzingExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
+    PagedResponseHoofdlijn,
     PagedResponseInputGeoWerkingsgebied,
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
@@ -673,6 +680,485 @@ export const useGraphGetObjectGraph = <
     query.queryKey = queryOptions.queryKey
 
     return query
+}
+
+/**
+ * @summary Create a new hoofdlijn
+ */
+export const hoofdlijnPostHoofdlijnenCreate = (
+    createHoofdlijn: CreateHoofdlijn
+) => {
+    return customInstance<HoofdlijnCreatedResponse>({
+        url: `/hoofdlijnen`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: createHoofdlijn,
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenCreateMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+        TError,
+        { data: CreateHoofdlijn },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+    TError,
+    { data: CreateHoofdlijn },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+        { data: CreateHoofdlijn }
+    > = props => {
+        const { data } = props ?? {}
+
+        return hoofdlijnPostHoofdlijnenCreate(data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnPostHoofdlijnenCreateMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>
+>
+export type HoofdlijnPostHoofdlijnenCreateMutationBody = CreateHoofdlijn
+export type HoofdlijnPostHoofdlijnenCreateMutationError = HTTPValidationError
+
+/**
+ * @summary Create a new hoofdlijn
+ */
+export const useHoofdlijnPostHoofdlijnenCreate = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+        TError,
+        { data: CreateHoofdlijn },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+    TError,
+    { data: CreateHoofdlijn },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnPostHoofdlijnenCreateMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List hoofdlijnen
+ */
+export const hoofdlijnGetHoofdlijnenList = (
+    params?: HoofdlijnGetHoofdlijnenListParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseHoofdlijn>({
+        url: `/hoofdlijnen`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getHoofdlijnGetHoofdlijnenListQueryKey = (
+    params?: HoofdlijnGetHoofdlijnenListParams
+) => {
+    return [`/hoofdlijnen`, ...(params ? [params] : [])] as const
+}
+
+export const getHoofdlijnGetHoofdlijnenListQueryOptions = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+    TError = HTTPValidationError,
+>(
+    params?: HoofdlijnGetHoofdlijnenListParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getHoofdlijnGetHoofdlijnenListQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>
+    > = ({ signal }) => hoofdlijnGetHoofdlijnenList(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type HoofdlijnGetHoofdlijnenListQueryResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>
+>
+export type HoofdlijnGetHoofdlijnenListQueryError = HTTPValidationError
+
+/**
+ * @summary List hoofdlijnen
+ */
+export const useHoofdlijnGetHoofdlijnenList = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+    TError = HTTPValidationError,
+>(
+    params?: HoofdlijnGetHoofdlijnenListParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getHoofdlijnGetHoofdlijnenListQueryOptions(
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Search for hoofdlijnen
+ */
+export const hoofdlijnPostHoofdlijnenSearch = (
+    params: HoofdlijnPostHoofdlijnenSearchParams
+) => {
+    return customInstance<PagedResponseHoofdlijn>({
+        url: `/hoofdlijnen/search`,
+        method: 'POST',
+        params,
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenSearchMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+        TError,
+        { params: HoofdlijnPostHoofdlijnenSearchParams },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+    TError,
+    { params: HoofdlijnPostHoofdlijnenSearchParams },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+        { params: HoofdlijnPostHoofdlijnenSearchParams }
+    > = props => {
+        const { params } = props ?? {}
+
+        return hoofdlijnPostHoofdlijnenSearch(params)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnPostHoofdlijnenSearchMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>
+>
+
+export type HoofdlijnPostHoofdlijnenSearchMutationError = HTTPValidationError
+
+/**
+ * @summary Search for hoofdlijnen
+ */
+export const useHoofdlijnPostHoofdlijnenSearch = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+        TError,
+        { params: HoofdlijnPostHoofdlijnenSearchParams },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+    TError,
+    { params: HoofdlijnPostHoofdlijnenSearchParams },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnPostHoofdlijnenSearchMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete an existing hoofdlijn
+ */
+export const hoofdlijnDeleteHoofdlijnen = (hoofdlijnUuid: string) => {
+    return customInstance<ResponseOK>({
+        url: `/hoofdlijnen/${hoofdlijnUuid}`,
+        method: 'DELETE',
+    })
+}
+
+export const getHoofdlijnDeleteHoofdlijnenMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+        TError,
+        { hoofdlijnUuid: string },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+    TError,
+    { hoofdlijnUuid: string },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+        { hoofdlijnUuid: string }
+    > = props => {
+        const { hoofdlijnUuid } = props ?? {}
+
+        return hoofdlijnDeleteHoofdlijnen(hoofdlijnUuid)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnDeleteHoofdlijnenMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>
+>
+
+export type HoofdlijnDeleteHoofdlijnenMutationError = HTTPValidationError
+
+/**
+ * @summary Delete an existing hoofdlijn
+ */
+export const useHoofdlijnDeleteHoofdlijnen = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+        TError,
+        { hoofdlijnUuid: string },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+    TError,
+    { hoofdlijnUuid: string },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnDeleteHoofdlijnenMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get hoofdlijn details
+ */
+export const hoofdlijnGetHoofdlijnenDetail = (
+    hoofdlijnUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<Hoofdlijn>({
+        url: `/hoofdlijnen/${hoofdlijnUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getHoofdlijnGetHoofdlijnenDetailQueryKey = (
+    hoofdlijnUuid: string
+) => {
+    return [`/hoofdlijnen/${hoofdlijnUuid}`] as const
+}
+
+export const getHoofdlijnGetHoofdlijnenDetailQueryOptions = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+    TError = HTTPValidationError,
+>(
+    hoofdlijnUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getHoofdlijnGetHoofdlijnenDetailQueryKey(hoofdlijnUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>
+    > = ({ signal }) => hoofdlijnGetHoofdlijnenDetail(hoofdlijnUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!hoofdlijnUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type HoofdlijnGetHoofdlijnenDetailQueryResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>
+>
+export type HoofdlijnGetHoofdlijnenDetailQueryError = HTTPValidationError
+
+/**
+ * @summary Get hoofdlijn details
+ */
+export const useHoofdlijnGetHoofdlijnenDetail = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+    TError = HTTPValidationError,
+>(
+    hoofdlijnUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getHoofdlijnGetHoofdlijnenDetailQueryOptions(
+        hoofdlijnUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit an existing hoofdlijn
+ */
+export const hoofdlijnPostHoofdlijnenEdit = (
+    hoofdlijnUuid: string,
+    editHoofdlijn: EditHoofdlijn
+) => {
+    return customInstance<ResponseOK>({
+        url: `/hoofdlijnen/${hoofdlijnUuid}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: editHoofdlijn,
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenEditMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+        TError,
+        { hoofdlijnUuid: string; data: EditHoofdlijn },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+    TError,
+    { hoofdlijnUuid: string; data: EditHoofdlijn },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+        { hoofdlijnUuid: string; data: EditHoofdlijn }
+    > = props => {
+        const { hoofdlijnUuid, data } = props ?? {}
+
+        return hoofdlijnPostHoofdlijnenEdit(hoofdlijnUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnPostHoofdlijnenEditMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>
+>
+export type HoofdlijnPostHoofdlijnenEditMutationBody = EditHoofdlijn
+export type HoofdlijnPostHoofdlijnenEditMutationError = HTTPValidationError
+
+/**
+ * @summary Edit an existing hoofdlijn
+ */
+export const useHoofdlijnPostHoofdlijnenEdit = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+        TError,
+        { hoofdlijnUuid: string; data: EditHoofdlijn },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+    TError,
+    { hoofdlijnUuid: string; data: EditHoofdlijn },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnPostHoofdlijnenEditMutationOptions(options)
+
+    return useMutation(mutationOptions)
 }
 
 /**
