@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+
 import SearchBar from './SearchBar'
 
 const mockNavigate = vi.fn()

@@ -1,15 +1,15 @@
 import { Heading } from '@pzh-ui/components'
+
 import { Link } from 'react-router-dom'
 
 import { ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
-interface SearchResultItem
-    extends Omit<
-        ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-        'Object_ID' | 'Score' | 'Object_Code'
-    > {
+interface SearchResultItem extends Omit<
+    ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+    'Object_ID' | 'Score' | 'Object_Code'
+> {
     query?: string
 }
 
@@ -59,12 +59,12 @@ const SearchResultItem = ({
                 <Heading
                     level="2"
                     size="m"
-                    className="group-hover:text-pzh-green-500 order-2 mb-2">
+                    className="order-2 mb-2 group-hover:text-pzh-green-500">
                     <span
                         dangerouslySetInnerHTML={{ __html: highlightedTitle }}
                     />
                 </Heading>
-                <span className="text-s text-pzh-gray-600 order-1">
+                <span className="order-1 text-s text-pzh-gray-600">
                     {model.defaults.singularCapitalize}
                 </span>
                 {!!Description ? (

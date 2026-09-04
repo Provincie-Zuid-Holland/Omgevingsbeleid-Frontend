@@ -1,11 +1,12 @@
-import { Divider, Heading, Text, formatDate } from '@pzh-ui/components'
-import { Eye } from '@pzh-ui/icons'
 import { useMemo } from 'react'
+
+import { Divider, formatDate, Heading, Text } from '@pzh-ui/components'
+import { Eye } from '@pzh-ui/icons'
+
 import { Link } from 'react-router-dom'
 
-import { ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnTypeBasicUnion } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import { parseUtc } from '@/utils/parseUtc'
 
@@ -24,7 +25,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
             query: { enabled: !!object?.Object_ID },
         }) as {
             data?: {
-                results?: ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel[]
+                results?: ModelReturnTypeBasicUnion[]
             }
             isLoading: boolean
         }) || {}
@@ -77,7 +78,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                                 key={object.UUID}
                                 to={`/${slugOverview}/${plural}/${object.UUID}`}
                                 target="_blank"
-                                className="border-pzh-gray-300 hover:bg-pzh-gray-100 grid grid-cols-9 border-b p-2">
+                                className="grid grid-cols-9 border-b border-pzh-gray-300 p-2 hover:bg-pzh-gray-100">
                                 <div className="col-span-5">
                                     <Text bold color="text-pzh-blue-500">
                                         {object.Title}

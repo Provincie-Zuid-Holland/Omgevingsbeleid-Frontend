@@ -1,6 +1,8 @@
-import { DNABar, ToastContainer } from '@pzh-ui/components'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
+
+import { DNABar, ToastContainer } from '@pzh-ui/components'
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -54,7 +56,7 @@ const App = () => {
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <div
-                        className="text-pzh-blue-900 relative flex min-h-screen flex-col"
+                        className="relative flex min-h-screen flex-col text-pzh-blue-900"
                         id="main-container">
                         <Helmet titleTemplate="%s - Omgevingsbeleid Provincie Zuid-Holland">
                             <meta charSet="utf-8" />

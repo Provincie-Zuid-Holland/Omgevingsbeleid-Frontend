@@ -1,4 +1,5 @@
 import { Badge, Heading, Hyperlink, Text } from '@pzh-ui/components'
+
 import { Link } from 'react-router-dom'
 
 import { Module } from '@/api/fetchers.schemas'

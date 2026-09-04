@@ -1,5 +1,6 @@
-import { Badge, Text, cn, formatDate } from '@pzh-ui/components'
 import { Fragment, useMemo } from 'react'
+
+import { Badge, cn, formatDate, Text } from '@pzh-ui/components'
 
 import { ModuleStatus } from '@/api/fetchers.schemas'
 import { getModuleStatusColor } from '@/utils/module'
@@ -47,9 +48,9 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                             <div className="relative flex items-start justify-center">
                                 <div
                                     className={cn(
-                                        'border-pzh-blue-500 h-[13px] w-[13px] rounded-full border-2 bg-white',
+                                        'bg-white h-[13px] w-[13px] rounded-full border-2 border-pzh-blue-500',
                                         {
-                                            'bg-pzh-blue-500 outline-pzh-blue-500 outline-2 outline-offset-1':
+                                            'bg-pzh-blue-500 outline-2 outline-offset-1 outline-pzh-blue-500':
                                                 index === 0,
                                         }
                                     )}
@@ -57,7 +58,7 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                                 {hasPeer && (
                                     <div
                                         className={cn(
-                                            'bg-pzh-blue-500 absolute top-[13px] left-1/2 h-8 w-px -translate-x-1/2',
+                                            'absolute top-[13px] left-1/2 h-8 w-px -translate-x-1/2 bg-pzh-blue-500',
                                             {
                                                 'top-4 h-7': index === 0,
                                             }

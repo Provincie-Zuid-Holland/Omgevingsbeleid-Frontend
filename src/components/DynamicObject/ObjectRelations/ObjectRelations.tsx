@@ -1,6 +1,8 @@
+import { useMemo, useState } from 'react'
+
 import { Heading } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
-import { useMemo, useState } from 'react'
+
 import { useParams } from 'react-router-dom'
 
 import {
@@ -113,7 +115,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                             })
                             setActiveModal('objectRelationAdd')
                         }}
-                        className="bg-pzh-green-500 flex h-[18px] w-[18px] items-center justify-center rounded-full">
+                        className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green-500">
                         <span className="sr-only">
                             Beleidsrelatie toevoegen
                         </span>

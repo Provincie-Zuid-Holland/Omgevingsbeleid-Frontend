@@ -1,3 +1,9 @@
+import { Heading } from '@pzh-ui/components'
+
+import { useQueryClient } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
 import {
     getPublicationVersionsGetListVersionsQueryKey,
     usePublicationEnvironmentsGetDetailEnvironment,
@@ -19,10 +25,6 @@ import { buildVersionTitle } from '@/pages/protected/Packages/config'
 import MutateLayout from '@/templates/MutateLayout'
 import { toastNotification } from '@/utils/toastNotification'
 import { PUBLICATION_VERSION_EDIT_SCHEMA } from '@/validation/publication'
-import { Heading } from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
-import { useNavigate, useParams } from 'react-router-dom'
-import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 const hasValue = (value?: string | null) => !!value?.trim()
 

@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
+
 import { Divider, Hyperlink, Text } from '@pzh-ui/components'
 import { CircleInfo } from '@pzh-ui/icons'
-import { useMemo } from 'react'
+
 import { Link } from 'react-router-dom'
 
 import { Model, ModelReturnTypeBasic } from '@/config/objects/types'
@@ -8,6 +10,7 @@ import useAuth from '@/hooks/useAuth'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import { getObjectActionText } from '@/utils/dynamicObject'
+
 import ModuleItemDropdown from '../ModuleItemDropdown'
 
 interface ModuleItemProps extends ModelReturnTypeBasic {
@@ -68,7 +71,7 @@ const ModuleItem = ({
                             {singularCapitalize}
                         </Text>
                         <div className="flex items-center">
-                            <Text size="s" className="text-pzh-gray-600 mr-1">
+                            <Text size="s" className="mr-1 text-pzh-gray-600">
                                 {getObjectActionText(
                                     ModuleObjectContext?.Action
                                 )}

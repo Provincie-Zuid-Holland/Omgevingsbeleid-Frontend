@@ -1,4 +1,5 @@
 import { Heading, Hyperlink, ListLink } from '@pzh-ui/components'
+
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
 
@@ -6,13 +7,13 @@ import { useBeleidsdoelViewObjectVersion } from '@/api/fetchers'
 import { HierachyReference } from '@/api/fetchers.schemas'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
-import { LoaderContent, LoaderSpinner } from '@/components/Loader'
-import * as models from '@/config/objects'
-import { ModelReturnType, ModelType } from '@/config/objects/types'
-
 import ObjectContent from '@/components/DynamicObject/ObjectContent'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
+import { LoaderContent, LoaderSpinner } from '@/components/Loader'
+import * as models from '@/config/objects'
+import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 import { generateObjectPath } from '@/utils/dynamicObject'
+
 import NotFoundPage from '../NotFoundPage'
 
 const sortByTitle = (items: HierachyReference[]) =>
@@ -128,15 +129,15 @@ function ThemeDetail() {
 }
 
 const ConnectedObject = ({ UUID, Object_Type, Title }: HierachyReference) => {
-    const objectType = Object_Type as ModelType
-    const objectModel = models[objectType]
-    const { singularReadable, prefixSingular } = objectModel.defaults
-    const { useGetVersion } = objectModel.fetchers
+    const model: Model = models[Object_Type as ModelType]
+
+    const { singularReadable, prefixSingular } = model.defaults
+    const { useGetVersion } = model.fetchers
 
     const { data, isFetching } =
-        useGetVersion<ModelReturnType>?.(UUID, {
-            query: { enabled: Boolean(UUID) },
-        }) ?? {}
+        useGetVersion<ModelReturnType>?.(UUID!, {
+            query: { enabled: !!UUID },
+        }) || {}
 
     return (
         <div className="grid gap-3" data-section={Title ?? undefined}>
@@ -150,7 +151,7 @@ const ConnectedObject = ({ UUID, Object_Type, Title }: HierachyReference) => {
             />
 
             <Hyperlink asChild>
-                <Link to={generateObjectPath(objectType, UUID)}>
+                <Link to={generateObjectPath(Object_Type as ModelType, UUID)}>
                     Lees meer informatie over {prefixSingular}{' '}
                     {singularReadable} '{Title}'
                 </Link>
