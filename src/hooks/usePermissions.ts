@@ -1,18 +1,9 @@
 import { useMemo } from 'react'
 
+import { Role } from '@/context/AuthContext'
 import useAuth from './useAuth'
 
 export type Permissions = typeof initialPermissions
-
-type Role =
-    | 'Behandelend Ambtenaar'
-    | 'Regisseur Omgevingsbeleid'
-    | 'Publiceerder'
-    | 'Technisch Beheerder'
-    | 'Ambtelijk opdrachtgever'
-    | 'Portefeuillehouder'
-    | 'Basic'
-    | 'Superuser'
 
 const initialPermissions = {
     atemporalCanCreateObject: false,
