@@ -30,9 +30,9 @@ const ObjectConnectionsPublic = ({
     const { moduleId } = useParams()
     const { user } = useAuth()
 
-    const acknowledgedRelationModel =
-        data.Hierarchy_Statics &&
-        models[data.Hierarchy_Statics.Object_Type as ModelType]
+    const acknowledgedRelationModel: Model | undefined = data.Hierarchy_Statics
+        ? models[data.Hierarchy_Statics.Object_Type as ModelType]
+        : undefined
     const { useGetLatestLineage, useGetLatestLineageInModule } =
         acknowledgedRelationModel?.fetchers || {}
 

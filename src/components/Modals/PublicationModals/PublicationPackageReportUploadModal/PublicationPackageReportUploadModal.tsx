@@ -36,6 +36,10 @@ import { parseUtc } from '@/utils/parseUtc'
 
 import { ModalStateMap } from '../../types'
 
+interface PublicationPackageReportFormValues {
+    uploaded_files: File[]
+}
+
 const PublicationPackageReportUploadModal = () => {
     const queryClient = useQueryClient()
 
@@ -49,8 +53,8 @@ const PublicationPackageReportUploadModal = () => {
     const { uploadReports } = useActions(modalState || {})
 
     const handleSubmit = (
-        payload: { uploaded_files: string[] },
-        helpers: FormikHelpers<{ uploaded_files: never[] }>
+        payload: PublicationPackageReportFormValues,
+        helpers: FormikHelpers<PublicationPackageReportFormValues>
     ) => {
         uploadReports
             .mutateAsync({
@@ -133,7 +137,7 @@ const PublicationPackageReportUploadModal = () => {
 
     return (
         <Modal id="publicationPackageReportUpload" title="Upload rapporten">
-            <Formik
+            <Formik<PublicationPackageReportFormValues>
                 initialValues={{
                     uploaded_files: [],
                 }}
@@ -147,11 +151,11 @@ const PublicationPackageReportUploadModal = () => {
     )
 }
 
-const InnerForm = <TData extends { uploaded_files: File[] }>({
+const InnerForm = ({
     values,
     setFieldValue,
     isSubmitting,
-}: FormikProps<TData>) => {
+}: FormikProps<PublicationPackageReportFormValues>) => {
     const modalState = useModalStore(
         state => state.modalStates['publicationPackageReportUpload']
     ) as ModalStateMap['publicationPackageReportUpload']

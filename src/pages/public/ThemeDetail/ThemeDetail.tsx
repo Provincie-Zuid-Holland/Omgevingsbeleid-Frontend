@@ -10,7 +10,7 @@ import { Container } from '@/components/Container'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
-import { ModelReturnType, ModelType } from '@/config/objects/types'
+import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 
 import NotFoundPage from '../NotFoundPage'
 
@@ -121,7 +121,7 @@ function ThemeDetail() {
 const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
     if (!Object) return null
 
-    const model = models[Object.Object_Type as ModelType]
+    const model: Model = models[Object.Object_Type as ModelType]
     const { slugOverview, singularReadable, prefixSingular, plural } =
         model.defaults
     const { useGetVersion } = model.fetchers

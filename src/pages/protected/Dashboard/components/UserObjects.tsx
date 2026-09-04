@@ -1,19 +1,10 @@
 import { useState } from 'react'
 
-import {
-    Button,
-    Heading,
-    Pagination,
-    TabItem,
-    Tabs,
-    Text,
-} from '@pzh-ui/components'
+import { Heading, Pagination, TabItem, Tabs, Text } from '@pzh-ui/components'
 
 import { keepPreviousData } from '@tanstack/react-query'
-import { Link } from 'react-router-dom'
 
 import {
-    useModulesGetListModules,
     useObjectsDoListAllLatest,
     useObjectsViewObjectCounts,
 } from '@/api/fetchers'
@@ -30,71 +21,7 @@ import useAuth from '@/hooks/useAuth'
 
 const PAGE_LIMIT = 9
 
-const DashboardUser = () => {
-    const { data: modules, isFetching: modulesLoading } =
-        useModulesGetListModules(
-            {
-                filter_activated: true,
-                only_mine: false,
-                limit: 3,
-            },
-            {
-                query: {
-                    placeholderData: keepPreviousData,
-                },
-            }
-        )
-
-    return (
-        <div className="col-span-6">
-            <div>
-                <Heading level="2" size="m" className="mb-4">
-                    Modules
-                </Heading>
-
-                <div className="mb-4 grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
-                    {modulesLoading ? (
-                        <>
-                            <LoaderCard height="62" mb="" />
-                            <LoaderCard height="62" mb="" />
-                            <LoaderCard height="62" mb="" />
-                        </>
-                    ) : !!modules?.results.length ? (
-                        modules?.results?.map(module => (
-                            <ModuleTile
-                                key={`module-${module.Module_ID}`}
-                                {...module}
-                            />
-                        ))
-                    ) : (
-                        <Text>Er zijn op dit moment geen actieve modules.</Text>
-                    )}
-                </div>
-
-                <Button asChild variant="secondary" size="small">
-                    <Link to="/muteer/modules">Bekijk alle modules</Link>
-                </Button>
-
-                <div className="mt-8 grid grid-cols-6">
-                    <div className="col-span-6 mb-6 lg:col-span-3">
-                        <Heading level="3" size="m" className="mb-4">
-                            Mijn beleid
-                        </Heading>
-                        <Text>
-                            Binnen het digitaal omgevingsbeleid ben jij eigenaar
-                            van een aantal beleidsobjecten, hieronder vind je
-                            een overzicht van deze onderdelen.
-                        </Text>
-                    </div>
-
-                    <UserObject />
-                </div>
-            </div>
-        </div>
-    )
-}
-
-const UserObject = () => {
+const UserObjects = () => {
     const { user } = useAuth()
 
     const [activeTab, setActiveTab] = useState<ModelType>()
@@ -119,6 +46,16 @@ const UserObject = () => {
 
     return (
         <>
+            <div className="col-span-6 mb-6 lg:col-span-3">
+                <Heading level="3" size="m" className="mb-4">
+                    Mijn beleid
+                </Heading>
+                <Text>
+                    Binnen het digitaal omgevingsbeleid ben jij eigenaar van een
+                    aantal beleidsobjecten, hieronder vind je een overzicht van
+                    deze onderdelen.
+                </Text>
+            </div>
             {!!availableObjectTypes?.length ? (
                 <div className="col-span-6">
                     <Tabs
@@ -213,4 +150,4 @@ const ItemList = ({ isLoading, items, type }: ItemListProps) => (
     </>
 )
 
-export default DashboardUser
+export default UserObjects

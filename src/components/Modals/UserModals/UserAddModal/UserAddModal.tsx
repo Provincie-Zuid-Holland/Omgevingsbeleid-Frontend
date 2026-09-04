@@ -50,6 +50,10 @@ const UserAddModal = () => {
         user: UserCreate,
         helpers: FormikHelpers<UserCreate>
     ) => {
+        if (Array.isArray(user.Roles)) {
+            user.Roles = user.Roles.map((item: any) => item?.value ?? item)
+        }
+
         mutateAsync(
             { data: user },
             {

@@ -373,7 +373,7 @@ const AppRoutes = () => {
                             element: (
                                 <ProtectedRoute
                                     permissions={{
-                                        canViewPublicationPackage: true,
+                                        canViewUnifiedPackages: true,
                                     }}
                                     redirectTo="/muteer">
                                     <PackagesOverview />
@@ -385,7 +385,7 @@ const AppRoutes = () => {
                             element: (
                                 <ProtectedRoute
                                     permissions={{
-                                        canViewPublicationPackage: true,
+                                        canViewUnifiedPackages: true,
                                     }}
                                     redirectTo="/muteer">
                                     <PackageDetail />

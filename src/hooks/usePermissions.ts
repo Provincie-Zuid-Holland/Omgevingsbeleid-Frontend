@@ -1,142 +1,209 @@
+import { useMemo } from 'react'
+
+import { Role } from '@/context/AuthContext'
 import useAuth from './useAuth'
 
-export interface Permissions {
-    canCreateModule: boolean
-    canEditModule: boolean
-    canPatchModuleStatus: boolean
-    canAddNewObjectToModule: boolean
-    canAddExistingObjectToModule: boolean
-    canEditModuleObjectContext: boolean
-    canRemoveObjectFromModule: boolean
-    canPatchObjectInModule: boolean
-    canCreateUser: boolean
-    canEditUser: boolean
-    canResetUserPassword: boolean
-    canCreatePublicationTemplate: boolean
-    canEditPublicationTemplate: boolean
-    canViewPublicationTemplate: boolean
-    canViewPublicationEnvironment: boolean
-    canViewPublicationAoj: boolean
-    canCreatePublication: boolean
-    canEditPublication: boolean
-    canViewPublication: boolean
-    canCreatePublicationVersion: boolean
-    canEditPublicationVersion: boolean
-    canViewPublicationVersion: boolean
-    canCreatePublicationPackage: boolean
-    canViewPublicationPackage: boolean
-    canDownloadPublicationPackage: boolean
+export type Permissions = typeof initialPermissions
+
+const initialPermissions = {
+    atemporalCanCreateObject: false,
+    atemporalCanEditObject: false,
+    atemporalCanDeleteObject: false,
+    canCreateModule: false,
+    canCloseModule: false,
+    canEditModule: false,
+    canActivateModule: false,
+    canPatchModuleStatus: false,
+    canCompleteModule: false,
+    canAddNewObjectToModule: false,
+    canAddExistingObjectToModule: false,
+    canEditModuleObjectContext: false,
+    canRemoveObjectFromModule: false,
+    canPatchObjectInModule: false,
+    canCreateUser: false,
+    canEditUser: false,
+    canResetUserPassword: false,
+    canPatchObjectStatic: false,
+    canCreatePublicationTemplate: false,
+    canEditPublicationTemplate: false,
+    canViewPublicationTemplate: false,
+    canViewPublicationAoj: false,
+    canCreatePublicationAoj: false,
+    canCreatePublication: false,
+    canEditPublication: false,
+    canViewPublication: false,
+    canViewUnifiedPackages: false,
+    canCreatePublicationVersion: false,
+    canEditPublicationVersion: false,
+    canViewPublicationVersion: false,
+    canUploadPublicationVersionAttachment: false,
+    canDownloadPublicationVersionAttachment: false,
+    canDeletePublicationVersionAttachment: false,
+    canCreatePublicationAct: false,
+    canEditPublicationAct: false,
+    canViewPublicationAct: false,
+    canClosePublicationAct: false,
+    canCreatePublicationActPackage: false,
+    canViewPublicationActPackage: false,
+    canDownloadPublicationActPackage: false,
+    canAbortPublicationActPackage: false,
+    canUploadPublicationActPackageReport: false,
+    canViewPublicationActPackageReport: false,
+    canDownloadPublicationActPackageReport: false,
+    canCreatePublicationAnnouncement: false,
+    canEditPublicationAnnouncement: false,
+    canViewPublicationAnnouncement: false,
+    canCreatePublicationAnnouncementPackage: false,
+    canViewPublicationAnnouncementPackage: false,
+    canDownloadPublicationAnnouncementPackage: false,
+    canUploadPublicationAnnouncementPackageReport: false,
+    canViewPublicationAnnouncementPackageReport: false,
+    canDownloadPublicationAnnouncementPackageReport: false,
+    canViewPublicationEnvironment: false,
+    canCreatePublicationEnvironment: false,
+    canEditPublicationEnvironment: false,
+    storageFileCanUploadFiles: false,
+    canCreateObjectRelatedFile: false,
+    canDeleteObjectRelatedFile: false,
+}
+
+const regisseurOmgevingsbeleidPermissions: Partial<Permissions> = {
+    atemporalCanCreateObject: true,
+    atemporalCanEditObject: true,
+    atemporalCanDeleteObject: true,
+    canCreateModule: true,
+    canCloseModule: true,
+    canEditModule: true,
+    canActivateModule: true,
+    canPatchModuleStatus: true,
+    canCompleteModule: true,
+    canAddNewObjectToModule: true,
+    canAddExistingObjectToModule: true,
+    canEditModuleObjectContext: true,
+    canRemoveObjectFromModule: true,
+    canPatchObjectInModule: true,
+    canCreateUser: true,
+    canEditUser: true,
+    canResetUserPassword: true,
+    canPatchObjectStatic: true,
+    canViewPublicationEnvironment: true,
+    canCreatePublication: true,
+    canEditPublication: true,
+    canViewPublication: true,
+    canViewUnifiedPackages: true,
+    canCreatePublicationVersion: true,
+    canEditPublicationVersion: true,
+    canViewPublicationVersion: true,
+    canUploadPublicationVersionAttachment: true,
+    canDownloadPublicationVersionAttachment: true,
+    canCreatePublicationAct: true,
+    canEditPublicationAct: true,
+    canViewPublicationAct: true,
+    canClosePublicationAct: true,
+    canCreatePublicationActPackage: true,
+    canViewPublicationActPackage: true,
+    canDownloadPublicationActPackage: true,
+    canAbortPublicationActPackage: true,
+    canViewPublicationActPackageReport: true,
+    canDownloadPublicationActPackageReport: true,
+    canCreatePublicationAnnouncement: true,
+    canEditPublicationAnnouncement: true,
+    canViewPublicationAnnouncement: true,
+    canCreatePublicationAnnouncementPackage: true,
+    canViewPublicationAnnouncementPackage: true,
+    canDownloadPublicationAnnouncementPackage: true,
+    canUploadPublicationAnnouncementPackageReport: true,
+    canViewPublicationAnnouncementPackageReport: true,
+    canDownloadPublicationAnnouncementPackageReport: true,
+    storageFileCanUploadFiles: true,
+    canCreateObjectRelatedFile: true,
+    canDeleteObjectRelatedFile: true,
+}
+
+const publiceerderPermissions: Partial<Permissions> = {
+    canCreatePublicationTemplate: true,
+    canEditPublicationTemplate: true,
+    canViewPublicationTemplate: true,
+    canViewPublicationAoj: true,
+    canCreatePublicationAoj: true,
+    canCreatePublication: true,
+    canEditPublication: true,
+    canViewPublication: true,
+    canViewUnifiedPackages: true,
+    canCreatePublicationVersion: true,
+    canEditPublicationVersion: true,
+    canViewPublicationVersion: true,
+    canUploadPublicationVersionAttachment: true,
+    canDownloadPublicationVersionAttachment: true,
+    canCreatePublicationAct: true,
+    canEditPublicationAct: true,
+    canViewPublicationAct: true,
+    canClosePublicationAct: true,
+    canCreatePublicationActPackage: true,
+    canViewPublicationActPackage: true,
+    canDownloadPublicationActPackage: true,
+    canAbortPublicationActPackage: true,
+    canUploadPublicationActPackageReport: true,
+    canViewPublicationActPackageReport: true,
+    canDownloadPublicationActPackageReport: true,
+    canCreatePublicationAnnouncement: true,
+    canEditPublicationAnnouncement: true,
+    canViewPublicationAnnouncement: true,
+    canCreatePublicationAnnouncementPackage: true,
+    canViewPublicationAnnouncementPackage: true,
+    canDownloadPublicationAnnouncementPackage: true,
+    canUploadPublicationAnnouncementPackageReport: true,
+    canViewPublicationAnnouncementPackageReport: true,
+    canDownloadPublicationAnnouncementPackageReport: true,
+    canViewPublicationEnvironment: true,
+    storageFileCanUploadFiles: true,
+}
+
+const technischBeheerderPermissions = Object.fromEntries(
+    Object.keys(initialPermissions).map(permission => [permission, true])
+) as unknown as Permissions
+
+const permissionsByRole: Record<Role, Partial<Permissions>> = {
+    'Behandelend Ambtenaar': {
+        canAddNewObjectToModule: true,
+        canAddExistingObjectToModule: true,
+        canEditModuleObjectContext: true,
+    },
+    'Regisseur Omgevingsbeleid': regisseurOmgevingsbeleidPermissions,
+    Publiceerder: publiceerderPermissions,
+    'Technisch Beheerder': technischBeheerderPermissions,
+    'Ambtelijk opdrachtgever': {
+        canPatchObjectStatic: true,
+    },
+    Portefeuillehouder: {},
+    Basic: {},
+    Superuser: technischBeheerderPermissions,
 }
 
 const usePermissions = (): Permissions => {
-    const { role } = useAuth()
+    const { roles = [] } = useAuth()
 
-    const initialPermissions = {
-        canCreateModule: false,
-        canEditModule: false,
-        canPatchModuleStatus: false,
-        canAddNewObjectToModule: false,
-        canAddExistingObjectToModule: false,
-        canEditModuleObjectContext: false,
-        canRemoveObjectFromModule: false,
-        canPatchObjectInModule: false,
-        canCreateUser: false,
-        canEditUser: false,
-        canResetUserPassword: false,
-        canCreatePublicationTemplate: false,
-        canEditPublicationTemplate: false,
-        canViewPublicationTemplate: false,
-        canViewPublicationEnvironment: false,
-        canViewPublicationAoj: false,
-        canCreatePublication: false,
-        canEditPublication: false,
-        canViewPublication: false,
-        canCreatePublicationVersion: false,
-        canEditPublicationVersion: false,
-        canViewPublicationVersion: false,
-        canCreatePublicationPackage: false,
-        canViewPublicationPackage: false,
-        canDownloadPublicationPackage: false,
-    }
+    return useMemo(
+        () =>
+            roles.reduce<Permissions>(
+                (combinedPermissions, role) => {
+                    const rolePermissions = permissionsByRole[role as Role]
 
-    switch (role) {
-        case 'Functioneel beheerder':
-        case 'Beheerder':
-        case 'Superuser':
-        case 'Test runner':
-        case 'Tester':
-            return {
-                ...initialPermissions,
-                canCreateModule: true,
-                canEditModule: true,
-                canPatchModuleStatus: true,
-                canAddNewObjectToModule: true,
-                canAddExistingObjectToModule: true,
-                canEditModuleObjectContext: true,
-                canRemoveObjectFromModule: true,
-                canPatchObjectInModule: true,
-                canCreateUser: true,
-                canEditUser: true,
-                canResetUserPassword: true,
-                canViewPublicationEnvironment: true,
-                canViewPublicationAoj: true,
-                canCreatePublication: true,
-                canEditPublication: true,
-                canViewPublication: true,
-                canCreatePublicationVersion: true,
-                canEditPublicationVersion: true,
-                canViewPublicationVersion: true,
-                canCreatePublicationPackage: true,
-                canViewPublicationPackage: true,
-                canDownloadPublicationPackage: true,
-            }
-        case 'Behandelend Ambtenaar':
-            return {
-                ...initialPermissions,
-                canAddNewObjectToModule: true,
-                canAddExistingObjectToModule: true,
-                canEditModuleObjectContext: true,
-                canPatchObjectInModule: true,
-            }
-        case 'Ambtelijk opdrachtgever':
-            return {
-                ...initialPermissions,
-                canPatchObjectInModule: true,
-                canEditModuleObjectContext: true,
-            }
-        case 'Technisch beheerder': {
-            return {
-                ...initialPermissions,
-                canCreateModule: true,
-                canEditModule: true,
-                canPatchModuleStatus: true,
-                canAddNewObjectToModule: true,
-                canAddExistingObjectToModule: true,
-                canEditModuleObjectContext: true,
-                canRemoveObjectFromModule: true,
-                canPatchObjectInModule: true,
-                canCreateUser: true,
-                canEditUser: true,
-                canResetUserPassword: true,
-                canCreatePublicationTemplate: true,
-                canEditPublicationTemplate: true,
-                canViewPublicationTemplate: true,
-                canViewPublicationEnvironment: true,
-                canViewPublicationAoj: true,
-                canCreatePublication: true,
-                canEditPublication: true,
-                canViewPublication: true,
-                canCreatePublicationVersion: true,
-                canEditPublicationVersion: true,
-                canViewPublicationVersion: true,
-                canCreatePublicationPackage: true,
-                canViewPublicationPackage: true,
-                canDownloadPublicationPackage: true,
-            }
-        }
-        default:
-            return { ...initialPermissions }
-    }
+                    if (!rolePermissions) return combinedPermissions
+
+                    for (const permission of Object.keys(
+                        rolePermissions
+                    ) as Array<keyof Permissions>) {
+                        combinedPermissions[permission] ||=
+                            rolePermissions[permission] === true
+                    }
+
+                    return combinedPermissions
+                },
+                { ...initialPermissions }
+            ),
+        [roles]
+    )
 }
 
 export default usePermissions

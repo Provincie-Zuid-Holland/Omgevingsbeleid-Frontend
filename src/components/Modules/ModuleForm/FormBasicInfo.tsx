@@ -18,7 +18,7 @@ const FormBasicInfo = () => {
     } = useUserGetListUsers({ limit: 500 })
 
     const allowedUserRoles: Role[] = [
-        'Functioneel beheerder',
+        'Regisseur Omgevingsbeleid',
         'Behandelend Ambtenaar',
         'Ambtelijk opdrachtgever',
     ]
@@ -29,7 +29,9 @@ const FormBasicInfo = () => {
     const userOptions1 = useMemo(
         () =>
             users?.results
-                .filter(user => allowedUserRoles.includes(user.Rol))
+                .filter(user =>
+                    user.Roles?.some(role => allowedUserRoles.includes(role))
+                )
                 .filter(user => user.UUID !== values.Module_Manager_2_UUID)
                 .map(user => ({
                     label: user.Gebruikersnaam,
@@ -41,7 +43,9 @@ const FormBasicInfo = () => {
     const userOptions2 = useMemo(
         () =>
             users?.results
-                .filter(user => allowedUserRoles.includes(user.Rol))
+                .filter(user =>
+                    user.Roles?.some(role => allowedUserRoles.includes(role))
+                )
                 .filter(user => user.UUID !== values.Module_Manager_1_UUID)
                 .map(user => ({
                     label: user.Gebruikersnaam,

@@ -17,12 +17,26 @@ import {
     getPublicationVersionsGetListAttachmentsQueryKey,
     usePublicationVersionsPostUploadAttachment,
 } from '@/api/fetchers'
+import type { BodyPublicationVersionsPostUploadAttachment } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
 import { ModalFooter } from '@/components/Modal/Modal'
 import { DynamicField } from '@/config/types'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import { PUBLICATION_VERSION_ATTACHMENT_SCHEMA } from '@/validation/publication'
+
+type PublicationAttachmentFormValues = Omit<
+    BodyPublicationVersionsPostUploadAttachment,
+    'uploaded_file'
+> & {
+    uploaded_file: File | null
+}
+
+const initialValues: PublicationAttachmentFormValues = {
+    title: '',
+    uploaded_file: null,
+    ignore_report: false,
+}
 
 const PublicationAttachmentAddModal = () => {
     const queryClient = useQueryClient()
@@ -50,19 +64,20 @@ const PublicationAttachmentAddModal = () => {
             },
         })
 
-    const initialValues = {
-        title: '',
-        uploaded_file: '',
-        ignore_report: false,
-    }
-
     const handleFormSubmit = (
-        payload: typeof initialValues,
+        payload: PublicationAttachmentFormValues,
         resetForm?: () => void
     ) => {
+        if (!payload.uploaded_file) {
+            return
+        }
+
         mutateAsync({
             versionUuid: String(versionUUID),
-            data: payload,
+            data: {
+                ...payload,
+                uploaded_file: payload.uploaded_file,
+            },
         }).then(() => {
             if (!!resetForm) {
                 setFileName(undefined)
@@ -168,7 +183,8 @@ const FileField = ({
     defaultValue?: string
     setDefaultValue: (defaultValue?: string) => void
 }) => {
-    const { setFieldValue } = useFormikContext()
+    const { setFieldValue } =
+        useFormikContext<PublicationAttachmentFormValues>()
 
     return (
         <>
@@ -200,9 +216,11 @@ const FileField = ({
                             e.currentTarget.value = ''
                         }}
                         onChange={e => {
-                            if (e.currentTarget.files) {
-                                setFieldValue(name, e.currentTarget.files[0])
-                                setDefaultValue(e.currentTarget.files[0].name)
+                            const file = e.currentTarget.files?.[0]
+
+                            if (file) {
+                                void setFieldValue(name, file)
+                                setDefaultValue(file.name)
                             }
                         }}
                     />

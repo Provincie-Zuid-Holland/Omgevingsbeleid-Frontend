@@ -56,7 +56,9 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
     const getUserOptions = useCallback(
         (filterRoles?: Role[]) =>
             users?.results
-                ?.filter(user => filterRoles?.includes(user.Rol))
+                ?.filter(user =>
+                    user.Roles?.some(role => filterRoles?.includes(role))
+                )
                 ?.map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,

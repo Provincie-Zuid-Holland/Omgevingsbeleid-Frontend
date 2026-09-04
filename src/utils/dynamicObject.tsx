@@ -88,8 +88,8 @@ export const getStaticDataFilterRoles = (
         case 'Owner_1_UUID':
         case 'Owner_2_UUID':
             return [
-                'Functioneel beheerder',
-                'Beheerder',
+                'Regisseur Omgevingsbeleid',
+                'Superuser',
                 'Behandelend Ambtenaar',
                 'Ambtelijk opdrachtgever',
             ]

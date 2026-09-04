@@ -5,12 +5,14 @@ import { Button, FormikInput, FormikSelect } from '@pzh-ui/components'
 import { Form, Formik, FormikConfig } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { UserCreate } from '@/api/fetchers.schemas'
 import { ModalFooter } from '@/components/Modal/Modal'
 import { availableRoleTypes } from '@/context/AuthContext'
 import { SCHEMA_ADD_USER } from '@/validation/user'
+import { z } from 'zod'
 
-export interface UserFormProps extends FormikConfig<UserCreate> {
+export type UserSchema = z.infer<typeof SCHEMA_ADD_USER>
+
+export interface UserFormProps extends FormikConfig<UserSchema> {
     submitText?: string
     handleClose: () => void
 }
@@ -48,10 +50,11 @@ const UserForm = ({
                     </div>
                     <div>
                         <FormikSelect
-                            name="Rol"
+                            name="Roles"
                             label="Rol"
-                            placeholder="Kies een rol"
+                            placeholder="Kies een of meerdere rollen"
                             options={roleOptions}
+                            isMulti
                             noOptionsMessage={({ inputValue }) =>
                                 !!inputValue && 'Geen resultaten gevonden'
                             }

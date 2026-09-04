@@ -5,9 +5,8 @@ import { Eye } from '@pzh-ui/icons'
 
 import { Link } from 'react-router-dom'
 
-import { ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
-import { Model } from '@/config/objects/types'
+import { Model, ModelReturnTypeBasicUnion } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import { parseUtc } from '@/utils/parseUtc'
 
@@ -26,7 +25,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
             query: { enabled: !!object?.Object_ID },
         }) as {
             data?: {
-                results?: ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel[]
+                results?: ModelReturnTypeBasicUnion[]
             }
             isLoading: boolean
         }) || {}
