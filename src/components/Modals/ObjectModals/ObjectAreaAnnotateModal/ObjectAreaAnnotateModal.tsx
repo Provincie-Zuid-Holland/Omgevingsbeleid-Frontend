@@ -4,6 +4,7 @@ import { Button } from '@pzh-ui/components'
 import { AngleDown } from '@pzh-ui/icons'
 
 import { Form, Formik, FormikProps } from 'formik'
+import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
@@ -109,6 +110,8 @@ const InnerForm = <TData extends Values>({
     values,
     setFieldValue,
 }: FormikProps<TData>) => {
+    const { moduleId } = useParams()
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const modalState = useModalStore(
         state => state.modalStates['objectAreaAnnotate']
@@ -128,9 +131,10 @@ const InnerForm = <TData extends Values>({
         <Form>
             <div className="mb-4 flex flex-col gap-4">
                 <DynamicObjectSearch
-                    filterType={['gebiedsaanwijzing']}
-                    filterOnModule
-                    status="all"
+                    filterParams={{
+                        object_types: ['gebiedsaanwijzing'],
+                        module_id: moduleId ? parseInt(moduleId) : undefined,
+                    }}
                     label="Gebiedsaanwijzing"
                     required
                     placeholder="Selecteer een gebiedsaanwijzing"

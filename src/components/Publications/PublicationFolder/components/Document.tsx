@@ -101,7 +101,7 @@ const Document = ({
             mutation: {
                 mutationFn: async ({ versionUuid, data }): Promise<any> =>
                     downloadFile(
-                        `publication-versions/${versionUuid}/pdf_export`,
+                        `/publication-versions/${versionUuid}/pdf_export`,
                         data
                     ),
                 onError: (err: AxiosError<HTTPValidationError>) => {

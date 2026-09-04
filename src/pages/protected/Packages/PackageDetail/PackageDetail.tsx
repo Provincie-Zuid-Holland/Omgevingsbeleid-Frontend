@@ -208,7 +208,7 @@ const PackageDetailInner = ({
 
 interface RowProps {
     label: string
-    value?: string
+    value?: string | null
     link?: string
 }
 
