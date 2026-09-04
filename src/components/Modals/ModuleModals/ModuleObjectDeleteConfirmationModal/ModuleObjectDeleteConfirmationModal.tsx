@@ -2,12 +2,12 @@ import { Button, Text } from '@pzh-ui/components'
 
 import { Module } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import * as models from '@/config/objects'
 import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useModule from '@/hooks/useModule'
 import useModalStore from '@/store/modalStore'
 
-import { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '../../types'
 
 const ModuleObjectDeleteConfirmationModal = () => {

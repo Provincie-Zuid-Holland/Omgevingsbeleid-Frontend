@@ -1,4 +1,4 @@
-import { ZodIssueCode, array, boolean, object, z } from 'zod'
+import { array, boolean, object, z, ZodIssueCode } from 'zod'
 
 import { DocumentType, ProcedureType } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'

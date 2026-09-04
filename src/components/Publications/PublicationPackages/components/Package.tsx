@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { Badge, BadgeProps, Button, formatDate, Text } from '@pzh-ui/components'
 import {
     ArrowDownToLine,
@@ -5,13 +7,13 @@ import {
     Check,
     EyeLight,
 } from '@pzh-ui/icons'
-import { useMemo } from 'react'
+
+import { useNavigate } from 'react-router-dom'
 
 import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
-
 import { parseUtc } from '@/utils/parseUtc'
-import { useNavigate } from 'react-router-dom'
+
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import { getIndicatorClass, getPackageStatus } from './utils'
@@ -78,7 +80,7 @@ const Package = ({
     )
 
     return (
-        <div className="border-pzh-gray-200 flex items-center justify-between border-b px-6 py-3 last:border-b-0">
+        <div className="flex items-center justify-between border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">
             <div className="flex items-center gap-4">
                 <div className={indicatorClass}>
                     {Report_Status !== 'pending' && (
@@ -135,7 +137,7 @@ const Package = ({
 
                                 <ArrowUpRightFromSquareLight
                                     size={14}
-                                    className="text-pzh-green-500 -mt-0.5"
+                                    className="-mt-0.5 text-pzh-green-500"
                                 />
                             </Button>
                         )}

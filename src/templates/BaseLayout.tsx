@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useRef } from 'react'
 
 import { useLocation } from 'react-router-dom'
+
 import Footer from '../components/Footer'
 import Navigation from '../components/Navigation'
 

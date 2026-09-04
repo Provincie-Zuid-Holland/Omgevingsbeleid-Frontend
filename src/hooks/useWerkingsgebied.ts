@@ -1,8 +1,10 @@
+import { useParams } from 'react-router-dom'
+
 import {
     useWerkingsgebiedViewModuleObjectLatest,
     useWerkingsgebiedViewObjectLatest,
 } from '@/api/fetchers'
-import { useParams } from 'react-router-dom'
+
 import useAuth from './useAuth'
 
 export const useWerkingsgebied = (Object_ID: number) => {

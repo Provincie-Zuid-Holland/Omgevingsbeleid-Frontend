@@ -1,6 +1,8 @@
+import { formatDate } from '@pzh-ui/components'
+
 import { NextObjectVersion } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
-import { formatDate } from '@pzh-ui/components'
+
 import { parseUtc } from './parseUtc'
 
 interface Props {

@@ -1,3 +1,5 @@
+import { useCallback, useMemo, useState } from 'react'
+
 import { Button, Text } from '@pzh-ui/components'
 import {
     AngleDown,
@@ -10,8 +12,8 @@ import {
     PenToSquare,
     Share,
 } from '@pzh-ui/icons'
+
 import clsx from 'clsx'
-import { useCallback, useMemo, useState } from 'react'
 
 import { AcknowledgedRelation } from '@/api/fetchers.schemas'
 
@@ -101,7 +103,7 @@ export default function ObjectAcknowledgedRelationPart({
         <div className="w-full">
             <div
                 className={clsx(
-                    'bg-pzh-gray-100 border-pzh-gray-300 relative flex items-center justify-between rounded-t border p-4',
+                    'relative flex items-center justify-between rounded-t border border-pzh-gray-300 bg-pzh-gray-100 p-4',
                     { 'rounded-b': !open && !isReceived }
                 )}>
                 <div className="flex items-center">
@@ -156,7 +158,7 @@ export default function ObjectAcknowledgedRelationPart({
                                 <Button
                                     variant="secondary"
                                     size="small"
-                                    className="bg-pzh-white mr-3"
+                                    className="mr-3 bg-pzh-white"
                                     onPress={onDeny}>
                                     Afwijzen
                                 </Button>
@@ -176,7 +178,7 @@ export default function ObjectAcknowledgedRelationPart({
                 <>
                     <div
                         id="relation-details"
-                        className="border-pzh-gray-300 flex items-start rounded-b border-r border-b border-l px-4 pt-2 pb-3">
+                        className="flex items-start rounded-b border-r border-b border-l border-pzh-gray-300 px-4 pt-2 pb-3">
                         {!isReceived && !isAwaiting && (
                             <div className="mt-1 mr-4">
                                 {(isApproved || Side_B.Acknowledged) && (
@@ -193,7 +195,7 @@ export default function ObjectAcknowledgedRelationPart({
                     </div>
 
                     {(isApproved || isDeclined) && (
-                        <div className="border-pzh-gray-300 mt-2 rounded border px-4 pt-2 pb-3">
+                        <div className="mt-2 rounded border border-pzh-gray-300 px-4 pt-2 pb-3">
                             <div className="mb-2 flex items-center">
                                 {(isApproved || Side_A.Acknowledged) && (
                                     <MessageCheck size={20} className="mr-4" />

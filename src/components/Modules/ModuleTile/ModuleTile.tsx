@@ -1,4 +1,5 @@
 import { Badge, Heading, Text } from '@pzh-ui/components'
+
 import { Link } from 'react-router-dom'
 
 import { Module, ModuleShort } from '@/api/fetchers.schemas'
@@ -13,7 +14,7 @@ const ModuleTile = ({
     <Link
         to={`/muteer/modules/${Module_ID}`}
         data-testid="dashboard-module-tile"
-        className="group border-pzh-gray-200 flex flex-col justify-between rounded border p-6">
+        className="group flex flex-col justify-between rounded border border-pzh-gray-200 p-6">
         <div className="mb-4">
             <Heading level="3" size="m">
                 {Title}
@@ -29,7 +30,7 @@ const ModuleTile = ({
                 upperCase={false}
                 className="whitespace-nowrap"
             />
-            <button className="text-pzh-green-500 text-s group-hover:text-pzh-green-900 underline group-hover:no-underline">
+            <button className="text-s text-pzh-green-500 underline group-hover:text-pzh-green-900 group-hover:no-underline">
                 Bekijk module
             </button>
         </div>

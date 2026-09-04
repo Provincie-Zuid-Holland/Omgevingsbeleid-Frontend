@@ -1,10 +1,12 @@
+import { BackLink, Heading } from '@pzh-ui/components'
+
+import { Link, Outlet, useParams } from 'react-router-dom'
+
 import {
     usePublicationEnvironmentsGetDetailEnvironment,
     usePublicationVersionsGetDetailVersion,
 } from '@/api/fetchers'
 import { buildVersionTitle } from '@/pages/protected/Packages/config'
-import { BackLink, Heading } from '@pzh-ui/components'
-import { Link, Outlet, useParams } from 'react-router-dom'
 
 const DecisionDetail = () => {
     const { moduleId, versionUUID } = useParams()
@@ -35,7 +37,7 @@ const DecisionDetail = () => {
             <div>
                 <BackLink
                     asChild
-                    className="text-s text-pzh-blue-500 inline-flex underline hover:no-underline">
+                    className="inline-flex text-s text-pzh-blue-500 underline hover:no-underline">
                     <Link to={`/muteer/modules/${moduleId}/besluiten`}>
                         Terug naar het overzicht
                     </Link>

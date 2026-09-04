@@ -1,7 +1,9 @@
+import { useMemo } from 'react'
+
 import { Heading } from '@pzh-ui/components'
 import { Triangle } from '@pzh-ui/icons'
+
 import classNames from 'clsx'
-import { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { ModelType } from '@/config/objects/types'
@@ -53,7 +55,7 @@ const NetworkLegend = () => {
     }
 
     return (
-        <div className="bg-pzh-white shadow-card absolute right-5 bottom-5 px-4 py-3">
+        <div className="absolute right-5 bottom-5 bg-pzh-white px-4 py-3 shadow-card">
             {transformedFilters.map((group, index) => (
                 <div
                     key={group.label}
@@ -61,7 +63,7 @@ const NetworkLegend = () => {
                     <Heading
                         level="2"
                         size="s"
-                        className="text-pzh-blue-500 mb-1">
+                        className="mb-1 text-pzh-blue-500">
                         {group.label}
                     </Heading>
 
@@ -98,22 +100,22 @@ const getIcon = (type: ModelType) => {
         case 'ambitie':
             return (
                 <Triangle
-                    className="text-pzh-apple-green-500 mr-2"
+                    className="mr-2 text-pzh-apple-green-500"
                     stroke="black"
                     strokeWidth={28}
                 />
             )
         case 'beleidsdoel':
             return (
-                <div className="rounded-0.5 bg-pzh-orange-500 border-pzh-black mr-[11px] h-3 w-3 border" />
+                <div className="rounded-0.5 mr-[11px] h-3 w-3 border border-pzh-black bg-pzh-orange-500" />
             )
         case 'beleidskeuze':
             return (
-                <div className="bg-pzh-yellow-500 border-pzh-black mr-[11px] h-3 w-3 rounded-full border" />
+                <div className="mr-[11px] h-3 w-3 rounded-full border border-pzh-black bg-pzh-yellow-500" />
             )
         case 'maatregel':
             return (
-                <div className="bg-pzh-blue-500 border-pzh-black mr-[11px] h-2.5 w-2.5 translate-x-px -translate-y-0.5 rotate-[45deg] rounded-xs border" />
+                <div className="mr-[11px] h-2.5 w-2.5 translate-x-px -translate-y-0.5 rotate-[45deg] rounded-xs border border-pzh-black bg-pzh-blue-500" />
             )
         default:
             return <div />

@@ -1,4 +1,5 @@
 import { Heading, Text } from '@pzh-ui/components'
+
 import { Helmet } from 'react-helmet-async'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
@@ -23,7 +24,7 @@ const NotFoundPage = () => {
                 <meta name="og:description" content={META.description} />
             </Helmet>
 
-            <Container className="pb-16 pt-4">
+            <Container className="pt-4 pb-16">
                 <div className="col-span-6 mb-8">
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
@@ -40,7 +41,7 @@ const NotFoundPage = () => {
 
                     <Text className="my-4">Je kunt het volgende proberen:</Text>
 
-                    <div className="prose prose-neutral mb-4 max-w-full leading-6 text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 md:mb-8">
+                    <div className="prose mb-4 max-w-full leading-6 text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 md:mb-8 prose-li:my-0">
                         <ul>
                             <li>
                                 Controleer het internetadres in de adresbalk.

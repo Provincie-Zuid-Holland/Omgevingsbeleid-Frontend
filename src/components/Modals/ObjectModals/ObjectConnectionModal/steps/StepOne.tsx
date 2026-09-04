@@ -1,8 +1,10 @@
+import { useMemo } from 'react'
+
 import { Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { PenToSquare, TrashCan } from '@pzh-ui/icons'
+
 import classNames from 'clsx'
 import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 
@@ -91,7 +93,7 @@ const Connection = ({
         <div className="mt-3">
             <div
                 className={classNames(
-                    'border-pzh-gray-300 bg-pzh-gray-100 flex items-center justify-between border p-4',
+                    'flex items-center justify-between border border-pzh-gray-300 bg-pzh-gray-100 p-4',
                     {
                         rounded: atemporal,
                         'rounded-tl rounded-tr': !atemporal,
@@ -132,7 +134,7 @@ const Connection = ({
                 </div>
             </div>
             {!atemporal && !!Description && (
-                <div className="border-pzh-gray-300 rounded-br rounded-bl border border-t-0 px-3 py-2">
+                <div className="rounded-br rounded-bl border border-t-0 border-pzh-gray-300 px-3 py-2">
                     <Text>{Description}</Text>
                 </div>
             )}

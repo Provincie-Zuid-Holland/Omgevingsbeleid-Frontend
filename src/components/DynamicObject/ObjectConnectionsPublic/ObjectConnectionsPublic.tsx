@@ -1,4 +1,8 @@
+import { useMemo } from 'react'
+
 import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
+
+import groupBy from 'lodash.groupby'
 import { Link, useParams } from 'react-router-dom'
 
 import { HierachyReference } from '@/api/fetchers.schemas'
@@ -11,8 +15,7 @@ import {
 } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { generateObjectPath } from '@/utils/dynamicObject'
-import groupBy from 'lodash.groupby'
-import { useMemo } from 'react'
+
 import ObjectNetwork from '../ObjectNetwork'
 
 interface ObjectConnectionsPublicProps {
@@ -27,9 +30,9 @@ const ObjectConnectionsPublic = ({
     const { moduleId } = useParams()
     const { user } = useAuth()
 
-    const acknowledgedRelationModel =
-        data.Hierarchy_Statics &&
-        models[data.Hierarchy_Statics.Object_Type as ModelType]
+    const acknowledgedRelationModel: Model | undefined = data.Hierarchy_Statics
+        ? models[data.Hierarchy_Statics.Object_Type as ModelType]
+        : undefined
     const { useGetLatestLineage, useGetLatestLineageInModule } =
         acknowledgedRelationModel?.fetchers || {}
 
@@ -79,14 +82,15 @@ const ObjectConnectionsPublic = ({
 
         return (Object.keys(grouped) as ModelType[])
             .sort()
-            .reduce<
-                Partial<Record<ModelType, HierachyReference[]>>
-            >((acc, key) => {
-                acc[key] = (grouped[key] ?? []).sort((a, b) =>
-                    (a.Title ?? '').localeCompare(b.Title ?? '')
-                )
-                return acc
-            }, {})
+            .reduce<Partial<Record<ModelType, HierachyReference[]>>>(
+                (acc, key) => {
+                    acc[key] = (grouped[key] ?? []).sort((a, b) =>
+                        (a.Title ?? '').localeCompare(b.Title ?? '')
+                    )
+                    return acc
+                },
+                {}
+            )
     }, [data.Hierarchy_Children])
 
     return (

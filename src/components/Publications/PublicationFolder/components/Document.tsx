@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react'
+
 import {
     Badge,
     BadgeProps,
@@ -15,6 +17,10 @@ import {
     PenToSquare,
     TriangleExclamationSolid,
 } from '@pzh-ui/icons'
+
+import { AxiosError } from 'axios'
+import clsx from 'clsx'
+import { Link, useParams } from 'react-router-dom'
 
 import {
     usePublicationVersionsGetListVersions,
@@ -35,10 +41,6 @@ import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
 import { parseUtc } from '@/utils/parseUtc'
 import { toastNotification } from '@/utils/toastNotification'
-import { AxiosError } from 'axios'
-import clsx from 'clsx'
-import { useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
 
 const PDF_ERROR = [
     'PDF preview service timed out',
@@ -216,9 +218,9 @@ const Document = ({
     )
 
     return (
-        <div className="border-pzh-gray-200 flex h-16 border-b first:border-t last:border-b-0">
-            <div className="border-pzh-gray-200 flex h-[inherit] w-5/12 items-center border-r pr-6 pl-8">
-                <div className="border-pzh-gray-200 flex h-[inherit] items-center gap-4">
+        <div className="flex h-16 border-b border-pzh-gray-200 first:border-t last:border-b-0">
+            <div className="flex h-[inherit] w-5/12 items-center border-r border-pzh-gray-200 pr-6 pl-8">
+                <div className="flex h-[inherit] items-center gap-4 border-pzh-gray-200">
                     <Icon
                         size={24}
                         className="text-pzh-blue-100 group-data-[disabled]/procedure:text-pzh-gray-300"
@@ -226,7 +228,7 @@ const Document = ({
                     <Heading
                         level="3"
                         size="m"
-                        className="group-data-[disabled]/procedure:text-pzh-gray-300 capitalize">
+                        className="capitalize group-data-[disabled]/procedure:text-pzh-gray-300">
                         {config[documentType].label}
                     </Heading>
                 </div>
@@ -269,7 +271,7 @@ const Document = ({
                                         }>
                                         <TriangleExclamationSolid
                                             size={18}
-                                            className="text-pzh-red-500 -mt-0.5 ml-2 cursor-help"
+                                            className="-mt-0.5 ml-2 cursor-help text-pzh-red-500"
                                         />
                                     </Tooltip>
                                 )}

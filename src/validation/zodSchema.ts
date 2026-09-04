@@ -1,6 +1,4 @@
-import { isVisuallyEmpty } from '@/utils/removeEmptyInlineTags'
 import {
-    ZodTypeAny,
     any,
     array,
     instanceof as instanceOf,
@@ -8,7 +6,10 @@ import {
     object,
     string,
     union,
+    ZodTypeAny,
 } from 'zod'
+
+import { isVisuallyEmpty } from '@/utils/removeEmptyInlineTags'
 
 const EMPTY_ERROR = 'Het veld is niet (goed) ingevuld.'
 const EMPTY_PARAGRAPH_ERROR =

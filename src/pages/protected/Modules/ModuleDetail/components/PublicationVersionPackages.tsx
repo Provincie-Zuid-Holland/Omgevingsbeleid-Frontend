@@ -1,3 +1,9 @@
+import { useEffect, useState } from 'react'
+
+import { Accordion } from '@pzh-ui/components'
+
+import { useParams } from 'react-router-dom'
+
 import {
     usePublicationActPackagesGetListActPackages,
     usePublicationAnnouncementPackagesGetListAnnouncementPackages,
@@ -10,9 +16,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import PublicationNotification from '@/components/Publications/PublicationNotification'
 import PublicationPackages from '@/components/Publications/PublicationPackages'
 import useModule from '@/hooks/useModule'
-import { Accordion } from '@pzh-ui/components'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
 const PublicationVersionPackages = () => {
     const { versionUUID } = useParams()

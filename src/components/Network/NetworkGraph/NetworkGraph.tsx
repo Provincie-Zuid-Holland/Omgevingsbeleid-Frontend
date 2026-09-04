@@ -50,7 +50,7 @@ const NetworkGraph = () => {
             {activeTab === 'visual' ? (
                 <div className="py-6">
                     <NetworkFilter graph={{ links, nodes }} />
-                    <div className="border-pzh-gray-200 bg-pzh-white relative mt-3 h-[60vh] min-h-[600px] overflow-hidden rounded border">
+                    <div className="relative mt-3 h-[60vh] min-h-[600px] overflow-hidden rounded border border-pzh-gray-200 bg-pzh-white">
                         <NetworkVisual graph={{ links, nodes }} />
                     </div>
                 </div>

@@ -9,7 +9,7 @@ const PageHero = ({ image }: PageHeroProps) => {
 
     return (
         <div
-            className="bg-pzh-blue-500 hidden h-[288px] w-full bg-cover bg-center bg-no-repeat md:block"
+            className="hidden h-[288px] w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat md:block"
             style={{
                 backgroundImage: `url(${image})`,
                 height: width > 1600 ? 288 : 240,
