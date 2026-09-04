@@ -114,8 +114,9 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     type: 'search',
                     required: true,
                     objectKey: 'Object_Code',
-                    filterType: ['ambitie'],
-                    status: 'all',
+                    filterParams: {
+                        object_types: ['ambitie'],
+                    },
                     placeholder: 'Kies de ambitie',
                     components: {
                         DropdownIndicator: () => (

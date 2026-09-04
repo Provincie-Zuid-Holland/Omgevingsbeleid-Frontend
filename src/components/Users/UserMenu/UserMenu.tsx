@@ -22,7 +22,7 @@ const UserMenu = () => {
         <>
             <div className="relative">
                 <button
-                    className="ml-2 flex items-center text-pzh-white"
+                    className="text-pzh-white ml-2 flex items-center"
                     onClick={() => setIsOpen(!isOpen)}
                     data-testid="user-menu">
                     <span className="sr-only">Gebruikersmenu</span>
@@ -43,9 +43,11 @@ const UserMenu = () => {
                     hasBackdrop>
                     <div className="px-4 py-2">
                         <Text bold>{user?.Gebruikersnaam}</Text>
-                        <Text size="s" className="block">
-                            {user?.Rol}
-                        </Text>
+                        {user?.Roles.map(role => (
+                            <Text key={role} size="s" className="block">
+                                {role}
+                            </Text>
+                        ))}
                     </div>
                     <Divider className="mt-0" />
                     <div className="px-4 py-2">

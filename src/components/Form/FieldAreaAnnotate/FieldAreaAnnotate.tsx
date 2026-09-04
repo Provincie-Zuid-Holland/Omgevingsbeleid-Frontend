@@ -1,5 +1,5 @@
 import { usePublicationValueListsGetAreaDesignation } from '@/api/fetchers'
-import { GebiedsaanwijzingPatch } from '@/api/fetchers.schemas'
+import { GebiedsaanwijzingPostModulePatchObjectBody } from '@/api/fetchers.schemas'
 import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { useUpdateEffect } from '@react-hookz/web'
 import { useFormikContext } from 'formik'
@@ -14,7 +14,7 @@ const FieldAreaAnnotate = ({
     ...props
 }: FieldAreaAnnotateProps) => {
     const { values, setFieldValue, setFieldTouched } =
-        useFormikContext<GebiedsaanwijzingPatch>()
+        useFormikContext<GebiedsaanwijzingPostModulePatchObjectBody>()
 
     const { data, isLoading } = usePublicationValueListsGetAreaDesignation()
 

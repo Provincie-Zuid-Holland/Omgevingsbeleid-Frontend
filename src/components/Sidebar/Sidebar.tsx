@@ -15,11 +15,8 @@ import { ModelType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 
 const Sidebar = () => {
-    const {
-        canEditUser,
-        canViewPublicationTemplate,
-        canViewPublicationPackage,
-    } = usePermissions()
+    const { canEditUser, canViewPublicationTemplate, canViewUnifiedPackages } =
+        usePermissions()
 
     const [expanded, setExpanded] = useState(false)
 
@@ -107,11 +104,10 @@ const Sidebar = () => {
                         )
                     })}
 
-                    {(canViewPublicationTemplate ||
-                        canViewPublicationPackage) && (
+                    {(canViewPublicationTemplate || canViewUnifiedPackages) && (
                         <>
                             <div className="bg-pzh-blue-500 h-px w-full" />
-                            {canViewPublicationPackage && (
+                            {canViewUnifiedPackages && (
                                 <MenuItem
                                     name="Leveringen"
                                     path="/muteer/leveringen"
