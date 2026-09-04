@@ -1,4 +1,4 @@
-import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
+import { Heading, Hyperlink, ListLink } from '@pzh-ui/components'
 import { Helmet } from 'react-helmet-async'
 import { Link, useParams } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
+import ObjectContent from '@/components/DynamicObject/ObjectContent'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { generateObjectPath } from '@/utils/dynamicObject'
 import NotFoundPage from '../NotFoundPage'
@@ -69,9 +70,49 @@ function ThemeDetail() {
                 )}
             </Helmet>
 
-            <Container className="pb-20">
-                <div className="col-span-6 mb-10">
-                    <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
+            <Container className="pt-4 pb-16">
+                <div className="col-span-6 mb-8">
+                    <Breadcrumbs items={breadcrumbPaths} />
+                </div>
+
+                <div className="order-2 col-span-6 mt-6 flex flex-col xl:col-span-4 xl:mt-0">
+                    <Heading
+                        level="1"
+                        size="xxl"
+                        className="order-2 mt-4 mb-2 md:order-3 md:mb-4">
+                        {data?.Title}
+                    </Heading>
+
+                    <Heading level="2" size="m" className="order-1">
+                        Thematisch programma
+                    </Heading>
+
+                    <div className="order-3">
+                        <ObjectContent data={data || {}} />
+
+                        <Hyperlink asChild>
+                            <Link
+                                to={generateObjectPath(
+                                    'beleidsdoel',
+                                    data?.UUID
+                                )}>
+                                Lees meer informatie over dit beleidsdoel
+                            </Link>
+                        </Hyperlink>
+                    </div>
+
+                    {data?.Hierarchy_Children && (
+                        <div className="order-4 mt-8 flex flex-col gap-8">
+                            {sortByTitle(data.Hierarchy_Children).map(
+                                object => (
+                                    <ConnectedObject
+                                        key={object.UUID}
+                                        {...object}
+                                    />
+                                )
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className="order-1 col-span-6 xl:col-span-2">
@@ -80,40 +121,6 @@ function ThemeDetail() {
                         hideRevisions
                         {...data}
                     />
-                </div>
-
-                <div className="order-2 col-span-6 flex flex-col gap-8 xl:col-span-4 xl:mt-0">
-                    <div>
-                        <Heading level="3" size="m" className="mb-2">
-                            Thematisch programma
-                        </Heading>
-                        <Heading level="1" size="xxl">
-                            {data?.Title}
-                        </Heading>
-                    </div>
-
-                    <div data-section="Inhoud">
-                        {data?.Description && (
-                            <Text
-                                className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line"
-                                dangerouslySetInnerHTML={{
-                                    __html: data.Description,
-                                }}
-                            />
-                        )}
-                        <Hyperlink asChild>
-                            <Link
-                                to={`/omgevingsvisie/beleidsdoelen/${data?.UUID}`}>
-                                Lees meer informatie over dit beleidsdoel
-                            </Link>
-                        </Hyperlink>
-                    </div>
-
-                    {data?.Hierarchy_Children?.sort((a, b) =>
-                        (a?.Title ?? '').localeCompare(b?.Title ?? '')
-                    ).map(object => (
-                        <ConnectedObject key={object.UUID} {...object} />
-                    ))}
                 </div>
             </Container>
         </>
