@@ -11,6 +11,7 @@ import * as models from '@/config/objects'
 import { ModelReturnType, ModelType } from '@/config/objects/types'
 
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
+import { sortByFields } from '@/utils/sortByFields'
 import NotFoundPage from '../NotFoundPage'
 
 function ThemeDetail() {
@@ -33,6 +34,10 @@ function ThemeDetail() {
             name: data?.Title || '',
         },
     ]
+
+    const sortedItems = sortByFields(data?.Beleidskeuzes ?? [], [
+        item => item.Object?.Title,
+    ])
 
     if (isLoading) return <LoaderContent />
 
@@ -105,18 +110,12 @@ function ThemeDetail() {
                         </Hyperlink>
                     </div>
 
-                    {[...(data?.Beleidskeuzes ?? [])]
-                        .sort((a, b) =>
-                            (a.Object?.Title ?? '').localeCompare(
-                                b.Object?.Title ?? ''
-                            )
-                        )
-                        .map(object => (
-                            <ConnectedObject
-                                key={object.Object?.UUID}
-                                {...object}
-                            />
-                        ))}
+                    {sortedItems.map(object => (
+                        <ConnectedObject
+                            key={object.Object?.UUID}
+                            {...object}
+                        />
+                    ))}
                 </div>
             </Container>
         </>
@@ -136,6 +135,10 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
             query: { enabled: !!Object.UUID },
         }) || {}
 
+    const sortedItems = sortByFields(data?.Maatregelen ?? [], [
+        item => item.Object?.Title,
+    ])
+
     return (
         <div className="grid gap-3" data-section={Object.Title}>
             <Heading level="2" size="m">
@@ -146,30 +149,24 @@ const ConnectedObject = ({ Object }: ReadRelationShortBeleidskeuzeMinimal) => {
                 <LoaderSpinner />
             ) : !!data?.Maatregelen?.length ? (
                 <div className="flex flex-col">
-                    {[...data.Maatregelen]
-                        .sort((a, b) =>
-                            (a.Object?.Title ?? '').localeCompare(
-                                b.Object?.Title ?? ''
-                            )
-                        )
-                        .map(item => {
-                            if (!item.Object) return null
-                            const model =
-                                models[item.Object.Object_Type as ModelType]
-                            const { slugOverview, plural } = model.defaults
+                    {sortedItems.map(item => {
+                        if (!item.Object) return null
+                        const model =
+                            models[item.Object.Object_Type as ModelType]
+                        const { slugOverview, plural } = model.defaults
 
-                            return (
-                                <ListLink
-                                    asChild
-                                    key={item.Object.UUID}
-                                    className="text-pzh-green-500 hover:text-pzh-blue-500">
-                                    <Link
-                                        to={`/${slugOverview}/${plural}/${item.Object.UUID}`}>
-                                        {item.Object.Title}
-                                    </Link>
-                                </ListLink>
-                            )
-                        })}
+                        return (
+                            <ListLink
+                                asChild
+                                key={item.Object.UUID}
+                                className="text-pzh-green-500 hover:text-pzh-blue-500">
+                                <Link
+                                    to={`/${slugOverview}/${plural}/${item.Object.UUID}`}>
+                                    {item.Object.Title}
+                                </Link>
+                            </ListLink>
+                        )
+                    })}
                 </div>
             ) : (
                 <span className="text-pzh-gray-600 italic">

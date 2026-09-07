@@ -11,6 +11,7 @@ import {
 } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { generateObjectPath } from '@/utils/dynamicObject'
+import { sortByFields } from '@/utils/sortByFields'
 import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
 import ObjectNetwork from '../ObjectNetwork'
@@ -79,14 +80,16 @@ const ObjectConnectionsPublic = ({
 
         return (Object.keys(grouped) as ModelType[])
             .sort()
-            .reduce<
-                Partial<Record<ModelType, HierachyReference[]>>
-            >((acc, key) => {
-                acc[key] = (grouped[key] ?? []).sort((a, b) =>
-                    (a.Title ?? '').localeCompare(b.Title ?? '')
-                )
-                return acc
-            }, {})
+            .reduce<Partial<Record<ModelType, HierachyReference[]>>>(
+                (acc, key) => {
+                    acc[key] = sortByFields(grouped[key] ?? [], [
+                        item => item.Title,
+                    ])
+
+                    return acc
+                },
+                {}
+            )
     }, [data.Hierarchy_Children])
 
     return (
