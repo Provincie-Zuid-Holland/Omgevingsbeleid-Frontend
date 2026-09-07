@@ -54,7 +54,15 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
             })
             .filter(Boolean)
 
-        return groupBy(connections, 'Object_Type')
+        const grouped = groupBy(connections, 'Object_Type')
+
+        Object.keys(grouped).forEach(key => {
+            grouped[key].sort((a, b) =>
+                (a?.Title ?? '').localeCompare(b?.Title ?? '')
+            )
+        })
+
+        return grouped
     }, [data, model.allowedConnections])
 
     const breadcrumbPaths = [
