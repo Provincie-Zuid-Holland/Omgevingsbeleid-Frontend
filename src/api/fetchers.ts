@@ -34,7 +34,7 @@ import type {
     AmbitieGetModuleListLineageTreeParams,
     AmbitieListValidLineageTreeParams,
     AmbitieListValidLineagesParams,
-    AmbitiePatch,
+    AmbitiePostModulePatchObjectBody,
     AmbitieStaticPostStatics,
     AmbitieStaticStatics,
     AmbitieUUID,
@@ -47,7 +47,7 @@ import type {
     BeleidsdoelGetModuleListLineageTreeParams,
     BeleidsdoelListValidLineageTreeParams,
     BeleidsdoelListValidLineagesParams,
-    BeleidsdoelPatch,
+    BeleidsdoelPostModulePatchObjectBody,
     BeleidsdoelStaticPostStatics,
     BeleidsdoelStaticStatics,
     BeleidsdoelUUID,
@@ -57,7 +57,7 @@ import type {
     BeleidskeuzeGetModuleListLineageTreeParams,
     BeleidskeuzeListValidLineageTreeParams,
     BeleidskeuzeListValidLineagesParams,
-    BeleidskeuzePatch,
+    BeleidskeuzePostModulePatchObjectBody,
     BeleidskeuzeStaticPostStatics,
     BeleidskeuzeStaticStatics,
     BeleidskeuzeUUID,
@@ -66,26 +66,29 @@ import type {
     BeleidsregelGetModuleListLineageTreeParams,
     BeleidsregelListValidLineageTreeParams,
     BeleidsregelListValidLineagesParams,
-    BeleidsregelPatch,
+    BeleidsregelPostModulePatchObjectBody,
     BeleidsregelStaticPostStatics,
     BeleidsregelStaticStatics,
     BeleidsregelUUID,
     BodyAuthenticationPostAuthLoginAccessToken,
+    BodyObjectRelatedFilesPostObjectRelatedFilesUpload,
     BodyPublicationActReportsPostUploadActPackageReport,
     BodyPublicationAnnouncementReportsPostUploadAnnouncementPackageReport,
     BodyPublicationVersionsPostUploadAttachment,
     BodyStorageFilePostFilesUpload,
     CompleteModule,
+    CreateHoofdlijn,
     DocumentFull,
     DocumentGetListActiveModuleObjectsParams,
     DocumentGetModuleListLineageTreeParams,
     DocumentListValidLineageTreeParams,
     DocumentListValidLineagesParams,
-    DocumentPatch,
+    DocumentPostModulePatchObjectBody,
     DocumentStaticPostStatics,
     DocumentStaticStatics,
     DocumentUUID,
     EditAcknowledgedRelation,
+    EditHoofdlijn,
     EditUser,
     EnvironmentCreate,
     EnvironmentCreatedResponse,
@@ -95,7 +98,7 @@ import type {
     GebiedGetModuleListLineageTreeParams,
     GebiedListValidLineageTreeParams,
     GebiedListValidLineagesParams,
-    GebiedPatch,
+    GebiedPostModulePatchObjectBody,
     GebiedStaticPostStatics,
     GebiedStaticStatics,
     GebiedUUID,
@@ -104,7 +107,7 @@ import type {
     GebiedengroepGetModuleListLineageTreeParams,
     GebiedengroepListValidLineageTreeParams,
     GebiedengroepListValidLineagesParams,
-    GebiedengroepPatch,
+    GebiedengroepPostModulePatchObjectBody,
     GebiedengroepStaticPostStatics,
     GebiedengroepStaticStatics,
     GebiedengroepUUID,
@@ -113,7 +116,7 @@ import type {
     GebiedsaanwijzingGetModuleListLineageTreeParams,
     GebiedsaanwijzingListValidLineageTreeParams,
     GebiedsaanwijzingListValidLineagesParams,
-    GebiedsaanwijzingPatch,
+    GebiedsaanwijzingPostModulePatchObjectBody,
     GebiedsaanwijzingStaticPostStatics,
     GebiedsaanwijzingStaticStatics,
     GebiedsaanwijzingUUID,
@@ -122,13 +125,17 @@ import type {
     GebiedsprogrammaGetModuleListLineageTreeParams,
     GebiedsprogrammaListValidLineageTreeParams,
     GebiedsprogrammaListValidLineagesParams,
-    GebiedsprogrammaPatch,
+    GebiedsprogrammaPostModulePatchObjectBody,
     GebiedsprogrammaStaticPostStatics,
     GebiedsprogrammaStaticStatics,
     GebiedsprogrammaUUID,
     GraphGetObjectGraphParams,
     GraphResponse,
     HTTPValidationError,
+    Hoofdlijn,
+    HoofdlijnCreatedResponse,
+    HoofdlijnGetHoofdlijnenListParams,
+    HoofdlijnPostHoofdlijnenSearchParams,
     InputGeoGetInputGeoListLatestWerkingsgebiedenParams,
     InputGeoGetInputGeoWerkingsgebiedenHistoryParams,
     InputGeoWerkingsgebied,
@@ -140,7 +147,7 @@ import type {
     MaatregelGetModuleListLineageTreeParams,
     MaatregelListValidLineageTreeParams,
     MaatregelListValidLineagesParams,
-    MaatregelPatch,
+    MaatregelPostModulePatchObjectBody,
     MaatregelStaticPostStatics,
     MaatregelStaticStatics,
     MaatregelUUID,
@@ -165,6 +172,8 @@ import type {
     NationaalBelangStaticStatics,
     NationaalBelangUUID,
     NewObjectStaticResponse,
+    ObjectRelatedFileResponse,
+    ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams,
     ObjectsDoListAllLatestParams,
     PagedResponseAmbitieBasic,
     PagedResponseAmbitieExtended,
@@ -184,6 +193,7 @@ import type {
     PagedResponseGebiedsaanwijzingExtended,
     PagedResponseGebiedsprogrammaBasic,
     PagedResponseGebiedsprogrammaExtended,
+    PagedResponseHoofdlijn,
     PagedResponseInputGeoWerkingsgebied,
     PagedResponseMaatregelBasic,
     PagedResponseMaatregelExtended,
@@ -196,6 +206,7 @@ import type {
     PagedResponsePublicModuleShort,
     PagedResponsePublication,
     PagedResponsePublicationAOJ,
+    PagedResponsePublicationActPackage,
     PagedResponsePublicationActPackageReportShort,
     PagedResponsePublicationActShort,
     PagedResponsePublicationAnnouncementPackageReportShort,
@@ -222,7 +233,7 @@ import type {
     ProgrammaAlgemeenGetModuleListLineageTreeParams,
     ProgrammaAlgemeenListValidLineageTreeParams,
     ProgrammaAlgemeenListValidLineagesParams,
-    ProgrammaAlgemeenPatch,
+    ProgrammaAlgemeenPostModulePatchObjectBody,
     ProgrammaAlgemeenStaticPostStatics,
     ProgrammaAlgemeenStaticStatics,
     ProgrammaAlgemeenUUID,
@@ -266,13 +277,13 @@ import type {
     PublicationsGetListPublicationsParams,
     ReadRelation,
     RequestAcknowledgedRelation,
+    RequestData,
     ResetPasswordResponse,
     ResponseOK,
     RootModelListObjectCount,
-    SearchGetMssqlSearchParams,
     SearchGetMssqlValidSearchParams,
+    SearchGetSearchParams,
     SearchRequestData,
-    SearchRequestDataWithLike,
     SourceWerkingsgebiedenGetListWerkingsgebiedenParams,
     StorageFileBasic,
     StorageFileGetFilesListParams,
@@ -300,7 +311,7 @@ import type {
     VisieAlgemeenGetModuleListLineageTreeParams,
     VisieAlgemeenListValidLineageTreeParams,
     VisieAlgemeenListValidLineagesParams,
-    VisieAlgemeenPatch,
+    VisieAlgemeenPostModulePatchObjectBody,
     VisieAlgemeenStaticPostStatics,
     VisieAlgemeenStaticStatics,
     VisieAlgemeenUUID,
@@ -309,7 +320,7 @@ import type {
     WerkingsgebiedGetModuleListLineageTreeParams,
     WerkingsgebiedListValidLineageTreeParams,
     WerkingsgebiedListValidLineagesParams,
-    WerkingsgebiedPatch,
+    WerkingsgebiedPostModulePatchObjectBody,
     WerkingsgebiedStaticPostStatics,
     WerkingsgebiedStaticStatics,
     WerkingsgebiedUUID,
@@ -669,6 +680,485 @@ export const useGraphGetObjectGraph = <
     query.queryKey = queryOptions.queryKey
 
     return query
+}
+
+/**
+ * @summary Create a new hoofdlijn
+ */
+export const hoofdlijnPostHoofdlijnenCreate = (
+    createHoofdlijn: CreateHoofdlijn
+) => {
+    return customInstance<HoofdlijnCreatedResponse>({
+        url: `/hoofdlijnen`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: createHoofdlijn,
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenCreateMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+        TError,
+        { data: CreateHoofdlijn },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+    TError,
+    { data: CreateHoofdlijn },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+        { data: CreateHoofdlijn }
+    > = props => {
+        const { data } = props ?? {}
+
+        return hoofdlijnPostHoofdlijnenCreate(data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnPostHoofdlijnenCreateMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>
+>
+export type HoofdlijnPostHoofdlijnenCreateMutationBody = CreateHoofdlijn
+export type HoofdlijnPostHoofdlijnenCreateMutationError = HTTPValidationError
+
+/**
+ * @summary Create a new hoofdlijn
+ */
+export const useHoofdlijnPostHoofdlijnenCreate = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+        TError,
+        { data: CreateHoofdlijn },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenCreate>>,
+    TError,
+    { data: CreateHoofdlijn },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnPostHoofdlijnenCreateMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary List hoofdlijnen
+ */
+export const hoofdlijnGetHoofdlijnenList = (
+    params?: HoofdlijnGetHoofdlijnenListParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseHoofdlijn>({
+        url: `/hoofdlijnen`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getHoofdlijnGetHoofdlijnenListQueryKey = (
+    params?: HoofdlijnGetHoofdlijnenListParams
+) => {
+    return [`/hoofdlijnen`, ...(params ? [params] : [])] as const
+}
+
+export const getHoofdlijnGetHoofdlijnenListQueryOptions = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+    TError = HTTPValidationError,
+>(
+    params?: HoofdlijnGetHoofdlijnenListParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getHoofdlijnGetHoofdlijnenListQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>
+    > = ({ signal }) => hoofdlijnGetHoofdlijnenList(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type HoofdlijnGetHoofdlijnenListQueryResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>
+>
+export type HoofdlijnGetHoofdlijnenListQueryError = HTTPValidationError
+
+/**
+ * @summary List hoofdlijnen
+ */
+export const useHoofdlijnGetHoofdlijnenList = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+    TError = HTTPValidationError,
+>(
+    params?: HoofdlijnGetHoofdlijnenListParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenList>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getHoofdlijnGetHoofdlijnenListQueryOptions(
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Search for hoofdlijnen
+ */
+export const hoofdlijnPostHoofdlijnenSearch = (
+    params: HoofdlijnPostHoofdlijnenSearchParams
+) => {
+    return customInstance<PagedResponseHoofdlijn>({
+        url: `/hoofdlijnen/search`,
+        method: 'POST',
+        params,
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenSearchMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+        TError,
+        { params: HoofdlijnPostHoofdlijnenSearchParams },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+    TError,
+    { params: HoofdlijnPostHoofdlijnenSearchParams },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+        { params: HoofdlijnPostHoofdlijnenSearchParams }
+    > = props => {
+        const { params } = props ?? {}
+
+        return hoofdlijnPostHoofdlijnenSearch(params)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnPostHoofdlijnenSearchMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>
+>
+
+export type HoofdlijnPostHoofdlijnenSearchMutationError = HTTPValidationError
+
+/**
+ * @summary Search for hoofdlijnen
+ */
+export const useHoofdlijnPostHoofdlijnenSearch = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+        TError,
+        { params: HoofdlijnPostHoofdlijnenSearchParams },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenSearch>>,
+    TError,
+    { params: HoofdlijnPostHoofdlijnenSearchParams },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnPostHoofdlijnenSearchMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete an existing hoofdlijn
+ */
+export const hoofdlijnDeleteHoofdlijnen = (hoofdlijnUuid: string) => {
+    return customInstance<ResponseOK>({
+        url: `/hoofdlijnen/${hoofdlijnUuid}`,
+        method: 'DELETE',
+    })
+}
+
+export const getHoofdlijnDeleteHoofdlijnenMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+        TError,
+        { hoofdlijnUuid: string },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+    TError,
+    { hoofdlijnUuid: string },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+        { hoofdlijnUuid: string }
+    > = props => {
+        const { hoofdlijnUuid } = props ?? {}
+
+        return hoofdlijnDeleteHoofdlijnen(hoofdlijnUuid)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnDeleteHoofdlijnenMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>
+>
+
+export type HoofdlijnDeleteHoofdlijnenMutationError = HTTPValidationError
+
+/**
+ * @summary Delete an existing hoofdlijn
+ */
+export const useHoofdlijnDeleteHoofdlijnen = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+        TError,
+        { hoofdlijnUuid: string },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnDeleteHoofdlijnen>>,
+    TError,
+    { hoofdlijnUuid: string },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnDeleteHoofdlijnenMutationOptions(options)
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Get hoofdlijn details
+ */
+export const hoofdlijnGetHoofdlijnenDetail = (
+    hoofdlijnUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<Hoofdlijn>({
+        url: `/hoofdlijnen/${hoofdlijnUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getHoofdlijnGetHoofdlijnenDetailQueryKey = (
+    hoofdlijnUuid: string
+) => {
+    return [`/hoofdlijnen/${hoofdlijnUuid}`] as const
+}
+
+export const getHoofdlijnGetHoofdlijnenDetailQueryOptions = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+    TError = HTTPValidationError,
+>(
+    hoofdlijnUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getHoofdlijnGetHoofdlijnenDetailQueryKey(hoofdlijnUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>
+    > = ({ signal }) => hoofdlijnGetHoofdlijnenDetail(hoofdlijnUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!hoofdlijnUuid,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type HoofdlijnGetHoofdlijnenDetailQueryResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>
+>
+export type HoofdlijnGetHoofdlijnenDetailQueryError = HTTPValidationError
+
+/**
+ * @summary Get hoofdlijn details
+ */
+export const useHoofdlijnGetHoofdlijnenDetail = <
+    TData = Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+    TError = HTTPValidationError,
+>(
+    hoofdlijnUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof hoofdlijnGetHoofdlijnenDetail>>,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions = getHoofdlijnGetHoofdlijnenDetailQueryOptions(
+        hoofdlijnUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Edit an existing hoofdlijn
+ */
+export const hoofdlijnPostHoofdlijnenEdit = (
+    hoofdlijnUuid: string,
+    editHoofdlijn: EditHoofdlijn
+) => {
+    return customInstance<ResponseOK>({
+        url: `/hoofdlijnen/${hoofdlijnUuid}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: editHoofdlijn,
+    })
+}
+
+export const getHoofdlijnPostHoofdlijnenEditMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+        TError,
+        { hoofdlijnUuid: string; data: EditHoofdlijn },
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+    TError,
+    { hoofdlijnUuid: string; data: EditHoofdlijn },
+    TContext
+> => {
+    const { mutation: mutationOptions } = options ?? {}
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+        { hoofdlijnUuid: string; data: EditHoofdlijn }
+    > = props => {
+        const { hoofdlijnUuid, data } = props ?? {}
+
+        return hoofdlijnPostHoofdlijnenEdit(hoofdlijnUuid, data)
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type HoofdlijnPostHoofdlijnenEditMutationResult = NonNullable<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>
+>
+export type HoofdlijnPostHoofdlijnenEditMutationBody = EditHoofdlijn
+export type HoofdlijnPostHoofdlijnenEditMutationError = HTTPValidationError
+
+/**
+ * @summary Edit an existing hoofdlijn
+ */
+export const useHoofdlijnPostHoofdlijnenEdit = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+        TError,
+        { hoofdlijnUuid: string; data: EditHoofdlijn },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof hoofdlijnPostHoofdlijnenEdit>>,
+    TError,
+    { hoofdlijnUuid: string; data: EditHoofdlijn },
+    TContext
+> => {
+    const mutationOptions =
+        getHoofdlijnPostHoofdlijnenEditMutationOptions(options)
+
+    return useMutation(mutationOptions)
 }
 
 /**
@@ -2449,6 +2939,352 @@ export const useModulesGetListModuleObjects = <
 }
 
 /**
+ * @summary List related files for an object
+ */
+export const objectRelatedFilesGetObjectRelatedFilesList = (
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<ObjectRelatedFileResponse[]>({
+        url: `/beleidsdoel/${lineageId}/object-related-files`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getObjectRelatedFilesGetObjectRelatedFilesListQueryKey = (
+    lineageId: number
+) => {
+    return [`/beleidsdoel/${lineageId}/object-related-files`] as const
+}
+
+export const getObjectRelatedFilesGetObjectRelatedFilesListQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof objectRelatedFilesGetObjectRelatedFilesList
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getObjectRelatedFilesGetObjectRelatedFilesListQueryKey(lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>>
+    > = ({ signal }) =>
+        objectRelatedFilesGetObjectRelatedFilesList(lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!lineageId,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type ObjectRelatedFilesGetObjectRelatedFilesListQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>>
+    >
+export type ObjectRelatedFilesGetObjectRelatedFilesListQueryError =
+    HTTPValidationError
+
+/**
+ * @summary List related files for an object
+ */
+export const useObjectRelatedFilesGetObjectRelatedFilesList = <
+    TData = Awaited<
+        ReturnType<typeof objectRelatedFilesGetObjectRelatedFilesList>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof objectRelatedFilesGetObjectRelatedFilesList
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getObjectRelatedFilesGetObjectRelatedFilesListQueryOptions(
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
+ * @summary Upload and link a file to an object
+ */
+export const objectRelatedFilesPostObjectRelatedFilesUpload = (
+    lineageId: number,
+    bodyObjectRelatedFilesPostObjectRelatedFilesUpload: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+) => {
+    const formData = new FormData()
+    formData.append(
+        'title',
+        bodyObjectRelatedFilesPostObjectRelatedFilesUpload.title
+    )
+    formData.append(
+        'ignore_report',
+        bodyObjectRelatedFilesPostObjectRelatedFilesUpload.ignore_report.toString()
+    )
+    formData.append(
+        'uploaded_file',
+        bodyObjectRelatedFilesPostObjectRelatedFilesUpload.uploaded_file
+    )
+
+    return customInstance<ObjectRelatedFileResponse>({
+        url: `/beleidsdoel/${lineageId}/object-related-files`,
+        method: 'POST',
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: formData,
+    })
+}
+
+export const getObjectRelatedFilesPostObjectRelatedFilesUploadMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesPostObjectRelatedFilesUpload
+                >
+            >,
+            TError,
+            {
+                lineageId: number
+                data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+            },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>
+        >,
+        TError,
+        {
+            lineageId: number
+            data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+        },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesPostObjectRelatedFilesUpload
+                >
+            >,
+            {
+                lineageId: number
+                data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+            }
+        > = props => {
+            const { lineageId, data } = props ?? {}
+
+            return objectRelatedFilesPostObjectRelatedFilesUpload(
+                lineageId,
+                data
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type ObjectRelatedFilesPostObjectRelatedFilesUploadMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>
+        >
+    >
+export type ObjectRelatedFilesPostObjectRelatedFilesUploadMutationBody =
+    BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+export type ObjectRelatedFilesPostObjectRelatedFilesUploadMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Upload and link a file to an object
+ */
+export const useObjectRelatedFilesPostObjectRelatedFilesUpload = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>
+        >,
+        TError,
+        {
+            lineageId: number
+            data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+        },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<ReturnType<typeof objectRelatedFilesPostObjectRelatedFilesUpload>>,
+    TError,
+    {
+        lineageId: number
+        data: BodyObjectRelatedFilesPostObjectRelatedFilesUpload
+    },
+    TContext
+> => {
+    const mutationOptions =
+        getObjectRelatedFilesPostObjectRelatedFilesUploadMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
+}
+
+/**
+ * @summary Delete a related file
+ */
+export const objectRelatedFilesDeleteObjectRelatedFilesDelete = (
+    lineageId: number,
+    params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+) => {
+    return customInstance<ResponseOK>({
+        url: `/beleidsdoel/${lineageId}/object-related-files/delete`,
+        method: 'DELETE',
+        params,
+    })
+}
+
+export const getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationOptions =
+    <TError = HTTPValidationError, TContext = unknown>(options?: {
+        mutation?: UseMutationOptions<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesDeleteObjectRelatedFilesDelete
+                >
+            >,
+            TError,
+            {
+                lineageId: number
+                params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+            },
+            TContext
+        >
+    }): UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+        >,
+        TError,
+        {
+            lineageId: number
+            params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+        },
+        TContext
+    > => {
+        const { mutation: mutationOptions } = options ?? {}
+
+        const mutationFn: MutationFunction<
+            Awaited<
+                ReturnType<
+                    typeof objectRelatedFilesDeleteObjectRelatedFilesDelete
+                >
+            >,
+            {
+                lineageId: number
+                params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+            }
+        > = props => {
+            const { lineageId, params } = props ?? {}
+
+            return objectRelatedFilesDeleteObjectRelatedFilesDelete(
+                lineageId,
+                params
+            )
+        }
+
+        return { mutationFn, ...mutationOptions }
+    }
+
+export type ObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationResult =
+    NonNullable<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+        >
+    >
+
+export type ObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationError =
+    HTTPValidationError
+
+/**
+ * @summary Delete a related file
+ */
+export const useObjectRelatedFilesDeleteObjectRelatedFilesDelete = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<
+            ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+        >,
+        TError,
+        {
+            lineageId: number
+            params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+        },
+        TContext
+    >
+}): UseMutationResult<
+    Awaited<
+        ReturnType<typeof objectRelatedFilesDeleteObjectRelatedFilesDelete>
+    >,
+    TError,
+    {
+        lineageId: number
+        params: ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams
+    },
+    TContext
+> => {
+    const mutationOptions =
+        getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMutationOptions(
+            options
+        )
+
+    return useMutation(mutationOptions)
+}
+
+/**
  * @summary List object types with counts for loggedin user
  */
 export const objectsViewObjectCounts = (signal?: AbortSignal) => {
@@ -3041,7 +3877,7 @@ export const publicationActPackagesGetListActPackages = (
     params?: PublicationActPackagesGetListActPackagesParams,
     signal?: AbortSignal
 ) => {
-    return customInstance<PagedResponsePublicationPackage>({
+    return customInstance<PagedResponsePublicationActPackage>({
         url: `/publication-act-packages`,
         method: 'GET',
         params,
@@ -7637,6 +8473,125 @@ export const usePublicationVersionsPostDeleteAttachment = <
 }
 
 /**
+ * @summary Download a publication version attachment
+ */
+export const publicationVersionsGetDownloadAttachment = (
+    versionUuid: string,
+    attachmentId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<unknown>({
+        url: `/publication-versions/${versionUuid}/attachments/${attachmentId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getPublicationVersionsGetDownloadAttachmentQueryKey = (
+    versionUuid: string,
+    attachmentId: number
+) => {
+    return [
+        `/publication-versions/${versionUuid}/attachments/${attachmentId}`,
+    ] as const
+}
+
+export const getPublicationVersionsGetDownloadAttachmentQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof publicationVersionsGetDownloadAttachment>
+    >,
+    TError = HTTPValidationError,
+>(
+    versionUuid: string,
+    attachmentId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationVersionsGetDownloadAttachment>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getPublicationVersionsGetDownloadAttachmentQueryKey(
+            versionUuid,
+            attachmentId
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof publicationVersionsGetDownloadAttachment>>
+    > = ({ signal }) =>
+        publicationVersionsGetDownloadAttachment(
+            versionUuid,
+            attachmentId,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(versionUuid && attachmentId),
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof publicationVersionsGetDownloadAttachment>>,
+        TError,
+        TData
+    > & { queryKey: QueryKey }
+}
+
+export type PublicationVersionsGetDownloadAttachmentQueryResult = NonNullable<
+    Awaited<ReturnType<typeof publicationVersionsGetDownloadAttachment>>
+>
+export type PublicationVersionsGetDownloadAttachmentQueryError =
+    HTTPValidationError
+
+/**
+ * @summary Download a publication version attachment
+ */
+export const usePublicationVersionsGetDownloadAttachment = <
+    TData = Awaited<
+        ReturnType<typeof publicationVersionsGetDownloadAttachment>
+    >,
+    TError = HTTPValidationError,
+>(
+    versionUuid: string,
+    attachmentId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof publicationVersionsGetDownloadAttachment>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+    const queryOptions =
+        getPublicationVersionsGetDownloadAttachmentQueryOptions(
+            versionUuid,
+            attachmentId,
+            options
+        )
+
+    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+        queryKey: QueryKey
+    }
+
+    query.queryKey = queryOptions.queryKey
+
+    return query
+}
+
+/**
  * @summary Download Publication Version as Pdf
  */
 export const publicationVersionsPostCreateVersionPdf = (
@@ -8053,77 +9008,77 @@ export const usePublicationsPostEditPublication = <
 /**
  * @summary Search for objects
  */
-export const searchGetMssqlSearch = (
-    searchRequestDataWithLike: SearchRequestDataWithLike,
-    params: SearchGetMssqlSearchParams
+export const searchGetSearch = (
+    requestData: RequestData,
+    params?: SearchGetSearchParams
 ) => {
     return customInstance<PagedResponseSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
         {
             url: `/search`,
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            data: searchRequestDataWithLike,
+            data: requestData,
             params,
         }
     )
 }
 
-export const getSearchGetMssqlSearchMutationOptions = <
+export const getSearchGetSearchMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchGetMssqlSearch>>,
+        Awaited<ReturnType<typeof searchGetSearch>>,
         TError,
-        { data: SearchRequestDataWithLike; params: SearchGetMssqlSearchParams },
+        { data: RequestData; params?: SearchGetSearchParams },
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof searchGetMssqlSearch>>,
+    Awaited<ReturnType<typeof searchGetSearch>>,
     TError,
-    { data: SearchRequestDataWithLike; params: SearchGetMssqlSearchParams },
+    { data: RequestData; params?: SearchGetSearchParams },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof searchGetMssqlSearch>>,
-        { data: SearchRequestDataWithLike; params: SearchGetMssqlSearchParams }
+        Awaited<ReturnType<typeof searchGetSearch>>,
+        { data: RequestData; params?: SearchGetSearchParams }
     > = props => {
         const { data, params } = props ?? {}
 
-        return searchGetMssqlSearch(data, params)
+        return searchGetSearch(data, params)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type SearchGetMssqlSearchMutationResult = NonNullable<
-    Awaited<ReturnType<typeof searchGetMssqlSearch>>
+export type SearchGetSearchMutationResult = NonNullable<
+    Awaited<ReturnType<typeof searchGetSearch>>
 >
-export type SearchGetMssqlSearchMutationBody = SearchRequestDataWithLike
-export type SearchGetMssqlSearchMutationError = HTTPValidationError
+export type SearchGetSearchMutationBody = RequestData
+export type SearchGetSearchMutationError = HTTPValidationError
 
 /**
  * @summary Search for objects
  */
-export const useSearchGetMssqlSearch = <
+export const useSearchGetSearch = <
     TError = HTTPValidationError,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchGetMssqlSearch>>,
+        Awaited<ReturnType<typeof searchGetSearch>>,
         TError,
-        { data: SearchRequestDataWithLike; params: SearchGetMssqlSearchParams },
+        { data: RequestData; params?: SearchGetSearchParams },
         TContext
     >
 }): UseMutationResult<
-    Awaited<ReturnType<typeof searchGetMssqlSearch>>,
+    Awaited<ReturnType<typeof searchGetSearch>>,
     TError,
-    { data: SearchRequestDataWithLike; params: SearchGetMssqlSearchParams },
+    { data: RequestData; params?: SearchGetSearchParams },
     TContext
 > => {
-    const mutationOptions = getSearchGetMssqlSearchMutationOptions(options)
+    const mutationOptions = getSearchGetSearchMutationOptions(options)
 
     return useMutation(mutationOptions)
 }
@@ -9860,13 +10815,13 @@ export const useAmbitieEditObjectStatic = <
 export const ambitiePostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    ambitiePatch: AmbitiePatch
+    ambitiePostModulePatchObjectBody: AmbitiePostModulePatchObjectBody
 ) => {
     return customInstance<AmbitieUUID>({
         url: `/modules/${moduleId}/object/ambitie/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: ambitiePatch,
+        data: ambitiePostModulePatchObjectBody,
     })
 }
 
@@ -9877,20 +10832,32 @@ export const getAmbitiePostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiePostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: AmbitiePatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: AmbitiePostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof ambitiePostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: AmbitiePatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: AmbitiePostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof ambitiePostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: AmbitiePatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: AmbitiePostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -9903,7 +10870,8 @@ export const getAmbitiePostModulePatchObjectMutationOptions = <
 export type AmbitiePostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof ambitiePostModulePatchObject>>
 >
-export type AmbitiePostModulePatchObjectMutationBody = AmbitiePatch
+export type AmbitiePostModulePatchObjectMutationBody =
+    AmbitiePostModulePatchObjectBody
 export type AmbitiePostModulePatchObjectMutationError = HTTPValidationError
 
 /**
@@ -9916,13 +10884,21 @@ export const useAmbitiePostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof ambitiePostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: AmbitiePatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: AmbitiePostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof ambitiePostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: AmbitiePatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: AmbitiePostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -11168,13 +12144,13 @@ export const useBeleidsdoelEditObjectStatic = <
 export const beleidsdoelPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    beleidsdoelPatch: BeleidsdoelPatch
+    beleidsdoelPostModulePatchObjectBody: BeleidsdoelPostModulePatchObjectBody
 ) => {
     return customInstance<BeleidsdoelUUID>({
         url: `/modules/${moduleId}/object/beleidsdoel/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: beleidsdoelPatch,
+        data: beleidsdoelPostModulePatchObjectBody,
     })
 }
 
@@ -11185,20 +12161,32 @@ export const getBeleidsdoelPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: BeleidsdoelPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidsdoelPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidsdoelPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: BeleidsdoelPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: BeleidsdoelPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsdoelPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: BeleidsdoelPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidsdoelPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -11211,7 +12199,8 @@ export const getBeleidsdoelPostModulePatchObjectMutationOptions = <
 export type BeleidsdoelPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsdoelPostModulePatchObject>>
 >
-export type BeleidsdoelPostModulePatchObjectMutationBody = BeleidsdoelPatch
+export type BeleidsdoelPostModulePatchObjectMutationBody =
+    BeleidsdoelPostModulePatchObjectBody
 export type BeleidsdoelPostModulePatchObjectMutationError = HTTPValidationError
 
 /**
@@ -11224,13 +12213,21 @@ export const useBeleidsdoelPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsdoelPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: BeleidsdoelPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidsdoelPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof beleidsdoelPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: BeleidsdoelPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: BeleidsdoelPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -12758,13 +13755,13 @@ export const useBeleidskeuzePostAcknowledgedRelationEdit = <
 export const beleidskeuzePostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    beleidskeuzePatch: BeleidskeuzePatch
+    beleidskeuzePostModulePatchObjectBody: BeleidskeuzePostModulePatchObjectBody
 ) => {
     return customInstance<BeleidskeuzeUUID>({
         url: `/modules/${moduleId}/object/beleidskeuze/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: beleidskeuzePatch,
+        data: beleidskeuzePostModulePatchObjectBody,
     })
 }
 
@@ -12775,20 +13772,32 @@ export const getBeleidskeuzePostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzePostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: BeleidskeuzePatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidskeuzePostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidskeuzePostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: BeleidskeuzePatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: BeleidskeuzePostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidskeuzePostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: BeleidskeuzePatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidskeuzePostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -12801,7 +13810,8 @@ export const getBeleidskeuzePostModulePatchObjectMutationOptions = <
 export type BeleidskeuzePostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidskeuzePostModulePatchObject>>
 >
-export type BeleidskeuzePostModulePatchObjectMutationBody = BeleidskeuzePatch
+export type BeleidskeuzePostModulePatchObjectMutationBody =
+    BeleidskeuzePostModulePatchObjectBody
 export type BeleidskeuzePostModulePatchObjectMutationError = HTTPValidationError
 
 /**
@@ -12814,13 +13824,21 @@ export const useBeleidskeuzePostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidskeuzePostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: BeleidskeuzePatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidskeuzePostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof beleidskeuzePostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: BeleidskeuzePatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: BeleidskeuzePostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -14092,13 +15110,13 @@ export const useBeleidsregelEditObjectStatic = <
 export const beleidsregelPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    beleidsregelPatch: BeleidsregelPatch
+    beleidsregelPostModulePatchObjectBody: BeleidsregelPostModulePatchObjectBody
 ) => {
     return customInstance<BeleidsregelUUID>({
         url: `/modules/${moduleId}/object/beleidsregel/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: beleidsregelPatch,
+        data: beleidsregelPostModulePatchObjectBody,
     })
 }
 
@@ -14109,20 +15127,32 @@ export const getBeleidsregelPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: BeleidsregelPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidsregelPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof beleidsregelPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: BeleidsregelPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: BeleidsregelPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof beleidsregelPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: BeleidsregelPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidsregelPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -14135,7 +15165,8 @@ export const getBeleidsregelPostModulePatchObjectMutationOptions = <
 export type BeleidsregelPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof beleidsregelPostModulePatchObject>>
 >
-export type BeleidsregelPostModulePatchObjectMutationBody = BeleidsregelPatch
+export type BeleidsregelPostModulePatchObjectMutationBody =
+    BeleidsregelPostModulePatchObjectBody
 export type BeleidsregelPostModulePatchObjectMutationError = HTTPValidationError
 
 /**
@@ -14148,13 +15179,21 @@ export const useBeleidsregelPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof beleidsregelPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: BeleidsregelPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: BeleidsregelPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof beleidsregelPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: BeleidsregelPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: BeleidsregelPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -15248,13 +16287,13 @@ export const useDocumentEditObjectStatic = <
 export const documentPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    documentPatch: DocumentPatch
+    documentPostModulePatchObjectBody: DocumentPostModulePatchObjectBody
 ) => {
     return customInstance<DocumentUUID>({
         url: `/modules/${moduleId}/object/document/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: documentPatch,
+        data: documentPostModulePatchObjectBody,
     })
 }
 
@@ -15265,20 +16304,32 @@ export const getDocumentPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof documentPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: DocumentPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: DocumentPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof documentPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: DocumentPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: DocumentPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof documentPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: DocumentPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: DocumentPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -15291,7 +16342,8 @@ export const getDocumentPostModulePatchObjectMutationOptions = <
 export type DocumentPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof documentPostModulePatchObject>>
 >
-export type DocumentPostModulePatchObjectMutationBody = DocumentPatch
+export type DocumentPostModulePatchObjectMutationBody =
+    DocumentPostModulePatchObjectBody
 export type DocumentPostModulePatchObjectMutationError = HTTPValidationError
 
 /**
@@ -15304,13 +16356,21 @@ export const useDocumentPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof documentPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: DocumentPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: DocumentPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof documentPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: DocumentPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: DocumentPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -16378,13 +17438,13 @@ export const useGebiedEditObjectStatic = <
 export const gebiedPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    gebiedPatch: GebiedPatch
+    gebiedPostModulePatchObjectBody: GebiedPostModulePatchObjectBody
 ) => {
     return customInstance<GebiedUUID>({
         url: `/modules/${moduleId}/object/gebied/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: gebiedPatch,
+        data: gebiedPostModulePatchObjectBody,
     })
 }
 
@@ -16395,20 +17455,32 @@ export const getGebiedPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof gebiedPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof gebiedPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: GebiedPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -16421,7 +17493,8 @@ export const getGebiedPostModulePatchObjectMutationOptions = <
 export type GebiedPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof gebiedPostModulePatchObject>>
 >
-export type GebiedPostModulePatchObjectMutationBody = GebiedPatch
+export type GebiedPostModulePatchObjectMutationBody =
+    GebiedPostModulePatchObjectBody
 export type GebiedPostModulePatchObjectMutationError = HTTPValidationError
 
 /**
@@ -16434,13 +17507,21 @@ export const useGebiedPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof gebiedPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -17518,13 +18599,13 @@ export const useGebiedengroepEditObjectStatic = <
 export const gebiedengroepPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    gebiedengroepPatch: GebiedengroepPatch
+    gebiedengroepPostModulePatchObjectBody: GebiedengroepPostModulePatchObjectBody
 ) => {
     return customInstance<GebiedengroepUUID>({
         url: `/modules/${moduleId}/object/gebiedengroep/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: gebiedengroepPatch,
+        data: gebiedengroepPostModulePatchObjectBody,
     })
 }
 
@@ -17535,20 +18616,32 @@ export const getGebiedengroepPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedengroepPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedengroepPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedengroepPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof gebiedengroepPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedengroepPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedengroepPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof gebiedengroepPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: GebiedengroepPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedengroepPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -17561,7 +18654,8 @@ export const getGebiedengroepPostModulePatchObjectMutationOptions = <
 export type GebiedengroepPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof gebiedengroepPostModulePatchObject>>
 >
-export type GebiedengroepPostModulePatchObjectMutationBody = GebiedengroepPatch
+export type GebiedengroepPostModulePatchObjectMutationBody =
+    GebiedengroepPostModulePatchObjectBody
 export type GebiedengroepPostModulePatchObjectMutationError =
     HTTPValidationError
 
@@ -17575,13 +18669,21 @@ export const useGebiedengroepPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedengroepPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedengroepPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedengroepPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof gebiedengroepPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedengroepPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedengroepPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -18793,13 +19895,13 @@ export const useGebiedsaanwijzingEditObjectStatic = <
 export const gebiedsaanwijzingPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    gebiedsaanwijzingPatch: GebiedsaanwijzingPatch
+    gebiedsaanwijzingPostModulePatchObjectBody: GebiedsaanwijzingPostModulePatchObjectBody
 ) => {
     return customInstance<GebiedsaanwijzingUUID>({
         url: `/modules/${moduleId}/object/gebiedsaanwijzing/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: gebiedsaanwijzingPatch,
+        data: gebiedsaanwijzingPostModulePatchObjectBody,
     })
 }
 
@@ -18810,20 +19912,32 @@ export const getGebiedsaanwijzingPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedsaanwijzingPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedsaanwijzingPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedsaanwijzingPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -18837,7 +19951,7 @@ export type GebiedsaanwijzingPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>
 >
 export type GebiedsaanwijzingPostModulePatchObjectMutationBody =
-    GebiedsaanwijzingPatch
+    GebiedsaanwijzingPostModulePatchObjectBody
 export type GebiedsaanwijzingPostModulePatchObjectMutationError =
     HTTPValidationError
 
@@ -18851,13 +19965,21 @@ export const useGebiedsaanwijzingPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedsaanwijzingPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof gebiedsaanwijzingPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedsaanwijzingPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedsaanwijzingPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -20178,13 +21300,13 @@ export const useGebiedsprogrammaEditObjectStatic = <
 export const gebiedsprogrammaPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    gebiedsprogrammaPatch: GebiedsprogrammaPatch
+    gebiedsprogrammaPostModulePatchObjectBody: GebiedsprogrammaPostModulePatchObjectBody
 ) => {
     return customInstance<GebiedsprogrammaUUID>({
         url: `/modules/${moduleId}/object/gebiedsprogrammas/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: gebiedsprogrammaPatch,
+        data: gebiedsprogrammaPostModulePatchObjectBody,
     })
 }
 
@@ -20195,20 +21317,32 @@ export const getGebiedsprogrammaPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammaPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedsprogrammaPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof gebiedsprogrammaPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedsprogrammaPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof gebiedsprogrammaPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedsprogrammaPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -20222,7 +21356,7 @@ export type GebiedsprogrammaPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof gebiedsprogrammaPostModulePatchObject>>
 >
 export type GebiedsprogrammaPostModulePatchObjectMutationBody =
-    GebiedsprogrammaPatch
+    GebiedsprogrammaPostModulePatchObjectBody
 export type GebiedsprogrammaPostModulePatchObjectMutationError =
     HTTPValidationError
 
@@ -20236,13 +21370,21 @@ export const useGebiedsprogrammaPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof gebiedsprogrammaPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: GebiedsprogrammaPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof gebiedsprogrammaPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: GebiedsprogrammaPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: GebiedsprogrammaPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -21538,13 +22680,13 @@ export const useMaatregelEditObjectStatic = <
 export const maatregelPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    maatregelPatch: MaatregelPatch
+    maatregelPostModulePatchObjectBody: MaatregelPostModulePatchObjectBody
 ) => {
     return customInstance<MaatregelUUID>({
         url: `/modules/${moduleId}/object/maatregel/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: maatregelPatch,
+        data: maatregelPostModulePatchObjectBody,
     })
 }
 
@@ -21555,20 +22697,32 @@ export const getMaatregelPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: MaatregelPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: MaatregelPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof maatregelPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: MaatregelPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: MaatregelPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof maatregelPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: MaatregelPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: MaatregelPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -21581,7 +22735,8 @@ export const getMaatregelPostModulePatchObjectMutationOptions = <
 export type MaatregelPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof maatregelPostModulePatchObject>>
 >
-export type MaatregelPostModulePatchObjectMutationBody = MaatregelPatch
+export type MaatregelPostModulePatchObjectMutationBody =
+    MaatregelPostModulePatchObjectBody
 export type MaatregelPostModulePatchObjectMutationError = HTTPValidationError
 
 /**
@@ -21594,13 +22749,21 @@ export const useMaatregelPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof maatregelPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: MaatregelPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: MaatregelPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof maatregelPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: MaatregelPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: MaatregelPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -23450,13 +24613,13 @@ export const useProgrammaAlgemeenEditObjectStatic = <
 export const programmaAlgemeenPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    programmaAlgemeenPatch: ProgrammaAlgemeenPatch
+    programmaAlgemeenPostModulePatchObjectBody: ProgrammaAlgemeenPostModulePatchObjectBody
 ) => {
     return customInstance<ProgrammaAlgemeenUUID>({
         url: `/modules/${moduleId}/object/programma-algemeen/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: programmaAlgemeenPatch,
+        data: programmaAlgemeenPostModulePatchObjectBody,
     })
 }
 
@@ -23467,20 +24630,32 @@ export const getProgrammaAlgemeenPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof programmaAlgemeenPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: ProgrammaAlgemeenPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: ProgrammaAlgemeenPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof programmaAlgemeenPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: ProgrammaAlgemeenPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: ProgrammaAlgemeenPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof programmaAlgemeenPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: ProgrammaAlgemeenPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: ProgrammaAlgemeenPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -23494,7 +24669,7 @@ export type ProgrammaAlgemeenPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof programmaAlgemeenPostModulePatchObject>>
 >
 export type ProgrammaAlgemeenPostModulePatchObjectMutationBody =
-    ProgrammaAlgemeenPatch
+    ProgrammaAlgemeenPostModulePatchObjectBody
 export type ProgrammaAlgemeenPostModulePatchObjectMutationError =
     HTTPValidationError
 
@@ -23508,13 +24683,21 @@ export const useProgrammaAlgemeenPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof programmaAlgemeenPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: ProgrammaAlgemeenPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: ProgrammaAlgemeenPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof programmaAlgemeenPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: ProgrammaAlgemeenPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: ProgrammaAlgemeenPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -25419,13 +26602,13 @@ export const useVisieAlgemeenEditObjectStatic = <
 export const visieAlgemeenPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    visieAlgemeenPatch: VisieAlgemeenPatch
+    visieAlgemeenPostModulePatchObjectBody: VisieAlgemeenPostModulePatchObjectBody
 ) => {
     return customInstance<VisieAlgemeenUUID>({
         url: `/modules/${moduleId}/object/visie-algemeen/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: visieAlgemeenPatch,
+        data: visieAlgemeenPostModulePatchObjectBody,
     })
 }
 
@@ -25436,20 +26619,32 @@ export const getVisieAlgemeenPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof visieAlgemeenPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: VisieAlgemeenPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: VisieAlgemeenPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof visieAlgemeenPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: VisieAlgemeenPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: VisieAlgemeenPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof visieAlgemeenPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: VisieAlgemeenPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: VisieAlgemeenPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -25462,7 +26657,8 @@ export const getVisieAlgemeenPostModulePatchObjectMutationOptions = <
 export type VisieAlgemeenPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof visieAlgemeenPostModulePatchObject>>
 >
-export type VisieAlgemeenPostModulePatchObjectMutationBody = VisieAlgemeenPatch
+export type VisieAlgemeenPostModulePatchObjectMutationBody =
+    VisieAlgemeenPostModulePatchObjectBody
 export type VisieAlgemeenPostModulePatchObjectMutationError =
     HTTPValidationError
 
@@ -25476,13 +26672,21 @@ export const useVisieAlgemeenPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof visieAlgemeenPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: VisieAlgemeenPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: VisieAlgemeenPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof visieAlgemeenPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: VisieAlgemeenPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: VisieAlgemeenPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =
@@ -26592,13 +27796,13 @@ export const useWerkingsgebiedEditObjectStatic = <
 export const werkingsgebiedPostModulePatchObject = (
     moduleId: number,
     lineageId: number,
-    werkingsgebiedPatch: WerkingsgebiedPatch
+    werkingsgebiedPostModulePatchObjectBody: WerkingsgebiedPostModulePatchObjectBody
 ) => {
     return customInstance<WerkingsgebiedUUID>({
         url: `/modules/${moduleId}/object/werkingsgebied/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: werkingsgebiedPatch,
+        data: werkingsgebiedPostModulePatchObjectBody,
     })
 }
 
@@ -26609,20 +27813,32 @@ export const getWerkingsgebiedPostModulePatchObjectMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof werkingsgebiedPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: WerkingsgebiedPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: WerkingsgebiedPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationOptions<
     Awaited<ReturnType<typeof werkingsgebiedPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: WerkingsgebiedPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: WerkingsgebiedPostModulePatchObjectBody
+    },
     TContext
 > => {
     const { mutation: mutationOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof werkingsgebiedPostModulePatchObject>>,
-        { moduleId: number; lineageId: number; data: WerkingsgebiedPatch }
+        {
+            moduleId: number
+            lineageId: number
+            data: WerkingsgebiedPostModulePatchObjectBody
+        }
     > = props => {
         const { moduleId, lineageId, data } = props ?? {}
 
@@ -26636,7 +27852,7 @@ export type WerkingsgebiedPostModulePatchObjectMutationResult = NonNullable<
     Awaited<ReturnType<typeof werkingsgebiedPostModulePatchObject>>
 >
 export type WerkingsgebiedPostModulePatchObjectMutationBody =
-    WerkingsgebiedPatch
+    WerkingsgebiedPostModulePatchObjectBody
 export type WerkingsgebiedPostModulePatchObjectMutationError =
     HTTPValidationError
 
@@ -26650,13 +27866,21 @@ export const useWerkingsgebiedPostModulePatchObject = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof werkingsgebiedPostModulePatchObject>>,
         TError,
-        { moduleId: number; lineageId: number; data: WerkingsgebiedPatch },
+        {
+            moduleId: number
+            lineageId: number
+            data: WerkingsgebiedPostModulePatchObjectBody
+        },
         TContext
     >
 }): UseMutationResult<
     Awaited<ReturnType<typeof werkingsgebiedPostModulePatchObject>>,
     TError,
-    { moduleId: number; lineageId: number; data: WerkingsgebiedPatch },
+    {
+        moduleId: number
+        lineageId: number
+        data: WerkingsgebiedPostModulePatchObjectBody
+    },
     TContext
 > => {
     const mutationOptions =

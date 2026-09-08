@@ -3,7 +3,7 @@ import { Heading, Text } from '@pzh-ui/components'
 import { WerkingsgebiedStatics } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import { Model } from '@/config/objects/types'
-import { useWerkingsgebied } from '@/hooks/useWerkingsgebied'
+import { useArea } from '@/hooks/useArea'
 
 interface ObjectAreaProps extends WerkingsgebiedStatics {
     objectTitle?: string
@@ -18,16 +18,16 @@ const ObjectArea = ({
 }: ObjectAreaProps) => {
     const { singular, prefixSingular } = model.defaults
 
-    const data = useWerkingsgebied(Object_ID)
+    const data = useArea(Object_ID)
 
     return (
         <div data-section="Werkingsgebied">
             <Heading level="2" className="mb-4">
-                Werkingsgebied
+                Gebiedengroep
             </Heading>
             <Text className="mb-4 first-letter:capitalize">
                 {prefixSingular} {singular} ‘{objectTitle}’ heeft als
-                werkingsgebied ‘{data?.Title || Cached_Title}’.
+                gebiedengroep ‘{data?.Title || Cached_Title}’.
             </Text>
 
             {!!data && (
@@ -44,8 +44,8 @@ const ObjectArea = ({
                         </>
                     </Notification> */}
 
-                    <div className="h-[500px] overflow-hidden rounded-lg">
-                        <LeafletTinyViewer uuid={data.Area?.UUID || ''} />
+                    <div className="h-125 overflow-hidden rounded-lg">
+                        <LeafletTinyViewer uuid={data.Source_UUID || ''} />
                     </div>
                 </>
             )}

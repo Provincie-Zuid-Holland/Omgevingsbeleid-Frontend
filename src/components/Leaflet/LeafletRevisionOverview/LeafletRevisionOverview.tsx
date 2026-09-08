@@ -7,7 +7,7 @@ import { useMap } from 'react-leaflet'
 
 import { Feature, getGeoJsonData } from '@/api/axiosGeoJSON'
 import ToggleableSection from '@/components/ToggleableSection'
-import { useWerkingsgebied } from '@/hooks/useWerkingsgebied'
+import { useArea } from '@/hooks/useArea'
 import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
 import LeafletMap from '../LeafletMap'
 
@@ -58,8 +58,8 @@ const LeafletRevisionOverviewInner = ({
         to: null,
     })
 
-    const { Area_UUID: oldUUID } = useWerkingsgebied(area.old!) || {}
-    const { Area_UUID: newUUID } = useWerkingsgebied(area.new!) || {}
+    const { Source_UUID: oldUUID } = useArea(area.old!) || {}
+    const { Source_UUID: newUUID } = useArea(area.new!) || {}
 
     // store hatch patterns per map instance
     const patternRef = useRef<{

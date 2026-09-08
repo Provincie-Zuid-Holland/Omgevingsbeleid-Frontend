@@ -258,7 +258,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         />
                     </div>
 
-                    {data?.Werkingsgebied_Statics && (
+                    {data?.Gebiedengroep_Static && (
                         <div
                             className={classNames('order-7', {
                                 'line-through': isTerminate,
@@ -266,7 +266,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             <ObjectArea
                                 model={model}
                                 objectTitle={data.Title}
-                                {...data.Werkingsgebied_Statics}
+                                {...data.Gebiedengroep_Static}
                             />
                         </div>
                     )}
