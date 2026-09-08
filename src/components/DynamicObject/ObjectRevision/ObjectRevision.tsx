@@ -81,8 +81,8 @@ const ObjectRevision = ({
                 )
             })}
 
-            {(!!revisionTo.Werkingsgebied_Statics ||
-                !!revisionFrom.Werkingsgebied_Statics) &&
+            {(!!revisionTo.Gebiedengroep_Static ||
+                !!revisionFrom.Gebiedengroep_Static) &&
                 ((!!!user && !moduleId) || !!user) && (
                     <>
                         <Divider className="mt-0 mb-6" />
@@ -92,28 +92,27 @@ const ObjectRevision = ({
                         </Heading>
 
                         <Text className="mb-3">
-                            {revisionTo.Werkingsgebied_Statics?.Object_ID ===
-                            revisionFrom.Werkingsgebied_Statics?.Object_ID
-                                ? `Het gebied '${revisionTo.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is ongewijzigd.`
-                                : !!revisionTo.Werkingsgebied_Statics
+                            {revisionTo.Gebiedengroep_Static?.Object_ID ===
+                            revisionFrom.Gebiedengroep_Static?.Object_ID
+                                ? `Het gebied '${revisionTo.Gebiedengroep_Static?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is ongewijzigd.`
+                                : !!revisionTo.Gebiedengroep_Static
                                         ?.Object_ID &&
-                                    !!revisionFrom.Werkingsgebied_Statics
+                                    !!revisionFrom.Gebiedengroep_Static
                                         ?.Object_ID
                                   ? `${singularCapitalize} '${revisionTo.Title}' is gewijzigd van gebied '${revisionTo.Werkingsgebied_Statics?.Cached_Title}' naar gebied '${revisionFrom.Werkingsgebied_Statics?.Cached_Title}'`
-                                  : !!revisionTo.Werkingsgebied_Statics
-                                          ?.Object_ID
-                                    ? `Het gebied '${revisionTo.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is verwijderd.`
-                                    : `Het gebied '${revisionFrom.Werkingsgebied_Statics?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is toegevoegd.`}
+                                  : !!revisionTo.Gebiedengroep_Static?.Object_ID
+                                    ? `Het gebied '${revisionTo.Gebiedengroep_Static?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is verwijderd.`
+                                    : `Het gebied '${revisionFrom.Gebiedengroep_Static?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is toegevoegd.`}
                         </Text>
 
                         <div className="h-[320px] overflow-hidden rounded-lg">
                             <LeafletRevisionOverview
                                 id={`revision-map-${initialObject?.UUID}`}
                                 area={{
-                                    type: 'Werkingsgebieden',
-                                    old: revisionFrom.Werkingsgebied_Statics
+                                    type: 'Gebiedengroep',
+                                    old: revisionFrom.Gebiedengroep_Static
                                         ?.Object_ID,
-                                    new: revisionTo.Werkingsgebied_Statics
+                                    new: revisionTo.Gebiedengroep_Static
                                         ?.Object_ID,
                                 }}
                             />
@@ -121,17 +120,17 @@ const ObjectRevision = ({
                         <div className="mt-3 space-y-1">
                             <span className="flex items-center">
                                 <div className="border-pzh-red-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(-45deg,#D11F3D_0px,#D11F3D_2px,white_2px,white_4px)]" />
-                                Verwijderd werkingsgebied
+                                Verwijderde gebiedengroep
                             </span>
 
                             <span className="flex items-center">
                                 <div className="border-pzh-green-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(45deg,#00804D_0px,#00804D_2px,white_2px,white_4px)]" />
-                                Toegevoegd werkingsgebied
+                                Toegevoegde gebiedengroep
                             </span>
 
                             <span className="flex items-center">
                                 <div className="border-pzh-blue-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(0deg,#281F6B_0px,#281F6B_2px,white_2px,white_4px)]" />
-                                Ongewijzigd werkingsgebied
+                                Ongewijzigde gebiedengroep
                             </span>
                         </div>
                     </>
