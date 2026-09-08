@@ -49,7 +49,7 @@ const LeafletRevisionOverviewInner = ({
 
     const map = useMap()
 
-    const [werkingsgebied, setWerkingsgebied] = useState<FeatureLayer[]>([])
+    const [areaLayers, setAreaLayers] = useState<FeatureLayer[]>([])
     const layerRefs = useRef<{
         from?: Leaflet.GeoJSON | null
         to?: Leaflet.GeoJSON | null
@@ -155,7 +155,7 @@ const LeafletRevisionOverviewInner = ({
             map.removeLayer(layerRefs.current.to)
         }
         layerRefs.current = { from: null, to: null }
-        setWerkingsgebied([])
+        setAreaLayers([])
 
         const mainData = {
             from: geoQueries[0]?.data,
@@ -241,7 +241,7 @@ const LeafletRevisionOverviewInner = ({
         const items: Layer[] = []
         layerRefs.current.from?.eachLayer((l: Layer) => items.push(l))
         layerRefs.current.to?.eachLayer((l: Layer) => items.push(l))
-        setWerkingsgebied(items)
+        setAreaLayers(items)
 
         return () => {
             if (
@@ -254,7 +254,7 @@ const LeafletRevisionOverviewInner = ({
                 map.removeLayer(layerRefs.current.to)
             }
             layerRefs.current = { from: null, to: null }
-            setWerkingsgebied([])
+            setAreaLayers([])
         }
     }, [map, area, oldUUID, newUUID, geoQueries[0]?.data, geoQueries[1]?.data])
 
@@ -268,7 +268,7 @@ const LeafletRevisionOverviewInner = ({
         <LeafletControlLayer>
             <ToggleableSection title="Legenda" positionTop>
                 <ul className="p-2">
-                    {werkingsgebied?.map(layer => (
+                    {areaLayers?.map(layer => (
                         <LeafletAreaLayer
                             key={
                                 layer?.feature?.id ?? Leaflet.Util.stamp(layer)
