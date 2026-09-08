@@ -1976,6 +1976,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pzh-ui/icons@npm:^0.0.100":
+  version: 0.0.100
+  resolution: "@pzh-ui/icons@npm:0.0.100"
+  peerDependencies:
+    react: ^18.3.0 || ^19.0.0
+  checksum: e5bce6b934ee6c1dd1f4e67eaee3269175661e37e6b1c5737d7ca0f65b9d4810065f84b36f7033397770920782c1ae334b61131ab7223b01023bf79cbcf5f38c
+  languageName: node
+  linkType: hard
+
 "@pzh-ui/icons@npm:^0.0.101":
   version: 0.0.101
   resolution: "@pzh-ui/icons@npm:0.0.101"
@@ -1991,15 +2000,6 @@ __metadata:
   dependencies:
     react: "npm:^19.2.6"
   checksum: 6fb22b2d9b0f3dcbfaa73767630d87c677a84fb20c9888b8daa86a33960a7060d12b148481513ca4acedaf0a3fb25387bb1ebb2fc3a4e105d8978f9d25849ebd
-  languageName: node
-  linkType: hard
-
-"@pzh-ui/icons@npm:^0.0.97":
-  version: 0.0.97
-  resolution: "@pzh-ui/icons@npm:0.0.97"
-  dependencies:
-    react: "npm:^19.2.6"
-  checksum: 6cab8c18726a336219969c18cda27a1ebc742c446f55fd6a214dfe8b528a9956e7a14f4f4c6d5652a8394ed0b2c01a62c1b65b2a751f1362a3dd7efb7d1f1812
   languageName: node
   linkType: hard
 
@@ -4690,6 +4690,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/user-event@npm:^14.6.1":
+  version: 14.6.1
+  resolution: "@testing-library/user-event@npm:14.6.1"
+  peerDependencies:
+    "@testing-library/dom": ">=7.21.4"
+  checksum: 34b74fff56a0447731a94b40d4cf246deb8dbc1c1e3aec93acd1c3377a760bb062e979f1572bb34ec164ad28ee2a391744b42d0d6d6cc16c4ce527e5e09610e1
+  languageName: node
+  linkType: hard
+
 "@tiptap/core@npm:^3.30.1":
   version: 3.31.1
   resolution: "@tiptap/core@npm:3.31.1"
@@ -5254,6 +5263,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dompurify@npm:^3.0.2":
+  version: 3.0.5
+  resolution: "@types/dompurify@npm:3.0.5"
+  dependencies:
+    "@types/trusted-types": "npm:*"
+  checksum: e544b3ce53c41215cabff3d89256ff707c7ee8e0c9a1b5034b22014725d288b16e6942cdcdeeb4221c578c3421a6a4721aa0676431f55d7abd18c07368855c5e
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:^1.0.0":
   version: 1.0.8
   resolution: "@types/estree@npm:1.0.8"
@@ -5281,6 +5299,13 @@ __metadata:
   dependencies:
     "@types/unist": "npm:*"
   checksum: 864a274e6e5ce0662de3bf984d804aea1f0e64eb4d5ffed27d9e832ee0002e76dfa18f1812a96b7cc24e2a9f40125ff2e47f73f7ab90c815840047c197d89635
+  languageName: node
+  linkType: hard
+
+"@types/history@npm:^4.7.11":
+  version: 4.7.11
+  resolution: "@types/history@npm:4.7.11"
+  checksum: 1da529a3485f3015daf794effa3185493bf7dd2551c26932389c614f5a0aab76ab97645897d1eef9c74ead216a3848fcaa019f165bbd6e4b71da6eff164b4c68
   languageName: node
   linkType: hard
 
@@ -5428,6 +5453,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-router-dom@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "@types/react-router-dom@npm:5.3.3"
+  dependencies:
+    "@types/history": "npm:^4.7.11"
+    "@types/react": "npm:*"
+    "@types/react-router": "npm:*"
+  checksum: 28c4ea48909803c414bf5a08502acbb8ba414669b4b43bb51297c05fe5addc4df0b8fd00e0a9d1e3535ec4073ef38aaafac2c4a2b95b787167d113bc059beff3
+  languageName: node
+  linkType: hard
+
+"@types/react-router@npm:*":
+  version: 5.1.20
+  resolution: "@types/react-router@npm:5.1.20"
+  dependencies:
+    "@types/history": "npm:^4.7.11"
+    "@types/react": "npm:*"
+  checksum: 72d78d2f4a4752ec40940066b73d7758a0824c4d0cbeb380ae24c8b1cdacc21a6fc835a99d6849b5b295517a3df5466fc28be038f1040bd870f8e39e5ded43a4
+  languageName: node
+  linkType: hard
+
 "@types/react-table@npm:^7.7.15":
   version: 7.7.19
   resolution: "@types/react-table@npm:7.7.19"
@@ -5487,7 +5533,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/trusted-types@npm:^2.0.7":
+"@types/trusted-types@npm:*, @types/trusted-types@npm:^2.0.7":
   version: 2.0.7
   resolution: "@types/trusted-types@npm:2.0.7"
   checksum: 8e4202766a65877efcf5d5a41b7dd458480b36195e580a3b1085ad21e948bc417d55d6f8af1fd2a7ad008015d4117d5fdfe432731157da3c68678487174e4ba3
@@ -10975,7 +11021,7 @@ __metadata:
     "@ianvs/prettier-plugin-sort-imports": "npm:^4.7.1"
     "@pzh-ui/components": "npm:^0.0.687"
     "@pzh-ui/css": "npm:^0.0.118"
-    "@pzh-ui/icons": "npm:^0.0.97"
+    "@pzh-ui/icons": "npm:^0.0.100"
     "@pzh-ui/react": "npm:^0.0.4"
     "@react-hookz/web": "npm:^26.1.0"
     "@tailwindcss/cli": "npm:^4.3.3"
@@ -10984,9 +11030,11 @@ __metadata:
     "@testing-library/dom": "npm:^10.4.1"
     "@testing-library/jest-dom": "npm:^6.9.1"
     "@testing-library/react": "npm:^16.3.2"
+    "@testing-library/user-event": "npm:^14.6.1"
     "@total-typescript/ts-reset": "npm:^0.6.1"
     "@types/crypto-js": "npm:^4"
     "@types/d3": "npm:^7.4.3"
+    "@types/dompurify": "npm:^3.0.2"
     "@types/leaflet": "npm:^1.9.8"
     "@types/leaflet-draw": "npm:^1.0.11"
     "@types/lodash.clonedeep": "npm:^4.5.6"
@@ -10997,6 +11045,7 @@ __metadata:
     "@types/qs": "npm:^6.15.1"
     "@types/react": "npm:^19.2.14"
     "@types/react-dom": "npm:^19.2.3"
+    "@types/react-router-dom": "npm:^5.3.3"
     "@types/uuid": "npm:^9.0.8"
     "@vitejs/plugin-react": "npm:^6.1.1"
     "@vitest/coverage-v8": "npm:^5.0.0"
@@ -11027,9 +11076,9 @@ __metadata:
     prettier-plugin-tailwindcss: "npm:^0.8.1"
     proj4leaflet: "npm:^1.0.2"
     qs: "npm:^6.15.3"
-    react: "npm:19.2.7"
+    react: "npm:^19.2.7"
     react-content-loader: "npm:^7.1.2"
-    react-dom: "npm:19.2.7"
+    react-dom: "npm:^19.2.7"
     react-error-boundary: "npm:^6.1.1"
     react-helmet-async: "npm:^3.0.0"
     react-leaflet: "npm:^5.0.0"
@@ -11196,17 +11245,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.2.7, react-dom@npm:^19.2.7":
-  version: 19.2.7
-  resolution: "react-dom@npm:19.2.7"
-  dependencies:
-    scheduler: "npm:^0.27.0"
-  peerDependencies:
-    react: ^19.2.7
-  checksum: 9564f4b83843ca5518ed5f807c93cb1663706559cde52f3ef814b41e60b63b16e684d849926458f0ba436745d7eabf822cba1c528be370e7b2f35a4c91e35941
-  languageName: node
-  linkType: hard
-
 "react-dom@npm:^19.2.6":
   version: 19.2.6
   resolution: "react-dom@npm:19.2.6"
@@ -11215,6 +11253,17 @@ __metadata:
   peerDependencies:
     react: ^19.2.6
   checksum: 695122e37dec3460311231ff1f9a96368d74457d4ccf60010eaebc08c3e1c47b054c9267b40d98c689ae99d0c29a340acacfd405016a954a4f11613146191e68
+  languageName: node
+  linkType: hard
+
+"react-dom@npm:^19.2.7":
+  version: 19.2.7
+  resolution: "react-dom@npm:19.2.7"
+  dependencies:
+    scheduler: "npm:^0.27.0"
+  peerDependencies:
+    react: ^19.2.7
+  checksum: 9564f4b83843ca5518ed5f807c93cb1663706559cde52f3ef814b41e60b63b16e684d849926458f0ba436745d7eabf822cba1c528be370e7b2f35a4c91e35941
   languageName: node
   linkType: hard
 
@@ -11450,7 +11499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.2.7, react@npm:^19.2.6, react@npm:^19.2.7":
+"react@npm:^19.2.6, react@npm:^19.2.7":
   version: 19.2.7
   resolution: "react@npm:19.2.7"
   checksum: 2939997e87d7f0ee0d9d2bb556866b616b999dfb7916283647034eda867a045a39c4f7a736c8ea6beffffcd78397fc30f63a7a3aaf8425b683c3060670859560

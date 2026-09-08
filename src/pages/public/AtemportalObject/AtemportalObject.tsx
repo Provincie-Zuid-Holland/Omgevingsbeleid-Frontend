@@ -13,6 +13,7 @@ import ObjectList from '@/components/ObjectList'
 import * as models from '@/config/objects'
 import { Model, ModelType } from '@/config/objects/types'
 
+import { sortByFields } from '@/utils/sortByFields'
 import NotFoundPage from '../NotFoundPage'
 
 interface DynamicObjectProps {
@@ -58,13 +59,14 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
 
         const grouped = groupBy(connections, 'Object_Type')
 
-        Object.keys(grouped).forEach(key => {
-            grouped[key].sort((a, b) =>
-                (a?.Title ?? '').localeCompare(b?.Title ?? '')
-            )
-        })
+        const sortedGrouped = Object.fromEntries(
+            Object.entries(grouped).map(([key, items]) => [
+                key,
+                sortByFields(items, [item => item.Title]),
+            ])
+        )
 
-        return grouped
+        return sortedGrouped
     }, [data, model.allowedConnections])
 
     const breadcrumbPaths = [

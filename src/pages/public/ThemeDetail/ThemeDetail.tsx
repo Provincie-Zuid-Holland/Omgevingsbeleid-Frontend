@@ -13,11 +13,8 @@ import { LoaderContent, LoaderSpinner } from '@/components/Loader'
 import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 import { generateObjectPath } from '@/utils/dynamicObject'
-
+import { sortByFields } from '@/utils/sortByFields'
 import NotFoundPage from '../NotFoundPage'
-
-const sortByTitle = (items: HierachyReference[]) =>
-    [...items].sort((a, b) => (a.Title ?? '').localeCompare(b.Title ?? ''))
 
 function ThemeDetail() {
     const { uuid } = useParams<{ uuid: string }>()
@@ -39,6 +36,10 @@ function ThemeDetail() {
             name: data?.Title || '',
         },
     ]
+
+    const sortedItems = sortByFields(data?.Hierarchy_Children ?? [], [
+        item => item.Title,
+    ])
 
     if (isLoading) return <LoaderContent />
 
@@ -104,14 +105,12 @@ function ThemeDetail() {
 
                     {data?.Hierarchy_Children && (
                         <div className="order-4 mt-8 flex flex-col gap-8">
-                            {sortByTitle(data.Hierarchy_Children).map(
-                                object => (
-                                    <ConnectedObject
-                                        key={object.UUID}
-                                        {...object}
-                                    />
-                                )
-                            )}
+                            {sortedItems.map(object => (
+                                <ConnectedObject
+                                    key={object.UUID}
+                                    {...object}
+                                />
+                            ))}
                         </div>
                     )}
                 </div>
@@ -181,9 +180,11 @@ const ConnectedObjectChildren = ({
         )
     }
 
+    const sortedItems = sortByFields(items, [item => item.Title])
+
     return (
         <div className="flex flex-col">
-            {sortByTitle(items).map(item => (
+            {sortedItems.map(item => (
                 <ListLink
                     asChild
                     key={item.UUID}
