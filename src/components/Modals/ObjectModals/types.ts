@@ -34,3 +34,7 @@ export interface ObjectRelationModalActions {
     relations?: AcknowledgedRelation[]
     history?: AcknowledgedRelation[]
 }
+
+export interface ObjectRelatedFilesModalActions {
+    initialStep?: number
+}

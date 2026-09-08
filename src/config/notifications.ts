@@ -31,6 +31,8 @@ export type ToastType =
     | 'publicationAttachmentAdded'
     | 'publicationAttachmentDeleted'
     | 'pdfPreviewError'
+    | 'objectRelatedFileAdded'
+    | 'objectRelatedFileDeleted'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -167,5 +169,13 @@ export const notifications: Record<
         message:
             'Bekendmaking Preview Service (overheid.nl) is niet bereikbaar, probeer het later nog een keer',
         type: 'error',
+    },
+    objectRelatedFileAdded: {
+        message: 'Het bestand is toegevoegd',
+        type: 'success',
+    },
+    objectRelatedFileDeleted: {
+        message: 'Het bestand is verwijderd',
+        type: 'success',
     },
 }

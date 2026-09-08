@@ -139,7 +139,8 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             <div className="col-span-6 mt-6 sm:col-span-2 sm:mt-0">
                 <ObjectDefaultInfo model={model} />
 
-                {Boolean(model.allowedConnections?.length) && (
+                {(Boolean(model.allowedConnections?.length) ||
+                    model.hasRelatedFiles) && (
                     <ObjectConnections model={model} />
                 )}
 

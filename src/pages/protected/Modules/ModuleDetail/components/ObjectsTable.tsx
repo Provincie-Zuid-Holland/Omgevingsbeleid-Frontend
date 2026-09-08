@@ -307,6 +307,7 @@ const ObjectsTable = ({
                       type => type.value as ModuleObjectActionFull
                   )
                 : undefined,
+            only_active_modules: false,
             title: filters.Title ? `%${filters.Title}%` : undefined,
             offset: (pagination.pageIndex - 1) * pagination.pageSize,
             limit: pagination.pageSize,

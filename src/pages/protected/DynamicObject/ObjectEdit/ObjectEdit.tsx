@@ -1,4 +1,4 @@
-import { Heading } from '@pzh-ui/components'
+import { cn, Heading } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { FormikHelpers } from 'formik'
@@ -145,14 +145,13 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
     const { moduleId, objectId } = useParams()
     const { canEditModule } = usePermissions()
 
-    const { singularCapitalize } = model.defaults
+    const { singularCapitalize, singular } = model.defaults
 
     const {
         isLoading: moduleIsLoading,
         isLocked,
         data,
         isModuleManager,
-        queryKey,
     } = useModule()
 
     const {
@@ -279,7 +278,11 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         <MutateLayout
             title={`${singularCapitalize} bewerken`}
             breadcrumbs={breadcrumbPaths}>
-            <div className="col-span-6 lg:col-span-4 lg:col-start-2">
+            <div
+                className={cn('col-span-6', {
+                    'lg:col-span-4 lg:col-start-2':
+                        singular !== 'gebiedengroep',
+                })}>
                 {isLocked && (
                     <div className="mb-8">
                         <LockedNotification isDetail />

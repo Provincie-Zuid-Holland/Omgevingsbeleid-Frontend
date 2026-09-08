@@ -56,6 +56,7 @@ export type ModalType =
     | 'publicationPackageReportUpload'
     | 'publicationAttachmentDelete'
     | 'publicationAttachmentAdd'
+    | 'objectRelatedFiles'
 
 export interface ModalStateMap {
     moduleEditObject: {

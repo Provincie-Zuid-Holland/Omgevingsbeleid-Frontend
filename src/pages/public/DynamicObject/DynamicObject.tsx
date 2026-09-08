@@ -11,6 +11,7 @@ import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
 import ObjectContent from '@/components/DynamicObject/ObjectContent'
+import ObjectRelatedFilesPublic from '@/components/DynamicObject/ObjectRelatedFilesPublic'
 import ObjectRevisionNotification from '@/components/DynamicObject/ObjectRevisionNotification'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
@@ -281,6 +282,16 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                                 model={model}
                                 data={data || {}}
                             />
+                        </div>
+                    )}
+
+                    {!!model.hasRelatedFiles && (
+                        <div
+                            className={classNames('order-9', {
+                                'mt-4 md:mt-8': true,
+                                'line-through': isTerminate,
+                            })}>
+                            <ObjectRelatedFilesPublic data={data || {}} />
                         </div>
                     )}
                 </div>

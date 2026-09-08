@@ -3,22 +3,32 @@ import {
     FieldCheckbox,
     FieldInput,
     FieldLabel,
-    FormikError,
-    FormikInput,
     Hyperlink,
 } from '@pzh-ui/components'
 import { useFormikContext } from 'formik'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import {
-    getStorageFileGetFilesDownloadQueryKey,
-    useStorageFileGetFilesDetail,
-} from '@/api/fetchers'
-import { ModelReturnType } from '@/config/objects/types'
+import { useStorageFileGetFilesDetail } from '@/api/fetchers'
 import { DynamicField } from '@/config/types'
-import { downloadFile } from '@/utils/file'
+import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
 import { ArrowUpRightFromSquareLight } from '@pzh-ui/icons'
-import { useQuery } from '@tanstack/react-query'
+
+interface FieldFileProps extends Omit<DynamicField, 'type'> {
+    /** Formik field that holds the selected File and receives upload errors. Defaults to 'File'. */
+    fileFieldName?: string
+    /** Formik field for the "ignore warning" checkbox. Defaults to 'File_Ignore'. */
+    ignoreFieldName?: string
+    /** Formik field holding the UUID of an already-uploaded file to preview/download. Defaults to 'File_UUID'. */
+    existingFileUuidField?: string
+    /**
+     * Controls whether the ignore-warning checkbox is shown. When omitted it
+     * falls back to whether `fileFieldName` currently has a (touched) error.
+     * Pass this explicitly when the warning must survive Formik revalidating
+     * other fields.
+     */
+    showIgnoreCheckbox?: boolean
+    onFileSelect?: (file: File) => void
+}
 
 const FieldFile = ({
     name,
@@ -26,25 +36,23 @@ const FieldFile = ({
     required,
     description,
     placeholder,
-}: Omit<DynamicField, 'type'>) => {
-    const { values, setFieldValue, errors } =
-        useFormikContext<ModelReturnType>()
+    fileFieldName = 'File',
+    ignoreFieldName = 'File_Ignore',
+    existingFileUuidField = 'File_UUID',
+    showIgnoreCheckbox,
+    onFileSelect,
+}: FieldFileProps) => {
+    const { values, setFieldValue, setFieldTouched, errors, touched } =
+        useFormikContext<Record<string, unknown>>()
     const [fileName, setFileName] = useState<string | undefined>()
 
-    const { data } = useStorageFileGetFilesDetail(String(values.File_UUID), {
-        query: { enabled: !!values.File_UUID },
+    const existingFileUuid = values[existingFileUuidField] as string | undefined
+
+    const { data } = useStorageFileGetFilesDetail(String(existingFileUuid), {
+        query: { enabled: !!existingFileUuid },
     })
 
-    const download = useQuery({
-        queryKey: ['downloadStorageFile', data?.UUID],
-        queryFn: () =>
-            downloadFile(
-                getStorageFileGetFilesDownloadQueryKey(String(data?.UUID))[0],
-                undefined,
-                true
-            ),
-        enabled: false,
-    })
+    const download = useDownloadStorageFile(data?.UUID)
 
     useEffect(() => {
         if (data?.Filename) {
@@ -52,7 +60,26 @@ const FieldFile = ({
         }
     }, [data])
 
-    const hasError = useMemo(() => !!errors['File'], [errors])
+    const hasError = !!errors[fileFieldName] && !!touched[fileFieldName]
+    const errorMessage = hasError ? String(errors[fileFieldName]) : undefined
+
+    const [persistedErrorMessage, setPersistedErrorMessage] = useState<
+        string | undefined
+    >()
+
+    useEffect(() => {
+        if (errorMessage) setPersistedErrorMessage(errorMessage)
+    }, [errorMessage])
+
+    /**
+     * Checking the ignore-checkbox revalidates the form to clear the
+     * server-set error (see below), which would otherwise also hide this
+     * message. Keep showing the last message for as long as the warning
+     * is still relevant, so the user isn't left wondering what they
+     * acknowledged.
+     */
+    const displayedErrorMessage =
+        errorMessage ?? (showIgnoreCheckbox ? persistedErrorMessage : undefined)
 
     return (
         <>
@@ -68,6 +95,7 @@ const FieldFile = ({
             <div className="relative flex gap-2">
                 <div className="flex-1">
                     <FieldInput
+                        key={fileName}
                         name={name}
                         defaultValue={fileName}
                         placeholder={placeholder}
@@ -76,27 +104,43 @@ const FieldFile = ({
                 </div>
                 <Button>Selecteer bestand</Button>
                 <div className="absolute top-0 left-0 h-full w-full opacity-0">
-                    <FormikInput name="File" type="hidden" />
                     <input
                         name={name}
                         className="h-full w-full cursor-pointer"
                         type="file"
                         accept="application/pdf"
+                        onClick={e => {
+                            e.currentTarget.value = ''
+                        }}
                         onChange={e => {
-                            if (e.currentTarget.files) {
-                                setFieldValue('File', e.currentTarget.files[0])
-                                setFileName(e.currentTarget.files[0].name)
-                            }
+                            const file = e.currentTarget.files?.[0]
+                            if (!file) return
+
+                            setFileName(file.name)
+                            setPersistedErrorMessage(undefined)
+                            onFileSelect?.(file)
+
+                            setFieldValue(fileFieldName, file).then(() =>
+                                setFieldTouched(fileFieldName, true)
+                            )
                         }}
                     />
                 </div>
             </div>
 
-            <FormikError name="File" />
+            {displayedErrorMessage && (
+                <div className="mt-1 flex flex-col gap-1">
+                    {displayedErrorMessage.split('\n').map((line, index) => (
+                        <span
+                            key={index}
+                            className="text-pzh-red-500 text-s block">
+                            {line}
+                        </span>
+                    ))}
+                </div>
+            )}
 
-            <FormikInput name="File_Ignore" type="hidden" />
-
-            {data?.UUID && data.UUID === values.File_UUID && (
+            {data?.UUID && data.UUID === existingFileUuid && (
                 <Hyperlink asChild>
                     <button
                         type="button"
@@ -108,16 +152,19 @@ const FieldFile = ({
                 </Hyperlink>
             )}
 
-            {hasError && (
+            {(showIgnoreCheckbox ?? hasError) && (
                 <div className="mt-2">
                     <FieldCheckbox
-                        name="File_Ignore"
+                        name={ignoreFieldName}
                         onChange={e => {
-                            if (e.target.checked) {
-                                setFieldValue('File_Ignore', 'true', false)
-                            } else {
-                                setFieldValue('File_Ignore', null, false)
-                            }
+                            const shouldValidate =
+                                showIgnoreCheckbox !== undefined
+
+                            setFieldValue(
+                                ignoreFieldName,
+                                e.target.checked,
+                                shouldValidate
+                            )
                         }}>
                         Ik ben mij ervan bewust dat het document een auteur
                         heeft, en ik verspreid hiermee geen naam of namen van

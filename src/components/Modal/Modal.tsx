@@ -8,7 +8,7 @@ import {
 
 import { ModalType } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 interface ModalProps extends Omit<ProvidedModalProps, 'id'> {
     id: ModalType
@@ -29,6 +29,19 @@ const Modal = ({
 }: ModalProps) => {
     const isOpen = useModalStore(state => state.activeModal === id)
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    /**
+     * The active modal lives in a global store that isn't tied to the
+     * route, so it survives navigating away and back. This closes it whenever
+     * the modal leaves the tree to prevent reopening by itself.
+     */
+    useEffect(() => {
+        return () => {
+            if (useModalStore.getState().activeModal === id) {
+                setActiveModal(null)
+            }
+        }
+    }, [id, setActiveModal])
 
     return (
         <ProvidedModal

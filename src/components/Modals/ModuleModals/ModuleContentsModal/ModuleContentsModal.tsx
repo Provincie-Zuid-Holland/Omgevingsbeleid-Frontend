@@ -1,8 +1,8 @@
 import { Button } from '@pzh-ui/components'
 import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { Form, Formik, FormikHelpers } from 'formik'
-import { useMemo, useState } from 'react'
+import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -29,6 +29,16 @@ import { StepProps } from './steps/types'
 const steps = [StepOne, StepTwo, StepThree, StepFour, StepFive]
 
 const OBJECT_ALREADY_IN_MODULE_ERROR = 'Object already exists in module'
+
+const StepValidation = ({ step }: { step: number }) => {
+    const { validateForm } = useFormikContext<ContentsModalForm>()
+
+    useEffect(() => {
+        validateForm()
+    }, [step, validateForm])
+
+    return null
+}
 
 /**
  * Show a toast when the object is already part of the module
@@ -208,6 +218,7 @@ const ModuleContentsModal = ({
                             existingObject={existingObject}
                             setExistingObject={setExistingObject}
                         />
+                        <StepValidation step={step} />
                         <ModalFooter>
                             <Button variant="link" onPress={handleClose}>
                                 Annuleren
@@ -233,7 +244,7 @@ const ModuleContentsModal = ({
                                     variant={isFinalStep ? 'cta' : 'primary'}
                                     size="small"
                                     isDisabled={
-                                        ((isFinalStep && !isValid) ||
+                                        (!isValid ||
                                             (isFinalStep && isSubmitting)) &&
                                         !hasError
                                     }

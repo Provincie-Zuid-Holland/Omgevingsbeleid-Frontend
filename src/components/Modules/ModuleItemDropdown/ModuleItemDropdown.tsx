@@ -1,14 +1,12 @@
-import { getStorageFileGetFilesDownloadQueryKey } from '@/api/fetchers'
 import Dropdown, { DropdownItem } from '@/components/Dropdown'
 import { Model, ModelReturnTypeBasic } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
+import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
-import { downloadFile } from '@/utils/file'
 import { cn } from '@pzh-ui/components'
 import { EllipsisVertical } from '@pzh-ui/icons'
-import { useQuery } from '@tanstack/react-query'
 import { memo, useCallback, useMemo, useState } from 'react'
 
 interface ModuleItemDropdownProps extends ModelReturnTypeBasic {
@@ -65,16 +63,7 @@ const ModuleItemDropdown = ({
         ]
     )
 
-    const downloadDocument = useQuery({
-        queryKey: ['downloadStorageFile', fileUuid],
-        queryFn: () =>
-            downloadFile(
-                getStorageFileGetFilesDownloadQueryKey(fileUuid)[0],
-                undefined,
-                true
-            ),
-        enabled: false,
-    })
+    const downloadDocument = useDownloadStorageFile(fileUuid)
 
     const openEditObjectModal = useCallback(() => {
         setActiveModal('moduleEditObject', {

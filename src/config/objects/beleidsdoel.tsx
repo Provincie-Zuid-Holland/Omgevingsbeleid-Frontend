@@ -73,6 +73,7 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
         { type: 'ambitie', key: 'Ambities' },
         { type: 'beleidskeuze', key: 'Beleidskeuzes' },
     ],
+    hasRelatedFiles: true,
     connectionsDescription: object => (
         <>
             Dit beleidsdoel hoort bij de ambitie '{object}'. Het beleidsdoel is
@@ -114,8 +115,9 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                     type: 'search',
                     required: true,
                     objectKey: 'Object_Code',
-                    filterType: ['ambitie'],
-                    status: 'all',
+                    filterParams: {
+                        object_types: ['ambitie'],
+                    },
                     placeholder: 'Kies de ambitie',
                     components: {
                         DropdownIndicator: () => (

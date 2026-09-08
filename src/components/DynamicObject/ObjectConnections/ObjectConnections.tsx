@@ -11,6 +11,7 @@ import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 
 import ObjectConnectionPart from '../ObjectConnectionPart'
+import ObjectRelatedFiles from '../ObjectRelatedFiles'
 
 interface ObjectConnectionsProps {
     model: Model
@@ -54,7 +55,7 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
         [relations]
     )
 
-    if (!!!model.allowedConnections?.length) return null
+    if (!model.allowedConnections?.length && !model.hasRelatedFiles) return null
 
     return (
         <>
@@ -76,6 +77,8 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
                     }
                 />
             ))}
+
+            {model.hasRelatedFiles && <ObjectRelatedFiles model={model} />}
 
             <ObjectConnectionModal
                 model={model}
