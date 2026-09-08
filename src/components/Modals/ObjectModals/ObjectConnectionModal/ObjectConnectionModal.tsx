@@ -68,7 +68,7 @@ const ObjectConnectionModal = ({
      */
     const handleFormSubmit = (
         payload: WriteRelation | { items?: { value: number; label: string }[] }
-    ) => {
+    ) =>
         refetchRelations?.().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
                 let newData = data as WriteRelation[]
@@ -113,7 +113,6 @@ const ObjectConnectionModal = ({
                 }).then(() => setActiveModal(null))
             }
         })
-    }
 
     /**
      * Handle delete connection
@@ -238,9 +237,8 @@ export const ConnectionModal = ({
         } else if (isDeleteStep && 'Object_ID' in payload) {
             handleDeleteConnection(payload)
         } else {
-            setStep(step + 1)
-            helpers.setTouched({})
-            helpers.setSubmitting(false)
+            helpers.resetForm({ values: payload })
+            setStep(currentStep => currentStep + 1)
         }
     }
 
