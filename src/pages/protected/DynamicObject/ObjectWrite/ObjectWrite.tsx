@@ -121,6 +121,8 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                                             }),
                                             queryClient.invalidateQueries({
                                                 queryKey: validQueryKey,
+                                                refetchType: 'all',
+                                                exact: false,
                                             }),
                                             queryClient.invalidateQueries({
                                                 queryKey: relationsQueryKey,
