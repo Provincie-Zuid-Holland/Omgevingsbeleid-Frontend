@@ -13,6 +13,7 @@ import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { usePublicationTemplatesGetListTemplates } from '@/api/fetchers'
+import { LoaderSpinner } from '@/components/Loader'
 import model from '@/config/publicationTemplates'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
@@ -111,8 +112,8 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                 accessorKey: 'Document_Type',
             },
             {
-                header: 'Aanmaakdatum',
-                accessorKey: 'Created_Date',
+                header: 'Laatst bewerkt',
+                accessorKey: 'Modified_Date',
             },
         ],
         []
@@ -124,18 +125,18 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
     const formattedData = useMemo(
         () =>
             data?.results.map(
-                ({ Title, Document_Type, Created_Date, UUID }) => ({
+                ({ Title, Document_Type, Modified_Date, UUID }) => ({
                     Title: (
                         <Text bold color="text-pzh-blue-500">
                             {Title}
                         </Text>
                     ),
                     Document_Type,
-                    Created_Date: (
+                    Modified_Date: (
                         <span className="flex items-center justify-between">
                             {formatDate(
-                                parseUtc(Created_Date),
-                                'cccccc d MMMM yyyy, p'
+                                parseUtc(Modified_Date),
+                                'dd-MM-yyyy, p'
                             )}
                             <AngleRight size={20} />
                         </span>
@@ -154,21 +155,23 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                 <Table
                     columns={columns}
                     data={formattedData}
-                    enableSortingRemoval={false}
-                    enableMultiSort={false}
                     limit={PAGE_LIMIT}
                     total={data?.total}
                     current={pageIndex}
                     onPaginationChange={setPagination}
-                    manualSorting
                     isLoading={isFetching}
+                    enableSorting={false}
                 />
-            ) : (
+            ) : !isFetching ? (
                 <span className="italic">
                     {`Er zijn geen ${
                         type === 'active' ? 'actieve' : 'inactieve'
                     } templates gevonden`}
                 </span>
+            ) : (
+                <div className="mt-8 flex justify-center">
+                    <LoaderSpinner />
+                </div>
             )}
         </div>
     )

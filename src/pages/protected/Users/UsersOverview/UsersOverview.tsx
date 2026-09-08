@@ -15,6 +15,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useUserGetSearchUsers } from '@/api/fetchers'
+import { LoaderSpinner } from '@/components/Loader'
 import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
 import { Role, availableRoleTypes } from '@/context/AuthContext'
 import useModalStore from '@/store/modalStore'
@@ -177,12 +178,16 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                     manualSorting
                     isLoading={isFetching}
                 />
-            ) : (
+            ) : !isFetching ? (
                 <span className="italic">
                     {`Er zijn geen ${
                         type === 'active' ? 'actieve' : 'inactieve'
                     } gebruikers gevonden`}
                 </span>
+            ) : (
+                <div className="mt-8 flex justify-center">
+                    <LoaderSpinner />
+                </div>
             )}
         </div>
     )
