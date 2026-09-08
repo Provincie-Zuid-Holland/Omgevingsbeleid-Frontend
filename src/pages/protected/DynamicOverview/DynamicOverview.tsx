@@ -238,7 +238,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     | ModelReturnTypeBasicUnion
                 )[]
             )?.map(props => {
-                const { Title, Modified_Date, Object_ID } =
+                const { Title, Object_ID } =
                     'Model' in props ? props.Model : props
 
                 return {
