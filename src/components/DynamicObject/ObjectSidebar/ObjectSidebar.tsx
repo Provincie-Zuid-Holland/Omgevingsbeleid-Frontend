@@ -1,12 +1,14 @@
+import { useMemo } from 'react'
+
 import {
     Button,
+    formatDate,
     Heading,
     Hyperlink,
     Text,
     Tooltip,
-    formatDate,
 } from '@pzh-ui/components'
-import { useMemo } from 'react'
+
 import { Link, useParams } from 'react-router-dom'
 
 import Avatar from '@/components/Avatar/Avatar'
@@ -14,6 +16,7 @@ import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
 import { getStaticDataLabel } from '@/utils/dynamicObject'
 import { formatValidityDate } from '@/utils/formatValidityDate'
+
 import ObjectConnectedDocuments from '../ObjectConnectedDocuments'
 
 interface ObjectSidebarProps extends ModelReturnType {
@@ -118,7 +121,7 @@ const ObjectSidebar = ({
 
             {!!user && (
                 <div>
-                    <Text size="s" className="text-pzh-blue-900 mb-3 italic">
+                    <Text size="s" className="mb-3 text-pzh-blue-900 italic">
                         Onderstaande informatie is alleen inzichtelijk voor
                         gebruikers die zijn ingelogd.
                     </Text>

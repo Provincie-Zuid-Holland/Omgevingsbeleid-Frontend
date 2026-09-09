@@ -1,13 +1,14 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, BullseyeArrow } from '@pzh-ui/icons'
+
 import { Link } from 'react-router-dom'
 
 import {
     useBeleidsdoelEditObjectStatic,
     useBeleidsdoelGetListActiveModuleObjects,
     useBeleidsdoelGetRelationsList,
-    useBeleidsdoelListValidLineageTree,
     useBeleidsdoelListValidLineages,
+    useBeleidsdoelListValidLineageTree,
     useBeleidsdoelPostModulePatchObject,
     useBeleidsdoelPostRelationsOverwrite,
     useBeleidsdoelViewGetObjectStatic,

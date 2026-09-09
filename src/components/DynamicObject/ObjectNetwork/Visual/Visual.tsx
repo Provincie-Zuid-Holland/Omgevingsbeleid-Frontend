@@ -1,14 +1,15 @@
+import { useCallback, useEffect, useMemo, useRef } from 'react'
+
 import {
+    forceLink,
+    forceManyBody,
     forceSimulation,
+    forceX,
     forceY,
     select,
-    SimulationNodeDatum,
-    forceLink,
     SimulationLinkDatum,
-    forceManyBody,
-    forceX,
+    SimulationNodeDatum,
 } from 'd3'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { GraphResponse, GraphVertice } from '@/api/fetchers.schemas'
@@ -35,15 +36,18 @@ const Visual = ({ graph }: VisualProps) => {
     const { links, nodes } = useMemo(() => formatGraphData(graph), [graph])
 
     /** Highlight connected shape on hover */
-    const handleMouseInteraction = useCallback(({ type }: MouseEvent, d: GraphVertice) => {
-        const el = document.querySelector(`[data-code-link="${d.Code}"]`)
+    const handleMouseInteraction = useCallback(
+        ({ type }: MouseEvent, d: GraphVertice) => {
+            const el = document.querySelector(`[data-code-link="${d.Code}"]`)
 
-        if (type === 'mouseover') {
-            el?.classList.add('font-bold')
-        } else {
-            el?.classList.remove('font-bold')
-        }
-    }, [])
+            if (type === 'mouseover') {
+                el?.classList.add('font-bold')
+            } else {
+                el?.classList.remove('font-bold')
+            }
+        },
+        []
+    )
 
     /** Handle click event on node */
     const handleClick = useCallback(
@@ -103,7 +107,7 @@ const Visual = ({ graph }: VisualProps) => {
         })
     }, [links, nodes, handleMouseInteraction, handleClick])
 
-    return <svg className="w-full h-[300px]" ref={containerRef} />
+    return <svg className="h-[300px] w-full" ref={containerRef} />
 }
 
 export default Visual

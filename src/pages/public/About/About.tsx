@@ -1,5 +1,6 @@
 import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { Code, UniversalAccess } from '@pzh-ui/icons'
+
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
@@ -29,14 +30,14 @@ const About = () => (
                     contact op met ons via{' '}
                     <a
                         href="mailto:omgevingsbeleid@pzh.nl"
-                        className="text-pzh-green-500 hover:text-pzh-green-900 underline">
+                        className="text-pzh-green-500 underline hover:text-pzh-green-900">
                         omgevingsbeleid@pzh.nl
                     </a>
                     .
                 </Text>
             </div>
             <div className="relative col-span-3 hidden min-h-[480px] lg:block">
-                <div className="bg-pzh-gray-100 absolute top-0 left-0 h-[480px] w-[50vw] text-center sm:inline-block">
+                <div className="absolute top-0 left-0 h-[480px] w-[50vw] bg-pzh-gray-100 text-center sm:inline-block">
                     <img
                         alt=""
                         className="h-full w-full object-cover"

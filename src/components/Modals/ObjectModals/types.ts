@@ -12,8 +12,7 @@ export interface ObjectConnectionModalActions {
     connectionModel: Model
     initialStep?: number
     initialValues:
-        | Partial<ReadRelation>
-        | { items?: { value: number; label: string }[] }
+        Partial<ReadRelation> | { items?: { value: number; label: string }[] }
 }
 
 export interface ObjectPersonModalActions {

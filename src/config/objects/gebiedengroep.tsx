@@ -3,8 +3,8 @@ import { DrawPolygon } from '@pzh-ui/icons'
 import {
     useGebiedengroepEditObjectStatic,
     useGebiedengroepGetListActiveModuleObjects,
-    useGebiedengroepListValidLineageTree,
     useGebiedengroepListValidLineages,
+    useGebiedengroepListValidLineageTree,
     useGebiedengroepPostModulePatchObject,
     useGebiedengroepViewGetObjectStatic,
     useGebiedengroepViewModuleObjectLatest,

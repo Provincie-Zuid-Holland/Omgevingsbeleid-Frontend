@@ -1,21 +1,22 @@
 import {
-    Selection,
-    SimulationLinkDatum,
-    SimulationNodeDatum,
-    forceLink,
-    forceManyBody,
-    forceSimulation,
-    forceX,
-    forceY,
-    select,
-} from 'd3'
-import {
     useCallback,
     useEffect,
     useLayoutEffect,
     useRef,
     useState,
 } from 'react'
+
+import {
+    forceLink,
+    forceManyBody,
+    forceSimulation,
+    forceX,
+    forceY,
+    select,
+    Selection,
+    SimulationLinkDatum,
+    SimulationNodeDatum,
+} from 'd3'
 import { useShallow } from 'zustand/react/shallow'
 
 import { GraphVertice } from '@/api/fetchers.schemas'
@@ -122,7 +123,7 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
         let left = shapeRect.left + shapeRect.width / 2 - tooltipRect.width / 2
 
         // Always place below the node
-        let top = shapeRect.bottom + TOOLTIP_MARGIN
+        const top = shapeRect.bottom + TOOLTIP_MARGIN
 
         // Clamp horizontally within the viewport
         const viewportWidth = window.innerWidth

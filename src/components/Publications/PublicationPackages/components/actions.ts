@@ -17,9 +17,9 @@ import {
     usePublicationAnnouncementReportsPostUploadAnnouncementPackageReport,
 } from '@/api/fetchers'
 import { HTTPValidationError, PackageType } from '@/api/fetchers.schemas'
+import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
 
-import useModalStore from '@/store/modalStore'
 import { PublicationType } from '../../types'
 
 interface ActionsProps {

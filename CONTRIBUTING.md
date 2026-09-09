@@ -28,6 +28,7 @@ series [How to Contribute to an Open Source Project on GitHub][egghead]
 > want to update your version of `dev`, do a regular `git pull`.
 
 ## Committing and Pushing changes
+
 Contributions should follow the requirements set out in the criteria of the [Standard for Public code](https://standard.publiccode.net/). Reviewers will also be ensuring that contributions are aligned with the [values of public code](https://standard.publiccode.net/introduction.html#values-of-public-code).
 
 We strive to not let our test coverage go down.
@@ -41,6 +42,5 @@ Please checkout the [the open issues][issues]
 Also, please watch the repo and respond to questions/bug reports/feature
 requests! Thanks!
 
-[egghead]:
-  https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github
+[egghead]: https://egghead.io/courses/how-to-contribute-to-an-open-source-project-on-github
 [issues]: https://github.com/Provincie-Zuid-Holland/Omgevingsbeleid-Frontend/issues

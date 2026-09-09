@@ -1,5 +1,6 @@
-import { Button, ButtonProps, FieldLabel, Text, cn } from '@pzh-ui/components'
+import { Button, ButtonProps, cn, FieldLabel, Text } from '@pzh-ui/components'
 import { Plus, Xmark } from '@pzh-ui/icons'
+
 import {
     ArrayHelpers,
     FieldArray as FormikFieldArray,
@@ -63,7 +64,7 @@ const FieldArray = ({
                                 <div
                                     key={`${name}-${actualIndex}`}
                                     className={cn(
-                                        'bg-pzh-gray-100 flex flex-col gap-2 p-4',
+                                        'flex flex-col gap-2 bg-pzh-gray-100 p-4',
                                         itemClassName
                                     )}>
                                     <div className="flex justify-between">

@@ -1,8 +1,10 @@
+import { useMemo } from 'react'
+
+import { format as formatDate } from 'date-fns'
+
 import { useModulesViewModuleListStatuses } from '@/api/fetchers'
 import { ModuleStatus } from '@/api/fetchers.schemas'
 import { parseUtc } from '@/utils/parseUtc'
-import { format as formatDate } from 'date-fns'
-import { useMemo } from 'react'
 
 export function useModuleStatusData(moduleId?: string | number) {
     const moduleIdNum =

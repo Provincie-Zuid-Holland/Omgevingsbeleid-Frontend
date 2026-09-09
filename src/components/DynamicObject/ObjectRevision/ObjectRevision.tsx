@@ -1,17 +1,18 @@
-import { Divider, Heading, Text, getHeadingStyles } from '@pzh-ui/components'
+import { Divider, getHeadingStyles, Heading, Text } from '@pzh-ui/components'
+
 import classNames from 'clsx'
 import htmlDiff from 'node-htmldiff'
+import { useParams } from 'react-router-dom'
 
 import { LeafletRevisionOverview } from '@/components/Leaflet'
 import { Model, ModelReturnType } from '@/config/objects/types'
-import useRevisionStore from '@/store/revisionStore'
-
 import useAuth from '@/hooks/useAuth'
+import useRevisionStore from '@/store/revisionStore'
 import {
     replaceImagesWithTokens,
     restoreImagesWithDiff,
 } from '@/utils/normalizeImages'
-import { useParams } from 'react-router-dom'
+
 import { fields } from '../ObjectContent/ObjectContent'
 
 interface ObjectRevisionProps {
@@ -42,7 +43,7 @@ const ObjectRevision = ({
 
             <h2
                 className={classNames(
-                    'text-pzh-blue-500 mb-4',
+                    'mb-4 text-pzh-blue-500',
                     getHeadingStyles('l')
                 )}
                 dangerouslySetInnerHTML={{ __html: titleDiff }}
@@ -120,17 +121,17 @@ const ObjectRevision = ({
                         </div>
                         <div className="mt-3 space-y-1">
                             <span className="flex items-center">
-                                <div className="border-pzh-red-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(-45deg,#D11F3D_0px,#D11F3D_2px,white_2px,white_4px)]" />
+                                <div className="mr-2 h-[14px] w-[14px] rounded-full border border-pzh-red-500 bg-[repeating-linear-gradient(-45deg,#D11F3D_0px,#D11F3D_2px,white_2px,white_4px)]" />
                                 Verwijderd werkingsgebied
                             </span>
 
                             <span className="flex items-center">
-                                <div className="border-pzh-green-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(45deg,#00804D_0px,#00804D_2px,white_2px,white_4px)]" />
+                                <div className="mr-2 h-[14px] w-[14px] rounded-full border border-pzh-green-500 bg-[repeating-linear-gradient(45deg,#00804D_0px,#00804D_2px,white_2px,white_4px)]" />
                                 Toegevoegd werkingsgebied
                             </span>
 
                             <span className="flex items-center">
-                                <div className="border-pzh-blue-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(0deg,#281F6B_0px,#281F6B_2px,white_2px,white_4px)]" />
+                                <div className="mr-2 h-[14px] w-[14px] rounded-full border border-pzh-blue-500 bg-[repeating-linear-gradient(0deg,#281F6B_0px,#281F6B_2px,white_2px,white_4px)]" />
                                 Ongewijzigd werkingsgebied
                             </span>
                         </div>
@@ -178,7 +179,7 @@ const Content = ({
                 {customTitle?.[value] || title}
             </Heading>
             <div
-                className="prose prose-neutral text-m text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8"
+                className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral md:mb-8 prose-li:my-0"
                 dangerouslySetInnerHTML={{ __html: finalDiff }}
             />
         </>

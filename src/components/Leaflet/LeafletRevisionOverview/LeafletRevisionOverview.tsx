@@ -1,13 +1,16 @@
 import { useQueries } from '@tanstack/react-query'
 import Leaflet, { Layer } from 'leaflet'
+
 import 'leaflet.pattern'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+
 import { useMap } from 'react-leaflet'
 
 import { Feature, getGeoJsonData } from '@/api/axiosGeoJSON'
 import ToggleableSection from '@/components/ToggleableSection'
 import { useWerkingsgebied } from '@/hooks/useWerkingsgebied'
+
 import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
 import LeafletMap from '../LeafletMap'
 

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import {
     Button,
     FieldCheckbox,
@@ -5,13 +7,13 @@ import {
     FieldLabel,
     Hyperlink,
 } from '@pzh-ui/components'
+import { ArrowUpRightFromSquareLight } from '@pzh-ui/icons'
+
 import { useFormikContext } from 'formik'
-import { useEffect, useState } from 'react'
 
 import { useStorageFileGetFilesDetail } from '@/api/fetchers'
 import { DynamicField } from '@/config/types'
 import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
-import { ArrowUpRightFromSquareLight } from '@pzh-ui/icons'
 
 interface FieldFileProps extends Omit<DynamicField, 'type'> {
     /** Formik field that holds the selected File and receives upload errors. Defaults to 'File'. */
@@ -133,7 +135,7 @@ const FieldFile = ({
                     {displayedErrorMessage.split('\n').map((line, index) => (
                         <span
                             key={index}
-                            className="text-pzh-red-500 text-s block">
+                            className="block text-s text-pzh-red-500">
                             {line}
                         </span>
                     ))}

@@ -1,7 +1,9 @@
 import { Heading, ListLink, Pagination } from '@pzh-ui/components'
+
 import { Link } from 'react-router-dom'
 
 import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+
 import SearchBar from '../SearchBar'
 
 interface ObjectListProps {

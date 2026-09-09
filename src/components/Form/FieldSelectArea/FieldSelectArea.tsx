@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react'
+
 import {
     cn,
     Divider,
@@ -8,8 +10,12 @@ import {
     FormikRadio,
     FormikSelect,
     Heading,
+    NotificationProps,
     Text,
 } from '@pzh-ui/components'
+import { MagnifyingGlass } from '@pzh-ui/icons'
+
+import { useUpdateEffect } from '@react-hookz/web'
 import { useFormikContext } from 'formik'
 
 import {
@@ -22,10 +28,6 @@ import { ModelReturnType } from '@/config/objects/types'
 import { DynamicField } from '@/config/types'
 import useObject from '@/hooks/useObject'
 import { parseUtc } from '@/utils/parseUtc'
-import { MagnifyingGlass } from '@pzh-ui/icons'
-import { NotificationProps } from '@pzh-ui/react'
-import { useUpdateEffect } from '@react-hookz/web'
-import { useMemo, useState } from 'react'
 
 const FieldSelectArea = ({
     name,
@@ -98,8 +100,8 @@ const FieldSelectArea = ({
         <>
             {!!data?.Gebieden_Statics?.length && (
                 <>
-                    <div className="prose text-m text-pzh-blue-500 marker:text-pzh-blue-500 prose-li:my-0 prose-ul:my-0 prose-ul:pl-6 marker:text-s">
-                        <p className="text-heading-s mb-2 font-bold">
+                    <div className="prose text-m text-pzh-blue-500 marker:text-s marker:text-pzh-blue-500 prose-ul:my-0 prose-ul:pl-6 prose-li:my-0">
+                        <p className="mb-2 text-heading-s font-bold">
                             Huidige onderliggende gebieden
                         </p>
 
@@ -173,7 +175,7 @@ const FieldSelectArea = ({
                                         filteredVersions.map(version => (
                                             <div
                                                 key={version.UUID}
-                                                className="border-pzh-gray-600 relative rounded border px-4 py-2">
+                                                className="relative rounded border border-pzh-gray-600 px-4 py-2">
                                                 <div className="flex items-center justify-between [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
                                                     <FormikRadio
                                                         name="Source_UUID"
@@ -192,7 +194,7 @@ const FieldSelectArea = ({
                                                     </FormikRadio>
                                                 </div>
 
-                                                <span className="text-s ml-7 block">
+                                                <span className="ml-7 block text-s">
                                                     {version.Description}
                                                 </span>
                                             </div>
@@ -210,7 +212,7 @@ const FieldSelectArea = ({
                                     Kaartweergave
                                 </Heading>
 
-                                <div className="border-pzh-gray-200 flex flex-1 rounded border">
+                                <div className="flex flex-1 rounded border border-pzh-gray-200">
                                     <AreaPreview
                                         key={values?.Source_UUID}
                                         UUID={values.Source_UUID}

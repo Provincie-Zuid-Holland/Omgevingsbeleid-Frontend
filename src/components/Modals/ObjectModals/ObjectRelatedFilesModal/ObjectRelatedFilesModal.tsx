@@ -1,3 +1,14 @@
+import { useRef, useState } from 'react'
+
+import { Button } from '@pzh-ui/components'
+
+import { useUpdateEffect } from '@react-hookz/web'
+import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
+import { useParams } from 'react-router-dom'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
 import {
     useObjectRelatedFilesDeleteObjectRelatedFilesDelete,
     useObjectRelatedFilesPostObjectRelatedFilesUpload,
@@ -15,14 +26,6 @@ import useModalStore from '@/store/modalStore'
 import { handleFileError } from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 import { OBJECT_RELATED_FILE_ADD_SCHEMA } from '@/validation/objectRelatedFiles'
-import { Button } from '@pzh-ui/components'
-import { useUpdateEffect } from '@react-hookz/web'
-import { useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
-import { useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { ObjectRelatedFilesModalActions } from '../types'
 import { StepOne, StepThree, StepTwo } from './steps'
@@ -31,14 +34,14 @@ const steps = [StepOne, StepTwo, StepThree]
 
 interface FormValues {
     title: string
-    uploaded_file: string
+    uploaded_file: File | null
     ignore_report: boolean
     consent: boolean
 }
 
 const initialValues: FormValues = {
     title: '',
-    uploaded_file: '',
+    uploaded_file: null,
     ignore_report: false,
     consent: false,
 }
@@ -126,6 +129,11 @@ const ObjectRelatedFilesModal = ({
         helpers: FormikHelpers<FormValues>
     ) => {
         if (isAddStep) {
+            if (!payload.uploaded_file) {
+                helpers.setSubmitting(false)
+                return
+            }
+
             try {
                 await addFile({
                     lineageId,

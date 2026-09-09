@@ -1,3 +1,10 @@
+import { useMemo } from 'react'
+
+import { Button, Text } from '@pzh-ui/components'
+import { CircleCheckSolid } from '@pzh-ui/icons'
+
+import { useParams } from 'react-router-dom'
+
 import { useModulesGetModuleValidate } from '@/api/fetchers'
 import {
     ValidateModuleObject,
@@ -7,10 +14,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import Modal, { ModalFooter } from '@/components/Modal/Modal'
 import ScanRule from '@/components/ScanRule'
 import useModalStore from '@/store/modalStore'
-import { Button, Text } from '@pzh-ui/components'
-import { CircleCheckSolid } from '@pzh-ui/icons'
-import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
 
 type ObjectIssueItem = {
     object: ValidateModuleObject
@@ -85,7 +88,7 @@ const ModuleScanModal = () => {
             title="Volledigheidsscan"
             onClose={handleCloseModal}>
             {!data && !isFetching && (
-                <div className="text-pzh-gray-700 flex items-center justify-between">
+                <div className="flex items-center justify-between text-pzh-gray-700">
                     <Text>
                         Start de scan om te controleren op volledigheid.
                     </Text>
@@ -94,21 +97,21 @@ const ModuleScanModal = () => {
             {isFetching && <LoaderSpinner />}
 
             {showSuccess && (
-                <div className="border-pzh-green-500 bg-pzh-green-10 rounded-lg border p-4">
+                <div className="rounded-lg border border-pzh-green-500 bg-pzh-green-10 p-4">
                     <div className="flex items-start gap-3">
                         <CircleCheckSolid
                             size={16}
-                            className="text-pzh-green-500 min-w-4"
+                            className="min-w-4 text-pzh-green-500"
                         />
                         <div className="-mt-1.5 flex flex-col gap-2">
-                            <Text className="text-pzh-blue-500 font-bold">
+                            <Text className="font-bold text-pzh-blue-500">
                                 Geen fouten gevonden
                             </Text>
-                            <ul className="text-pzh-blue-500 flex flex-col gap-1">
+                            <ul className="flex flex-col gap-1 text-pzh-blue-500">
                                 {SCAN_RULES.map(r => (
                                     <li
                                         key={r.ruleKey}
-                                        className="text-s flex pl-2 before:relative before:top-2 before:mr-2 before:text-4xl before:leading-1 before:content-['·']">
+                                        className="flex pl-2 text-s before:relative before:top-2 before:mr-2 before:text-4xl before:leading-1 before:content-['·']">
                                         {r.defaultTitle}
                                     </li>
                                 ))}

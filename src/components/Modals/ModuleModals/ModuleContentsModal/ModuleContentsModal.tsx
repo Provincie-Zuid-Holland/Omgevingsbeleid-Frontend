@@ -1,8 +1,10 @@
+import { useEffect, useMemo, useState } from 'react'
+
 import { Button } from '@pzh-ui/components'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik'
-import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -18,11 +20,11 @@ import {
     SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
-import { ModalFooter } from '@/components/Modal/Modal'
 import { StepFive, StepFour, StepOne, StepThree, StepTwo } from './steps'
 import { StepProps } from './steps/types'
 
@@ -52,8 +54,7 @@ const handleAddObjectError = (error: AxiosError<{ detail?: string }>) => {
 }
 
 export type ContentsModalForm = (
-    | ModuleAddNewObject
-    | ModuleAddExistingObject
+    ModuleAddNewObject | ModuleAddExistingObject
 ) & {
     state?: 'new' | 'existing'
     validOrModule?: 'valid' | number

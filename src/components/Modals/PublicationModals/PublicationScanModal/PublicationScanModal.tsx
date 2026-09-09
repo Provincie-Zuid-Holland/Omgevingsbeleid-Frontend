@@ -1,10 +1,14 @@
+import { useMemo } from 'react'
+
+import { Button } from '@pzh-ui/components'
+
+import { useParams } from 'react-router-dom'
+
 import { ValidateModuleError } from '@/api/fetchers.schemas'
 import Modal, { ModalFooter } from '@/components/Modal/Modal'
 import ScanRule from '@/components/ScanRule'
 import useModalStore from '@/store/modalStore'
-import { Button } from '@pzh-ui/components'
-import { useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+
 import { ModalStateMap } from '../../types'
 
 const RULE_OTHER_ISSUES = 'other_issues'

@@ -1,4 +1,5 @@
 import { Heading, Text } from '@pzh-ui/components'
+
 import { Helmet } from 'react-helmet-async'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
@@ -33,7 +34,7 @@ function Accessibility() {
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6 md:col-span-4">
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
-                    <Heading level="1" size="xxl" className="mt-4 ">
+                    <Heading level="1" size="xxl" className="mt-4">
                         {/* 👇🏻 Contains a soft hyphen */}
                         Toegankelijkheids­verklaring
                     </Heading>
