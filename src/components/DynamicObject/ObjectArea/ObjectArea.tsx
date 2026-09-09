@@ -1,10 +1,10 @@
 import { Heading, Notification, Text } from '@pzh-ui/components'
+import { LayerGroupLight } from '@pzh-ui/icons'
 
 import { ObjectStatics } from '@/api/fetchers.schemas'
 import { LeafletTinyViewer } from '@/components/Leaflet'
 import { Model } from '@/config/objects/types'
 import { useArea } from '@/hooks/useArea'
-import { LayerGroupLight, Lightbulb } from '@pzh-ui/icons'
 
 interface ObjectAreaProps {
     objectTitle?: string
@@ -50,12 +50,12 @@ const Viewer = ({
                 gebiedengroep ‘{data?.Title || Cached_Title}’.
             </Text>
 
-            <Notification icon={Lightbulb} className="mb-3">
+            <Notification className="mb-3">
                 <p>
                     Tip! Gebruik het icoon{' '}
                     <LayerGroupLight
                         size={18}
-                        className="text-pzh-blue-900 mx-1 -mt-1 inline"
+                        className="mx-1 -mt-1 inline text-pzh-blue-900"
                     />{' '}
                     om de kaartlagen binnen deze gebiedengroep te bekijken.
                 </p>
