@@ -18,6 +18,7 @@ import { Form, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
 import { useUserGetSearchUsers } from '@/api/fetchers'
+import { LoaderSpinner } from '@/components/Loader'
 import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
 import { availableRoleTypes, Role } from '@/context/AuthContext'
 import useModalStore from '@/store/modalStore'
@@ -180,12 +181,16 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                     manualSorting
                     isLoading={isFetching}
                 />
-            ) : (
+            ) : !isFetching ? (
                 <span className="italic">
                     {`Er zijn geen ${
                         type === 'active' ? 'actieve' : 'inactieve'
                     } gebruikers gevonden`}
                 </span>
+            ) : (
+                <div className="mt-8 flex justify-center">
+                    <LoaderSpinner />
+                </div>
             )}
         </div>
     )
