@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom'
 
 import {
-    useWerkingsgebiedViewModuleObjectLatest,
-    useWerkingsgebiedViewObjectLatest,
+    useGebiedengroepViewModuleObjectLatest,
+    useGebiedengroepViewObjectLatest,
 } from '@/api/fetchers'
 
 import useAuth from './useAuth'
 
-export const useWerkingsgebied = (Object_ID: number) => {
+export const useArea = (Object_ID: number) => {
     const { moduleId } = useParams()
     const { user } = useAuth()
 
@@ -15,17 +15,13 @@ export const useWerkingsgebied = (Object_ID: number) => {
         data: moduleData,
         isSuccess,
         isError,
-    } = useWerkingsgebiedViewModuleObjectLatest(
-        parseInt(moduleId!),
-        Object_ID,
-        {
-            query: {
-                enabled: !!moduleId && !!Object_ID && !!user,
-            },
-        }
-    )
+    } = useGebiedengroepViewModuleObjectLatest(parseInt(moduleId!), Object_ID, {
+        query: {
+            enabled: !!moduleId && !!Object_ID && !!user,
+        },
+    })
 
-    const { data: validData } = useWerkingsgebiedViewObjectLatest(Object_ID, {
+    const { data: validData } = useGebiedengroepViewObjectLatest(Object_ID, {
         query: {
             enabled:
                 (!moduleId && !!Object_ID) ||

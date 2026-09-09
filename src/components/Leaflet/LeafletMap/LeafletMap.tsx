@@ -43,7 +43,7 @@ const LeafletMap = forwardRef<Map, LeafletMapProps>(
             className,
             id,
             children,
-            ariaLabel = 'Visuele weergave van het werkingsgebied',
+            ariaLabel = 'Visuele weergave van de gebiedengroep',
         },
         ref
     ) => {
