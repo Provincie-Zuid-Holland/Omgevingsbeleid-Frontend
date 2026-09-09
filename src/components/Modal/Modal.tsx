@@ -1,3 +1,5 @@
+import { ReactNode, useEffect } from 'react'
+
 import {
     cn,
     Heading,
@@ -8,7 +10,6 @@ import {
 
 import { ModalType } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
-import { ReactNode, useEffect } from 'react'
 
 interface ModalProps extends Omit<ProvidedModalProps, 'id'> {
     id: ModalType
@@ -82,7 +83,7 @@ export const ModalFooter = ({
 }) => (
     <div
         className={cn(
-            'border-pzh-gray-300 flex items-center justify-between border-t pt-4',
+            'flex items-center justify-between border-t border-pzh-gray-300 pt-4',
             className
         )}>
         {children}

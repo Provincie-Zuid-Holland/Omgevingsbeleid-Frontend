@@ -1,12 +1,14 @@
+import { useEffect, useMemo, useState } from 'react'
+
 import {
     FieldCheckboxGroup,
     Heading,
     Pagination,
     Text,
 } from '@pzh-ui/components'
+
 import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'clsx'
-import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -185,7 +187,7 @@ const SearchResults = () => {
                                 className={classNames({
                                     'mb-6': index + 1 !== filters.length,
                                 })}>
-                                <legend className="text-pzh-blue-500 mb-3 font-bold break-all">
+                                <legend className="mb-3 font-bold break-all text-pzh-blue-500">
                                     {filter.label}
                                 </legend>
 

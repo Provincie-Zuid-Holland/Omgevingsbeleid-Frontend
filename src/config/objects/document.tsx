@@ -3,8 +3,8 @@ import { FilePdf } from '@pzh-ui/icons'
 import {
     useDocumentEditObjectStatic,
     useDocumentGetListActiveModuleObjects,
-    useDocumentListValidLineageTree,
     useDocumentListValidLineages,
+    useDocumentListValidLineageTree,
     useDocumentPostModulePatchObject,
     useDocumentViewGetObjectStatic,
     useDocumentViewModuleObjectLatest,
@@ -12,9 +12,9 @@ import {
     useDocumentViewObjectVersion,
     useGetRevisionsDocumentVersion,
 } from '@/api/fetchers'
+import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { DynamicObject } from './types'
 
 const fetchers = {

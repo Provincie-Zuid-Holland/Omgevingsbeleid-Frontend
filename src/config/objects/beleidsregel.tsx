@@ -1,13 +1,14 @@
 import { Hyperlink } from '@pzh-ui/components'
 import { FileLines } from '@pzh-ui/icons'
+
 import { Link } from 'react-router-dom'
 
 import {
     useBeleidsregelEditObjectStatic,
     useBeleidsregelGetListActiveModuleObjects,
     useBeleidsregelGetRelationsList,
-    useBeleidsregelListValidLineageTree,
     useBeleidsregelListValidLineages,
+    useBeleidsregelListValidLineageTree,
     useBeleidsregelPostModulePatchObject,
     useBeleidsregelPostRelationsOverwrite,
     useBeleidsregelViewGetObjectStatic,

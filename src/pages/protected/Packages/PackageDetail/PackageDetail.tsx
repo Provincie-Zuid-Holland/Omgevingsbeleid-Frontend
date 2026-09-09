@@ -1,3 +1,17 @@
+import { useState } from 'react'
+
+import {
+    Button,
+    formatDate,
+    Heading,
+    Hyperlink,
+    Pagination,
+    Text,
+} from '@pzh-ui/components'
+import { ArrowDownToLine } from '@pzh-ui/icons'
+
+import { Link, useParams } from 'react-router-dom'
+
 import {
     DocumentType,
     PackageType,
@@ -10,17 +24,7 @@ import { getPackageStatus } from '@/components/Publications/PublicationPackages/
 import usePackageDetailData from '@/hooks/usePackageDetailData'
 import MutateLayout from '@/templates/MutateLayout'
 import { parseUtc } from '@/utils/parseUtc'
-import {
-    Button,
-    formatDate,
-    Heading,
-    Hyperlink,
-    Pagination,
-    Text,
-} from '@pzh-ui/components'
-import { ArrowDownToLine } from '@pzh-ui/icons'
-import { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+
 import { config as providedConfig } from '../config'
 
 const config = {
@@ -163,7 +167,7 @@ const PackageDetailInner = ({
                         Upload rapporten
                     </Button> */}
                 </div>
-                <div className="border-pzh-gray-200 flex flex-col gap-2 rounded-sm border p-4">
+                <div className="flex flex-col gap-2 rounded-sm border border-pzh-gray-200 p-4">
                     <Heading level="3" size="s" className="mb-2 text-center">
                         Levering ({data?.Delivery_ID})
                     </Heading>
@@ -209,7 +213,7 @@ interface RowProps {
 }
 
 const Row = ({ label, value, link }: RowProps) => (
-    <div className="border-pzh-gray-200 grid grid-cols-4 gap-x-6 border-b py-2">
+    <div className="grid grid-cols-4 gap-x-6 border-b border-pzh-gray-200 py-2">
         <div className="col-span-1">
             <Text bold>{label}</Text>
         </div>

@@ -1,8 +1,10 @@
+import { useState } from 'react'
+
 import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
-import { useState } from 'react'
 
 import { searchGetSearch } from '@/api/fetchers'
 import {
@@ -17,8 +19,10 @@ export type Option = {
     object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 }
 
-export interface DynamicObjectSearchProps
-    extends Omit<FieldSelectProps, 'onChange' | 'name'> {
+export interface DynamicObjectSearchProps extends Omit<
+    FieldSelectProps,
+    'onChange' | 'name'
+> {
     /** Gets called when selecting an option */
     onChange?: (object?: Option | Option[] | null) => void
     /** Key of model */

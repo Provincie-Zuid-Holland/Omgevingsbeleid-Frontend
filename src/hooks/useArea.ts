@@ -1,8 +1,10 @@
+import { useParams } from 'react-router-dom'
+
 import {
     useGebiedengroepViewModuleObjectLatest,
     useGebiedengroepViewObjectLatest,
 } from '@/api/fetchers'
-import { useParams } from 'react-router-dom'
+
 import useAuth from './useAuth'
 
 export const useArea = (Object_ID: number) => {

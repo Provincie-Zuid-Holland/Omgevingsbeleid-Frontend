@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect } from 'react'
+
 import { useErrorBoundary } from 'react-error-boundary'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
@@ -56,6 +57,7 @@ import About from '@/pages/public/About'
 import EnvironmentVision from '@/pages/public/EnvironmentVision'
 import MaintenancePage from '@/pages/public/MaintenancePage/MaintenancePage'
 import globalErrorBoundary from '@/utils/globalErrorBoundary'
+
 import ProtectedRoute from './ProtectedRoute'
 
 const generatePublicModelRoutes = () =>
@@ -254,8 +256,7 @@ const AppRoutes = () => {
                                             element: (
                                                 <ProtectedRoute
                                                     permissions={{
-                                                        canCreatePublication:
-                                                            true,
+                                                        canCreatePublication: true,
                                                     }}
                                                     redirectTo="/muteer/modules">
                                                     <TabDecisions />

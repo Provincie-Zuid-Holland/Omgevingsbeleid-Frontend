@@ -1,12 +1,13 @@
+import { createContext, ReactNode, useEffect } from 'react'
+
 import { useLocalStorageValue } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
 import { jwtDecode } from 'jwt-decode'
-import { ReactNode, createContext, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { authenticationPostAuthLoginAccessToken } from '@/api/fetchers'
 import { AuthToken, UserLoginDetail } from '@/api/fetchers.schemas'
 import { decryptData, encryptData } from '@/utils/encryption'
-import { useLocation } from 'react-router-dom'
 
 export const ACCESS_TOKEN_KEY =
     import.meta.env.VITE_KEY_API_ACCESS_TOKEN ?? 'app.accessToken'

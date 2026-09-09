@@ -1,22 +1,5 @@
-import { keepPreviousData } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
 
-import Indicator from '@/components/Indicator'
-import ModuleItemDropdown from '@/components/Modules/ModuleItemDropdown'
-import * as models from '@/config/objects'
-import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
-import useModule from '@/hooks/useModule'
-import { getObjectActionText } from '@/utils/dynamicObject'
-
-import { useModulesGetListModuleObjects } from '@/api/fetchers'
-import { ModuleObjectActionFull, OwnerType } from '@/api/fetchers.schemas'
-import { LoaderSpinner } from '@/components/Loader'
-import useAuth from '@/hooks/useAuth'
-import usePermissions from '@/hooks/usePermissions'
-import useModalStore from '@/store/modalStore'
-import useObjectTableStore from '@/store/objectTableStore'
-import { parseUtc } from '@/utils/parseUtc'
 import {
     Button,
     FieldInput,
@@ -27,6 +10,24 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { ListCheck, MagnifyingGlass } from '@pzh-ui/icons'
+
+import { keepPreviousData } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
+
+import { useModulesGetListModuleObjects } from '@/api/fetchers'
+import { ModuleObjectActionFull, OwnerType } from '@/api/fetchers.schemas'
+import Indicator from '@/components/Indicator'
+import { LoaderSpinner } from '@/components/Loader'
+import ModuleItemDropdown from '@/components/Modules/ModuleItemDropdown'
+import * as models from '@/config/objects'
+import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
+import useAuth from '@/hooks/useAuth'
+import useModule from '@/hooks/useModule'
+import usePermissions from '@/hooks/usePermissions'
+import useModalStore from '@/store/modalStore'
+import useObjectTableStore from '@/store/objectTableStore'
+import { getObjectActionText } from '@/utils/dynamicObject'
+import { parseUtc } from '@/utils/parseUtc'
 
 type FilterOption = {
     label?: string
@@ -120,7 +121,7 @@ const ObjectsTableFilters = ({
                 {!!activeTypeFilters && (
                     <Indicator
                         amount={activeTypeFilters}
-                        className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
+                        className="absolute -top-3 -right-3 z-[1] border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white"
                     />
                 )}
                 <FieldSelect
@@ -148,7 +149,7 @@ const ObjectsTableFilters = ({
                 {!!activeActionFilters && (
                     <Indicator
                         amount={activeActionFilters}
-                        className="border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white absolute -top-3 -right-3 z-[1]"
+                        className="absolute -top-3 -right-3 z-[1] border-pzh-blue-500 bg-pzh-blue-500 text-pzh-white"
                     />
                 )}
                 <FieldSelect

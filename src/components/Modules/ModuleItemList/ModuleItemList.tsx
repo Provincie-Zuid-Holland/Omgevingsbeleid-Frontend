@@ -1,5 +1,6 @@
-import { Button, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
+
+import { Button, Text } from '@pzh-ui/components'
 
 import { Module } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
@@ -133,7 +134,7 @@ const ItemList = ({
                         <Button
                             variant="link"
                             onPress={() => setActiveModal('moduleAddObject')}
-                            className="text-pzh-green-500 hover:text-pzh-green-900 block">
+                            className="block text-pzh-green-500 hover:text-pzh-green-900">
                             Onderdeel toevoegen
                         </Button>
                     )}

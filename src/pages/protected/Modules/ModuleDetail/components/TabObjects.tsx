@@ -1,3 +1,6 @@
+import { useOutletContext } from 'react-router-dom'
+
+import { OwnerType } from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
 import {
     ModuleActivateModal,
@@ -7,17 +10,15 @@ import {
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
+import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
-
-import { OwnerType } from '@/api/fetchers.schemas'
-import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import * as modules from '@/validation/modules'
-import { useOutletContext } from 'react-router-dom'
+
 import ObjectsTable from './ObjectsTable'
 
 type ObjectsOutletContext = {
