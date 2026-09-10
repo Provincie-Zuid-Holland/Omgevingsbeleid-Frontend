@@ -86,6 +86,12 @@ const normalizePayload = (payload: FormData, initialData: FormData) => {
         )
     }
 
+    if (Array.isArray(cleanedPayload.Roles)) {
+        cleanedPayload.Roles = cleanedPayload.Roles.map(
+            (item: any) => item?.value ?? item
+        )
+    }
+
     return cleanedPayload
 }
 
