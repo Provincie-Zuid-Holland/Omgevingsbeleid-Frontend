@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import {
     FormikInput,
     FormikSelect,
@@ -5,8 +7,8 @@ import {
     Heading,
     Text,
 } from '@pzh-ui/components'
+
 import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
 
 import { useUserGetListUsers } from '@/api/fetchers'
 import { ModuleAddNewObject } from '@/api/fetchers.schemas'
@@ -38,7 +40,9 @@ export const StepThree = ({}: StepProps) => {
         () =>
             users?.results
                 .filter(user => user.UUID !== values.Owner_2_UUID)
-                .filter(user => filterRoles?.includes(user.Rol))
+                .filter(user =>
+                    user.Roles?.some(role => filterRoles?.includes(role))
+                )
                 .map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,
@@ -50,7 +54,9 @@ export const StepThree = ({}: StepProps) => {
         () =>
             users?.results
                 .filter(user => user.UUID !== values.Owner_1_UUID)
-                .filter(user => filterRoles?.includes(user.Rol))
+                .filter(user =>
+                    user.Roles?.some(role => filterRoles?.includes(role))
+                )
                 .map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,

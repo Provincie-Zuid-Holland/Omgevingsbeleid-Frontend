@@ -1,5 +1,7 @@
 import { cn, Heading, Text } from '@pzh-ui/components'
 
+import { useParams } from 'react-router-dom'
+
 import { AmbitieStaticStatics, UserShort } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import ObjectPersonModal from '@/components/Modals/ObjectModals/ObjectPersonModal'
@@ -12,7 +14,6 @@ import {
     getStaticDataLabel,
     getStaticDataPropertyKey,
 } from '@/utils/dynamicObject'
-import { useParams } from 'react-router-dom'
 
 interface ObjectDefaultInfoProps {
     model: Model
@@ -48,7 +49,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                             onClick={() =>
                                 setActiveModal('objectGeneralInformation')
                             }
-                            className="text-pzh-green-500 hover:text-pzh-green-900 underline">
+                            className="text-pzh-green-500 underline hover:text-pzh-green-900">
                             Wijzigen
                         </button>
                     )}
@@ -85,7 +86,7 @@ const Item = ({ label, user: providedUser, isLoading }: ItemProps) => {
     const user = useUserInfo(providedUser?.UUID ?? '')
 
     return (
-        <div className="border-pzh-gray-300 mt-3 border-b px-2 pb-2">
+        <div className="mt-3 border-b border-pzh-gray-300 px-2 pb-2">
             <Text bold color="text-pzh-blue-900">
                 {label}
             </Text>

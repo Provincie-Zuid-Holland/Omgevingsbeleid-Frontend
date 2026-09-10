@@ -1,5 +1,6 @@
 import { Hyperlink, Text } from '@pzh-ui/components'
 import { Xmark } from '@pzh-ui/icons'
+
 import classNames from 'clsx'
 import { Link } from 'react-router-dom'
 
@@ -17,7 +18,7 @@ const NetworkGraphPopup = ({ resetGraph }: NetworkGraphPopupProps) => {
     return (
         <div
             className={classNames(
-                'bg-pzh-white shadow-card absolute top-4 left-4 min-w-[300px] rounded px-3 pt-2 pb-1',
+                'absolute top-4 left-4 min-w-[300px] rounded bg-pzh-white px-3 pt-2 pb-1 shadow-card',
                 {
                     hidden: !!!activeNode,
                 }

@@ -4,6 +4,7 @@ import {
     CircleInfoSolid,
     CircleXmark,
 } from '@pzh-ui/icons'
+
 import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -22,11 +23,11 @@ const ScanRule = ({
 }: ScanRuleProps) => {
     const icon =
         severity === 'error' ? (
-            <CircleXmark size={16} className="text-pzh-red-500 min-w-4" />
+            <CircleXmark size={16} className="min-w-4 text-pzh-red-500" />
         ) : (
             <CircleInfoSolid
                 size={16}
-                className="text-pzh-orange-500 min-w-4"
+                className="min-w-4 text-pzh-orange-500"
             />
         )
 
@@ -47,7 +48,7 @@ const ScanRule = ({
                                 to={link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-pzh-blue-500 hover:text-pzh-green-500 inline-flex items-center gap-2 font-bold"
+                                className="inline-flex items-center gap-2 font-bold text-pzh-blue-500 hover:text-pzh-green-500"
                                 title={title}>
                                 <span className="truncate">{title}</span>
                                 <ArrowUpRightFromSquare size={16} />
@@ -58,11 +59,11 @@ const ScanRule = ({
                             </Text>
                         )}
 
-                        <ul className="text-pzh-blue-500 mt-1 flex flex-col gap-1">
+                        <ul className="mt-1 flex flex-col gap-1 text-pzh-blue-500">
                             {messages.map(m => (
                                 <li
                                     key={uuidv4()}
-                                    className="text-s flex pl-2 before:relative before:top-2 before:mr-2 before:text-4xl before:leading-1 before:content-['·']">
+                                    className="flex pl-2 text-s before:relative before:top-2 before:mr-2 before:text-4xl before:leading-1 before:content-['·']">
                                     {m}
                                 </li>
                             ))}

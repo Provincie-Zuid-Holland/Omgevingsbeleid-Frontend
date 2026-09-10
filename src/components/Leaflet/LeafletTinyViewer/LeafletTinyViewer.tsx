@@ -1,6 +1,7 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
 import { useQuery } from '@tanstack/react-query'
 import Leaflet, { TileLayer } from 'leaflet'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useMap } from 'react-leaflet'
 
 import {
@@ -185,8 +186,7 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
                 <ul className="flex flex-col gap-1 p-2 text-left">
                     {legendLayers.map(layer => {
                         const u = layer?.properties?.Onderverdeling_UUID as
-                            | string
-                            | undefined
+                            string | undefined
                         if (!u) return null
 
                         return (

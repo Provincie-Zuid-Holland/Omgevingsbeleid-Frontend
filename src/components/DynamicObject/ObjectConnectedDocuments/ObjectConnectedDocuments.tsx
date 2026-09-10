@@ -1,15 +1,15 @@
+import { Button, Heading, ListLink } from '@pzh-ui/components'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
+
+import { useParams } from 'react-router-dom'
+
 import {
-    getStorageFileGetFilesDownloadQueryKey,
     useDocumentViewModuleObjectLatest,
     useDocumentViewObjectLatest,
 } from '@/api/fetchers'
 import { ObjectStatics } from '@/api/fetchers.schemas'
 import useAuth from '@/hooks/useAuth'
-import { downloadFile } from '@/utils/file'
-import { Button, Heading, ListLink } from '@pzh-ui/components'
-import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
 
 interface ObjectConnectedDocumentsProps {
     documents: ObjectStatics[]
@@ -56,18 +56,7 @@ const Document = ({ Cached_Title, Object_ID }: ObjectStatics) => {
 
     const data = moduleId && isSuccess ? moduleData : validData
 
-    const downloadDocument = useQuery({
-        queryKey: ['downloadStorageFile', data?.File_UUID],
-        queryFn: () =>
-            downloadFile(
-                getStorageFileGetFilesDownloadQueryKey(
-                    String(data?.File_UUID)
-                )[0],
-                undefined,
-                true
-            ),
-        enabled: false,
-    })
+    const downloadDocument = useDownloadStorageFile(data?.File_UUID)
 
     if (!data?.File_UUID) return null
 

@@ -1,20 +1,21 @@
-import { Button, Heading } from '@pzh-ui/components'
 import { useMemo, useState } from 'react'
+
+import { Button, Heading } from '@pzh-ui/components'
+
+import { keepPreviousData } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
+import { ActiveModuleObjectsResponse } from '@/api/fetchers.schemas'
 import ObjectConnections from '@/components/DynamicObject/ObjectConnections'
 import ObjectDefaultInfo from '@/components/DynamicObject/ObjectDefaultInfo'
 import LineageCard from '@/components/DynamicObject/ObjectLineageCard'
 import ObjectRelatedObjects from '@/components/DynamicObject/ObjectRelatedObjects'
 import ObjectRelations from '@/components/DynamicObject/ObjectRelations'
-import MutateLayout from '@/templates/MutateLayout'
-
-import { ActiveModuleObjectsResponse } from '@/api/fetchers.schemas'
 import { LoaderCard } from '@/components/Loader'
 import type { Model, ModelReturnTypeBasicUnion } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
+import MutateLayout from '@/templates/MutateLayout'
 import { formatValidityDate } from '@/utils/formatValidityDate'
-import { keepPreviousData } from '@tanstack/react-query'
 
 const PAGE_LIMIT = 3
 
@@ -139,7 +140,8 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             <div className="col-span-6 mt-6 sm:col-span-2 sm:mt-0">
                 <ObjectDefaultInfo model={model} />
 
-                {Boolean(model.allowedConnections?.length) && (
+                {(Boolean(model.allowedConnections?.length) ||
+                    model.hasRelatedFiles) && (
                     <ObjectConnections model={model} />
                 )}
 

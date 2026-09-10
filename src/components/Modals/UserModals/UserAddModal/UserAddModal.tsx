@@ -1,6 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query'
-import { FormikHelpers } from 'formik'
 import { useState } from 'react'
+
+import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { FormikHelpers } from 'formik'
 
 import {
     getUserGetSearchUsersQueryKey,
@@ -16,7 +18,6 @@ import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
 
-import { AxiosError } from 'axios'
 import { StepOne, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo]
@@ -49,6 +50,10 @@ const UserAddModal = () => {
         user: UserCreate,
         helpers: FormikHelpers<UserCreate>
     ) => {
+        if (Array.isArray(user.Roles)) {
+            user.Roles = user.Roles.map((item: any) => item?.value ?? item)
+        }
+
         mutateAsync(
             { data: user },
             {

@@ -1,18 +1,21 @@
+import { useMemo } from 'react'
+
 import { Button } from '@pzh-ui/components'
 import { AngleDown } from '@pzh-ui/icons'
+
 import { Form, Formik, FormikProps } from 'formik'
-import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { AREA_DATA_ATTRS } from '@/components/DynamicObject/DynamicObjectForm/DynamicField/extensions/area'
 import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
+import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
+import useObject from '@/hooks/useObject'
 import useModalStore from '@/store/modalStore'
 import { SCHEMA_OBJECT_ANNOTATE_AREA } from '@/validation/objectAnnotate'
 
-import { LoaderSpinner } from '@/components/Loader'
-import { ModalFooter } from '@/components/Modal/Modal'
-import useObject from '@/hooks/useObject'
 import { ModalStateMap } from '../../types'
 
 type Values = Record<string, any>
@@ -77,7 +80,7 @@ const ObjectAreaAnnotateModal = () => {
                     via{' '}
                     <a
                         href="mailto:omgevingsbeleid@pzh.nl"
-                        className="text-pzh-green-500 hover:text-pzh-green-900 underline">
+                        className="text-pzh-green-500 underline hover:text-pzh-green-900">
                         omgevingsbeleid@pzh.nl
                     </a>
                     .
@@ -107,6 +110,8 @@ const InnerForm = <TData extends Values>({
     values,
     setFieldValue,
 }: FormikProps<TData>) => {
+    const { moduleId } = useParams()
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
     const modalState = useModalStore(
         state => state.modalStates['objectAreaAnnotate']
@@ -126,9 +131,10 @@ const InnerForm = <TData extends Values>({
         <Form>
             <div className="mb-4 flex flex-col gap-4">
                 <DynamicObjectSearch
-                    filterType={['gebiedsaanwijzing']}
-                    filterOnModule
-                    status="all"
+                    filterParams={{
+                        object_types: ['gebiedsaanwijzing'],
+                        module_id: moduleId ? parseInt(moduleId) : undefined,
+                    }}
                     label="Gebiedsaanwijzing"
                     required
                     placeholder="Selecteer een gebiedsaanwijzing"

@@ -1,6 +1,8 @@
-import { Button, FormikSelect } from '@pzh-ui/components'
-import { Form, Formik } from 'formik'
 import { useCallback } from 'react'
+
+import { Button, FormikSelect } from '@pzh-ui/components'
+
+import { Form, Formik } from 'formik'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -54,7 +56,9 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
     const getUserOptions = useCallback(
         (filterRoles?: Role[]) =>
             users?.results
-                ?.filter(user => filterRoles?.includes(user.Rol))
+                ?.filter(user =>
+                    user.Roles?.some(role => filterRoles?.includes(role))
+                )
                 ?.map(user => ({
                     label: user.Gebruikersnaam,
                     value: user.UUID,

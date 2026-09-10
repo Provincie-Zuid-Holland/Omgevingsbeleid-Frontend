@@ -1,4 +1,5 @@
 import { Button, FormikSelect, FormikTextArea, Text } from '@pzh-ui/components'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -12,13 +13,13 @@ import {
 import { ModuleEditObjectContext } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import * as models from '@/config/objects'
 import { ModelReturnTypeBasic, ModelType } from '@/config/objects/types'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as modules from '@/validation/modules'
 
-import { ModalFooter } from '@/components/Modal/Modal'
 import { ModalStateMap } from '../../types'
 
 const ModuleEditObjectModal = () => {
@@ -60,7 +61,7 @@ const ModuleEditObjectModal = () => {
         useModulesPostModuleEditObjectContext({
             mutation: {
                 onSuccess: () => {
-                    Promise.all([
+                    ;(Promise.all([
                         queryClient.invalidateQueries({
                             queryKey:
                                 getModulesGetModuleGetObjectContextQueryKey(
@@ -75,7 +76,7 @@ const ModuleEditObjectModal = () => {
                             ),
                         }),
                     ]).then(() => setActiveModal(null)),
-                        toastNotification('saved')
+                        toastNotification('saved'))
                 },
             },
         })

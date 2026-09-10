@@ -1,39 +1,38 @@
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import { Schema } from 'zod'
 
 import {
     AmbitieFull,
-    AmbitiePatch,
+    AmbitiePostModulePatchObjectBody,
     BeleidsdoelFull,
-    BeleidsdoelPatch,
+    BeleidsdoelPostModulePatchObjectBody,
     BeleidskeuzeFull,
-    BeleidskeuzePatch,
-    BeleidsregelPatch,
+    BeleidskeuzePostModulePatchObjectBody,
+    BeleidsregelPostModulePatchObjectBody,
     DocumentFull,
-    DocumentPatch,
+    DocumentPostModulePatchObjectBody,
     GebiedengroepFull,
-    GebiedengroepPatch,
+    GebiedengroepPostModulePatchObjectBody,
     GebiedFull,
-    GebiedPatch,
+    GebiedPostModulePatchObjectBody,
     GebiedsprogrammaFull,
-    GebiedsprogrammaPatch,
+    GebiedsprogrammaPostModulePatchObjectBody,
     MaatregelFull,
-    MaatregelPatch,
+    MaatregelPostModulePatchObjectBody,
     ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-    ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
     NationaalBelangFull,
     ObjectStaticShort,
     ProgrammaAlgemeenFull,
-    ProgrammaAlgemeenPatch,
+    ProgrammaAlgemeenPostModulePatchObjectBody,
     VisieAlgemeenFull,
-    VisieAlgemeenPatch,
+    VisieAlgemeenPostModulePatchObjectBody,
     WerkingsgebiedFull,
-    WerkingsgebiedPatch,
+    WerkingsgebiedPostModulePatchObjectBody,
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
-import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
-import * as models from '.'
 import { DynamicSection } from '../types'
+import * as models from '.'
 
 export interface ModelQueryKeys {
     [key: string]: (...args: any[]) => readonly unknown[]
@@ -76,6 +75,7 @@ export interface DynamicObjectBase<Q extends ModelQueryKeys = ModelQueryKeys> {
         | ((object: React.JSX.Element) => string | React.JSX.Element)
     acknowledgedRelation?: ModelType
     hasRelatedObjects?: boolean
+    hasRelatedFiles?: boolean
 }
 
 export type QueryHook<TArgs extends unknown[] = any[]> = <TData = any>(
@@ -138,20 +138,20 @@ export type ModelReturnTypeBasic =
     ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 
 export type ModelReturnTypeBasicUnion =
-    ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+    ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic['Model']
 
-export type ModelPatchType = BeleidsdoelPatch &
-    AmbitiePatch &
-    BeleidskeuzePatch &
-    MaatregelPatch &
-    GebiedPatch &
-    GebiedengroepPatch &
-    GebiedsprogrammaPatch &
-    BeleidsregelPatch &
-    VisieAlgemeenPatch &
-    WerkingsgebiedPatch &
-    ProgrammaAlgemeenPatch &
-    DocumentPatch
+export type ModelPatchType = BeleidsdoelPostModulePatchObjectBody &
+    AmbitiePostModulePatchObjectBody &
+    BeleidskeuzePostModulePatchObjectBody &
+    MaatregelPostModulePatchObjectBody &
+    GebiedPostModulePatchObjectBody &
+    GebiedengroepPostModulePatchObjectBody &
+    GebiedsprogrammaPostModulePatchObjectBody &
+    BeleidsregelPostModulePatchObjectBody &
+    VisieAlgemeenPostModulePatchObjectBody &
+    WerkingsgebiedPostModulePatchObjectBody &
+    ProgrammaAlgemeenPostModulePatchObjectBody &
+    DocumentPostModulePatchObjectBody
 
 export type Model = DynamicObject
 

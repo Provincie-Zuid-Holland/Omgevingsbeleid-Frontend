@@ -1,9 +1,12 @@
-import { usePublicationValueListsGetAreaDesignation } from '@/api/fetchers'
-import { GebiedsaanwijzingPatch } from '@/api/fetchers.schemas'
+import { useMemo } from 'react'
+
 import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
+
 import { useUpdateEffect } from '@react-hookz/web'
 import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
+
+import { usePublicationValueListsGetAreaDesignation } from '@/api/fetchers'
+import { GebiedsaanwijzingPostModulePatchObjectBody } from '@/api/fetchers.schemas'
 
 export interface FieldAreaAnnotateProps extends FieldSelectProps {
     optionType: 'type' | 'group'
@@ -14,7 +17,7 @@ const FieldAreaAnnotate = ({
     ...props
 }: FieldAreaAnnotateProps) => {
     const { values, setFieldValue, setFieldTouched } =
-        useFormikContext<GebiedsaanwijzingPatch>()
+        useFormikContext<GebiedsaanwijzingPostModulePatchObjectBody>()
 
     const { data, isLoading } = usePublicationValueListsGetAreaDesignation()
 
@@ -39,7 +42,7 @@ const FieldAreaAnnotate = ({
                             value: item.label,
                         }))
                   : undefined,
-        [data, values.Ref_Type]
+        [data, values.Ref_Type, optionType]
     )
 
     useUpdateEffect(() => {

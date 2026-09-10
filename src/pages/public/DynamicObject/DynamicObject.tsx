@@ -1,6 +1,8 @@
-import { Heading, Notification } from '@pzh-ui/components'
-import classNames from 'clsx'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+
+import { Heading, Notification } from '@pzh-ui/components'
+
+import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
@@ -11,6 +13,7 @@ import { Container } from '@/components/Container'
 import ObjectArea from '@/components/DynamicObject/ObjectArea'
 import ObjectConnectionsPublic from '@/components/DynamicObject/ObjectConnectionsPublic'
 import ObjectContent from '@/components/DynamicObject/ObjectContent'
+import ObjectRelatedFilesPublic from '@/components/DynamicObject/ObjectRelatedFilesPublic'
 import ObjectRevisionNotification from '@/components/DynamicObject/ObjectRevisionNotification'
 import Sidebar from '@/components/DynamicObject/ObjectSidebar'
 import { LoaderContent } from '@/components/Loader'
@@ -258,29 +261,36 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         />
                     </div>
 
-                    {data?.Werkingsgebied_Statics && (
-                        <div
-                            className={classNames('order-7', {
-                                'line-through': isTerminate,
-                            })}>
-                            <ObjectArea
-                                model={model}
-                                objectTitle={data.Title}
-                                {...data.Werkingsgebied_Statics}
-                            />
-                        </div>
-                    )}
+                    <div
+                        className={classNames('order-7', {
+                            'line-through': isTerminate,
+                        })}>
+                        <ObjectArea
+                            model={model}
+                            objectTitle={data.Title}
+                            area={data.Gebiedengroep_Static}
+                        />
+                    </div>
 
                     {!!model.allowedConnections && (
                         <div
-                            className={classNames('order-8', {
-                                'mt-4 md:mt-8': !!data?.Werkingsgebied_Statics,
+                            className={classNames('order-8 mt-4 md:mt-8', {
                                 'line-through': isTerminate,
                             })}>
                             <ObjectConnectionsPublic
                                 model={model}
                                 data={data || {}}
                             />
+                        </div>
+                    )}
+
+                    {!!model.hasRelatedFiles && (
+                        <div
+                            className={classNames('order-9', {
+                                'mt-4 md:mt-8': true,
+                                'line-through': isTerminate,
+                            })}>
+                            <ObjectRelatedFilesPublic data={data || {}} />
                         </div>
                     )}
                 </div>

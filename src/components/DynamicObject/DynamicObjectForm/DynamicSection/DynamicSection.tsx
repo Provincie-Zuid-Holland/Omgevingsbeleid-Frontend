@@ -1,9 +1,9 @@
 import { Divider, Text } from '@pzh-ui/components'
+import { Notification } from '@pzh-ui/react'
 
 import { Model } from '@/config/objects/types'
 import { DynamicSection as DynamicSectionProps } from '@/config/types'
 
-import { Notification } from '@pzh-ui/react'
 import DynamicField from '../DynamicField'
 
 const DynamicSection = ({

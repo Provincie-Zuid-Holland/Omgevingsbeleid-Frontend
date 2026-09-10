@@ -1,6 +1,7 @@
-import nsobImage from '@/images/nsob-rollen.png'
 import { Hyperlink } from '@pzh-ui/components'
 import { AngleDown, CalendarCheck } from '@pzh-ui/icons'
+import { Text } from '@pzh-ui/react'
+
 import { Link } from 'react-router-dom'
 
 import {
@@ -8,8 +9,8 @@ import {
     useMaatregelEditObjectStatic,
     useMaatregelGetListActiveModuleObjects,
     useMaatregelGetRelationsList,
-    useMaatregelListValidLineageTree,
     useMaatregelListValidLineages,
+    useMaatregelListValidLineageTree,
     useMaatregelPostModulePatchObject,
     useMaatregelPostRelationsOverwrite,
     useMaatregelViewGetObjectStatic,
@@ -17,10 +18,10 @@ import {
     useMaatregelViewObjectLatest,
     useMaatregelViewObjectVersion,
 } from '@/api/fetchers'
+import nsobImage from '@/images/nsob-rollen.png'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { Text } from '@pzh-ui/react'
 import { DynamicObject } from './types'
 
 const fetchers = {
@@ -203,7 +204,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                                 <img
                                     src={nsobImage}
                                     alt="Overzicht van NSOB rollen"
-                                    className="border-pzh-gray-300 rounded-lg border"
+                                    className="rounded-lg border border-pzh-gray-300"
                                 />
                             </>
                         ),
@@ -343,9 +344,10 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     name: 'Gebiedengroep_Code',
                     label: 'Gebiedengroep',
                     type: 'search',
-                    status: 'all',
                     placeholder: 'Selecteer een gebiedengroep',
-                    filterType: ['gebiedengroep'],
+                    filterParams: {
+                        object_types: ['gebiedengroep'],
+                    },
                     objectKey: 'Object_Code',
                     components: {
                         DropdownIndicator: () => (
@@ -364,8 +366,9 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     type: 'search',
                     required: true,
                     objectKey: 'Object_Code',
-                    filterType: ['beleidskeuze'],
-                    status: 'all',
+                    filterParams: {
+                        object_types: ['beleidskeuze'],
+                    },
                     placeholder: 'Kies de beleidskeuze',
                     components: {
                         DropdownIndicator: () => (
@@ -397,11 +400,12 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     description:
                         'Dienen er bijlagen mee gepubliceerd te worden, voeg ze dan hier toe. Deze bijlagen volgen de besluitvorming van de herziening. Dit kan alleen in overleg met team omgevingsbeleid.',
                     type: 'search',
-                    filterType: ['document'],
+                    filterParams: {
+                        object_types: ['document'],
+                    },
                     objectKey: 'Object_Code',
                     isMulti: true,
                     closeMenuOnSelect: false,
-                    status: 'all',
                     placeholder: 'Kies een of meerdere documenten',
                     components: {
                         DropdownIndicator: () => (

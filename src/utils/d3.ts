@@ -1,4 +1,4 @@
-import { Selection, select, symbol, symbolCircle, zoom } from 'd3'
+import { select, Selection, symbol, symbolCircle, zoom } from 'd3'
 
 import { GraphResponse, GraphVertice } from '@/api/fetchers.schemas'
 
