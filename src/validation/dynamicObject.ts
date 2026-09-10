@@ -14,6 +14,7 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
             switch (field.type) {
                 case 'text':
                 case 'textarea':
+                case 'select':
                 case 'image':
                 case 'search':
                 case 'array':
