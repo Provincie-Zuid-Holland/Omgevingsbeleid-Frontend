@@ -61,7 +61,7 @@ const ObjectRevisionNotification = ({
                 {latestRevision?.Module_Object_UUID === data?.UUID ||
                 (!moduleId && latest.UUID !== data.UUID) ||
                 !!!latestRevision ? (
-                    <>
+                    <p>
                         Let op, dit is een{' '}
                         {isRevision ? 'ontwerpversie' : 'verouderde versie'} van{' '}
                         {demonstrative} {singularReadable},{' '}
@@ -71,9 +71,9 @@ const ObjectRevisionNotification = ({
                                 bekijk hier de meest actuele versie
                             </Link>
                         </Hyperlink>
-                    </>
+                    </p>
                 ) : (
-                    <>
+                    <p>
                         Deze ontwerpversie is verouderd,{' '}
                         <Hyperlink asChild>
                             <Link
@@ -81,7 +81,7 @@ const ObjectRevisionNotification = ({
                                 bekijk de nieuwste ontwerpversie hier
                             </Link>
                         </Hyperlink>
-                    </>
+                    </p>
                 )}
             </Notification>
         </div>
