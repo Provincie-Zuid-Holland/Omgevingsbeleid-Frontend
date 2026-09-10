@@ -82,7 +82,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                             label: models[model].defaults.singularCapitalize,
                             value: models[model].defaults.singular,
                         })),
-                    placeholder: 'Selecteer een of meerdere object types',
+                    placeholder: 'Selecteer één of meerdere object types',
                     isMulti: true,
                     required: true,
                     validation: schemaDefaults.options,

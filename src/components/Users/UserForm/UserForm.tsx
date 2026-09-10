@@ -3,12 +3,12 @@ import { useMemo } from 'react'
 import { Button, FormikInput, FormikSelect } from '@pzh-ui/components'
 
 import { Form, Formik, FormikConfig } from 'formik'
+import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { ModalFooter } from '@/components/Modal/Modal'
 import { availableRoleTypes } from '@/context/AuthContext'
 import { SCHEMA_ADD_USER } from '@/validation/user'
-import { z } from 'zod'
 
 export type UserSchema = z.infer<typeof SCHEMA_ADD_USER>
 
@@ -52,7 +52,7 @@ const UserForm = ({
                         <FormikSelect
                             name="Roles"
                             label="Rol"
-                            placeholder="Kies een of meerdere rollen"
+                            placeholder="Kies één of meerdere rollen"
                             options={roleOptions}
                             isMulti
                             noOptionsMessage={({ inputValue }) =>
