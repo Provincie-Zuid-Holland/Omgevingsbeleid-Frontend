@@ -86,8 +86,8 @@ const normalizePayload = (payload: FormData, initialData: FormData) => {
         )
     }
 
-    if (Array.isArray(cleanedPayload.Role)) {
-        cleanedPayload.Role = cleanedPayload.Role.map(
+    if (Array.isArray(cleanedPayload.Roles)) {
+        cleanedPayload.Roles = cleanedPayload.Roles.map(
             (item: any) => item?.value ?? item
         )
     }
@@ -114,10 +114,6 @@ const getInitialData = (model: Model, object?: Record<string, any>) => {
 
     if (fields.includes('File_UUID')) {
         objectData.File = null
-    }
-
-    if (fields.includes('Role') && typeof object?.Role === 'string') {
-        objectData.Role = null
     }
 
     return objectData

@@ -177,7 +177,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     },
                 },
                 {
-                    name: 'Role',
+                    name: 'Roles',
                     label: 'Sturingsstijl',
                     description:
                         'Kies de rol die je inneemt met deze maatregel, dit kunnen meerdere rollen zijn.',
@@ -216,7 +216,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     options: [
                         {
                             label: (
-                                <span className="text-s inline-block leading-snug">
+                                <span className="inline-block text-s leading-snug">
                                     <b>Presterende provincie:</b> waar
                                     overheidsinvesteringen onmisbaar zijn, zelf
                                     prestaties leveren.
@@ -226,7 +226,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                         },
                         {
                             label: (
-                                <span className="text-s inline-block leading-snug">
+                                <span className="inline-block text-s leading-snug">
                                     <b>Samenwerkende provincie:</b> waar (meer)
                                     regie nodig is, netwerkend werken.
                                 </span>
@@ -235,7 +235,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                         },
                         {
                             label: (
-                                <span className="text-s inline-block leading-snug">
+                                <span className="inline-block text-s leading-snug">
                                     <b>Rechtmatige provincie:</b> waar normerend
                                     optreden noodzakelijk is, wettelijke
                                     bevoegdheden inzetten.
@@ -245,7 +245,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                         },
                         {
                             label: (
-                                <span className="text-s inline-block leading-snug">
+                                <span className="inline-block text-s leading-snug">
                                     <b>Responsieve provincie:</b> zoveel
                                     mogelijk overlaten aan initiatieven uit de
                                     samenleving.
