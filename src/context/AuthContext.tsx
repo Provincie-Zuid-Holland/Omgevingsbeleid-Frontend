@@ -19,6 +19,7 @@ export const availableRoleTypes = [
     'Regisseur Omgevingsbeleid',
     'Technisch Beheerder',
     'Portefeuillehouder',
+    'Publiceerder',
     'Basic',
 ] satisfies Role[]
 export type Role =
