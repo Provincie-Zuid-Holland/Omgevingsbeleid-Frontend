@@ -1976,21 +1976,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pzh-ui/icons@npm:^0.0.100":
-  version: 0.0.100
-  resolution: "@pzh-ui/icons@npm:0.0.100"
-  peerDependencies:
-    react: ^18.3.0 || ^19.0.0
-  checksum: e5bce6b934ee6c1dd1f4e67eaee3269175661e37e6b1c5737d7ca0f65b9d4810065f84b36f7033397770920782c1ae334b61131ab7223b01023bf79cbcf5f38c
-  languageName: node
-  linkType: hard
-
 "@pzh-ui/icons@npm:^0.0.101":
   version: 0.0.101
   resolution: "@pzh-ui/icons@npm:0.0.101"
   peerDependencies:
     react: ^18.3.0 || ^19.0.0
   checksum: 308f767824babe3f94fa59cee7f8a862d3ec76ef94f20c51df4dd3a1a62cbd9937f82ad1dd0eaae4940e2ee7adc458f82b38573b83c4497036df9f8b11669ba7
+  languageName: node
+  linkType: hard
+
+"@pzh-ui/icons@npm:^0.0.102":
+  version: 0.0.102
+  resolution: "@pzh-ui/icons@npm:0.0.102"
+  peerDependencies:
+    react: ^18.3.0 || ^19.0.0
+  checksum: 255223e9c015dc5ad29d8a3be9b08ae371b74ee86807eebd94ed66db845cf6f7dffb91551d5da00c5bebc7e6790be00fba19203234ebde81a296e11bcc67b1db
   languageName: node
   linkType: hard
 
@@ -11021,7 +11021,7 @@ __metadata:
     "@ianvs/prettier-plugin-sort-imports": "npm:^4.7.1"
     "@pzh-ui/components": "npm:^0.0.687"
     "@pzh-ui/css": "npm:^0.0.118"
-    "@pzh-ui/icons": "npm:^0.0.100"
+    "@pzh-ui/icons": "npm:^0.0.102"
     "@pzh-ui/react": "npm:^0.0.4"
     "@react-hookz/web": "npm:^26.1.0"
     "@tailwindcss/cli": "npm:^4.3.3"
