@@ -11,7 +11,7 @@ pool:
     name: 'PZH-Agent'
 
 variables:
-    VITE_API_ENV: $(Build.SourceBranchName)
+    VITE_API_ENV: test
     NODE_OPTIONS: --max_old_space_size=4096
     YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
