@@ -5,6 +5,7 @@ trigger:
             - test
             - acc
             - main
+            - feature/prod-with-AB#31281
 
 pool:
     name: 'PZH-Agent'
@@ -84,7 +85,10 @@ stages:
     - stage: Test
       displayName: Test deploy
       dependsOn: Build
-      condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'test'))
+      condition: and(
+          succeeded(),
+          in(variables['Build.SourceBranchName'], 'test', 'feature/prod-with-AB#31281')
+          )
       jobs:
           - deployment: TestDeploy
             displayName: Test deploy
