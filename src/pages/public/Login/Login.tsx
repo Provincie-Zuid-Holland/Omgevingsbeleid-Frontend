@@ -1,4 +1,5 @@
 import { Heading, Text } from '@pzh-ui/components'
+
 import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
@@ -39,14 +40,14 @@ const Login = () => {
                         className="mt-4 sm:mt-12 lg:mt-16">
                         Inloggen
                     </Heading>
-                    <Text size="l" className="mb-8 mt-3">
+                    <Text size="l" className="mt-3 mb-8">
                         Als beleidsmedewerker van provincie Zuid-Holland kun je
                         hier inloggen om te werken aan het Omgevingsbeleid.
                     </Text>
                     <LoginForm />
                 </div>
                 <div className="relative col-span-3 hidden lg:inline-block">
-                    <div className="image-login-1 absolute left-0 top-0 h-[480px] w-[50vw] bg-cover bg-center bg-no-repeat text-pzh-white sm:inline-block" />
+                    <div className="image-login-1 absolute top-0 left-0 h-[480px] w-[50vw] bg-cover bg-center bg-no-repeat text-pzh-white sm:inline-block" />
                 </div>
             </Container>
             <div className="image-login-1 block h-64 w-full bg-pzh-blue-500 bg-cover bg-center bg-no-repeat lg:hidden" />
@@ -68,7 +69,7 @@ const Login = () => {
                         Ga naar de raadpleegomgeving
                     </Link>
                 </div>
-                <div className="col-span-6 mb-4 mt-4 py-4 lg:col-span-3 lg:mt-0 lg:py-12">
+                <div className="col-span-6 mt-4 mb-4 py-4 lg:col-span-3 lg:mt-0 lg:py-12">
                     <Heading level="2" size="m">
                         Hulp bij het inloggen
                     </Heading>

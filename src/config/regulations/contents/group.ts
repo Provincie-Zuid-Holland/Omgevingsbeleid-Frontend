@@ -1,6 +1,8 @@
-import { Content } from './types'
-
-import { figure, formula, list, paragraph } from '.'
+import figure from './figure'
+import formula from './formula'
+import list from './list'
+import paragraph from './paragraph'
+import type { Content } from './types'
 
 const group: Content = {
     type: 'group',

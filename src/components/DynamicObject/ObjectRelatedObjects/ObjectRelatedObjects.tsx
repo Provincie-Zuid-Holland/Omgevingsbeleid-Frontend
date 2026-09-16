@@ -1,5 +1,6 @@
 import { Heading, Text } from '@pzh-ui/components'
 import { Eye } from '@pzh-ui/icons'
+
 import { Link } from 'react-router-dom'
 
 import {
@@ -44,7 +45,8 @@ const ObjectRelatedObjects = ({ objects }: ObjectRelatedObjectsProps) => {
 }
 
 interface RelatedObjectProps
-    extends WerkingsgebiedRelatedModuleObjectShort,
+    extends
+        WerkingsgebiedRelatedModuleObjectShort,
         WerkingsgebiedRelatedObjectShort {
     type: 'valid' | 'module'
 }
@@ -67,7 +69,7 @@ const RelatedObject = ({
         <Link
             to={path}
             target="_blank"
-            className="group border-pzh-gray-200 flex items-center justify-between gap-4 border-b pb-2">
+            className="group flex items-center justify-between gap-4 border-b border-pzh-gray-200 pb-2">
             <div>
                 <Text as="span" color="text-pzh-gray-500">
                     {model.defaults.singularCapitalize}

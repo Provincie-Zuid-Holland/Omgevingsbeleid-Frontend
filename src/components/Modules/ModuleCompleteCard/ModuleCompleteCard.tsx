@@ -38,7 +38,7 @@ const ModuleCompleteCard = ({
                 </Button>
                 <Tooltip label="Afronden niet mogelijk via User Interface, neem contact op met team Omgevingsbeleid">
                     <CircleInfo
-                        className="text-pzh-blue-500 ml-2 cursor-help"
+                        className="ml-2 cursor-help text-pzh-blue-500"
                         size={18}
                     />
                 </Tooltip>

@@ -25,7 +25,7 @@ const ObjectRelationPart = ({
     hasNotification,
     onClick,
 }: ObjectRelationPartProps) => (
-    <div className="border-pzh-gray-300 relative mt-4 flex items-center justify-between border-b pb-4">
+    <div className="relative mt-4 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
         <div className="flex items-center">
             <Indicator amount={amount} hasNotification={hasNotification} />
             <span className="ml-3">{title}</span>
@@ -41,7 +41,7 @@ const ObjectRelationPart = ({
                 (isLoading ? (
                     <Spinner
                         size={14}
-                        className="text-pzh-gray-600 animate-spin"
+                        className="animate-spin text-pzh-gray-600"
                     />
                 ) : (
                     <Eye size={18} className="text-pzh-green-500" />

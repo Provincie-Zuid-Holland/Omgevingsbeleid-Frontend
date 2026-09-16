@@ -1,4 +1,6 @@
 import { Heading, ListLink, Text } from '@pzh-ui/components'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
+
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
@@ -9,7 +11,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import PageHero from '@/components/PageHero'
 import model from '@/config/objects/programmaAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
-import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 
 const META = {
     title: 'Omgevingsprogramma',
@@ -145,7 +146,7 @@ function EnvironmentProgram() {
                         het Beheerplan Natura 2000 en het Actieplan geluid.
                     </Text>
                     <Link
-                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/verplichte-programmas">
                         Bekijk de verplichte programma’s
                     </Link>
@@ -159,7 +160,7 @@ function EnvironmentProgram() {
                         beleidsdoelen vindt u hier.
                     </Text>
                     <Link
-                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/thematische-programmas">
                         Bekijk de thematische programma’s
                     </Link>
@@ -173,7 +174,7 @@ function EnvironmentProgram() {
                         gebieden (welke soms overlappen) is hieronder te vinden.
                     </Text>
                     <Link
-                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/gebiedsprogrammas">
                         Bekijk de gebiedsprogramma’s
                     </Link>
@@ -187,7 +188,7 @@ function EnvironmentProgram() {
                         Omgevingsprogramma.
                     </Text>
                     <Link
-                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-3 block underline"
+                        className="mt-3 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsprogramma/maatregelen">
                         Bekijk de maatregelen
                     </Link>

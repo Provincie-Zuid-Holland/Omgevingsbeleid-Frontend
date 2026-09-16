@@ -1,3 +1,5 @@
+import { useCallback, useMemo } from 'react'
+
 import {
     Accordion,
     AccordionContent,
@@ -5,7 +7,7 @@ import {
     AccordionTrigger,
     Heading,
 } from '@pzh-ui/components'
-import { useCallback, useMemo } from 'react'
+
 import { useShallow } from 'zustand/react/shallow'
 
 import {
@@ -68,11 +70,11 @@ const PublicationFolder = ({
     return (
         <AccordionItem
             value={procedureType}
-            className="border-pzh-gray-200 rounded-lg border"
+            className="rounded-lg border border-pzh-gray-200"
             disabled>
             <AccordionTrigger
                 hideIcon
-                className="bg-pzh-gray-100 flex h-16 items-center justify-between rounded-t-lg px-6 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
+                className="flex h-16 items-center justify-between rounded-t-lg bg-pzh-gray-100 px-6 hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90">
                 <Heading level="3" size="m" className="capitalize">
                     {config[procedureType].label}
                 </Heading>

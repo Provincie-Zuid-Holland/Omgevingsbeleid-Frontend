@@ -6,7 +6,7 @@ function LoaderContent() {
         <div
             id="loader-spinner"
             data-testid="loader-spinner"
-            className="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen pointer-events-none">
+            className="pointer-events-none fixed top-0 left-0 z-50 flex h-screen w-screen items-center justify-center">
             <div className="loader loader--style8" title="7">
                 <svg
                     version="1.1"

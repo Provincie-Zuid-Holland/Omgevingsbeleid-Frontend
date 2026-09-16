@@ -2,6 +2,7 @@ import { Button, Heading, Text } from '@pzh-ui/components'
 import { Key } from '@pzh-ui/icons'
 
 import { ModalFooter } from '@/components/Modal/Modal'
+
 import { StepProps } from './types'
 
 export const StepOne = ({ handleClick, handleClose, isLoading }: StepProps) => (

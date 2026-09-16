@@ -5,12 +5,12 @@ import {
     FieldRteProps,
     FieldSelectProps,
 } from '@pzh-ui/components'
+import { NotificationProps } from '@pzh-ui/react'
 
 import { DynamicObjectSearchProps } from '@/components/DynamicObject/DynamicObjectSearch'
+import { FieldAreaAnnotateProps } from '@/components/Form/FieldAreaAnnotate/FieldAreaAnnotate'
 import { Validation } from '@/validation/zodSchema'
 
-import { FieldAreaAnnotateProps } from '@/components/Form/FieldAreaAnnotate/FieldAreaAnnotate'
-import { NotificationProps } from '@pzh-ui/react'
 import { ModelReturnType, ModelType } from './objects/types'
 
 type DynamicFieldType =
@@ -66,7 +66,8 @@ export type DynamicField<FieldType = string> = {
     ArrayProps &
     CheckboxProps &
     AreaAnnotateProps &
-    ThemeProps
+    ThemeProps &
+    AreaProps
 
 type TextProps =
     | ({ type: 'text' } & FieldInputProps)
@@ -141,4 +142,10 @@ type ThemeProps =
     | ({ type: 'theme' } & FieldSelectProps)
     | {
           type: Exclude<DynamicFieldType, 'theme'>
+      }
+
+type AreaProps =
+    | ({ type: 'area' } & FieldSelectProps)
+    | {
+          type: Exclude<DynamicFieldType, 'area'>
       }

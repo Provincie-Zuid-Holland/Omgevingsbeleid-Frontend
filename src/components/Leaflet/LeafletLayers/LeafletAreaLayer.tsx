@@ -1,6 +1,8 @@
-import { Eye, EyeSlash } from '@pzh-ui/icons'
-import classNames from 'clsx'
 import { useState } from 'react'
+
+import { Eye, EyeSlash } from '@pzh-ui/icons'
+
+import classNames from 'clsx'
 import { useMap } from 'react-leaflet'
 
 import { Feature, generateImageUrl } from '@/api/axiosGeoJSON'
@@ -31,7 +33,7 @@ const LeafletAreaLayer = ({
         return (
             <li
                 className={classNames(
-                    'text-pzh-gray-700 hover:bg-pzh-gray-100 hover:text-pzh-gray-800 focus:text-pzh-gray-800 flex justify-between px-2 py-1',
+                    'flex justify-between px-2 py-1 text-pzh-gray-700 hover:bg-pzh-gray-100 hover:text-pzh-gray-800 focus:text-pzh-gray-800',
                     {
                         'pl-6': index,
                     }
@@ -67,7 +69,7 @@ const LeafletAreaLayer = ({
     return (
         <li
             className={classNames(
-                'text-s text-pzh-gray-700 flex cursor-pointer items-baseline justify-between gap-2 px-2 py-1',
+                'flex cursor-pointer items-baseline justify-between gap-2 px-2 py-1 text-s text-pzh-gray-700',
                 {
                     'pl-8': parseInt(index || '0') > 0,
                 }

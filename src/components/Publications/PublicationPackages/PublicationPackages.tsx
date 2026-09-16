@@ -4,6 +4,7 @@ import {
     AccordionTrigger,
     Heading,
 } from '@pzh-ui/components'
+
 import clsx from 'clsx'
 
 import {
@@ -56,13 +57,13 @@ const PublicationPackages = ({
         <AccordionItem
             value={publicationType}
             disabled
-            className={clsx('group border-pzh-gray-200 rounded-lg border', {
+            className={clsx('group rounded-lg border border-pzh-gray-200', {
                 'bg-pzh-gray-100': version.Is_Locked,
             })}>
             <AccordionTrigger
                 hideIcon
                 className={clsx(
-                    'bg-pzh-gray-100 flex h-16 items-center justify-between rounded-t-lg px-6 group-only:hover:cursor-default group-only:hover:no-underline hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90',
+                    'flex h-16 items-center justify-between rounded-t-lg bg-pzh-gray-100 px-6 group-only:hover:cursor-default group-only:hover:no-underline hover:[&[data-disabled]]:no-underline [&[data-state=closed]]:rounded-b-lg [&[data-state=open]>svg]:rotate-90',
                     {
                         '[&[data-disabled]>*]:text-pzh-gray-300': isDisabled,
                     }

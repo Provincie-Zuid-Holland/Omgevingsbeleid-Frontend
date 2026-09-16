@@ -1,8 +1,10 @@
+import { KeyboardEvent, useMemo, useState } from 'react'
+
 import { Button, Heading, TabItem, Table, Tabs, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+
 import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
-import { KeyboardEvent, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGetListModuleObjects } from '@/api/fetchers'
@@ -234,11 +236,10 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         () =>
             (
                 data?.results as (
-                    | ModelReturnTypeBasic
-                    | ModelReturnTypeBasicUnion
+                    ModelReturnTypeBasic | ModelReturnTypeBasicUnion
                 )[]
             )?.map(props => {
-                const { Title, Modified_Date, Object_ID } =
+                const { Title, Object_ID } =
                     'Model' in props ? props.Model : props
 
                 return {

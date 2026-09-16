@@ -1,10 +1,11 @@
 import { Button, Text } from '@pzh-ui/components'
+
 import { LatLng, Map, Point } from 'leaflet'
 import Proj from 'proj4leaflet'
 import ReactDOMServer from 'react-dom/server'
 
 import { LoaderSpinner } from '@/components/Loader'
-import { MAP_SEARCH_PAGE, RDProj4, leafletBounds } from '@/constants/leaflet'
+import { leafletBounds, MAP_SEARCH_PAGE, RDProj4 } from '@/constants/leaflet'
 
 // @ts-ignore
 const RDProjection = new Proj.Projection('EPSG:28992', RDProj4, leafletBounds)
@@ -176,7 +177,7 @@ export const CreateCustomPopup = ({
             <Text as="span" className="block font-bold">
                 Locatie
             </Text>
-            <ul className="mb-4 mt-2">
+            <ul className="mt-2 mb-4">
                 {locationName && (
                     <Text size="s" as="li" bold>
                         {locationName}

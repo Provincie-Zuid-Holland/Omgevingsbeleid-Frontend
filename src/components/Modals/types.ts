@@ -11,9 +11,9 @@ import {
     PublicationVersionShort,
     ValidateModuleError,
 } from '@/api/fetchers.schemas'
+import { ModelReturnTypeBasic } from '@/config/objects/types'
 import { Error } from '@/utils/handleError'
 
-import { ModelReturnTypeBasic } from '@/config/objects/types'
 import { PublicationType } from '../Publications/types'
 
 export type ModalType =
@@ -56,6 +56,7 @@ export type ModalType =
     | 'publicationPackageReportUpload'
     | 'publicationAttachmentDelete'
     | 'publicationAttachmentAdd'
+    | 'objectRelatedFiles'
 
 export interface ModalStateMap {
     moduleEditObject: {

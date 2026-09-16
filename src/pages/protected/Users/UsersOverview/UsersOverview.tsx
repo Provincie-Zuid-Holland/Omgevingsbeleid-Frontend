@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react'
+
 import {
     Button,
     FormikInput,
@@ -9,17 +11,18 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+
+import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
-import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useUserGetSearchUsers } from '@/api/fetchers'
+import { LoaderSpinner } from '@/components/Loader'
 import UserAddModal from '@/components/Modals/UserModals/UserAddModal'
-import { Role, availableRoleTypes } from '@/context/AuthContext'
+import { availableRoleTypes, Role } from '@/context/AuthContext'
 import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
-import { useUpdateEffect } from '@react-hookz/web'
 
 const PAGE_LIMIT = 20
 
@@ -178,12 +181,16 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
                     manualSorting
                     isLoading={isFetching}
                 />
-            ) : (
+            ) : !isFetching ? (
                 <span className="italic">
                     {`Er zijn geen ${
                         type === 'active' ? 'actieve' : 'inactieve'
                     } gebruikers gevonden`}
                 </span>
+            ) : (
+                <div className="mt-8 flex justify-center">
+                    <LoaderSpinner />
+                </div>
             )}
         </div>
     )

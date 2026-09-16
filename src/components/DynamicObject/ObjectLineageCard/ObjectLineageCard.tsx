@@ -1,8 +1,10 @@
-import type { ModuleShort } from '@/api/fetchers.schemas'
-import type { Model } from '@/config/objects/types'
 import { Badge, cn, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
+
 import { Link } from 'react-router-dom'
+
+import type { ModuleShort } from '@/api/fetchers.schemas'
+import type { Model } from '@/config/objects/types'
 
 type Status = 'Vigerend' | 'Gearchiveerd' | string
 
@@ -52,7 +54,7 @@ const ObjectLineageCard = ({
     return (
         <div
             className={cn(
-                'bg-pzh-white shadow-card border-pzh-blue-100 flex flex-col gap-4 rounded-lg border-l-8 p-6',
+                'flex flex-col gap-4 rounded-lg border-l-8 border-pzh-blue-100 bg-pzh-white p-6 shadow-card',
                 statusToBorderClass(status)
             )}>
             <Badge

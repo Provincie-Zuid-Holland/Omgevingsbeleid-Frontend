@@ -1,5 +1,6 @@
 import { Text, Tooltip } from '@pzh-ui/components'
 import { TrashCan } from '@pzh-ui/icons'
+
 import classNames from 'clsx'
 
 import { ModelReturnTypeBasic } from '@/config/objects/types'
@@ -21,7 +22,7 @@ const ModulePart = ({
 }: ModulePartProps) => (
     <div
         className={classNames(
-            'border-pzh-gray-300 grid grid-cols-12 border-t px-4 py-1',
+            'grid grid-cols-12 border-t border-pzh-gray-300 px-4 py-1',
             {
                 'border-b': isLast,
             }

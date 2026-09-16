@@ -12,4 +12,18 @@
     [role="button"]:not(:disabled) {
       cursor: pointer;
     }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--color-pzh-focus);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .pzh-modal a:focus,
+    #popup-menu a:focus {
+      outline: 2px solid var(--color-pzh-focus);
+      outline-offset: -2px;
+      border-radius: 4px;
+    }
   }

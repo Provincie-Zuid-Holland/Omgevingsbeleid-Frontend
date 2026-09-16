@@ -1,5 +1,6 @@
 import { cn, Notification, Text } from '@pzh-ui/components'
 import { Lock, LockOpen } from '@pzh-ui/icons'
+
 import { useParams } from 'react-router-dom'
 
 import ToggleSwitch from '@/components/ToggleSwitch'
@@ -24,7 +25,7 @@ const ModuleLock = () => {
     }
 
     return (
-        <div className="bg-pzh-gray-100 mt-6 flex items-center px-4 py-2">
+        <div className="mt-6 flex items-center bg-pzh-gray-100 px-4 py-2">
             {isLocked ? <Lock size={24} /> : <LockOpen size={24} />}
             <Text className="ml-3">
                 {isClosed

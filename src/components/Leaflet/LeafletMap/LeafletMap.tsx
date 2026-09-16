@@ -1,5 +1,6 @@
+import { forwardRef, ReactNode, useMemo } from 'react'
+
 import { Map, MapOptions } from 'leaflet'
-import { ReactNode, forwardRef, useMemo } from 'react'
 import {
     LayersControl,
     MapContainer,
@@ -7,7 +8,7 @@ import {
     TileLayer,
 } from 'react-leaflet'
 
-import { RDCrs, leafletCenter, tileURL } from '@/constants/leaflet'
+import { leafletCenter, RDCrs, tileURL } from '@/constants/leaflet'
 
 import {
     LeafletControlLayer,
@@ -42,7 +43,7 @@ const LeafletMap = forwardRef<Map, LeafletMapProps>(
             className,
             id,
             children,
-            ariaLabel = 'Visuele weergave van het werkingsgebied',
+            ariaLabel = 'Visuele weergave van de gebiedengroep',
         },
         ref
     ) => {

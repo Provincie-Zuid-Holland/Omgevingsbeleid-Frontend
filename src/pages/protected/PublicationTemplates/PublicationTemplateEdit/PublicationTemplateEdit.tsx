@@ -1,7 +1,10 @@
-import { Badge, Heading } from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
-import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
+
+import { Badge, Heading } from '@pzh-ui/components'
+
+import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { FormikHelpers } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import {
@@ -19,7 +22,6 @@ import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { normalizeFieldMap } from '@/utils/normalizeFieldMap'
 import { toastNotification } from '@/utils/toastNotification'
-import { AxiosError } from 'axios'
 
 const PublicationTemplateEdit = () => {
     const queryClient = useQueryClient()
@@ -81,7 +83,8 @@ const PublicationTemplateEdit = () => {
         if (!!payload.Object_Templates?.length) {
             payload.Object_Templates = (payload.Object_Templates as any).reduce(
                 (acc: any, curr: { key: string; value: string }) => (
-                    (acc[curr.key] = curr.value), acc
+                    (acc[curr.key] = curr.value),
+                    acc
                 ),
                 {}
             )
@@ -163,7 +166,7 @@ const PublicationTemplateEdit = () => {
                     {singularCapitalize} bewerken
                 </Heading>
 
-                <div className="border-pzh-gray-200 flex items-center justify-between gap-4 rounded border px-6 py-4">
+                <div className="flex items-center justify-between gap-4 rounded border border-pzh-gray-200 px-6 py-4">
                     <div className="flex items-center gap-4">
                         <Badge
                             variant={data?.Is_Active ? 'green' : 'red'}

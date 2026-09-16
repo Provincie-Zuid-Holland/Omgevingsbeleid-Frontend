@@ -1,3 +1,4 @@
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import { Schema } from 'zod'
 
 import {
@@ -19,7 +20,6 @@ import {
     MaatregelFull,
     MaatregelPostModulePatchObjectBody,
     ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-    ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel,
     NationaalBelangFull,
     ObjectStaticShort,
     ProgrammaAlgemeenFull,
@@ -31,9 +31,8 @@ import {
     WettelijkeTaakFull,
 } from '@/api/fetchers.schemas'
 
-import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
-import * as models from '.'
 import { DynamicSection } from '../types'
+import * as models from '.'
 
 export interface ModelQueryKeys {
     [key: string]: (...args: any[]) => readonly unknown[]
@@ -76,6 +75,7 @@ export interface DynamicObjectBase<Q extends ModelQueryKeys = ModelQueryKeys> {
         | ((object: React.JSX.Element) => string | React.JSX.Element)
     acknowledgedRelation?: ModelType
     hasRelatedObjects?: boolean
+    hasRelatedFiles?: boolean
 }
 
 export type QueryHook<TArgs extends unknown[] = any[]> = <TData = any>(
@@ -138,7 +138,7 @@ export type ModelReturnTypeBasic =
     ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 
 export type ModelReturnTypeBasicUnion =
-    ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasicModel
+    ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic['Model']
 
 export type ModelPatchType = BeleidsdoelPostModulePatchObjectBody &
     AmbitiePostModulePatchObjectBody &

@@ -1,5 +1,6 @@
 import { Button, Text } from '@pzh-ui/components'
 import { PlusLight } from '@pzh-ui/icons'
+
 import { useParams } from 'react-router-dom'
 
 import { PackageType } from '@/api/fetchers.schemas'
@@ -34,7 +35,7 @@ const PackageCreate = ({
 
     if (inline) {
         return (
-            <div className="bg-pzh-gray-100 flex px-6 py-4">
+            <div className="flex bg-pzh-gray-100 px-6 py-4">
                 <Button
                     onPress={handleAction}
                     isLoading={createPackage.isPending}
@@ -42,7 +43,7 @@ const PackageCreate = ({
                     variant="default"
                     icon={PlusLight}
                     iconSize={19}
-                    className="text-pzh-green-500 flex items-center gap-4 font-bold [&>svg]:-mt-1 [&>svg]:mr-0">
+                    className="flex items-center gap-4 font-bold text-pzh-green-500 [&>svg]:-mt-1 [&>svg]:mr-0">
                     Nieuwe levering maken
                 </Button>
             </div>
@@ -52,7 +53,7 @@ const PackageCreate = ({
     return (
         <div className="flex items-center justify-between px-6 py-3">
             <div className="flex items-center gap-4">
-                <div className="after:content-[` `] border-pzh-gray-600 flex h-[19px] w-[19px] items-center justify-center rounded-full border" />
+                <div className="after:content-[` `] flex h-[19px] w-[19px] items-center justify-center rounded-full border border-pzh-gray-600" />
                 <Text
                     bold
                     className="heading-s -mb-1"

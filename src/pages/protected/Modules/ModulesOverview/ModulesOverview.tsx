@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react'
+
 import {
     Button,
     formatDate,
@@ -10,9 +12,10 @@ import {
     Text,
 } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
+
+import { useUpdateEffect } from '@react-hookz/web'
 import { keepPreviousData } from '@tanstack/react-query'
 import { Form, Formik } from 'formik'
-import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGetListModules } from '@/api/fetchers'
@@ -22,7 +25,6 @@ import ModuleTile from '@/components/Modules/ModuleTile'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import { parseUtc } from '@/utils/parseUtc'
-import { useUpdateEffect } from '@react-hookz/web'
 
 const PAGE_LIMIT = 9
 type TabType = 'active' | 'inactive' | 'archive'

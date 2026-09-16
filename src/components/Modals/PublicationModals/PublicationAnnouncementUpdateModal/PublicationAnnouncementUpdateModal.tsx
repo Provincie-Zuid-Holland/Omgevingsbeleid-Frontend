@@ -5,7 +5,9 @@ import {
     FormikRte,
     Text,
 } from '@pzh-ui/components'
+
 import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { isNull, isUndefined, mergeWith } from 'lodash'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
@@ -25,7 +27,6 @@ import { ModalStateMap } from '@/components/Modals/types'
 import useModalStore from '@/store/modalStore'
 import handleError from '@/utils/handleError'
 import { ANNOUNCEMENT_EDIT_SCHEMA } from '@/validation/announcement'
-import { AxiosError } from 'axios'
 
 const PublicationAnnouncementUpdateModal = () => {
     const queryClient = useQueryClient()
@@ -132,7 +133,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         required
                                     />
                                 </div>
-                                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                                     <Text>Tekstblokken</Text>
 
                                     <FieldArray
@@ -203,7 +204,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     variant="link"
                                     type="button"
                                     onPress={() => setActiveModal(null)}
-                                    className="text-pzh-blue-500 mr-3">
+                                    className="mr-3 text-pzh-blue-500">
                                     Annuleren
                                 </Button>
                                 <Button

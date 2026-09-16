@@ -1,5 +1,5 @@
-import * as sections from '.'
 import { ContentType } from '../contents/types'
+import * as sections from '.'
 
 export type SectionType = keyof typeof sections
 

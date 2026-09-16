@@ -27,7 +27,10 @@ describe('NavigationPopupMenu', () => {
     }
 
     beforeEach(() => {
-        mockedUseBreakpoint.mockReturnValue({ isMobile: false, isDesktop: true })
+        mockedUseBreakpoint.mockReturnValue({
+            isMobile: false,
+            isDesktop: true,
+        })
     })
 
     it('Component renders', () => {
@@ -42,7 +45,10 @@ describe('NavigationPopupMenu', () => {
     })
 
     it('Shows the search bar on mobile', () => {
-        mockedUseBreakpoint.mockReturnValue({ isMobile: true, isDesktop: false })
+        mockedUseBreakpoint.mockReturnValue({
+            isMobile: true,
+            isDesktop: false,
+        })
         setup()
         expect(screen.getByPlaceholderText('Zoeken')).toBeTruthy()
     })

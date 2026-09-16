@@ -1,6 +1,9 @@
-import { Button, FormikInput, Notification } from '@pzh-ui/components'
-import { Form, Formik } from 'formik'
 import { useState } from 'react'
+
+import { Button, FormikInput, Notification } from '@pzh-ui/components'
+
+import { AxiosError } from 'axios'
+import { Form, Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
@@ -8,7 +11,6 @@ import useAuth from '@/hooks/useAuth'
 import useModalStore from '@/store/modalStore'
 import * as loginForm from '@/validation/loginForm'
 
-import { AxiosError } from 'axios'
 import Modal from '../Modal'
 import { ModalFooter } from '../Modal/Modal'
 
@@ -84,7 +86,7 @@ const LoginForm = () => {
                             </Button>
                             <button
                                 type="button"
-                                className="text-s text-pzh-green-500 hover:text-pzh-green-900 mt-4 cursor-pointer underline sm:mt-0 sm:ml-4"
+                                className="mt-4 cursor-pointer text-s text-pzh-green-500 underline hover:text-pzh-green-900 sm:mt-0 sm:ml-4"
                                 onClick={() => setActiveModal('passwordForget')}
                                 tabIndex={0}>
                                 Wachtwoord vergeten?

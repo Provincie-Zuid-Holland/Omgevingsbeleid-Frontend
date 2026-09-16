@@ -1,12 +1,14 @@
-import { FormikSelect, Heading, Text } from '@pzh-ui/components'
-import { MagnifyingGlass } from '@pzh-ui/icons'
-import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
 
-import { ReadRelation } from '@/api/fetchers.schemas'
+import { FormikSelect, Heading, Text } from '@pzh-ui/components'
+import { MagnifyingGlass } from '@pzh-ui/icons'
 
+import { useFormikContext } from 'formik'
+
+import { ReadRelation } from '@/api/fetchers.schemas'
 import { Option } from '@/components/DynamicObject/DynamicObjectSearch'
 import { ModelReturnTypeBasicUnion } from '@/config/objects/types'
+
 import { StepProps } from './types'
 
 export const StepTwo = ({

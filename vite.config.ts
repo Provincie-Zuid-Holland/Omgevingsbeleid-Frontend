@@ -12,7 +12,6 @@ export default defineConfig({
         port: 3000,
     },
     build: {
-        target: 'esnext',
         outDir: 'build',
         sourcemap: true,
         rolldownOptions: {
@@ -62,9 +61,6 @@ export default defineConfig({
                 },
             },
         },
-    },
-    define: {
-        'process.env': {},
     },
     resolve: {
         tsconfigPaths: true,

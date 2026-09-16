@@ -3,8 +3,8 @@ import { AngleDown, ObjectGroup } from '@pzh-ui/icons'
 import {
     useGebiedsaanwijzingEditObjectStatic,
     useGebiedsaanwijzingGetListActiveModuleObjects,
-    useGebiedsaanwijzingListValidLineageTree,
     useGebiedsaanwijzingListValidLineages,
+    useGebiedsaanwijzingListValidLineageTree,
     useGebiedsaanwijzingPostModulePatchObject,
     useGebiedsaanwijzingViewGetObjectStatic,
     useGebiedsaanwijzingViewModuleObjectLatest,

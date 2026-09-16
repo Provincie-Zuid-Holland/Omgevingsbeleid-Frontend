@@ -1,4 +1,5 @@
 import { Hyperlink, Text } from '@pzh-ui/components'
+
 import { Link } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -39,7 +40,7 @@ const NetworkModal = () => {
                             <li key={connection.UUID}>
                                 <Link
                                     to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${connection.UUID}`}
-                                    className="border-pzh-blue-900/35 flex items-center justify-between border-b px-2 pt-2 pb-1">
+                                    className="flex items-center justify-between border-b border-pzh-blue-900/35 px-2 pt-2 pb-1">
                                     <p className="leading-none underline decoration-1">
                                         {connection.Title}
                                     </p>

@@ -1,5 +1,6 @@
-import classNames from 'clsx'
 import { forwardRef } from 'react'
+
+import classNames from 'clsx'
 
 export type TooltipVariables = {
     active: boolean
@@ -40,11 +41,11 @@ const NetworkGraphTooltip = forwardRef<
             'left-[-100vw]': !variables.active,
         })}>
         <span className="-mt-2.5 block h-2.5 w-full" />
-        <div className="bg-pzh-black/80 rounded px-3 pt-3 pb-2">
-            <span className="text-s text-pzh-white block capitalize">
+        <div className="rounded bg-pzh-black/80 px-3 pt-3 pb-2">
+            <span className="block text-s text-pzh-white capitalize">
                 {content?.type}
             </span>
-            <span className="text-pzh-white block max-w-[400px] truncate font-bold group-hover:underline">
+            <span className="block max-w-[400px] truncate font-bold text-pzh-white group-hover:underline">
                 {content?.title}
             </span>
         </div>

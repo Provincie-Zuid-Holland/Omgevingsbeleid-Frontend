@@ -1,5 +1,7 @@
-import { Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
+
+import { Heading, Text } from '@pzh-ui/components'
+
 import { useParams } from 'react-router-dom'
 
 import Breadcrumbs from '@/components/Breadcrumbs'
@@ -60,12 +62,12 @@ function AreaDetail() {
                     <Breadcrumbs items={breadcrumbPaths} className="mt-6" />
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
-                    <Heading level="1" size="xxl" className="mb-3 mt-10">
+                    <Heading level="1" size="xxl" className="mt-10 mb-3">
                         {data?.Title}
                     </Heading>
                     {data?.Description && (
                         <Text
-                            className="prose prose-neutral mb-8 max-w-full whitespace-pre-line text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0"
+                            className="prose mb-8 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
                                 __html: data.Description,
                             }}

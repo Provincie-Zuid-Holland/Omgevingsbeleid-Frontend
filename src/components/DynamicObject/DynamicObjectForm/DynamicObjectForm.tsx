@@ -1,15 +1,17 @@
-import { FieldSelectProps } from '@pzh-ui/components'
-import { Form, Formik, FormikHelpers, FormikProps, FormikValues } from 'formik'
 import { useMemo } from 'react'
+
+import { FieldSelectProps } from '@pzh-ui/components'
+
+import { Form, Formik, FormikHelpers, FormikProps, FormikValues } from 'formik'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import ButtonSubmitFixed from '@/components/ButtonSubmitFixed'
 import { LoaderSpinner } from '@/components/Loader'
+import ObjectAreaAnnotateModal from '@/components/Modals/ObjectModals/ObjectAreaAnnotateModal'
 import ScrollToFieldError from '@/components/ScrollToFieldError'
 import { Model } from '@/config/objects/types'
 import { usePrompt } from '@/hooks/usePrompt'
 
-import ObjectAreaAnnotateModal from '@/components/Modals/ObjectModals/ObjectAreaAnnotateModal'
 import DynamicSection from './DynamicSection'
 
 interface DynamicObjectFormProps<TData> {
