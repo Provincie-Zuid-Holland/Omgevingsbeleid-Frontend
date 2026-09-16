@@ -87,7 +87,10 @@ stages:
       dependsOn: Build
       condition: and(
           succeeded(),
-          in(variables['Build.SourceBranchName'], 'test', 'feature/prod-with-AB#31281')
+          or(
+          eq(variables['Build.SourceBranch'], 'refs/heads/test'),
+          eq(variables['Build.SourceBranch'], 'refs/heads/feature/prod-with-AB#31281')
+          )
           )
       jobs:
           - deployment: TestDeploy
