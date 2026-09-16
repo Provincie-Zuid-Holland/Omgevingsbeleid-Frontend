@@ -3,6 +3,8 @@ import { useCallback, useLayoutEffect } from 'react'
 import { useErrorBoundary } from 'react-error-boundary'
 import { useNavigate, useRoutes } from 'react-router-dom'
 
+import * as annotations from '@/config/annotations'
+import { AnnotationType } from '@/config/annotations/types'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 import ModuleProvider from '@/context/ModuleContext'
@@ -109,7 +111,9 @@ const generateProtectedModelRoutes = () =>
             children: [
                 {
                     index: true,
-                    element: <DynamicOverview model={config} />,
+                    element: (
+                        <DynamicOverview entityType="object" model={config} />
+                    ),
                 },
                 {
                     path: ':objectId',
@@ -154,6 +158,27 @@ const generateProtectedModelRoutes = () =>
                           },
                       ]
                     : []),
+            ],
+        }
+    })
+
+const generateProtectedAnnotationRoutes = () =>
+    Object.keys(annotations).map(annotation => {
+        const config = annotations[annotation as AnnotationType]
+        const { plural } = config.defaults
+
+        return {
+            path: plural,
+            children: [
+                {
+                    index: true,
+                    element: (
+                        <DynamicOverview
+                            entityType="annotation"
+                            model={config}
+                        />
+                    ),
+                },
             ],
         }
     })
@@ -307,6 +332,7 @@ const AppRoutes = () => {
                     ],
                 },
                 ...generateProtectedModelRoutes(),
+                ...generateProtectedAnnotationRoutes(),
                 {
                     path: 'verordening',
                     element: <Regulations />,
