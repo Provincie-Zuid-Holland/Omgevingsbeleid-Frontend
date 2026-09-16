@@ -173,8 +173,7 @@ const generateProtectedAnnotationRoutes = () =>
                 {
                     index: true,
                     element: (
-                        <ProtectedRoute
-                            permissions={{ canCreateHoofdlijn: true }}>
+                        <ProtectedRoute permissions={config.routePermissions}>
                             <DynamicOverview
                                 entityType="annotation"
                                 model={config}

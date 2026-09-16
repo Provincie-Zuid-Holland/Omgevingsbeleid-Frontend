@@ -105,6 +105,9 @@ const api = {
 } satisfies AnnotationApi<CreateHoofdlijn, EditHoofdlijn, Hoofdlijn>
 
 const hoofdlijn: DynamicAnnotation<typeof api> = {
+    routePermissions: {
+        canCreateHoofdlijn: true,
+    },
     defaults: {
         singular: 'hoofdlijn',
         singularReadable: 'hoofdlijn',

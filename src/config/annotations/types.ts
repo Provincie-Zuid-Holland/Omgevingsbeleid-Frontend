@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Schema } from 'zod'
 
+import type { Permissions } from '@/hooks/usePermissions'
+
 import { DynamicSection } from '../types'
 import * as annotations from '.'
 
@@ -29,6 +31,7 @@ export interface DynamicAnnotationBase<
         icon: React.ElementType
     }
     queryKeys?: Q
+    routePermissions?: Partial<Permissions>
     validationSchema?: Schema
     dynamicSections: DynamicSection[]
     overview: {
