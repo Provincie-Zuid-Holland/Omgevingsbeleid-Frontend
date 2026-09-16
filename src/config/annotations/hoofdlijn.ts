@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { CircleExclamation } from '@pzh-ui/icons'
+import { BuildingMemo } from '@pzh-ui/icons'
 
 import { keepPreviousData } from '@tanstack/react-query'
 
@@ -21,10 +21,6 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 
 import { AnnotationApi, DynamicAnnotation } from './types'
-
-const fetchers = {
-    useDeleteAnnotations: useHoofdlijnDeleteHoofdlijnen,
-}
 
 const api = {
     overviewQueryKey: getHoofdlijnGetHoofdlijnenListQueryKey(),
@@ -99,9 +95,16 @@ const api = {
                 mutateAsync({ hoofdlijnUuid: id, data: values }),
         }
     },
+    useDelete: () => {
+        const { mutateAsync } = useHoofdlijnDeleteHoofdlijnen()
+
+        return {
+            remove: (id: string) => mutateAsync({ hoofdlijnUuid: id }),
+        }
+    },
 } satisfies AnnotationApi<CreateHoofdlijn, EditHoofdlijn, Hoofdlijn>
 
-const hoofdlijn: DynamicAnnotation<typeof fetchers, typeof api> = {
+const hoofdlijn: DynamicAnnotation<typeof api> = {
     defaults: {
         singular: 'hoofdlijn',
         singularReadable: 'hoofdlijn',
@@ -114,9 +117,8 @@ const hoofdlijn: DynamicAnnotation<typeof fetchers, typeof api> = {
         prefixNewObject: 'Nieuwe',
         demonstrative: 'deze',
         demonstrativeSingular: 'hoofdlijn',
-        icon: CircleExclamation,
+        icon: BuildingMemo,
     },
-    fetchers,
     api,
     overview: {
         columns: [

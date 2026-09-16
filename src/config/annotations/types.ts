@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import { Schema } from 'zod'
 
 import { DynamicSection } from '../types'
@@ -74,30 +73,15 @@ export interface AnnotationApi<TCreate = any, TEdit = any, TDetail = any> {
     useEdit: () => {
         save: (id: string, values: TEdit) => Promise<unknown>
     }
-}
-
-export type QueryHook<TArgs extends any[] = any[]> = <TData = any>(
-    ...args: TArgs
-) => UseQueryResult<TData> & {
-    queryKey: readonly unknown[]
-}
-
-export type MutationHook<
-    TData = any,
-    TVariables = any,
-    TArgs extends any[] = any[],
-> = (...args: TArgs) => UseMutationResult<TData, any, TVariables>
-
-export interface ModelFetchers {
-    useDeleteAnnotations?: MutationHook | null
+    useDelete: () => {
+        remove: (id: string) => Promise<unknown>
+    }
 }
 
 export type DynamicAnnotation<
-    F extends ModelFetchers = ModelFetchers,
     A extends AnnotationApi = AnnotationApi,
     Q extends ModelQueryKeys = ModelQueryKeys,
 > = DynamicAnnotationBase<Q> & {
-    fetchers: F
     api: A
 }
 

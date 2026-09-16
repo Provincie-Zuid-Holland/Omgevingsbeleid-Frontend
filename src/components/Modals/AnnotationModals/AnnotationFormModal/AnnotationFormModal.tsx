@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
-import { Button } from '@pzh-ui/components'
+import { Button, FieldCheckbox } from '@pzh-ui/components'
 
 import { useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -31,12 +31,19 @@ const AnnotationFormModal = ({
     onSaved,
 }: AnnotationFormModalProps) => {
     const queryClient = useQueryClient()
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const [deleteConfirmed, setDeleteConfirmed] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
+
     const editing = !!annotationId
     const { singularCapitalize } = annotation.defaults
+
     const detailQuery = annotation.api.useDetail(annotationId || '', editing)
     const create = annotation.api.useCreate()
     const edit = annotation.api.useEdit()
+    const remove = annotation.api.useDelete()
 
     const initialValues = useMemo(
         () =>
@@ -50,7 +57,31 @@ const AnnotationFormModal = ({
         [annotation.dynamicSections, detailQuery.data]
     )
 
-    const close = () => setActiveModal(null)
+    const close = () => {
+        setActiveModal(null)
+        setDeleteConfirmed(false)
+    }
+
+    const handleDelete = async () => {
+        if (!annotationId || !deleteConfirmed) return
+
+        setIsDeleting(true)
+
+        try {
+            await remove.remove(annotationId)
+            await queryClient.invalidateQueries({
+                queryKey: annotation.api.overviewQueryKey,
+                refetchType: 'all',
+            })
+            onSaved()
+            close()
+            toastNotification('annotationDeleted')
+        } catch {
+            toastNotification('error')
+        } finally {
+            setIsDeleting(false)
+        }
+    }
 
     const handleSubmit = async (
         values: FormData,
@@ -130,19 +161,49 @@ const AnnotationFormModal = ({
                                 ))
                             )}
 
+                            {editing && (
+                                <FieldCheckbox
+                                    className="mt-4"
+                                    checked={deleteConfirmed}
+                                    onChange={event =>
+                                        setDeleteConfirmed(event.target.checked)
+                                    }>
+                                    Ik wil de {singularCapitalize.toLowerCase()}{' '}
+                                    verwijderen
+                                </FieldCheckbox>
+                            )}
+
                             <ModalFooter className="mt-4">
                                 <Button variant="link" onPress={close}>
                                     Annuleren
                                 </Button>
-                                <Button
-                                    type="submit"
-                                    variant="cta"
-                                    isDisabled={
-                                        !isValid || isSubmitting || !dirty
-                                    }
-                                    isLoading={isSubmitting}>
-                                    {editing ? 'Opslaan' : 'Maak aan'}
-                                </Button>
+                                <div className="ml-auto flex items-center gap-4">
+                                    {editing && (
+                                        <Button
+                                            type="button"
+                                            isDisabled={
+                                                !deleteConfirmed ||
+                                                isDeleting ||
+                                                isSubmitting
+                                            }
+                                            isLoading={isDeleting}
+                                            onPress={handleDelete}>
+                                            {singularCapitalize} verwijderen
+                                        </Button>
+                                    )}
+                                    <Button
+                                        type="submit"
+                                        variant="cta"
+                                        isDisabled={
+                                            !isValid ||
+                                            isSubmitting ||
+                                            isDeleting ||
+                                            !dirty
+                                        }
+                                        isLoading={isSubmitting}>
+                                        {editing ? 'Opslaan' : 'Maak aan'}
+                                    </Button>
+                                </div>
                             </ModalFooter>
                         </Form>
                     )}
