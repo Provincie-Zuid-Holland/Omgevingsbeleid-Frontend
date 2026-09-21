@@ -181,7 +181,7 @@ const Packages = ({
                         variant="negative"
                         title={
                             createPackage.error.response?.status === 409 ? (
-                                <>
+                                <p>
                                     Er zijn nog onjuiste of ontbrekende gegevens
                                     in deze versie van de publicatie.{' '}
                                     <Button
@@ -202,7 +202,7 @@ const Packages = ({
                                         Wijzig / vul de gegevens aan
                                     </Button>{' '}
                                     om de levering te kunnen maken.
-                                </>
+                                </p>
                             ) : (
                                 'Er is iets mis gegaan, bekijk je console voor de technische details.'
                             )
