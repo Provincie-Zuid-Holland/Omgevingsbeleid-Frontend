@@ -1,13 +1,18 @@
+import { Button, Heading, Text } from '@pzh-ui/components'
+
+import { keepPreviousData } from '@tanstack/react-query'
+import { Link } from 'react-router-dom'
+
 import { useModulesGetListModules } from '@/api/fetchers'
 import { LoaderCard } from '@/components/Loader'
 import ModuleTile from '@/components/Modules/ModuleTile'
-import { Button, Heading, Text } from '@pzh-ui/components'
-import { keepPreviousData } from '@tanstack/react-query'
-import { Link } from 'react-router-dom'
+import usePermissions from '@/hooks/usePermissions'
 
 const PAGE_LIMIT = 3
 
 const Modules = () => {
+    const { canCreateModule } = usePermissions()
+
     const { data: modules, isFetching: modulesLoading } =
         useModulesGetListModules(
             {
@@ -31,13 +36,15 @@ const Modules = () => {
                 <Heading level="3" size="m">
                     Actieve modules
                 </Heading>
-                <Button
-                    asChild
-                    variant="cta"
-                    size="small"
-                    data-testid="dashboard-new-module">
-                    <Link to="/muteer/modules/nieuw">Nieuwe module</Link>
-                </Button>
+                {canCreateModule && (
+                    <Button
+                        asChild
+                        variant="cta"
+                        size="small"
+                        data-testid="dashboard-new-module">
+                        <Link to="/muteer/modules/nieuw">Nieuwe module</Link>
+                    </Button>
+                )}
             </div>
 
             <div className="mb-4 grid grid-cols-1 gap-x-10 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
