@@ -13,6 +13,7 @@ import { DrawPolygon } from '@pzh-ui/icons'
 
 import { FormikValues, useFormikContext } from 'formik'
 
+import FieldAnnotation from '@/components/Form/FieldAnnotation'
 import FieldAreaAnnotate from '@/components/Form/FieldAreaAnnotate'
 import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
@@ -44,6 +45,7 @@ const inputFieldMap = {
     file: FieldFile,
     areaAnnotate: FieldAreaAnnotate,
     theme: FieldTheme,
+    annotation: FieldAnnotation,
 }
 
 type Props = DynamicFieldProps & {

@@ -64,6 +64,7 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                                 : schemaDefaults.optionalArray) as any),
                     }))
                 case 'theme':
+                case 'annotation':
                     return (dynamicSchema = dynamicSchema.extend({
                         [field.name]:
                             field.validation ||

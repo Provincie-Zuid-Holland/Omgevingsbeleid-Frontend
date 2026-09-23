@@ -86,6 +86,12 @@ const normalizePayload = (payload: FormData, initialData: FormData) => {
         )
     }
 
+    if (Array.isArray(cleanedPayload.Hoofdlijnen)) {
+        cleanedPayload.Hoofdlijnen = cleanedPayload.Hoofdlijnen.map(
+            (item: any) => item?.value ?? item
+        )
+    }
+
     if (Array.isArray(cleanedPayload.Roles)) {
         cleanedPayload.Roles = cleanedPayload.Roles.map(
             (item: any) => item?.value ?? item
@@ -142,6 +148,12 @@ const getDefaultValues = (object?: Record<string, any>) => ({
         Target_Codes: object.Geo_Statics.map((item: any) => ({
             label: item.Cached_Title,
             value: item.Code,
+        })),
+    }),
+    ...(object?.Hoofdlijnen_Statics && {
+        Target_Codes: object.Hoofdlijnen_Statics.map((item: any) => ({
+            label: `${item.Name} (${item.Type})`,
+            value: item.UUID,
         })),
     }),
 })

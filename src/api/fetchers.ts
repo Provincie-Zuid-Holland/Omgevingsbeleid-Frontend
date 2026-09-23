@@ -223,7 +223,6 @@ import type {
     PagedResponseStorageFileBasic,
     PagedResponseUnifiedPackage,
     PagedResponseUser,
-    PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseVerplichtProgrammaBasic,
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
@@ -285,9 +284,7 @@ import type {
     ResetPasswordResponse,
     ResponseOK,
     RootModelListObjectCount,
-    SearchGetMssqlValidSearchParams,
     SearchGetSearchParams,
-    SearchRequestData,
     SourceWerkingsgebiedenGetListWerkingsgebiedenParams,
     StorageFileBasic,
     StorageFileGetFilesListParams,
@@ -14413,104 +14410,6 @@ export const useSearchGetSearch = <
     TContext
 > => {
     return useMutation(getSearchGetSearchMutationOptions(options), queryClient)
-}
-
-/**
- * @summary Search for valid objects
- */
-export const searchGetMssqlValidSearch = (
-    searchRequestData: SearchRequestData,
-    params: SearchGetMssqlValidSearchParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
-        {
-            url: `/search/valid`,
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            data: searchRequestData,
-            params,
-            signal,
-        }
-    )
-}
-
-export const getSearchGetMssqlValidSearchMutationKey = () =>
-    ['searchGetMssqlValidSearch'] as const
-
-export const getSearchGetMssqlValidSearchMutationOptions = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof searchGetMssqlValidSearch>>,
-        TError,
-        SearchGetMssqlValidSearchMutationVariables,
-        TContext
-    >
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof searchGetMssqlValidSearch>>,
-    TError,
-    SearchGetMssqlValidSearchMutationVariables,
-    TContext
-> => {
-    const mutationKey = getSearchGetMssqlValidSearchMutationKey()
-    const { mutation: mutationOptions } = options
-        ? options.mutation &&
-          'mutationKey' in options.mutation &&
-          options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } }
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof searchGetMssqlValidSearch>>,
-        SearchGetMssqlValidSearchMutationVariables
-    > = props => {
-        const { data, params } = props ?? {}
-
-        return searchGetMssqlValidSearch(data, params)
-    }
-
-    return { mutationFn, ...mutationOptions }
-}
-
-export type SearchGetMssqlValidSearchMutationResult = NonNullable<
-    Awaited<ReturnType<typeof searchGetMssqlValidSearch>>
->
-export type SearchGetMssqlValidSearchMutationBody = SearchRequestData
-export type SearchGetMssqlValidSearchMutationError = HTTPValidationError
-export type SearchGetMssqlValidSearchMutationVariables = {
-    data: SearchRequestData
-    params: SearchGetMssqlValidSearchParams
-}
-
-/**
- * @summary Search for valid objects
- */
-export const useSearchGetMssqlValidSearch = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof searchGetMssqlValidSearch>>,
-            TError,
-            SearchGetMssqlValidSearchMutationVariables,
-            TContext
-        >
-    },
-    queryClient?: QueryClient
-): UseMutationResult<
-    Awaited<ReturnType<typeof searchGetMssqlValidSearch>>,
-    TError,
-    SearchGetMssqlValidSearchMutationVariables,
-    TContext
-> => {
-    return useMutation(
-        getSearchGetMssqlValidSearchMutationOptions(options),
-        queryClient
-    )
 }
 
 /**
