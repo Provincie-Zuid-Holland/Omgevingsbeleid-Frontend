@@ -14,6 +14,7 @@ import { useFormikContext } from 'formik'
 import { useStorageFileGetFilesDetail } from '@/api/fetchers'
 import { DynamicField } from '@/config/types'
 import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
+import { sanitizeFileName } from '@/utils/sanitizeFileName'
 
 interface FieldFileProps extends Omit<DynamicField, 'type'> {
     /** Formik field that holds the selected File and receives upload errors. Defaults to 'File'. */
@@ -30,6 +31,7 @@ interface FieldFileProps extends Omit<DynamicField, 'type'> {
      */
     showIgnoreCheckbox?: boolean
     onFileSelect?: (file: File) => void
+    prefillFieldName?: string
 }
 
 const FieldFile = ({
@@ -43,6 +45,7 @@ const FieldFile = ({
     existingFileUuidField = 'File_UUID',
     showIgnoreCheckbox,
     onFileSelect,
+    prefillFieldName,
 }: FieldFileProps) => {
     const { values, setFieldValue, setFieldTouched, errors, touched } =
         useFormikContext<Record<string, unknown>>()
@@ -83,6 +86,14 @@ const FieldFile = ({
     const displayedErrorMessage =
         errorMessage ?? (showIgnoreCheckbox ? persistedErrorMessage : undefined)
 
+    const setPrefillFileName = (name: string) => {
+        if (!prefillFieldName || !!values[prefillFieldName]) return null
+
+        const sanitizedName = sanitizeFileName(name)
+
+        setFieldValue(prefillFieldName, sanitizedName)
+    }
+
     return (
         <>
             {label && (
@@ -119,6 +130,7 @@ const FieldFile = ({
                             if (!file) return
 
                             setFileName(file.name)
+                            setPrefillFileName(file.name)
                             setPersistedErrorMessage(undefined)
                             onFileSelect?.(file)
 
