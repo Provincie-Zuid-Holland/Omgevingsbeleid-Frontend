@@ -67,7 +67,8 @@ export type DynamicField<FieldType = string> = {
     CheckboxProps &
     AreaAnnotateProps &
     ThemeProps &
-    AreaProps
+    AreaProps &
+    FileProps
 
 type TextProps =
     | ({ type: 'text' } & FieldInputProps)
@@ -148,4 +149,13 @@ type AreaProps =
     | ({ type: 'area' } & FieldSelectProps)
     | {
           type: Exclude<DynamicFieldType, 'area'>
+      }
+
+type FileProps =
+    | {
+          type: 'file'
+          prefillFieldName?: string
+      }
+    | {
+          type: Exclude<DynamicFieldType, 'file'>
       }
