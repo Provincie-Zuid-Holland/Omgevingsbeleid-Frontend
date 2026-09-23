@@ -162,6 +162,7 @@ export interface AmbitieExtended {
     Start_Validity?: string | null
     End_Validity?: string | null
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
     ObjectStatics?: AmbitieExtendedStatics
@@ -199,6 +200,12 @@ export interface ObjectStatics {
     Object_ID: number
     Code: string
     Cached_Title: string
+}
+
+export interface Hoofdlijn {
+    UUID: string
+    Name: string
+    Type: string
 }
 
 export type ModuleStatusCode =
@@ -257,11 +264,13 @@ export interface AmbitieFull {
     Start_Validity?: string | null
     End_Validity?: string | null
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
     Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
     Hierarchy_Children?: HierachyReference[]
     Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
     ObjectStatics?: AmbitieFullStatics
@@ -400,6 +409,7 @@ export interface BeleidsdoelExtended {
     End_Validity?: string | null
     Hierarchy_Code?: string
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
     ObjectStatics?: BeleidsdoelExtendedStatics
@@ -459,6 +469,7 @@ export interface BeleidsdoelFull {
     End_Validity?: string | null
     Hierarchy_Code?: string
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Hierarchy_Statics?: HierarchyStatics | null
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
@@ -466,6 +477,7 @@ export interface BeleidsdoelFull {
     Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
     Hierarchy_Children?: HierachyReference[]
     Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
     Related_Files?: ObjectRelatedFileResponse[]
@@ -528,6 +540,7 @@ export interface BeleidskeuzeExtended {
     Werkingsgebied_Code?: string
     Gebiedengroep_Code?: string | null
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
     ObjectStatics?: BeleidskeuzeExtendedStatics
@@ -634,6 +647,7 @@ export interface BeleidskeuzeFull {
     Werkingsgebied_Code?: string
     Gebiedengroep_Code?: string | null
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Hierarchy_Statics?: HierarchyStatics | null
     Werkingsgebied_Statics?: WerkingsgebiedStatics | null
     Created_By?: UserShort | null
@@ -647,6 +661,7 @@ export interface BeleidskeuzeFull {
     Hierarchy_Children?: HierachyReference[]
     Gebiedengroep_Static?: ObjectStatics | null
     Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
     ObjectStatics?: BeleidskeuzeFullStatics
@@ -899,7 +914,6 @@ export interface DocumentFull {
     Modified_Date?: string
     Title?: string
     Filename?: string
-    Description?: string
     Start_Validity?: string | null
     End_Validity?: string | null
     File_UUID?: string | null
@@ -1382,12 +1396,6 @@ export interface HTTPValidationError {
     detail?: ValidationError[]
 }
 
-export interface Hoofdlijn {
-    UUID: string
-    Name: string
-    Type: string
-}
-
 export interface HoofdlijnCreatedResponse {
     UUID: string
 }
@@ -1477,6 +1485,7 @@ export interface MaatregelExtended {
     Werkingsgebied_Code?: string
     Gebiedengroep_Code?: string | null
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
     ObjectStatics?: MaatregelExtendedStatics
@@ -1508,11 +1517,13 @@ export interface MaatregelFull {
     Description?: string
     Documents?: string[]
     Role?: string
+    Roles?: string[]
     Effect?: string
     Hierarchy_Code?: string
     Werkingsgebied_Code?: string
     Gebiedengroep_Code?: string | null
     Themas?: string[]
+    Hoofdlijnen?: string[]
     Hierarchy_Statics?: HierarchyStatics | null
     Werkingsgebied_Statics?: WerkingsgebiedStatics | null
     Created_By?: UserShort | null
@@ -1523,6 +1534,7 @@ export interface MaatregelFull {
     Documents_Statics?: ObjectStatics[]
     Gebiedengroep_Static?: ObjectStatics | null
     Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
     ObjectStatics?: MaatregelFullStatics
@@ -2433,36 +2445,6 @@ export interface PagedResponseUser {
     results: User[]
 }
 
-export interface ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
-    Object_Type: string
-    Description: string
-    Score: number
-    Model:
-        | AmbitieBasic
-        | BeleidsdoelBasic
-        | BeleidskeuzeBasic
-        | BeleidsregelBasic
-        | DocumentBasic
-        | GebiedsprogrammaBasic
-        | MaatregelBasic
-        | NationaalBelangBasic
-        | GebiedengroepBasic
-        | GebiedBasic
-        | GebiedsaanwijzingBasic
-        | ProgrammaAlgemeenBasic
-        | VerplichtProgrammaBasic
-        | VisieAlgemeenBasic
-        | WerkingsgebiedBasic
-        | WettelijkeTaakBasic
-}
-
-export interface PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
-    total: number
-    offset?: number
-    limit?: number
-    results: ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic[]
-}
-
 export interface PagedResponseVerplichtProgrammaBasic {
     total: number
     offset?: number
@@ -2905,10 +2887,6 @@ export interface ResponseOK {
 }
 
 export type RootModelListObjectCount = ObjectCount[]
-
-export interface SearchRequestData {
-    Object_Types?: string[] | null
-}
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
@@ -3416,12 +3394,6 @@ export type SearchGetSearchParams = {
     limit?: number | null
 }
 
-export type SearchGetMssqlValidSearchParams = {
-    query: string
-    offset?: number | null
-    limit?: number | null
-}
-
 export type SourceWerkingsgebiedenGetListWerkingsgebiedenParams = {
     title?: string | null
     offset?: number | null
@@ -3475,6 +3447,7 @@ export type AmbitiePostModulePatchObjectBody = {
     Title?: string | null
     Description?: string | null
     Themas?: string[] | null
+    Hoofdlijnen?: string[] | null
 }
 
 export type AmbitieGetModuleListLineageTreeParams = {
@@ -3508,6 +3481,7 @@ export type BeleidsdoelPostModulePatchObjectBody = {
     Description?: string | null
     Hierarchy_Code?: string | null
     Themas?: string[] | null
+    Hoofdlijnen?: string[] | null
 }
 
 export type BeleidsdoelGetModuleListLineageTreeParams = {
@@ -3552,6 +3526,7 @@ export type BeleidskeuzePostModulePatchObjectBody = {
     Werkingsgebied_Code?: string | null
     Gebiedengroep_Code?: string | null
     Themas?: string[] | null
+    Hoofdlijnen?: string[] | null
 }
 
 export type BeleidskeuzeGetModuleListLineageTreeParams = {
@@ -3615,7 +3590,6 @@ export type DocumentListValidLineageTreeParams = {
 export type DocumentPostModulePatchObjectBody = {
     Title?: string | null
     Filename?: string | null
-    Description?: string | null
     File_UUID?: string | null
 }
 
@@ -3775,13 +3749,14 @@ export type MaatregelListValidLineageTreeParams = {
 export type MaatregelPostModulePatchObjectBody = {
     Title?: string | null
     Description?: string | null
-    Role?: string | null
+    Roles?: string[] | null
     Effect?: string | null
     Hierarchy_Code?: string | null
     Documents?: string[] | null
     Werkingsgebied_Code?: string | null
     Gebiedengroep_Code?: string | null
     Themas?: string[] | null
+    Hoofdlijnen?: string[] | null
 }
 
 export type MaatregelGetModuleListLineageTreeParams = {
