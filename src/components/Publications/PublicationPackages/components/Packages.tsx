@@ -146,6 +146,11 @@ const Packages = ({
                                     announcementUUID={announcement?.UUID}
                                     environmentUUID={environment?.UUID}
                                     canPublicate={environment?.Can_Publicate}
+                                    moduleStatus={
+                                        publicationType === 'act'
+                                            ? version.Module_Status
+                                            : undefined
+                                    }
                                     {...item}
                                 />
                             ))}

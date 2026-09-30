@@ -36,7 +36,7 @@ const PublicationAnnouncementUpdateModal = () => {
         state => state.modalStates['publicationAnnouncementUpdate']
     ) as ModalStateMap['publicationAnnouncementUpdate']
 
-    const isLocked = modalState?.isLocked || false
+    const isLocked = modalState?.isLocked || modalState?.readOnly || false
 
     const { data, isFetching, queryKey } =
         usePublicationAnnouncementsGetDetailAnnouncement(

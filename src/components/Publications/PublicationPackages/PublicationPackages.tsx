@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import {
     AccordionContent,
     AccordionItem,
@@ -40,6 +42,8 @@ interface PublicationPackagesProps {
     isLocked?: boolean
     isClosed?: boolean
     isDisabled?: boolean
+    /** Rendered on the right-hand side of the section header (e.g. Bewerk besluit / Export PDF). */
+    actions?: ReactNode
 }
 
 const PublicationPackages = ({
@@ -49,6 +53,7 @@ const PublicationPackages = ({
     announcement,
     isDisabled,
     isClosed,
+    actions,
     ...rest
 }: PublicationPackagesProps) => {
     const Packages = config[publicationType].component
@@ -57,9 +62,12 @@ const PublicationPackages = ({
         <AccordionItem
             value={publicationType}
             disabled
-            className={clsx('group rounded-lg border border-pzh-gray-200', {
-                'bg-pzh-gray-100': version.Is_Locked,
-            })}>
+            className={clsx(
+                'group relative rounded-lg border border-pzh-gray-200',
+                {
+                    'bg-pzh-gray-100': version.Is_Locked,
+                }
+            )}>
             <AccordionTrigger
                 hideIcon
                 className={clsx(
@@ -72,6 +80,12 @@ const PublicationPackages = ({
                     {config[publicationType].label}
                 </Heading>
             </AccordionTrigger>
+
+            {!!actions && (
+                <div className="absolute top-0 right-6 flex h-16 items-center gap-2">
+                    {actions}
+                </div>
+            )}
             <AccordionContent className="pb-0">
                 {publicationType === 'announcement' && !!announcement && (
                     <AnnouncementData

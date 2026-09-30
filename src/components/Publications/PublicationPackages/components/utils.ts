@@ -1,4 +1,5 @@
 import { BadgeProps } from '@pzh-ui/components'
+import { CircleCheckSolid, CircleXmark, ClockRotateLeft } from '@pzh-ui/icons'
 
 import clsx from 'clsx'
 
@@ -37,6 +38,21 @@ export const getPackageStatus = (status?: string): BadgeProps | undefined => {
                 text: 'Afgebroken',
                 variant: 'red',
             }
+    }
+}
+
+export const getPackageStatusIcon = (status?: string) => {
+    const { icon, className } =
+        status === 'valid'
+            ? { icon: CircleCheckSolid, className: 'text-pzh-green-500' }
+            : status === 'failed' || status === 'aborted'
+              ? { icon: CircleXmark, className: 'text-pzh-red-500' }
+              : { icon: ClockRotateLeft, className: 'text-pzh-yellow-500' }
+
+    return {
+        icon,
+        className,
+        label: getPackageStatus(status)?.text ?? 'In afwachting',
     }
 }
 
