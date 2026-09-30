@@ -95,7 +95,7 @@ const Home = () => (
 
         <div className="flex flex-col gap-5 pb-8 md:gap-12 md:py-12 lg:gap-20 lg:py-20">
             <Container
-                className="flex items-center"
+                className="flex scroll-mt-24 items-center"
                 id="omgevingsvisie-section">
                 <div className="order-2 col-span-6 lg:order-1 lg:col-span-2">
                     <Heading level="2">
@@ -141,7 +141,7 @@ const Home = () => (
             </Container>
 
             <Container
-                className="flex items-center"
+                className="flex scroll-mt-24 items-center"
                 id="omgevingsprogramma-section">
                 <div className="order-2 col-span-6 lg:col-span-2">
                     <Heading level="2">
@@ -179,7 +179,7 @@ const Home = () => (
             </Container>
 
             <Container
-                className="flex items-center"
+                className="flex scroll-mt-24 items-center"
                 id="omgevingsverordening-section">
                 <div className="order-2 col-span-6 lg:order-1 lg:col-span-2">
                     <Heading level="2">
