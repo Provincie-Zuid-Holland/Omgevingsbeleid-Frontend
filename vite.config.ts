@@ -91,6 +91,7 @@ export default defineConfig({
     test: {
         globals: true,
         pool: 'threads',
+        isolate: false,
         environment: 'jsdom',
         setupFiles: './src/setupTests.tsx',
         coverage: {
