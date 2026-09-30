@@ -258,7 +258,6 @@ import {
     getPublicationVersionsPostUploadAttachmentResponseMock,
     getPublicModulesGetPublicListModulesResponseMock,
     getPublicModulesGetPublicModuleOverviewResponseMock,
-    getSearchGetMssqlValidSearchResponseMock,
     getSearchGetSearchResponseMock,
     getSourceWerkingsgebiedenGetListWerkingsgebiedenResponseMock,
     getStorageFileGetFilesDetailResponseMock,
@@ -410,7 +409,6 @@ import type {
     PagedResponseStorageFileBasic,
     PagedResponseUnifiedPackage,
     PagedResponseUser,
-    PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
     PagedResponseVerplichtProgrammaBasic,
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
@@ -551,7 +549,6 @@ export {
     getPublicationsGetDetailPublicationResponseMock,
     getPublicationsPostEditPublicationResponseMock,
     getSearchGetSearchResponseMock,
-    getSearchGetMssqlValidSearchResponseMock,
     getSourceWerkingsgebiedenGetListWerkingsgebiedenResponseMock,
     getStorageFileGetFilesListResponseMock,
     getStorageFilePostFilesUploadResponseMock,
@@ -3037,32 +3034,6 @@ export const getSearchGetSearchMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getSearchGetSearchResponseMock(),
-                { status: 200 }
-            )
-        },
-        options
-    )
-}
-
-export const getSearchGetMssqlValidSearchMockHandler = (
-    overrideResponse?:
-        | PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
-        | ((
-              info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) =>
-              | Promise<PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>
-              | PagedResponseValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic),
-    options?: RequestHandlerOptions
-) => {
-    return http.post(
-        '*/search/valid',
-        async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-            return HttpResponse.json(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getSearchGetMssqlValidSearchResponseMock(),
                 { status: 200 }
             )
         },
@@ -8341,7 +8312,6 @@ export const getOmgevingsbeleidAPIMock = () => [
     getPublicationsGetDetailPublicationMockHandler(),
     getPublicationsPostEditPublicationMockHandler(),
     getSearchGetSearchMockHandler(),
-    getSearchGetMssqlValidSearchMockHandler(),
     getSourceWerkingsgebiedenGetListWerkingsgebiedenMockHandler(),
     getStorageFileGetFilesListMockHandler(),
     getStorageFilePostFilesUploadMockHandler(),
