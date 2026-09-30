@@ -4,6 +4,7 @@
     "prettier.prettierPath": "./node_modules/prettier",
     "prettier.configPath": "./prettier.config.mjs",
     "prettier.requireConfig": true,
+    "js/ts.experimental.useTsgo": true,
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
