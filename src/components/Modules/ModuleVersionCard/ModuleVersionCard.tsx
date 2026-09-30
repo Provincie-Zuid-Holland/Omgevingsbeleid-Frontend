@@ -47,6 +47,19 @@ const ModuleVersionCard = ({ variant = 'column' }: ModuleVersionCardProps) => {
                         ),
                         refetchType: 'all',
                     }),
+                    queryClient.invalidateQueries({
+                        predicate: query => {
+                            const key = query.queryKey[0]
+
+                            return (
+                                typeof key === 'string' &&
+                                /^\/modules\/object\/[^/]+\/active(?:\/|$)/.test(
+                                    key
+                                )
+                            )
+                        },
+                        refetchType: 'all',
+                    }),
                 ])
 
                 toastNotification('saved')
