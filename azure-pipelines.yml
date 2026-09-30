@@ -7,11 +7,11 @@ trigger:
             - main
 
 pool:
-    name: 'PZH-Agent'
+    name: 'PZH-Ubuntu-Agent'
 
 variables:
     VITE_API_ENV: $(Build.SourceBranchName)
-    NODE_OPTIONS: --max_old_space_size=4096
+    NODE_OPTIONS: --max_old_space_size=8192
     YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
 stages:
