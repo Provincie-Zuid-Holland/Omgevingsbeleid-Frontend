@@ -69,7 +69,8 @@ export type DynamicField<FieldType = string> = {
     AreaAnnotateProps &
     ThemeProps &
     AreaProps &
-    AnnotationProps
+    AnnotationProps &
+    FileProps
 
 type TextProps =
     | ({ type: 'text' } & FieldInputProps)
@@ -156,4 +157,13 @@ type AnnotationProps =
     | ({ type: 'annotation' } & FieldSelectProps)
     | {
           type: Exclude<DynamicFieldType, 'annotation'>
+      }
+
+type FileProps =
+    | {
+          type: 'file'
+          prefillFieldName?: string
+      }
+    | {
+          type: Exclude<DynamicFieldType, 'file'>
       }
