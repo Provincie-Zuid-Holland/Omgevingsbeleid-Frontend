@@ -151,7 +151,7 @@ const getDefaultValues = (object?: Record<string, any>) => ({
         })),
     }),
     ...(object?.Hoofdlijnen_Statics && {
-        Target_Codes: object.Hoofdlijnen_Statics.map((item: any) => ({
+        Hoofdlijnen: object.Hoofdlijnen_Statics.map((item: any) => ({
             label: `${item.Name} (${item.Type})`,
             value: item.UUID,
         })),
