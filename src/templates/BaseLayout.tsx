@@ -29,7 +29,7 @@ export function BaseLayout({ hideFooter, children }: BaseLayoutProps) {
 
             <Navigation />
 
-            <main id="content">{children}</main>
+            <main id="content" className="scroll-mt-24">{children}</main>
 
             {!hideFooter && <Footer />}
         </>

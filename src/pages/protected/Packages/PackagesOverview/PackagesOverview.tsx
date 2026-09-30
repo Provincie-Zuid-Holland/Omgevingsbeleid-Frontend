@@ -179,7 +179,7 @@ const PackagesOverview = () => {
                                         />
                                         <Divider />
                                         <div
-                                            className="flex flex-col gap-y-6"
+                                            className="flex scroll-mt-24 flex-col gap-y-6"
                                             id="packages-list">
                                             <Heading level="2" size="xl">
                                                 {config.title} ({env.Title})
