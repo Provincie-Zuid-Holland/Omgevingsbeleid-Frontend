@@ -1,12 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import qs from 'qs'
 
-import { ToastType } from '@/config/notifications'
-import { ACCESS_TOKEN_KEY, IDENTIFIER_KEY } from '@/context/AuthContext'
 import getApiUrl from '@/utils/getApiUrl'
-import globalErrorBoundary from '@/utils/globalErrorBoundary'
-import globalRouter from '@/utils/globalRouter'
-import { toastNotification } from '@/utils/toastNotification'
+import { handleHttpError } from '@/utils/handleHttpError'
 
 export type Environment = 'dev' | 'test' | 'acc' | 'main'
 
@@ -49,32 +45,7 @@ const handleAxiosError = (error: AxiosError) => {
     const isLoginPage = error.response?.config.url === '/login/access-token'
     console.error(`Axios error: ${error.message}`)
 
-    // Handle authentication errors
-    if (status && (status === 401 || status === 403) && !isLoginPage) {
-        // clear auth
-        localStorage.removeItem(ACCESS_TOKEN_KEY)
-        localStorage.removeItem(IDENTIFIER_KEY)
-        toastNotification('notLoggedIn')
-        globalRouter.navigate?.('/login')
-        return
-    }
-
-    // Handle general server error
-    if (status === 500) {
-        globalErrorBoundary.showBoundary?.(error)
-        return
-    }
-
-    // Handle specific error codes
-    const errorMessages: Map<number, ToastType> = new Map([
-        [441, 'error441'],
-        [442, 'error442'],
-        [443, 'error443'],
-    ])
-
-    if (status && errorMessages.has(status)) {
-        toastNotification(errorMessages.get(status)!)
-    }
+    handleHttpError(status, error, { skipAuthHandling: isLoginPage })
 }
 
 const baseURL = instance.defaults.baseURL

@@ -49,6 +49,7 @@ const DOCUMENT_REF = 'REF_BILL_PDF'
 
 interface PublicationVersionFormProps {
     isRequired?: boolean
+    readOnly?: boolean
     error?: {
         data: HTTPValidationError
     }
@@ -58,12 +59,18 @@ const PublicationVersionForm = <
     TData extends FormikValues & PublicationVersion,
 >({
     isRequired,
+    readOnly,
     error,
     ...rest
 }: PublicationVersionFormProps & FormikConfig<TData>) => (
     <Formik enableReinitialize validateOnBlur={false} {...rest}>
         {props => (
-            <InnerForm isRequired={isRequired} error={error} {...props} />
+            <InnerForm
+                isRequired={isRequired}
+                readOnly={readOnly}
+                error={error}
+                {...props}
+            />
         )}
     </Formik>
 )
@@ -71,6 +78,7 @@ const PublicationVersionForm = <
 const InnerForm = <TData extends FormikValues & PublicationVersion>({
     isSubmitting,
     isRequired,
+    readOnly,
     error,
     values,
     dirty,
@@ -128,187 +136,203 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
 
     return (
         <Form noValidate>
-            <div className="flex flex-col gap-4">
-                <div>
-                    <FormikSelect
-                        key={isLoading.toString()}
-                        name="Module_Status_ID"
-                        label="Modulestatus"
-                        placeholder="Selecteer een modulestatus"
-                        options={statusOptions}
-                        required
-                        styles={{
-                            menu: base => ({
-                                ...base,
-                                position: 'relative',
-                                zIndex: 9999,
-                                marginTop: 4,
-                                boxShadow: 'none',
-                            }),
-                        }}
-                    />
-                    {!isLoading && !isLastStatus && (
-                        <Notification
-                            className="mt-2 w-full"
-                            title="Recentere modulestatus beschikbaar">
-                            De modulestatus is niet de meest recente versie die
-                            beschikbaar is.
-                        </Notification>
-                    )}
-                </div>
-                <div>
-                    <FormikInput
-                        name="Bill_Metadata.Official_Title"
-                        label="Officiële titel van het besluit"
-                        description="Format van de officiële titel: (Ontwerp)besluit van [Gedeputeerde staten/Provinciale Staten] van Zuid-Holland van dd m jjjj, nr. XXXX tot wijziging van [de omgevingsvisie Zuid-Holland/ het omgevingsprogramma Zuid-Holland] [Naam herziening incl. Omgevingsbeleid]"
-                        placeholder="Ontwerpbesluit van Provinciale Staten van Zuid-Holland van 12 maart 2026, nr. 1234 tot wijziging van de omgevingsvisie Zuid-Holland Herziening Omgevingsbeleid 2025"
-                        required
-                    />
-                </div>
-                <div>
-                    <FormikInput
-                        name="Bill_Metadata.Quote_Title"
-                        label="Citeertitel"
-                        description="Format van de citeertitel: (Ontwerp)besluit wijziging omgevingsvisie [Naam herziening]"
-                        placeholder="Ontwerpbesluit wijziging omgevingsvisie Zuid-Holland Herziening 2025"
-                        required
-                    />
-                </div>
-                <div>
-                    <FormikRte name="Bill_Compact.Preamble" label="Aanhef" />
-                </div>
-                <Articles />
-                <div>
-                    <FormikRte
-                        name="Bill_Compact.Closing"
-                        label="Sluiting"
-                        placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
-                    />
-                </div>
-                <div>
-                    <FormikRte
-                        name="Bill_Compact.Signed"
-                        label="Ondertekening"
-                    />
-                </div>
-                <div>
-                    <FormikInput
-                        name="Bill_Compact.Motivation.Title"
-                        label="Motivering"
-                        placeholder="Titel"
-                    />
-                </div>
-                <div>
-                    <FormikRte
-                        name="Bill_Compact.Motivation.Content"
-                        customMenuOptions={['heading']}
-                    />
-                </div>
-
-                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
+            <fieldset
+                disabled={readOnly}
+                className={cn({
+                    'pointer-events-none opacity-70': readOnly,
+                })}>
+                <div className="flex flex-col gap-4">
                     <div>
-                        <Text bold color="text-pzh-blue-500">
-                            Documenten bij het besluit
-                        </Text>
-                        <Text size="s">
-                            Upload hier je documenten en kopieer het ID om in de
-                            bijlages te gebruiken.
-                        </Text>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        {attachments?.map(attachment => (
-                            <Document
-                                key={attachment.File_UUID}
-                                {...attachment}
-                                isUsed={usedDocumentRefs.has(attachment.ID)}
-                            />
-                        ))}
+                        <FormikSelect
+                            key={isLoading.toString()}
+                            name="Module_Status_ID"
+                            label="Modulestatus"
+                            placeholder="Selecteer een modulestatus"
+                            options={statusOptions}
+                            required
+                            disabled={readOnly}
+                            styles={{
+                                menu: base => ({
+                                    ...base,
+                                    position: 'relative',
+                                    zIndex: 9999,
+                                    marginTop: 4,
+                                    boxShadow: 'none',
+                                }),
+                            }}
+                        />
+                        {!isLoading && !isLastStatus && (
+                            <Notification
+                                className="mt-2 w-full"
+                                title="Recentere modulestatus beschikbaar">
+                                De modulestatus is niet de meest recente versie
+                                die beschikbaar is.
+                            </Notification>
+                        )}
                     </div>
                     <div>
-                        <Button
-                            size="small"
-                            onPress={() =>
-                                setActiveModal('publicationAttachmentAdd')
-                            }>
-                            Upload een document
-                        </Button>
+                        <FormikInput
+                            name="Bill_Metadata.Official_Title"
+                            label="Officiële titel van het besluit"
+                            description="Format van de officiële titel: (Ontwerp)besluit van [Gedeputeerde staten/Provinciale Staten] van Zuid-Holland van dd m jjjj, nr. XXXX tot wijziging van [de omgevingsvisie Zuid-Holland/ het omgevingsprogramma Zuid-Holland] [Naam herziening incl. Omgevingsbeleid]"
+                            placeholder="Ontwerpbesluit van Provinciale Staten van Zuid-Holland van 12 maart 2026, nr. 1234 tot wijziging van de omgevingsvisie Zuid-Holland Herziening Omgevingsbeleid 2025"
+                            required
+                        />
                     </div>
-                </div>
+                    <div>
+                        <FormikInput
+                            name="Bill_Metadata.Quote_Title"
+                            label="Citeertitel"
+                            description="Format van de citeertitel: (Ontwerp)besluit wijziging omgevingsvisie [Naam herziening]"
+                            placeholder="Ontwerpbesluit wijziging omgevingsvisie Zuid-Holland Herziening 2025"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <FormikRte
+                            name="Bill_Compact.Preamble"
+                            label="Aanhef"
+                            disabled={readOnly}
+                        />
+                    </div>
+                    <Articles readOnly={readOnly} />
+                    <div>
+                        <FormikRte
+                            name="Bill_Compact.Closing"
+                            label="Sluiting"
+                            placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
+                            disabled={readOnly}
+                        />
+                    </div>
+                    <div>
+                        <FormikRte
+                            name="Bill_Compact.Signed"
+                            label="Ondertekening"
+                            disabled={readOnly}
+                        />
+                    </div>
+                    <div>
+                        <FormikInput
+                            name="Bill_Compact.Motivation.Title"
+                            label="Motivering"
+                            placeholder="Titel"
+                        />
+                    </div>
+                    <div>
+                        <FormikRte
+                            name="Bill_Compact.Motivation.Content"
+                            customMenuOptions={['heading']}
+                            disabled={readOnly}
+                        />
+                    </div>
 
-                <Appendices />
-
-                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
-                    <Text>Procedureverloop</Text>
-
-                    <div className="flex gap-4 [&_>div]:flex-1">
+                    <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                         <div>
-                            <FormikDate
-                                name="Procedural.Enactment_Date"
-                                label="Vaststellingsdatum"
-                                placeholder="Kies een datum"
-                            />
+                            <Text bold color="text-pzh-blue-500">
+                                Documenten bij het besluit
+                            </Text>
+                            <Text size="s">
+                                Upload hier je documenten en kopieer het ID om
+                                in de bijlages te gebruiken.
+                            </Text>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            {attachments?.map(attachment => (
+                                <Document
+                                    key={attachment.File_UUID}
+                                    {...attachment}
+                                    isUsed={usedDocumentRefs.has(attachment.ID)}
+                                />
+                            ))}
                         </div>
                         <div>
-                            <FormikDate
-                                name="Procedural.Signed_Date"
-                                label="Datum van ondertekening"
-                                placeholder="Kies een datum"
-                                required={isRequired}
-                            />
-                        </div>
-                        <div>
-                            <FormikDate
-                                name="Procedural.Procedural_Announcement_Date"
-                                label="Bekend op"
-                                placeholder="Kies een datum"
-                                required={isRequired}
-                            />
+                            <Button
+                                size="small"
+                                onPress={() =>
+                                    setActiveModal('publicationAttachmentAdd')
+                                }>
+                                Upload een document
+                            </Button>
                         </div>
                     </div>
-                </div>
 
-                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
-                    <Text>Juridische data</Text>
+                    <Appendices readOnly={readOnly} />
 
-                    <div className="flex gap-4 [&_>div]:flex-1">
-                        <div>
-                            <FormikDate
-                                name="Announcement_Date"
-                                label="Bekendmakingsdatum"
-                                placeholder="Kies een datum"
-                                required={isRequired}
-                                popperPlacement="top"
-                            />
-                        </div>
-                        {values.Publication.Procedure_Type !== 'draft' && (
+                    <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
+                        <Text>Procedureverloop</Text>
+
+                        <div className="flex gap-4 [&_>div]:flex-1">
                             <div>
                                 <FormikDate
-                                    name="Effective_Date"
-                                    label="Inwerkingtredingsdatum"
+                                    name="Procedural.Enactment_Date"
+                                    label="Vaststellingsdatum"
+                                    placeholder="Kies een datum"
+                                />
+                            </div>
+                            <div>
+                                <FormikDate
+                                    name="Procedural.Signed_Date"
+                                    label="Datum van ondertekening"
+                                    placeholder="Kies een datum"
+                                    required={isRequired}
+                                />
+                            </div>
+                            <div>
+                                <FormikDate
+                                    name="Procedural.Procedural_Announcement_Date"
+                                    label="Bekend op"
+                                    placeholder="Kies een datum"
+                                    required={isRequired}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
+                        <Text>Juridische data</Text>
+
+                        <div className="flex gap-4 [&_>div]:flex-1">
+                            <div>
+                                <FormikDate
+                                    name="Announcement_Date"
+                                    label="Bekendmakingsdatum"
                                     placeholder="Kies een datum"
                                     required={isRequired}
                                     popperPlacement="top"
                                 />
                             </div>
-                        )}
+                            {values.Publication.Procedure_Type !== 'draft' && (
+                                <div>
+                                    <FormikDate
+                                        name="Effective_Date"
+                                        label="Inwerkingtredingsdatum"
+                                        placeholder="Kies een datum"
+                                        required={isRequired}
+                                        popperPlacement="top"
+                                    />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
 
-            <ButtonSubmitFixed
-                onCancel={() =>
-                    navigate(`/muteer/modules/${moduleId}/besluiten`)
-                }
-                disabled={isSubmitting}
-                isLoading={isSubmitting}
-            />
+            {!readOnly && (
+                <ButtonSubmitFixed
+                    onCancel={() =>
+                        navigate(`/muteer/modules/${moduleId}/besluiten`)
+                    }
+                    disabled={isSubmitting}
+                    isLoading={isSubmitting}
+                />
+            )}
 
             <ScrollToFieldError />
         </Form>
     )
 }
 
-const Articles = () => (
+const Articles = ({ readOnly }: { readOnly?: boolean }) => (
     <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
         <Text bold color="text-pzh-blue-500">
             Artikelen
@@ -325,6 +349,7 @@ const Articles = () => (
             <FormikRte
                 name="Bill_Compact.Time_Article"
                 label="Inwerkingstredingartikel"
+                disabled={readOnly}
             />
         </div>
 
@@ -337,6 +362,7 @@ const Articles = () => (
                 variant: 'secondary',
                 size: 'small',
             }}
+            disabled={readOnly}
             itemClassName="py-4 px-0 border-t border-pzh-gray-300 gap-4"
             fields={[
                 {
@@ -355,7 +381,7 @@ const Articles = () => (
     </div>
 )
 
-const Appendices = () => (
+const Appendices = ({ readOnly }: { readOnly?: boolean }) => (
     <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
         <div>
             <Text bold color="text-pzh-blue-500">
@@ -378,6 +404,7 @@ const Appendices = () => (
                 variant: 'secondary',
                 size: 'small',
             }}
+            disabled={readOnly}
             itemClassName="py-4 px-0 border-t border-pzh-gray-300 gap-1"
             wrapperClassName="grid grid-cols-2 gap-2 [&>div:last-child]:col-span-2"
             fields={[
@@ -424,6 +451,7 @@ const Appendices = () => (
                 variant: 'secondary',
                 size: 'small',
             }}
+            disabled={readOnly}
             itemClassName="py-4 px-0 border-t border-pzh-gray-300 gap-1"
             wrapperClassName="grid grid-cols-2 gap-2 [&>div:last-child]:col-span-2"
             fields={[

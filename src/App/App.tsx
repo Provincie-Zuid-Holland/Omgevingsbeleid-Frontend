@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 
 import { DNABar, ToastContainer } from '@pzh-ui/components'
 
@@ -12,6 +12,7 @@ import { LoaderContent } from '@/components/Loader'
 import AuthProvider from '@/context/AuthContext'
 import usePage from '@/hooks/usePage'
 import { ErrorPage } from '@/pages/public'
+import useModalStore from '@/store/modalStore'
 import { BaseLayout } from '@/templates/BaseLayout'
 import globalRouter from '@/utils/globalRouter'
 import { toastNotification } from '@/utils/toastNotification'
@@ -50,6 +51,13 @@ const App = () => {
     const userIsInMuteerEnvironment = usePage('/muteer')
     const isAdvancedSearchPage = usePage('/zoeken-op-kaart')
     const isNetworkPage = usePage('/beleidsnetwerk')
+
+    /**
+     * Close modals on navigation
+     */
+    useEffect(() => {
+        useModalStore.getState().setActiveModal(null)
+    }, [location.pathname])
 
     return (
         <HelmetProvider>

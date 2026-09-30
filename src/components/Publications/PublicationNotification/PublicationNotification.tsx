@@ -1,19 +1,11 @@
 import { useMemo } from 'react'
 
-import { Button, formatDate, Notification } from '@pzh-ui/components'
+import { formatDate, Notification } from '@pzh-ui/components'
 
-import { useQueryClient } from '@tanstack/react-query'
-
-import {
-    getPublicationAnnouncementsGetListAnnouncementsQueryKey,
-    usePublicationAnnouncementsPostCreateAnnouncement,
-} from '@/api/fetchers'
 import {
     PublicationAnnouncementShort,
-    PublicationPackage,
     PublicationVersion,
 } from '@/api/fetchers.schemas'
-import useModule from '@/hooks/useModule'
 import { parseUtc } from '@/utils/parseUtc'
 
 import { PublicationType } from '../types'
@@ -22,36 +14,14 @@ interface PublicationNotificationProps {
     publicationType: PublicationType
     version?: PublicationVersion
     announcement?: PublicationAnnouncementShort
-    validPublicationPackage: PublicationPackage
 }
 
 const PublicationNotification = ({
     publicationType,
     version,
     announcement,
-    validPublicationPackage,
 }: PublicationNotificationProps) => {
-    const queryClient = useQueryClient()
-
-    const { isClosed } = useModule()
-
-    const { mutate: createAnnouncement } =
-        usePublicationAnnouncementsPostCreateAnnouncement({
-            mutation: {
-                onSuccess: () => {
-                    queryClient.invalidateQueries({
-                        queryKey:
-                            getPublicationAnnouncementsGetListAnnouncementsQueryKey(
-                                {
-                                    act_package_uuid:
-                                        validPublicationPackage.UUID,
-                                    limit: 100,
-                                }
-                            ),
-                    })
-                },
-            },
-        })
+    const isDraft = version?.Publication.Procedure_Type === 'draft'
 
     const actAnnouncementDate = useMemo(
         () =>
@@ -68,42 +38,31 @@ const PublicationNotification = ({
     )
 
     if (publicationType === 'act') {
+        const label = isDraft ? 'Ontwerp' : 'Regeling'
+
         return (
-            <div className="flex w-full justify-between gap-4">
-                <Notification
-                    variant="positive"
-                    title={`Regeling publicatie wordt bekend gemaakt op ${actAnnouncementDate}.${
-                        !!!announcement
-                            ? ' Maak een kennisgeving om dit ontwerp te publiceren'
-                            : ''
-                    }`}
-                    className="w-full"
-                />
-                {!!!announcement && (
-                    <Button
-                        variant="cta"
-                        onPress={() =>
-                            createAnnouncement({
-                                actPackageUuid: validPublicationPackage.UUID,
-                            })
-                        }
-                        className="whitespace-nowrap"
-                        isDisabled={isClosed}>
-                        Maak kennisgeving
-                    </Button>
-                )}
-            </div>
+            <Notification
+                variant="positive"
+                title={`${
+                    isDraft ? 'Ontwerp' : 'Regeling'
+                } publicatie succesvol`}
+                className="w-full">
+                {actAnnouncementDate
+                    ? `${label} wordt bekendgemaakt op ${actAnnouncementDate}.`
+                    : `${label} is succesvol gepubliceerd.`}
+            </Notification>
         )
     }
 
     return (
-        <div className="flex w-full justify-between">
-            <Notification
-                variant="positive"
-                title={`Kennisgeving wordt bekend gemaakt op ${announcementDate}.`}
-                className="w-full"
-            />
-        </div>
+        <Notification
+            variant="positive"
+            title="Kennisgeving publicatie succesvol"
+            className="w-full">
+            {announcementDate
+                ? `Kennisgeving wordt bekendgemaakt op ${announcementDate}.`
+                : 'Kennisgeving is succesvol gepubliceerd.'}
+        </Notification>
     )
 }
 

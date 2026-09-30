@@ -1,22 +1,25 @@
 import { useMemo } from 'react'
 
-import { Badge, BadgeProps, Button, formatDate, Text } from '@pzh-ui/components'
+import { Button, formatDate, Text, Tooltip } from '@pzh-ui/components'
 import {
     ArrowDownToLine,
     ArrowUpRightFromSquareLight,
-    Check,
     EyeLight,
 } from '@pzh-ui/icons'
 
 import { useNavigate } from 'react-router-dom'
 
-import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
+import {
+    ModuleStatus,
+    PackageType,
+    PublicationPackage,
+} from '@/api/fetchers.schemas'
 import useModalStore from '@/store/modalStore'
 import { parseUtc } from '@/utils/parseUtc'
 
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
-import { getIndicatorClass, getPackageStatus } from './utils'
+import { getPackageStatusIcon } from './utils'
 
 interface PackageProps extends PublicationPackage {
     publicationType: PublicationType
@@ -26,6 +29,8 @@ interface PackageProps extends PublicationPackage {
     environmentUUID?: string
     isLocked?: boolean
     canPublicate?: boolean
+    /** Module status the version is based on. Only shown for act (regeling) deliveries. */
+    moduleStatus?: ModuleStatus
 }
 
 const Package = ({
@@ -41,6 +46,7 @@ const Package = ({
     environmentUUID,
     canPublicate,
     Package_Type,
+    moduleStatus,
 }: PackageProps) => {
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -69,34 +75,58 @@ const Package = ({
         [Zip.Latest_Download_Date]
     )
 
-    const indicatorClass = useMemo(
-        () => getIndicatorClass(Report_Status !== 'pending'),
-        [Report_Status]
+    const moduleStatusDate = useMemo(
+        () =>
+            moduleStatus
+                ? formatDate(
+                      parseUtc(moduleStatus.Created_Date),
+                      "dd-MM-yyyy 'om' HH:mm"
+                  )
+                : null,
+        [moduleStatus]
     )
 
-    const status = useMemo(
-        (): BadgeProps | undefined => getPackageStatus(Report_Status),
-        [Report_Status]
-    )
+    const {
+        icon: StatusIcon,
+        className: statusIconClassName,
+        label: statusLabel,
+    } = useMemo(() => getPackageStatusIcon(Report_Status), [Report_Status])
 
     return (
-        <div className="flex items-center justify-between border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">
+        <div className="flex items-center justify-between gap-4 border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">
             <div className="flex items-center gap-4">
-                <div className={indicatorClass}>
-                    {Report_Status !== 'pending' && (
-                        <Check className="text-pzh-white" size={11} />
-                    )}
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                    <Text
-                        bold
-                        className="heading-s -mb-1"
-                        color="text-pzh-blue-500">
-                        Gemaakt op {createdDate}
-                    </Text>
-                    {status && <Badge solid upperCase={false} {...status} />}
-                </div>
+                <Tooltip
+                    label={
+                        <Text size="s" color="text-pzh-white">
+                            {statusLabel}
+                        </Text>
+                    }>
+                    <StatusIcon
+                        size={20}
+                        className={`${statusIconClassName} shrink-0`}
+                        role="img"
+                        aria-label={statusLabel}
+                    />
+                </Tooltip>
+                <Text
+                    bold
+                    className="heading-s -mb-1"
+                    color="text-pzh-blue-500">
+                    Gemaakt op {createdDate}
+                </Text>
             </div>
+
+            {!!moduleStatus && (
+                <div className="mr-auto">
+                    <Text size="s" color="text-pzh-blue-500">
+                        Gebaseerd op modulestatus
+                    </Text>
+                    <Text size="s" bold color="text-pzh-blue-500">
+                        {moduleStatus.Status} ({moduleStatusDate})
+                    </Text>
+                </div>
+            )}
+
             {!!!Zip.Latest_Download_Date ? (
                 <Button
                     size="small"

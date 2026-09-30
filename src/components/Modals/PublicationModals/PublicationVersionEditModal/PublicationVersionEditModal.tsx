@@ -19,6 +19,8 @@ import { PUBLICATION_VERSION_EDIT_SCHEMA } from '@/validation/publication'
 
 import { ModalStateMap } from '../../types'
 
+const hasValue = (value?: string | null) => !!value?.trim()
+
 const PublicationVersionEditModal = () => {
     const queryClient = useQueryClient()
 
@@ -55,14 +57,32 @@ const PublicationVersionEditModal = () => {
         },
     })
 
-    const handleFormSubmit = (payload: PublicationVersionEdit) =>
+    const handleFormSubmit = (payload: PublicationVersionEdit) => {
+        const motivation = payload.Bill_Compact?.Motivation
+
+        const hasMotivation =
+            hasValue(motivation?.Title) ||
+            hasValue(motivation?.Content) ||
+            !!motivation?.Appendices?.length
+
         mutate({
             versionUuid: modalState.UUID,
-            data: payload,
+            data: {
+                ...payload,
+                Bill_Compact: {
+                    ...payload.Bill_Compact,
+                    Motivation: hasMotivation ? motivation : null,
+                },
+            },
         })
+    }
 
     const initialValues = {
         ...data,
+        Effective_Date:
+            data?.Publication.Procedure_Type === 'draft'
+                ? null
+                : (data?.Effective_Date ?? null),
         Module_Status_ID: data?.Module_Status.ID,
     } as PublicationVersion
 
@@ -80,6 +100,7 @@ const PublicationVersionEditModal = () => {
                         PUBLICATION_VERSION_EDIT_SCHEMA
                     )}
                     isRequired={modalState?.isRequired}
+                    readOnly={modalState?.readOnly}
                     error={modalState?.error}
                 />
             )}
