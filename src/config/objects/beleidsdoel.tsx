@@ -143,6 +143,34 @@ const beleidsdoel: DynamicObject<typeof fetchers> = {
                         ),
                     },
                 },
+                {
+                    name: 'Hoofdlijnen',
+                    label: 'Hoofdlijnen',
+                    description: (
+                        <>
+                            Om het beleidsdoel beter vindbaar te maken door
+                            middel van annotaties in de landelijke voorziening
+                            kun je het beleidsdoel voorzien van één of meerdere
+                            hoofdlijnen. Indien een nieuwe hoofdlijn gewenst is,
+                            neem dan contact op met{' '}
+                            <a
+                                href="mailto:teamomgevingsbeleid@pzh.nl"
+                                className="underline">
+                                teamomgevingsbeleid@pzh.nl
+                            </a>
+                            .
+                        </>
+                    ),
+                    type: 'annotation',
+                    placeholder: 'Kies één of meerdere hoofdlijnen',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
             ],
         },
     ],

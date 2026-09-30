@@ -33,6 +33,7 @@ export type ToastType =
     | 'pdfPreviewError'
     | 'objectRelatedFileAdded'
     | 'objectRelatedFileDeleted'
+    | 'annotationDeleted'
 
 type MessageType = 'default' | 'success' | 'error' | 'warning' | 'info'
 
@@ -41,6 +42,10 @@ export const notifications: Record<
     { message: string; type: MessageType }
 > = {
     saved: { message: 'Opgeslagen', type: 'success' },
+    annotationDeleted: {
+        message: 'De annotatie is verwijderd',
+        type: 'success',
+    },
     error: {
         message: 'Er is iets misgegaan, probeer het later nog eens',
         type: 'error',

@@ -58,6 +58,7 @@ export type ModalType =
     | 'publicationAttachmentDelete'
     | 'publicationAttachmentAdd'
     | 'objectRelatedFiles'
+    | 'annotationForm'
 
 export interface ModalStateMap {
     moduleEditObject: {

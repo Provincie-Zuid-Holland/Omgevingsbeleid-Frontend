@@ -12,7 +12,7 @@ import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 import { useShallow } from 'zustand/react/shallow'
 
-import { useSearchGetMssqlValidSearch } from '@/api/fetchers'
+import { useSearchGetSearch } from '@/api/fetchers'
 import { Container } from '@/components/Container'
 import { LoaderSpinner } from '@/components/Loader'
 import SearchBar from '@/components/SearchBar'
@@ -73,10 +73,12 @@ const SearchResults = () => {
 
         mutate({
             data: {
-                Object_Types: !!newValue.length ? newValue : allFilters,
+                object_types: !!newValue.length ? newValue : allFilters,
+                query: query ? `%${query}%` : '',
+                include_valids: true,
+                include_modules: false,
             },
             params: {
-                query: query || '',
                 limit: PAGE_LIMIT,
                 offset: (currPage - 1) * PAGE_LIMIT,
             },
@@ -94,7 +96,7 @@ const SearchResults = () => {
         set('page', page.toString())
     }
 
-    const { data, mutate, isPending, isError } = useSearchGetMssqlValidSearch({
+    const { data, mutate, isPending, isError } = useSearchGetSearch({
         mutation: {
             onSuccess(data) {
                 if (!!!data.results.length) {
@@ -128,12 +130,14 @@ const SearchResults = () => {
     useEffect(() => {
         mutate({
             data: {
-                Object_Types: !!selectedFilters.length
+                object_types: !!selectedFilters.length
                     ? selectedFilters
                     : allFilters,
+                query: query ? `%${query}%` : '',
+                include_valids: true,
+                include_modules: false,
             },
             params: {
-                query: query || '',
                 limit: PAGE_LIMIT,
                 offset: (currPage - 1) * PAGE_LIMIT,
             },
@@ -180,7 +184,7 @@ const SearchResults = () => {
 
             <Container className="relative pt-8 pb-20">
                 <div className="col-span-6 mb-6 md:col-span-2 md:mb-0">
-                    <div className="sticky top-[120px]">
+                    <div className="sticky top-30">
                         {filters.map((filter, index) => (
                             <fieldset
                                 key={filter.label}

@@ -55,7 +55,7 @@ export interface DynamicObjectBase<Q extends ModelQueryKeys = ModelQueryKeys> {
         demonstrative?: string
         demonstrativeSingular?: string
         atemporal?: boolean
-        icon: any
+        icon: React.ElementType
         parentType?: ParentType
         hideBreadcrumbs?: boolean
         disabled?: boolean

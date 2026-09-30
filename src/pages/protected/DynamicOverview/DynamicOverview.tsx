@@ -1,6 +1,6 @@
-import { KeyboardEvent, useMemo, useState } from 'react'
+import { KeyboardEvent, useCallback, useMemo, useState } from 'react'
 
-import { Button, Heading, TabItem, Table, Tabs, Text } from '@pzh-ui/components'
+import { Button, Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
 import { AngleRight } from '@pzh-ui/icons'
 
 import { useUpdateEffect } from '@react-hookz/web'
@@ -8,17 +8,20 @@ import { keepPreviousData } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { useModulesGetListModuleObjects } from '@/api/fetchers'
-import { LoaderSpinner } from '@/components/Loader'
+import { AnnotationFormModal } from '@/components/Modals/AnnotationModals'
 import SearchBar from '@/components/SearchBar'
+import { Annotation } from '@/config/annotations/types'
 import {
     Model,
     ModelReturnTypeBasic,
     ModelReturnTypeBasicUnion,
 } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
+import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 
-const PAGE_LIMIT = 20
+import AnnotationOverviewTable from './AnnotationOverviewTable'
+import OverviewTable, { PAGE_LIMIT } from './OverviewTable'
 
 type TabType = 'valid' | 'latest'
 
@@ -39,23 +42,31 @@ type OverviewData = {
     total?: number
 }
 
-interface DynamicOverviewProps {
-    model: Model
-}
+type DynamicOverviewProps =
+    | {
+          entityType: 'object'
+          model: Model
+      }
+    | {
+          entityType: 'annotation'
+          model: Annotation
+      }
 
-const DynamicOverview = ({ model }: DynamicOverviewProps) => {
+const DynamicOverview = (props: DynamicOverviewProps) => {
     const { canCreateModule } = usePermissions()
+    const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [activeTab, setActiveTab] = useState<TabType>('valid')
     const [query, setQuery] = useState('')
+    const [annotationId, setAnnotationId] = useState<string | null>(null)
+    const [annotationRevision, setAnnotationRevision] = useState(0)
 
-    const {
-        atemporal,
-        singularReadable,
-        plural,
-        pluralCapitalize,
-        prefixNewObject,
-    } = model.defaults
+    const { model } = props
+    const annotation = props.entityType === 'annotation'
+    const atemporal =
+        props.entityType === 'object' && !!props.model.defaults.atemporal
+    const { singularReadable, plural, pluralCapitalize, prefixNewObject } =
+        model.defaults
 
     const handleChange = (e: KeyboardEvent) => {
         const value = (e.target as HTMLInputElement).value
@@ -81,30 +92,71 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
         { name: 'Dashboard', path: '/muteer' },
         { name: pluralCapitalize || '', isCurrent: true },
     ]
+    const showCreateButton = canCreateModule && (annotation || atemporal)
+    const openAnnotationModal = useCallback(
+        (id: string | null) => {
+            setAnnotationId(id)
+            setActiveModal('annotationForm')
+        },
+        [setActiveModal]
+    )
 
     return (
         <MutateLayout title={pluralCapitalize} breadcrumbs={breadcrumbPaths}>
             <div className="col-span-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <Heading size="xxl">{pluralCapitalize}</Heading>
-                    {atemporal && canCreateModule ? (
-                        <Button asChild variant="cta">
-                            <Link to={`/muteer/${plural}/nieuw`}>
+                <div className="mb-6 flex items-start justify-between gap-6">
+                    <div>
+                        <Heading size="xxl">{pluralCapitalize}</Heading>
+                        {annotation && showCreateButton && (
+                            <Button
+                                variant="cta"
+                                className="mt-6"
+                                onPress={() => openAnnotationModal(null)}>
                                 {prefixNewObject} {singularReadable}
-                            </Link>
-                        </Button>
-                    ) : (
-                        <SearchBar
-                            handleSubmit={handleSearch}
-                            onKeyUp={handleChange}
-                            className="w-auto min-w-[368px]"
-                            placeholder="Zoeken in lijst"
-                        />
-                    )}
+                            </Button>
+                        )}
+                    </div>
+                    <div className="flex items-center gap-4">
+                        {!annotation && showCreateButton && (
+                            <Button asChild variant="cta">
+                                <Link to={`/muteer/${plural}/nieuw`}>
+                                    {prefixNewObject} {singularReadable}
+                                </Link>
+                            </Button>
+                        )}
+                        {(annotation || !atemporal) && (
+                            <SearchBar
+                                handleSubmit={handleSearch}
+                                onKeyUp={handleChange}
+                                className="w-auto min-w-92"
+                                placeholder="Zoeken in lijst"
+                            />
+                        )}
+                    </div>
                 </div>
 
-                {atemporal ? (
-                    <TabTable type="valid" activeTab="valid" model={model} />
+                {props.entityType === 'annotation' ? (
+                    <>
+                        <AnnotationOverviewTable
+                            annotation={props.model}
+                            query={query}
+                            refreshKey={annotationRevision}
+                            onEdit={openAnnotationModal}
+                        />
+                        <AnnotationFormModal
+                            annotation={props.model}
+                            annotationId={annotationId}
+                            onSaved={() =>
+                                setAnnotationRevision(value => value + 1)
+                            }
+                        />
+                    </>
+                ) : atemporal ? (
+                    <TabTable
+                        type="valid"
+                        activeTab="valid"
+                        model={props.model}
+                    />
                 ) : (
                     <Tabs
                         selectedKey={activeTab}
@@ -116,7 +168,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                             <TabTable
                                 type="valid"
                                 activeTab={activeTab}
-                                model={model}
+                                model={props.model}
                                 query={query}
                             />
                         </TabItem>
@@ -124,7 +176,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                             <TabTable
                                 type="latest"
                                 activeTab={activeTab}
-                                model={model}
+                                model={props.model}
                                 query={query}
                             />
                         </TabItem>
@@ -261,42 +313,28 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     }),
                 }
             }) || [],
-        [data?.results, atemporal, plural, canCreateModule, navigate, type]
+        [data?.results, atemporal, plural, canCreateModule, navigate]
     )
 
     return (
-        <div className="mt-6">
-            {!!formattedData?.length ? (
-                <Table
-                    columns={columns}
-                    data={formattedData}
-                    enableSortingRemoval={false}
-                    enableMultiSort={false}
-                    limit={!query ? PAGE_LIMIT : undefined}
-                    total={!query ? data?.total : undefined}
-                    current={pageIndex}
-                    onPaginationChange={setPagination}
-                    state={{
-                        sorting: sortBy,
-                    }}
-                    onSortingChange={setSortBy}
-                    manualSorting
-                    isLoading={isFetching}
-                />
-            ) : !isFetching ? (
-                <span className="italic">
-                    {!!query
-                        ? `Er zijn geen resultaten gevonden voor '${query}'`
-                        : type === 'valid'
-                          ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
-                          : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`}
-                </span>
-            ) : (
-                <div className="mt-8 flex justify-center">
-                    <LoaderSpinner />
-                </div>
-            )}
-        </div>
+        <OverviewTable
+            columns={columns}
+            rows={formattedData}
+            total={data?.total}
+            pageIndex={pageIndex}
+            setPagination={setPagination}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            isFetching={isFetching}
+            paginated={!query}
+            emptyMessage={
+                query
+                    ? `Er zijn geen resultaten gevonden voor '${query}'`
+                    : type === 'valid'
+                      ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`
+                      : `Er zijn geen ${pluralCapitalize.toLowerCase()} in ontwerp`
+            }
+        />
     )
 }
 

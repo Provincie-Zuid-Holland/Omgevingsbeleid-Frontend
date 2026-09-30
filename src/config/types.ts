@@ -28,6 +28,7 @@ type DynamicFieldType =
     | 'file'
     | 'areaAnnotate'
     | 'theme'
+    | 'annotation'
 
 export type DynamicSection<FieldType = string> = {
     /** Description of section */
@@ -67,7 +68,9 @@ export type DynamicField<FieldType = string> = {
     CheckboxProps &
     AreaAnnotateProps &
     ThemeProps &
-    AreaProps
+    AreaProps &
+    AnnotationProps &
+    FileProps
 
 type TextProps =
     | ({ type: 'text' } & FieldInputProps)
@@ -148,4 +151,19 @@ type AreaProps =
     | ({ type: 'area' } & FieldSelectProps)
     | {
           type: Exclude<DynamicFieldType, 'area'>
+      }
+
+type AnnotationProps =
+    | ({ type: 'annotation' } & FieldSelectProps)
+    | {
+          type: Exclude<DynamicFieldType, 'annotation'>
+      }
+
+type FileProps =
+    | {
+          type: 'file'
+          prefillFieldName?: string
+      }
+    | {
+          type: Exclude<DynamicFieldType, 'file'>
       }

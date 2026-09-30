@@ -1,0 +1,38 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "react", "jsx-a11y"],
+  "categories": {
+    "correctness": "warn"
+  },
+  "ignorePatterns": [
+    "build/**",
+    "coverage/**",
+    "dist/**",
+    ".yarn/**",
+    "public/**",
+    "src/api/fetchers*.ts",
+    "src/css/tailwind.css"
+  ],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/alt-text": "warn",
+    "typescript/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "typescript/ban-ts-comment": "warn",
+    "typescript/no-empty-object-type": "warn",
+    "typescript/no-explicit-any": "warn",
+    "typescript/no-unused-expressions": "warn",
+    "eslint/no-case-declarations": "warn",
+    "eslint/no-empty-pattern": "warn",
+    "eslint/no-extra-boolean-cast": "off",
+    "eslint/no-irregular-whitespace": "warn",
+    "eslint/no-unsafe-optional-chaining": "warn"
+  }
+}

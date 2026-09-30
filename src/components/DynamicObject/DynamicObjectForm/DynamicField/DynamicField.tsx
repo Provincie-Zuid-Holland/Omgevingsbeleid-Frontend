@@ -1,5 +1,6 @@
 import {
     Button,
+    cn,
     FormikCheckboxGroup,
     FormikFileUpload,
     FormikInput,
@@ -10,9 +11,9 @@ import {
 } from '@pzh-ui/components'
 import { DrawPolygon } from '@pzh-ui/icons'
 
-import clsx from 'clsx'
 import { FormikValues, useFormikContext } from 'formik'
 
+import FieldAnnotation from '@/components/Form/FieldAnnotation'
 import FieldAreaAnnotate from '@/components/Form/FieldAreaAnnotate'
 import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
@@ -44,12 +45,14 @@ const inputFieldMap = {
     file: FieldFile,
     areaAnnotate: FieldAreaAnnotate,
     theme: FieldTheme,
+    annotation: FieldAnnotation,
 }
 
 type Props = DynamicFieldProps & {
     isFirst?: boolean
     isLocked?: boolean
     model?: Model
+    className?: string
 }
 
 const DynamicField = ({
@@ -57,6 +60,7 @@ const DynamicField = ({
     isFirst,
     isLocked,
     conditionalField,
+    className,
     ...field
 }: Props) => {
     const { setFieldValue, values } = useFormikContext<FormikValues>()
@@ -162,13 +166,16 @@ const DynamicField = ({
 
     return (
         <div
-            className={clsx({
-                'mt-8': !isFirst,
-                hidden:
-                    conditionalField &&
-                    Array.isArray(values[conditionalField]) &&
-                    !!values[conditionalField].length,
-            })}>
+            className={cn(
+                {
+                    'mt-8': !isFirst,
+                    hidden:
+                        conditionalField &&
+                        Array.isArray(values[conditionalField]) &&
+                        !!values[conditionalField].length,
+                },
+                className
+            )}>
             {/* @ts-ignore */}
             <InputField
                 disabled={isLocked}
