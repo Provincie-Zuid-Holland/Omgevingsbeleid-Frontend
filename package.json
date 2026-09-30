@@ -57,7 +57,7 @@
         "test:run": "vitest run",
         "test:no-watch": "yarn test:run",
         "test:coverage": "vitest run --coverage",
-        "typecheck": "tsc --noEmit --checkers 1",
+        "typecheck": "tsc --noEmit --incremental false --singleThreaded",
         "generate-types": "orval --fail-on-warnings"
     },
     "browserslist": {
