@@ -172,7 +172,7 @@ const PublicationVersionPackages = () => {
     const showKennisgeving = isDraft && !!environment?.Can_Publicate
     const hasAnnouncement = showKennisgeving && !!announcement
 
-    const [activeItems, setActiveItems] = useState<string[]>([])
+    const [activeItems, setActiveItems] = useState<string[]>(['act'])
     const autoOpenedItems = useRef(new Set<string>())
 
     /**
@@ -182,11 +182,6 @@ const PublicationVersionPackages = () => {
     useEffect(() => {
         setActiveItems(current => {
             const next = new Set(current)
-
-            if (requiredFieldsFilled && !autoOpenedItems.current.has('act')) {
-                next.add('act')
-                autoOpenedItems.current.add('act')
-            }
 
             if (
                 hasAnnouncement &&
@@ -198,7 +193,7 @@ const PublicationVersionPackages = () => {
 
             return Array.from(next)
         })
-    }, [requiredFieldsFilled, hasAnnouncement])
+    }, [hasAnnouncement])
 
     if (
         versionFetching ||
