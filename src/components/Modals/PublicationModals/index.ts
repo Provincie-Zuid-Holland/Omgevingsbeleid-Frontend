@@ -3,6 +3,7 @@ import PublicationAnnouncementUpdateModal from './PublicationAnnouncementUpdateM
 import PublicationAttachmentAddModal from './PublicationAttachmentAddModal'
 import PublicationAttachmentDeleteModal from './PublicationAttachmentDeleteModal'
 import PublicationEditModal from './PublicationEditModal'
+import PublicationExportPdfModal from './PublicationExportPdfModal'
 import PublicationPackageReportUploadModal from './PublicationPackageReportUploadModal'
 import PublicationVersionEditModal from './PublicationVersionEditModal'
 
@@ -12,6 +13,7 @@ export {
     PublicationAttachmentAddModal,
     PublicationAttachmentDeleteModal,
     PublicationEditModal,
+    PublicationExportPdfModal,
     PublicationPackageReportUploadModal,
     PublicationVersionEditModal,
 }

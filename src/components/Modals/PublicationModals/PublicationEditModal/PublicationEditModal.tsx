@@ -58,7 +58,7 @@ const PublicationEditModal = () => {
     }
 
     return (
-        <Modal id="publicationEdit" title="Publicatie">
+        <Modal id="publicationEdit" title="Instrument bewerken">
             {isFetching ? (
                 <div className="flex justify-center">
                     <LoaderSpinner />
@@ -68,6 +68,7 @@ const PublicationEditModal = () => {
                     type="edit"
                     onSubmit={handleFormSubmit}
                     initialValues={initialValues}
+                    submitText="Opslaan"
                 />
             )}
         </Modal>

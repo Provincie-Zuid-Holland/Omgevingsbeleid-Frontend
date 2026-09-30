@@ -46,6 +46,7 @@ export type ModalType =
     | 'userPasswordReset'
     | 'publicationAdd'
     | 'publicationEdit'
+    | 'publicationExportPdf'
     | 'publicationScan'
     | 'publicationVersionAdd'
     | 'publicationVersionEdit'
@@ -84,13 +85,19 @@ export interface ModalStateMap {
         environmentUUID: string
     }
     publicationEdit: { publication: Publication }
-    publicationScan: { errors?: ValidateModuleError[] }
+    publicationExportPdf: { versionUUID: string }
+    publicationScan: {
+        errors?: ValidateModuleError[]
+        /** When set, the modal runs the act-package validator for this version itself. */
+        versionUUID?: string
+    }
     publicationVersionAdd: { publication: Publication }
     publicationVersionEdit: {
         publication: Publication
         UUID: string
         isRequired?: boolean
         error?: Error
+        readOnly?: boolean
     }
     publicationPackages: {
         publication: Publication
@@ -109,6 +116,7 @@ export interface ModalStateMap {
     publicationAnnouncementUpdate: {
         announcementUuid: string
         isLocked?: boolean
+        readOnly?: boolean
     }
     publicationPackageReportUpload: {
         publicationType: PublicationType

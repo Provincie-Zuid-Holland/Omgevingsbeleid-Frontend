@@ -28,7 +28,6 @@ import {
     UsersOverview,
 } from '@/pages/protected'
 import DecisionDetail from '@/pages/protected/Modules/ModuleDetail/components/DecisionDetail'
-import PublicationVersionEdit from '@/pages/protected/Modules/ModuleDetail/components/PublicationVersionEdit'
 import PublicationVersionPackages from '@/pages/protected/Modules/ModuleDetail/components/PublicationVersionPackages'
 import TabDecisions, {
     Publications,
@@ -313,10 +312,6 @@ const AppRoutes = () => {
                                             element: <TabTimeline />,
                                         },
                                     ],
-                                },
-                                {
-                                    path: 'besluiten/:versionUUID/bewerk',
-                                    element: <PublicationVersionEdit />,
                                 },
                                 { path: 'bewerk', element: <ModuleEdit /> },
                                 ...generateModuleObjectRoutes(),
