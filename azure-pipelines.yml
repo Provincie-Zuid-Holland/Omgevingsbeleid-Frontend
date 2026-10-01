@@ -62,7 +62,7 @@ stages:
                 - script: yarn typecheck
                   displayName: Type check
                   env:
-                      GOMEMLIMIT: 6GiB
+                      GOMEMLIMIT: 5GiB
 
                 - script: yarn build:app
                   displayName: Build application
