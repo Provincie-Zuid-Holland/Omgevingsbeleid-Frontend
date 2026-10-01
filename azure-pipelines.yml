@@ -7,7 +7,7 @@ trigger:
             - main
 
 pool:
-    name: 'PZH-Ubuntu-Agent'
+    name: 'PZH-Agent'
 
 variables:
     VITE_API_ENV: $(Build.SourceBranchName)
@@ -61,8 +61,6 @@ stages:
 
                 - script: yarn typecheck
                   displayName: Type check
-                  env:
-                      GOMEMLIMIT: 5GiB
 
                 - script: yarn build:app
                   displayName: Build application
@@ -80,8 +78,6 @@ stages:
       jobs:
           - deployment: DevDeploy
             displayName: Dev deploy
-            pool:
-                name: 'PZH-Agent'
             environment: Dev
             strategy:
                 runOnce:
@@ -98,8 +94,6 @@ stages:
       jobs:
           - deployment: TestDeploy
             displayName: Test deploy
-            pool:
-                name: 'PZH-Agent'
             environment: Test
             strategy:
                 runOnce:
@@ -116,8 +110,6 @@ stages:
       jobs:
           - deployment: AccDeploy
             displayName: Acc deploy
-            pool:
-                name: 'PZH-Agent'
             environment: Acc
             strategy:
                 runOnce:
@@ -134,8 +126,6 @@ stages:
       jobs:
           - deployment: ProdDeploy
             displayName: Prod deploy
-            pool:
-                name: 'PZH-Agent'
             environment: Prod
             strategy:
                 runOnce:
