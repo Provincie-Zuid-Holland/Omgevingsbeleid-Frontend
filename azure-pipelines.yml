@@ -56,8 +56,16 @@ stages:
                   inputs:
                       summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
 
-                - script: yarn build
-                  displayName: Build
+                - script: yarn build:css
+                  displayName: Build CSS
+
+                - script: yarn typecheck
+                  displayName: Type check
+                  env:
+                      GOMEMLIMIT: 6GiB
+
+                - script: yarn build:app
+                  displayName: Build application
 
                 - task: PublishBuildArtifacts@1
                   displayName: Publish build artifact

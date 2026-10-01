@@ -81,12 +81,12 @@ export default defineConfig({
         react(),
         tailwindcss(),
         svgrPlugin(),
-        visualizer({
-            template: 'treemap',
-            gzipSize: true,
-            brotliSize: true,
-            filename: 'analyse.html',
-        }),
+        // visualizer({
+        //     template: 'treemap',
+        //     gzipSize: true,
+        //     brotliSize: true,
+        //     filename: 'analyse.html',
+        // }),
     ],
     test: {
         globals: true,

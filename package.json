@@ -43,10 +43,11 @@
     },
     "scripts": {
         "build:css": "npx @tailwindcss/cli -i src/css/tailwind.src.css -o src/css/tailwind.css",
+        "build:app": "vite build",
         "watch:css": "npx @tailwindcss/cli -i src/css/tailwind.src.css -o src/css/tailwind.css --watch",
         "dev": "yarn build:css && concurrently \"yarn watch:css\" \"vite\"",
         "start": "yarn dev",
-        "build": "yarn build:css && yarn typecheck && vite build",
+        "build": "yarn build:css && tsc && yarn build:app",
         "preview": "vite preview",
         "serve": "yarn preview",
         "format": "prettier --write \"src/**/*.{ts,tsx,scss}\" \"*.{json,md,mjs,ts}\"",
@@ -57,7 +58,7 @@
         "test:run": "vitest run",
         "test:no-watch": "yarn test:run",
         "test:coverage": "vitest run --coverage",
-        "typecheck": "tsc --noEmit --incremental false --singleThreaded",
+        "typecheck": "tsc -p tsconfig.build.json --noEmit --checkers 1",
         "generate-types": "orval --fail-on-warnings"
     },
     "browserslist": {
