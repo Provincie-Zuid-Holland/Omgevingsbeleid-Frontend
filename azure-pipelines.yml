@@ -11,7 +11,6 @@ pool:
 
 variables:
     VITE_API_ENV: $(Build.SourceBranchName)
-    NODE_OPTIONS: --max_old_space_size=8192
     YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
 stages:
