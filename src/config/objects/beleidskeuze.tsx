@@ -24,9 +24,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useBeleidskeuzeListValidLineages,
     useGetValidLineage: useBeleidskeuzeListValidLineageTree,
     useGetVersion: useBeleidskeuzeViewObjectVersion,
@@ -52,7 +52,7 @@ const queryKeys = {
         getBeleidskeuzeGetAcknowledgedRelationListQueryKey,
 }
 
-const beleidskeuze: DynamicObject<typeof fetchers, typeof queryKeys> = {
+const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
     defaults: {
         singular: 'beleidskeuze',
         singularReadable: 'beleidskeuze',

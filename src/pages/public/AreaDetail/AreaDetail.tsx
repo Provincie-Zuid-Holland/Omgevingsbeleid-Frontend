@@ -4,23 +4,28 @@ import { Heading, Text } from '@pzh-ui/components'
 
 import { useParams } from 'react-router-dom'
 
+import {
+    useGebiedsprogrammaViewObjectVersion,
+    useGetRevisionsGebiedsprogrammaVersion,
+} from '@/api/fetchers'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import { Container } from '@/components/Container'
 import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
-import { gebiedsprogramma } from '@/config/objects'
 
 function AreaDetail() {
     const { moduleId, uuid } = useParams()
 
-    const { useGetVersion, useGetRevision } = gebiedsprogramma.fetchers
-
-    const versionData = useGetVersion(uuid!, {
+    const versionData = useGebiedsprogrammaViewObjectVersion(uuid!, {
         query: { enabled: !!uuid && !moduleId },
     })
-    const revisionData = useGetRevision(parseInt(moduleId!), uuid!, {
-        query: { enabled: !!uuid && !!moduleId },
-    })
+    const revisionData = useGetRevisionsGebiedsprogrammaVersion(
+        parseInt(moduleId!),
+        uuid!,
+        {
+            query: { enabled: !!uuid && !!moduleId },
+        }
+    )
 
     const objectData = useMemo(() => {
         if (!!moduleId && !!uuid) {

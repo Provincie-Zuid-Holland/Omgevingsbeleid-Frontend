@@ -22,9 +22,9 @@ import nsobImage from '@/images/nsob-rollen.png'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useMaatregelListValidLineages,
     useGetValidLineage: useMaatregelListValidLineageTree,
     useGetVersion: useMaatregelViewObjectVersion,
@@ -45,7 +45,7 @@ const fetchers = {
     useGetActiveModules: useMaatregelGetListActiveModuleObjects,
 }
 
-const maatregel: DynamicObject<typeof fetchers> = {
+const maatregel: DynamicObject = {
     defaults: {
         singular: 'maatregel',
         singularReadable: 'maatregel',

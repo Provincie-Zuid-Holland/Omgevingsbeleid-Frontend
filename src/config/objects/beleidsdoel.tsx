@@ -20,9 +20,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useBeleidsdoelListValidLineages,
     useGetValidLineage: useBeleidsdoelListValidLineageTree,
     useGetVersion: useBeleidsdoelViewObjectVersion,
@@ -43,7 +43,7 @@ const fetchers = {
     useGetActiveModules: useBeleidsdoelGetListActiveModuleObjects,
 }
 
-const beleidsdoel: DynamicObject<typeof fetchers> = {
+const beleidsdoel: DynamicObject = {
     defaults: {
         singular: 'beleidsdoel',
         singularReadable: 'beleidsdoel',

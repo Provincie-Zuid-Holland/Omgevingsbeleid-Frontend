@@ -15,9 +15,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useGebiedListValidLineages,
     useGetValidLineage: useGebiedListValidLineageTree,
     useGetVersion: useGebiedViewObjectVersion,
@@ -38,7 +38,7 @@ const fetchers = {
     useGetActiveModules: useGebiedGetListActiveModuleObjects,
 }
 
-const gebied: DynamicObject<typeof fetchers> = {
+const gebied: DynamicObject = {
     defaults: {
         singular: 'gebied',
         singularReadable: 'gebied',

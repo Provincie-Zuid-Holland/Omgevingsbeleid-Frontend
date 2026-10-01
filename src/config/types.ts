@@ -13,23 +13,6 @@ import { Validation } from '@/validation/zodSchema'
 
 import { ModelReturnType, ModelType } from './objects/types'
 
-type DynamicFieldType =
-    | 'text'
-    | 'textarea'
-    | 'wysiwyg'
-    | 'select'
-    | 'area'
-    | 'url'
-    | 'image'
-    | 'connections'
-    | 'search'
-    | 'array'
-    | 'checkbox'
-    | 'file'
-    | 'areaAnnotate'
-    | 'theme'
-    | 'annotation'
-
 export type DynamicSection<FieldType = string> = {
     /** Description of section */
     description?: string
@@ -39,7 +22,7 @@ export type DynamicSection<FieldType = string> = {
     fields: DynamicField<FieldType>[]
 }
 
-export type DynamicField<FieldType = string> = {
+type DynamicFieldBase<FieldType> = {
     /** Name of field, this is also the API field */
     name: FieldType | 'Ambtsgebied'
     /** Label of field */
@@ -48,8 +31,6 @@ export type DynamicField<FieldType = string> = {
     description?: string | React.JSX.Element
     /** Placeholder of field (optional) */
     placeholder?: string
-    /** Type of field */
-    type: DynamicFieldType
     /** Is field required (optional) */
     required?: boolean
     /** Field validation (optional) */
@@ -58,51 +39,23 @@ export type DynamicField<FieldType = string> = {
     optimized?: boolean
     /** Conditional field */
     conditionalField?: FieldType | 'Ambtsgebied'
-} & TextProps &
-    SelectProps &
-    ImageProps &
-    WysiwygProps &
-    ConnectionsProps &
-    SearchProps &
-    ArrayProps &
-    CheckboxProps &
-    AreaAnnotateProps &
-    ThemeProps &
-    AreaProps &
-    AnnotationProps &
-    FileProps
+}
 
-type TextProps =
-    | ({ type: 'text' } & FieldInputProps)
-    | {
-          type: Exclude<DynamicFieldType, 'text'>
-      }
-
-type SelectProps =
-    | ({ type: 'select' } & FieldSelectProps)
-    | {
-          type: Exclude<DynamicFieldType, 'select'>
-      }
-
-type ImageProps =
-    | ({
-          type: 'image'
-      } & Omit<FieldFileUploadProps, 'onChange'>)
-    | {
-          type: Exclude<DynamicFieldType, 'image'>
-      }
-
-type WysiwygProps =
-    | ({
+export type DynamicField<FieldType = string> =
+    | (DynamicFieldBase<FieldType> & { type: 'text' } & FieldInputProps)
+    | (DynamicFieldBase<FieldType> & { type: 'textarea' })
+    | (DynamicFieldBase<FieldType> & {
           type: 'wysiwyg'
           hasAreaSelect?: boolean
       } & FieldRteProps)
-    | {
-          type: Exclude<DynamicFieldType, 'wysiwyg'>
-      }
-
-type ConnectionsProps =
-    | {
+    | (DynamicFieldBase<FieldType> & { type: 'select' } & FieldSelectProps)
+    | (DynamicFieldBase<FieldType> & { type: 'area' } & FieldSelectProps)
+    | (DynamicFieldBase<FieldType> & { type: 'url' })
+    | (DynamicFieldBase<FieldType> & { type: 'image' } & Omit<
+              FieldFileUploadProps,
+              'onChange'
+          >)
+    | (DynamicFieldBase<FieldType> & {
           type: 'connections'
           allowedConnections: {
               /** Type of connection */
@@ -110,60 +63,25 @@ type ConnectionsProps =
               /** Key of connection, this corresponds with the API field */
               key: keyof ModelReturnType
           }[]
-      }
-    | {
-          type: Exclude<DynamicFieldType, 'connections'>
-      }
-
-type SearchProps =
-    | ({
+      })
+    | (DynamicFieldBase<FieldType> & {
           type: 'search'
       } & DynamicObjectSearchProps)
-    | {
-          type: Exclude<DynamicFieldType, 'search'>
-      }
-
-type ArrayProps =
-    | { type: 'array'; fields: DynamicField[]; arrayLabel?: string }
-    | {
-          type: Exclude<DynamicFieldType, 'array'>
-      }
-
-type CheckboxProps =
-    | ({ type: 'checkbox' } & Omit<FieldCheckboxGroupProps, 'value'>)
-    | {
-          type: Exclude<DynamicFieldType, 'checkbox'>
-      }
-
-type AreaAnnotateProps =
-    | ({ type: 'areaAnnotate' } & FieldAreaAnnotateProps)
-    | {
-          type: Exclude<DynamicFieldType, 'areaAnnotate'>
-      }
-
-type ThemeProps =
-    | ({ type: 'theme' } & FieldSelectProps)
-    | {
-          type: Exclude<DynamicFieldType, 'theme'>
-      }
-
-type AreaProps =
-    | ({ type: 'area' } & FieldSelectProps)
-    | {
-          type: Exclude<DynamicFieldType, 'area'>
-      }
-
-type AnnotationProps =
-    | ({ type: 'annotation' } & FieldSelectProps)
-    | {
-          type: Exclude<DynamicFieldType, 'annotation'>
-      }
-
-type FileProps =
-    | {
+    | (DynamicFieldBase<FieldType> & {
+          type: 'array'
+          fields: DynamicField<FieldType>[]
+          arrayLabel?: string
+      })
+    | (DynamicFieldBase<FieldType> & { type: 'checkbox' } & Omit<
+              FieldCheckboxGroupProps,
+              'value'
+          >)
+    | (DynamicFieldBase<FieldType> & {
           type: 'file'
           prefillFieldName?: string
-      }
-    | {
-          type: Exclude<DynamicFieldType, 'file'>
-      }
+      })
+    | (DynamicFieldBase<FieldType> & {
+          type: 'areaAnnotate'
+      } & FieldAreaAnnotateProps)
+    | (DynamicFieldBase<FieldType> & { type: 'theme' } & FieldSelectProps)
+    | (DynamicFieldBase<FieldType> & { type: 'annotation' } & FieldSelectProps)

@@ -20,9 +20,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useAmbitieListValidLineages,
     useGetValidLineage: useAmbitieListValidLineageTree,
     useGetVersion: useAmbitieViewObjectVersion,
@@ -43,7 +43,7 @@ const fetchers = {
     useGetActiveModules: useAmbitieGetListActiveModuleObjects,
 }
 
-const ambitie: DynamicObject<typeof fetchers> = {
+const ambitie: DynamicObject = {
     defaults: {
         singular: 'ambitie',
         singularReadable: 'ambitie',

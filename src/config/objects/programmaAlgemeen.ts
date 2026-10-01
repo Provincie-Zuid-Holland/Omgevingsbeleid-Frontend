@@ -15,9 +15,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useProgrammaAlgemeenListValidLineages,
     useGetValidLineage: useProgrammaAlgemeenListValidLineageTree,
     useGetVersion: useProgrammaAlgemeenViewObjectVersion,
@@ -38,7 +38,7 @@ const fetchers = {
     useGetActiveModules: useProgrammaAlgemeenGetListActiveModuleObjects,
 }
 
-const programmaAlgemeen: DynamicObject<typeof fetchers> = {
+const programmaAlgemeen: DynamicObject = {
     defaults: {
         singular: 'programma_algemeen',
         singularReadable: 'programma algemeen',

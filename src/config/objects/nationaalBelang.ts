@@ -12,9 +12,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useNationaalBelangListValidLineages,
     useGetValidLineage: null,
     useGetVersion: null,
@@ -35,7 +35,7 @@ const fetchers = {
     useGetActiveModules: null,
 }
 
-const nationaalBelang: DynamicObject<typeof fetchers> = {
+const nationaalBelang: DynamicObject = {
     defaults: {
         singular: 'nationaal_belang',
         singularReadable: 'nationaal belang',
