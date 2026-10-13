@@ -140,6 +140,8 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                                 queryClient.invalidateQueries({ queryKey }),
                                 queryClient.invalidateQueries({
                                     queryKey: validQueryKey,
+                                    refetchType: 'all',
+                                    exact: false,
                                 }),
                             ]).then(() => navigate(`/muteer/${plural}`))
 
