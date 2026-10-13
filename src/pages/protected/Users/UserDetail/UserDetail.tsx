@@ -13,6 +13,7 @@ import { LoaderCard } from '@/components/Loader'
 import UserEditModal from '@/components/Modals/UserModals/UserEditModal'
 import UserGeneratePasswordModal from '@/components/Modals/UserModals/UserGeneratePasswordModal'
 import ToggleSwitch from '@/components/ToggleSwitch'
+import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 import { toastNotification } from '@/utils/toastNotification'
@@ -20,6 +21,7 @@ import { toastNotification } from '@/utils/toastNotification'
 const UserDetail = () => {
     const queryClient = useQueryClient()
     const { uuid } = useParams()
+    const { canResetUserPassword, canEditUser } = usePermissions()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data, isLoading, queryKey } = useUserViewGetUser(uuid!, {
@@ -87,15 +89,17 @@ const UserDetail = () => {
                                 text={data?.IsActive ? 'Actief' : 'Inactief'}
                                 upperCase={false}
                             />
-                            <ToggleSwitch
-                                checked={data?.IsActive || false}
-                                title={
-                                    data?.IsActive
-                                        ? 'Gebruiker deactiveren'
-                                        : 'Gebruiker activeren'
-                                }
-                                onClick={handleUserStatus}
-                            />
+                            {canEditUser && (
+                                <ToggleSwitch
+                                    checked={data?.IsActive || false}
+                                    title={
+                                        data?.IsActive
+                                            ? 'Gebruiker deactiveren'
+                                            : 'Gebruiker activeren'
+                                    }
+                                    onClick={handleUserStatus}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -107,11 +111,13 @@ const UserDetail = () => {
                         <Heading level="2" size="m">
                             Gegevens gebruiker
                         </Heading>
-                        <button
-                            onClick={() => setActiveModal('userEdit')}
-                            className="text-s text-pzh-green-500 underline hover:text-pzh-green-900">
-                            Gegevens wijzigen
-                        </button>
+                        {canEditUser && (
+                            <button
+                                onClick={() => setActiveModal('userEdit')}
+                                className="text-s text-pzh-green-500 underline hover:text-pzh-green-900">
+                                Gegevens wijzigen
+                            </button>
+                        )}
                     </div>
 
                     <Item
@@ -145,7 +151,9 @@ const UserDetail = () => {
                             data-testid="user-generate-password"
                             onPress={() => setActiveModal('userPasswordReset')}
                             className="whitespace-nowrap"
-                            isDisabled={!!!data?.IsActive}>
+                            isDisabled={
+                                !data?.IsActive && canResetUserPassword
+                            }>
                             Genereer nieuw wachtwoord
                         </Button>
                     </div>

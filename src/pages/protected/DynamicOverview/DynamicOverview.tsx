@@ -53,7 +53,7 @@ type DynamicOverviewProps =
       }
 
 const DynamicOverview = (props: DynamicOverviewProps) => {
-    const { canCreateModule } = usePermissions()
+    const { atemporalCanCreateObject } = usePermissions()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [activeTab, setActiveTab] = useState<TabType>('valid')
@@ -92,7 +92,8 @@ const DynamicOverview = (props: DynamicOverviewProps) => {
         { name: 'Dashboard', path: '/muteer' },
         { name: pluralCapitalize || '', isCurrent: true },
     ]
-    const showCreateButton = canCreateModule && (annotation || atemporal)
+    const showCreateButton =
+        atemporalCanCreateObject && (annotation || atemporal)
     const openAnnotationModal = useCallback(
         (id: string | null) => {
             setAnnotationId(id)
@@ -196,7 +197,7 @@ interface TabTableProps {
 
 const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
     const navigate = useNavigate()
-    const { canCreateModule } = usePermissions()
+    const { atemporalCanEditObject } = usePermissions()
 
     const { atemporal, plural, pluralCapitalize, singular } = model.defaults
     const { useGetValid } = model.fetchers
@@ -300,10 +301,11 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                             <Text bold color="text-pzh-blue-500">
                                 {Title}
                             </Text>
-                            <AngleRight size={20} />
+                            {atemporalCanEditObject && <AngleRight size={20} />}
                         </span>
                     ),
-                    ...((!atemporal || (atemporal && canCreateModule)) && {
+                    ...((!atemporal ||
+                        (atemporal && atemporalCanEditObject)) && {
                         onClick: () =>
                             navigate(
                                 `/muteer/${plural}/${Object_ID}${
@@ -313,7 +315,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     }),
                 }
             }) || [],
-        [data?.results, atemporal, plural, canCreateModule, navigate]
+        [data?.results, atemporal, plural, atemporalCanEditObject, navigate]
     )
 
     return (

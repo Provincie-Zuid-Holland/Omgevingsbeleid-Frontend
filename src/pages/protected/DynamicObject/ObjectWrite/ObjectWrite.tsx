@@ -18,6 +18,7 @@ import { HTTPValidationError } from '@/api/fetchers.schemas'
 import DynamicObjectForm from '@/components/DynamicObject/DynamicObjectForm'
 import { LoaderSpinner } from '@/components/Loader'
 import { Model } from '@/config/objects/types'
+import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { toastNotification } from '@/utils/toastNotification'
@@ -29,6 +30,7 @@ interface ObjectWriteProps {
 const ObjectWrite = ({ model }: ObjectWriteProps) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
+    const { atemporalCanDeleteObject } = usePermissions()
 
     const { objectId } = useParams()
 
@@ -109,7 +111,7 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                 },
                 {
                     onSuccess: () => {
-                        if (!!connections) {
+                        if (connections) {
                             putRelations?.mutateAsync(
                                 {
                                     lineageId: parseInt(objectId!),
@@ -203,52 +205,56 @@ const ObjectWrite = ({ model }: ObjectWriteProps) => {
                     isLoading={isLoading}
                 />
 
-                <div className="grid grid-cols-6 gap-x-10 gap-y-0">
-                    <div className="col-span-6">
-                        <Divider className="my-8" />
+                {atemporalCanDeleteObject && (
+                    <div className="grid grid-cols-6 gap-x-10 gap-y-0">
+                        <div className="col-span-6">
+                            <Divider className="my-8" />
 
-                        {!relationsLoading ? (
-                            <Formik
-                                onSubmit={handleDeletion}
-                                initialValues={{ consent: false }}>
-                                {({ dirty, isSubmitting }) => (
-                                    <Form>
-                                        <FieldLabel
-                                            name="consent"
-                                            label={`${singularCapitalize} verwijderen`}
-                                        />
-                                        <Notification
-                                            title={`Let op! Het verwijderen van ${demonstrative} ${singularReadable} is niet terug te draaien`}
-                                            variant="warning"
-                                            className="my-4 block"
-                                        />
-                                        <FormikCheckbox
-                                            name="consent"
-                                            className="block">
-                                            Ik wil {demonstrative}{' '}
-                                            {singularReadable}
-                                            {!!relations?.length
-                                                ? ' inclusief gemaakte koppelingen'
-                                                : null}{' '}
-                                            voorgoed verwijderen
-                                        </FormikCheckbox>
-                                        <Button
-                                            type="submit"
-                                            isDisabled={!dirty || isSubmitting}
-                                            isLoading={isSubmitting}
-                                            className="mt-4">
-                                            {singularCapitalize} verwijderen
-                                        </Button>
-                                    </Form>
-                                )}
-                            </Formik>
-                        ) : (
-                            <div className="flex justify-center">
-                                <LoaderSpinner />
-                            </div>
-                        )}
+                            {!relationsLoading ? (
+                                <Formik
+                                    onSubmit={handleDeletion}
+                                    initialValues={{ consent: false }}>
+                                    {({ dirty, isSubmitting }) => (
+                                        <Form>
+                                            <FieldLabel
+                                                name="consent"
+                                                label={`${singularCapitalize} verwijderen`}
+                                            />
+                                            <Notification
+                                                title={`Let op! Het verwijderen van ${demonstrative} ${singularReadable} is niet terug te draaien`}
+                                                variant="warning"
+                                                className="my-4 block"
+                                            />
+                                            <FormikCheckbox
+                                                name="consent"
+                                                className="block">
+                                                Ik wil {demonstrative}{' '}
+                                                {singularReadable}
+                                                {relations?.length
+                                                    ? ' inclusief gemaakte koppelingen'
+                                                    : null}{' '}
+                                                voorgoed verwijderen
+                                            </FormikCheckbox>
+                                            <Button
+                                                type="submit"
+                                                isDisabled={
+                                                    !dirty || isSubmitting
+                                                }
+                                                isLoading={isSubmitting}
+                                                className="mt-4">
+                                                {singularCapitalize} verwijderen
+                                            </Button>
+                                        </Form>
+                                    )}
+                                </Formik>
+                            ) : (
+                                <div className="flex justify-center">
+                                    <LoaderSpinner />
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </MutateLayout>
     )

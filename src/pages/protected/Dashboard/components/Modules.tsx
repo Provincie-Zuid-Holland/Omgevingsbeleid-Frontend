@@ -54,7 +54,7 @@ const Modules = () => {
                         <LoaderCard height="62" mb="" />
                         <LoaderCard height="62" mb="" />
                     </>
-                ) : !!modules?.results.length ? (
+                ) : modules?.results.length ? (
                     modules?.results?.map(module => (
                         <ModuleTile
                             key={`module-${module.Module_ID}`}

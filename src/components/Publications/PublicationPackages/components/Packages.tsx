@@ -102,12 +102,12 @@ const Packages = ({
                     className={cn(
                         'rounded-lg border border-pzh-gray-200 bg-pzh-white',
                         {
-                            'bg-pzh-gray-100': isLocked && !!!data?.length,
+                            'bg-pzh-gray-100': isLocked && !data?.length,
                         }
                     )}>
                     {isLoading ? (
                         <LoaderCard mb="0" height="64" />
-                    ) : !!!data?.length ? (
+                    ) : !data?.length ? (
                         <PackageCreate
                             createPackage={createPackage}
                             announcementUUID={announcement?.UUID}
