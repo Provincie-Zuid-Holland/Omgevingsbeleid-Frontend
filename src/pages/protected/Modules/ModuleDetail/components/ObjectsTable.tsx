@@ -256,6 +256,7 @@ const ObjectsTable = ({
     const { moduleId } = useParams()
     const navigate = useNavigate()
     const { user } = useAuth()
+    const { canAddNewObjectToModule } = usePermissions()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data: { Module: { Module_ID = 0 } = {} } = {} } = useModule()
@@ -393,7 +394,7 @@ const ObjectsTable = ({
                     </span>
                     <Button
                         onPress={() => setActiveModal('moduleAddObject')}
-                        isDisabled={isLocked}
+                        isDisabled={isLocked || !canAddNewObjectToModule}
                         variant="cta">
                         Onderdeel toevoegen
                     </Button>

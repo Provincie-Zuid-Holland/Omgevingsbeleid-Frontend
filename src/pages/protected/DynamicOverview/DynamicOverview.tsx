@@ -44,7 +44,7 @@ interface DynamicOverviewProps {
 }
 
 const DynamicOverview = ({ model }: DynamicOverviewProps) => {
-    const { canCreateModule } = usePermissions()
+    const { atemporalCanCreateObject } = usePermissions()
 
     const [activeTab, setActiveTab] = useState<TabType>('valid')
     const [query, setQuery] = useState('')
@@ -87,7 +87,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
             <div className="col-span-6">
                 <div className="mb-6 flex items-center justify-between">
                     <Heading size="xxl">{pluralCapitalize}</Heading>
-                    {atemporal && canCreateModule ? (
+                    {atemporal && atemporalCanCreateObject ? (
                         <Button asChild variant="cta">
                             <Link to={`/muteer/${plural}/nieuw`}>
                                 {prefixNewObject} {singularReadable}
@@ -97,7 +97,7 @@ const DynamicOverview = ({ model }: DynamicOverviewProps) => {
                         <SearchBar
                             handleSubmit={handleSearch}
                             onKeyUp={handleChange}
-                            className="w-auto min-w-[368px]"
+                            className="w-auto min-w-92"
                             placeholder="Zoeken in lijst"
                         />
                     )}
@@ -144,7 +144,7 @@ interface TabTableProps {
 
 const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
     const navigate = useNavigate()
-    const { canCreateModule } = usePermissions()
+    const { atemporalCanEditObject } = usePermissions()
 
     const { atemporal, plural, pluralCapitalize, singular } = model.defaults
     const { useGetValid } = model.fetchers
@@ -248,10 +248,11 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                             <Text bold color="text-pzh-blue-500">
                                 {Title}
                             </Text>
-                            <AngleRight size={20} />
+                            {atemporalCanEditObject && <AngleRight size={20} />}
                         </span>
                     ),
-                    ...((!atemporal || (atemporal && canCreateModule)) && {
+                    ...((!atemporal ||
+                        (atemporal && atemporalCanEditObject)) && {
                         onClick: () =>
                             navigate(
                                 `/muteer/${plural}/${Object_ID}${
@@ -261,12 +262,19 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     }),
                 }
             }) || [],
-        [data?.results, atemporal, plural, canCreateModule, navigate, type]
+        [
+            data?.results,
+            atemporal,
+            plural,
+            atemporalCanEditObject,
+            navigate,
+            type,
+        ]
     )
 
     return (
         <div className="mt-6">
-            {!!formattedData?.length ? (
+            {formattedData?.length ? (
                 <Table
                     columns={columns}
                     data={formattedData}
@@ -285,7 +293,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                 />
             ) : !isFetching ? (
                 <span className="italic">
-                    {!!query
+                    {query
                         ? `Er zijn geen resultaten gevonden voor '${query}'`
                         : type === 'valid'
                           ? `Er zijn geen vigerende ${pluralCapitalize.toLowerCase()} gevonden`

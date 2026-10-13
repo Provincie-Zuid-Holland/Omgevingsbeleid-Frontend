@@ -28,7 +28,8 @@ type ObjectsOutletContext = {
 const TabObjects = () => {
     const { owners = 'All' } = useOutletContext<ObjectsOutletContext>()
 
-    const { canPatchModuleStatus } = usePermissions()
+    const { canPatchModuleStatus, canActivateModule, canCompleteModule } =
+        usePermissions()
 
     const {
         data: { Module: module } = {},
@@ -42,14 +43,14 @@ const TabObjects = () => {
     if (isLoading || !module) return <LoaderContent />
 
     const showInactiveCard =
-        !module.Activated && (canPatchModuleStatus || isModuleManager)
+        !module.Activated && (canActivateModule || isModuleManager)
     const showVersionCard =
         module.Activated &&
         isLocked &&
         !canComplete &&
         !isClosed &&
         (canPatchModuleStatus || isModuleManager)
-    const showCompleteCard = canComplete && isLocked && canPatchModuleStatus
+    const showCompleteCard = canComplete && isLocked && canCompleteModule
 
     return (
         <>

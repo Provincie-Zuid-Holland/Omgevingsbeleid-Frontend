@@ -21,7 +21,7 @@ interface ObjectDefaultInfoProps {
 
 const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
     const { objectId } = useParams()
-    const { canCreateModule, canPatchObjectInModule } = usePermissions()
+    const { canCreateModule, canPatchObjectStatic } = usePermissions()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -34,7 +34,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
             query: { enabled: !!objectId },
         }) || {}
 
-    if (!!!staticData?.length) return null
+    if (!staticData?.length) return null
 
     return (
         <>
@@ -43,8 +43,8 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
                     <Heading level="2" size="m">
                         Algemene informatie
                     </Heading>
-                    {((canPatchObjectInModule && (isOwner || isClient)) ||
-                        canCreateModule) && (
+                    {((canPatchObjectStatic && (isOwner || isClient)) ||
+                        (canPatchObjectStatic && canCreateModule)) && (
                         <button
                             onClick={() =>
                                 setActiveModal('objectGeneralInformation')

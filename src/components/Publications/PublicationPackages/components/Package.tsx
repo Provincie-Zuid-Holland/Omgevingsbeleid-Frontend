@@ -11,6 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 
 import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
+import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import { parseUtc } from '@/utils/parseUtc'
 
@@ -44,6 +45,11 @@ const Package = ({
 }: PackageProps) => {
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const {
+        canUploadPublicationActPackageReport,
+        canUploadPublicationAnnouncementPackageReport,
+    } = usePermissions()
 
     const { downloadPackage } = useActions({
         publicationType,
@@ -79,6 +85,13 @@ const Package = ({
         [Report_Status]
     )
 
+    const canUploadReports =
+        !isLocked &&
+        canPublicate &&
+        (publicationType === 'act'
+            ? canUploadPublicationActPackageReport
+            : canUploadPublicationAnnouncementPackageReport)
+
     return (
         <div className="flex items-center justify-between border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">
             <div className="flex items-center gap-4">
@@ -97,7 +110,7 @@ const Package = ({
                     {status && <Badge solid upperCase={false} {...status} />}
                 </div>
             </div>
-            {!!!Zip.Latest_Download_Date ? (
+            {!Zip.Latest_Download_Date ? (
                 <Button
                     size="small"
                     variant="cta"
@@ -110,7 +123,7 @@ const Package = ({
                 <div className="flex items-center gap-4">
                     <div>
                         <Text size="s">Gedownload op {downloadDate}</Text>
-                        {!isLocked && canPublicate && (
+                        {canUploadReports && (
                             <Button
                                 variant="default"
                                 className="group/upload flex items-center gap-2"
