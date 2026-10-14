@@ -12,8 +12,8 @@ import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 import * as models from '@/config/objects'
 import { Model, ModelType } from '@/config/objects/types'
-
 import { sortByFields } from '@/utils/sortByFields'
+
 import NotFoundPage from '../NotFoundPage'
 
 interface DynamicObjectProps {
@@ -36,13 +36,9 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
         data = {},
         isLoading,
         isError,
-    } = useGetValidLineage?.(
-        parseInt(id!),
-        {},
-        {
-            query: { enabled: !!id },
-        }
-    ) || {}
+    } = useGetValidLineage?.(parseInt(id!), {
+        query: { enabled: !!id },
+    }) || {}
 
     const formattedRelations = useMemo(() => {
         const connections = model.allowedConnections
