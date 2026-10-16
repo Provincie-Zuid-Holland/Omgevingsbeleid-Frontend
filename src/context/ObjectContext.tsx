@@ -1,10 +1,11 @@
+import { createContext, ReactNode, useMemo } from 'react'
+
 import {
     QueryKey,
     QueryObserverBaseResult,
     UseMutationResult,
     useQueryClient,
 } from '@tanstack/react-query'
-import { ReactNode, createContext, useMemo } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 
 import {
@@ -68,6 +69,7 @@ function ObjectProvider({
         useGetLatestLineageInModule,
         usePatchObjectInModule,
         usePostStatic,
+        useGetStatic,
     } = model.fetchers
 
     const latestInModule = useGetLatestLineageInModule?.(
@@ -84,6 +86,12 @@ function ObjectProvider({
             enabled: !!objectId && !moduleId,
         },
     })
+    const { queryKey: objectStaticQueryKey } = useGetStatic!(
+        parseInt(objectId!),
+        {
+            query: { enabled: !!objectId },
+        }
+    )
 
     /**
      * If object is still in a module return latest lineage of object in module,
@@ -109,7 +117,7 @@ function ObjectProvider({
             mutation: {
                 onSuccess: () => {
                     queryClient
-                        .invalidateQueries({ queryKey: data?.queryKey })
+                        .invalidateQueries({ queryKey: objectStaticQueryKey })
                         .then(onSuccess)
 
                     toastNotification('saved')

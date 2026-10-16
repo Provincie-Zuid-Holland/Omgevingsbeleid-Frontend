@@ -1,4 +1,5 @@
 import { Tooltip } from '@pzh-ui/components'
+
 import classNames from 'clsx'
 
 import useUserInfo from '@/hooks/useUserInfo'
@@ -34,14 +35,14 @@ const Avatar = ({ uuid, prefix, className, isSmall }: AvatarProps) => {
             }>
             <div
                 className={classNames(
-                    'bg-pzh-blue-500 flex cursor-pointer items-center justify-center rounded-full',
+                    'flex cursor-pointer items-center justify-center rounded-full bg-pzh-blue-500',
                     {
-                        'text-s h-10 w-10': isSmall,
+                        'h-10 w-10 text-s': isSmall,
                         'h-[46px] w-[46px]': !isSmall,
                     },
                     className
                 )}>
-                <span className="text-pzh-white -mb-1 font-bold">
+                <span className="-mb-1 font-bold text-pzh-white">
                     {initials}
                 </span>
             </div>

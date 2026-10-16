@@ -3,8 +3,8 @@ import { DrawPolygon } from '@pzh-ui/icons'
 import {
     useGebiedengroepEditObjectStatic,
     useGebiedengroepGetListActiveModuleObjects,
-    useGebiedengroepListValidLineageTree,
     useGebiedengroepListValidLineages,
+    useGebiedengroepListValidLineageTree,
     useGebiedengroepPostModulePatchObject,
     useGebiedengroepViewGetObjectStatic,
     useGebiedengroepViewModuleObjectLatest,
@@ -74,6 +74,10 @@ const gebiedengroep: DynamicObject<typeof fetchers> = {
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                 },
+            ],
+        },
+        {
+            fields: [
                 {
                     name: 'Source_UUID',
                     label: 'Geodata koppelen',
@@ -81,6 +85,11 @@ const gebiedengroep: DynamicObject<typeof fetchers> = {
                         'Hieronder staan de ‘Werkingsgebieden’ uit de Geodatabase. Selecteer een ‘Werkingsgebied’ en kies vervolgens de gewenste versie. Zodra een versie wordt geselecteerd, worden onderliggende gebieden zichtbaar op de kaart.',
                     type: 'area',
                     required: true,
+                    notification: {
+                        title: 'Onderliggende gebieden worden ook toegevoegd',
+                        children:
+                            'Een werkingsgebied (ook wel gebiedengroep) kan uit meerdere onderverdelingen (gebieden) bestaan. Zodra een versie van een gebiedengroep wordt gekozen, worden ook onderliggende gebieden toegevoegd aan de module.',
+                    },
                 },
             ],
         },

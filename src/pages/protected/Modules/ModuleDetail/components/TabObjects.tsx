@@ -1,3 +1,6 @@
+import { useOutletContext } from 'react-router-dom'
+
+import { OwnerType } from '@/api/fetchers.schemas'
 import { LoaderContent } from '@/components/Loader'
 import {
     ModuleActivateModal,
@@ -7,17 +10,15 @@ import {
     ModuleLockModal,
     ModuleObjectDeleteConfirmationModal,
 } from '@/components/Modals/ModuleModals'
+import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import ModuleCompleteCard from '@/components/Modules/ModuleCompleteCard'
 import ModuleInactiveCard from '@/components/Modules/ModuleInactiveCard'
 import ModuleLock from '@/components/Modules/ModuleLock'
 import ModuleVersionCard from '@/components/Modules/ModuleVersionCard'
-
-import { OwnerType } from '@/api/fetchers.schemas'
-import ModuleScanModal from '@/components/Modals/ModuleModals/ModuleScanModal'
 import useModule from '@/hooks/useModule'
 import usePermissions from '@/hooks/usePermissions'
 import * as modules from '@/validation/modules'
-import { useOutletContext } from 'react-router-dom'
+
 import ObjectsTable from './ObjectsTable'
 
 type ObjectsOutletContext = {
@@ -27,7 +28,8 @@ type ObjectsOutletContext = {
 const TabObjects = () => {
     const { owners = 'All' } = useOutletContext<ObjectsOutletContext>()
 
-    const { canPatchModuleStatus } = usePermissions()
+    const { canPatchModuleStatus, canActivateModule, canCompleteModule } =
+        usePermissions()
 
     const {
         data: { Module: module } = {},
@@ -41,14 +43,14 @@ const TabObjects = () => {
     if (isLoading || !module) return <LoaderContent />
 
     const showInactiveCard =
-        !module.Activated && (canPatchModuleStatus || isModuleManager)
+        !module.Activated && (canActivateModule || isModuleManager)
     const showVersionCard =
         module.Activated &&
         isLocked &&
         !canComplete &&
         !isClosed &&
         (canPatchModuleStatus || isModuleManager)
-    const showCompleteCard = canComplete && isLocked && canPatchModuleStatus
+    const showCompleteCard = canComplete && isLocked && canCompleteModule
 
     return (
         <>

@@ -1,7 +1,10 @@
-import { Heading } from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
-import { FormikHelpers } from 'formik'
 import { useMemo } from 'react'
+
+import { Heading } from '@pzh-ui/components'
+
+import { useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { FormikHelpers } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -16,7 +19,6 @@ import MutateLayout from '@/templates/MutateLayout'
 import handleError from '@/utils/handleError'
 import { normalizeFieldMap } from '@/utils/normalizeFieldMap'
 import { toastNotification } from '@/utils/toastNotification'
-import { AxiosError } from 'axios'
 
 const PublicationTemplateCreate = () => {
     const queryClient = useQueryClient()
@@ -51,7 +53,8 @@ const PublicationTemplateCreate = () => {
         if (!!payload.Object_Templates?.length) {
             payload.Object_Templates = (payload.Object_Templates as any).reduce(
                 (acc: any, curr: { key: string; value: string }) => (
-                    (acc[curr.key] = curr.value), acc
+                    (acc[curr.key] = curr.value),
+                    acc
                 ),
                 {}
             )

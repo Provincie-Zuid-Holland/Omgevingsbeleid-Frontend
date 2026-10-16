@@ -1,5 +1,6 @@
-import { AngleDown, AngleUp } from '@pzh-ui/icons'
 import { ReactNode, useState } from 'react'
+
+import { AngleDown, AngleUp } from '@pzh-ui/icons'
 
 /**
  * Component that renders the ToggleableSection component which displays a button which either contains the options of the legenda or Achtergrondlaag of the map when clicked on.
@@ -33,7 +34,7 @@ const ToggleableSection = ({
                 <span className="font-semibold">{title}</span>
                 {open ? <AngleUp /> : <AngleDown />}
             </button>
-            {open ? <div className="pb-6 pt-2">{children}</div> : null}
+            {open ? <div className="pt-2 pb-6">{children}</div> : null}
         </div>
     )
 }

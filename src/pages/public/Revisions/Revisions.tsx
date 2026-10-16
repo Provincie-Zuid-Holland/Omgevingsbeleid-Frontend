@@ -1,7 +1,9 @@
-import { Disclosure } from '@headlessui/react'
+import { Fragment } from 'react'
+
 import { Divider, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, Plus } from '@pzh-ui/icons'
-import { Fragment } from 'react'
+
+import { Disclosure } from '@headlessui/react'
 import { Helmet } from 'react-helmet-async'
 
 import { usePublicModulesGetPublicListModules } from '@/api/fetchers'
@@ -212,7 +214,7 @@ const Dropdown = ({
         {({ open }) => (
             <>
                 <Disclosure.Button
-                    className={`group bg-pzh-pink-100/10 text-pzh-pink-900 flex w-full items-center justify-between px-5 py-3 font-bold transition-colors duration-200 ease-in not-first:mt-2 ${
+                    className={`group flex w-full items-center justify-between bg-pzh-pink-100/10 px-5 py-3 font-bold text-pzh-pink-900 transition-colors duration-200 ease-in not-first:mt-2 ${
                         open ? 'rounded-t-md' : 'rounded-md'
                     }`}>
                     <Heading
@@ -230,7 +232,7 @@ const Dropdown = ({
                         }`}
                     />
                 </Disclosure.Button>
-                <Disclosure.Panel className="bg-pzh-pink-100/10 text-pzh-blue-900 rounded-b-md px-5 pb-3">
+                <Disclosure.Panel className="rounded-b-md bg-pzh-pink-100/10 px-5 pb-3 text-pzh-blue-900">
                     {panelText}
                 </Disclosure.Panel>
             </>

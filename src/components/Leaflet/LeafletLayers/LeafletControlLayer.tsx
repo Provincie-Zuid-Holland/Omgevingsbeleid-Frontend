@@ -1,7 +1,9 @@
-import { Transition } from '@headlessui/react'
-import { AngleRight, LayerGroupLight } from '@pzh-ui/icons'
-import { useUpdateEffect } from '@react-hookz/web'
 import { ReactNode, useState } from 'react'
+
+import { AngleRight, LayerGroupLight } from '@pzh-ui/icons'
+
+import { Transition } from '@headlessui/react'
+import { useUpdateEffect } from '@react-hookz/web'
 import { LayersControl, TileLayer, useMap } from 'react-leaflet'
 
 import { tileURL } from '@/constants/leaflet'
@@ -31,7 +33,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                 <div className="leaflet-layers-control">
                     <div className="flex">
                         <button
-                            className={`leaflet-layers bg-pzh-white absolute top-0 right-0 z-[11] flex h-8 w-8 items-center justify-center p-2 ${
+                            className={`leaflet-layers absolute top-0 right-0 z-[11] flex h-8 w-8 items-center justify-center bg-pzh-white p-2 ${
                                 layerControlOpen ? 'hidden' : ''
                             }`}
                             onClick={() =>
@@ -62,7 +64,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                             leaveTo="transform translate-x-64 opacity-0">
                             <div className="leaflet-control-layer-container relative">
                                 <button
-                                    className="bg-pzh-gray-100 text-pzh-gray-700 absolute top-0 left-0 z-[11] mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l p-2 opacity-100 hover:text-gray-800"
+                                    className="hover:text-gray-800 absolute top-0 left-0 z-[11] mr-8 flex h-8 w-8 -translate-x-8 transform items-center justify-center rounded-l bg-pzh-gray-100 p-2 text-pzh-gray-700 opacity-100"
                                     onClick={() =>
                                         setLayerControlOpen(!layerControlOpen)
                                     }
@@ -70,7 +72,7 @@ const LeafletControlLayer = ({ children }: LeafletLayerProps) => {
                                     <AngleRight size={16} />
                                 </button>
                                 <div
-                                    className="bg-pzh-white shadow-pane relative z-[10] h-[500px] w-[375px] max-w-full overflow-y-auto"
+                                    className="relative z-[10] h-[500px] w-[375px] max-w-full overflow-y-auto bg-pzh-white shadow-pane"
                                     data-testid="leaflet-layers-control-pane">
                                     <div className="w-full">{children}</div>
                                 </div>

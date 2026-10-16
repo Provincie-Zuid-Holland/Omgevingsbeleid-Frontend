@@ -1,6 +1,8 @@
-import { MagnifyingGlass } from '@pzh-ui/icons'
-import { ControlPosition, Marker } from 'leaflet'
 import { useState } from 'react'
+
+import { MagnifyingGlass } from '@pzh-ui/icons'
+
+import { ControlPosition, Marker } from 'leaflet'
 import { useMap } from 'react-leaflet'
 
 import { LeafletSearchInput } from '..'
@@ -35,10 +37,12 @@ const LeafletSearch = ({ position = 'topleft' }: LeafletSearchProps) => {
 
     return (
         <LeafletController position={position}>
-            <div className="leaflet-search relative z-[1] flex items-center justify-between h-8 bg-pzh-white cursor-pointer">
+            <div className="leaflet-search relative z-[1] flex h-8 cursor-pointer items-center justify-between bg-pzh-white">
                 <div
-                    className={`w-8 h-8 flex justify-center items-center ${
-                        showLeafletSearch ? 'border-r border-pzh-gray-300' : null
+                    className={`flex h-8 w-8 items-center justify-center ${
+                        showLeafletSearch
+                            ? 'border-r border-pzh-gray-300'
+                            : null
                     }`}
                     onClick={toggleLeafletSearch}>
                     <MagnifyingGlass

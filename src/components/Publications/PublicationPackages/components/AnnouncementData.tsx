@@ -1,6 +1,7 @@
+import { useMemo } from 'react'
+
 import { Button, cn, Text } from '@pzh-ui/components'
 import { Check } from '@pzh-ui/icons'
-import { useMemo } from 'react'
 
 import { usePublicationAnnouncementPackagesGetListAnnouncementPackages } from '@/api/fetchers'
 import {
@@ -50,7 +51,7 @@ const AnnouncementData = ({
     )
 
     return (
-        <div className="border-pzh-gray-200 grid grid-cols-12 border-b">
+        <div className="grid grid-cols-12 border-b border-pzh-gray-200">
             <div className="col-span-3 p-6 pt-9">
                 <Text
                     bold
@@ -64,7 +65,7 @@ const AnnouncementData = ({
             <div className="col-span-9 px-6 py-4">
                 <div
                     className={cn(
-                        'border-pzh-gray-200 bg-pzh-white rounded-lg border',
+                        'rounded-lg border border-pzh-gray-200 bg-pzh-white',
                         {
                             'bg-pzh-gray-100': isLocked && !isSucceeded,
                         }

@@ -1,14 +1,16 @@
+import { useEffect, useState } from 'react'
+
 import { Heading } from '@pzh-ui/components'
 import { AngleRight, Bars, Xmark } from '@pzh-ui/icons'
+
+import { FocusTrap } from '@headlessui/react'
 import { useKeyboardEvent, useWindowSize } from '@react-hookz/web'
 import classNames from 'clsx'
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { menuGroups } from '@/constants/menu'
 import useBreakpoint from '@/hooks/useBreakpoint'
 
-import { FocusTrap } from '@headlessui/react'
 import { Container } from '../Container'
 import SearchBar from '../SearchBar'
 
@@ -63,7 +65,7 @@ const NavigationPopupMenu = ({
                 <div className="fixed right-0 bottom-0 z-50">
                     <button
                         type="button"
-                        className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
+                        className="flex cursor-pointer items-center justify-center bg-pzh-blue-900 p-8 text-pzh-white"
                         aria-label="Menu"
                         onClick={() => setIsOpen(true)}>
                         <Bars
@@ -85,7 +87,7 @@ const NavigationPopupMenu = ({
 
                     <nav
                         id="popup-menu"
-                        className="bg-pzh-white absolute top-24 left-0 z-[10] w-full pb-8"
+                        className="absolute top-24 left-0 z-[10] w-full bg-pzh-white pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"
@@ -108,7 +110,7 @@ const NavigationPopupMenu = ({
                                         <Link
                                             to={group.to}
                                             onClick={() => setIsOpen(false)}
-                                            className="group hover:text-pzh-green-500 flex items-center gap-1">
+                                            className="group flex items-center gap-1 hover:text-pzh-green-500">
                                             <Heading
                                                 level="3"
                                                 size="m"
@@ -145,7 +147,7 @@ const NavigationPopupMenu = ({
                         <div className="fixed right-0 bottom-0 z-50">
                             <button
                                 type="button"
-                                className="bg-pzh-blue-900 text-pzh-white flex cursor-pointer items-center justify-center p-8"
+                                className="flex cursor-pointer items-center justify-center bg-pzh-blue-900 p-8 text-pzh-white"
                                 aria-label="Menu"
                                 onClick={() => setIsOpen(false)}>
                                 <Xmark

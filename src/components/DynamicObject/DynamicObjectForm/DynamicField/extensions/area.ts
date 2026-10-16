@@ -7,8 +7,7 @@ export const AREA_DATA_ATTRS = {
 
 type AreaAttributes = {
     [key in (typeof AREA_DATA_ATTRS)[keyof typeof AREA_DATA_ATTRS]]:
-        | string
-        | string[]
+        string | string[]
 }
 
 declare module '@tiptap/core' {
