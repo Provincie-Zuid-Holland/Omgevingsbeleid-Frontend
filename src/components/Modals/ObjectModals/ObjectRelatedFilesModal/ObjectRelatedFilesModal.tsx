@@ -58,9 +58,9 @@ const ObjectRelatedFilesModal = ({
     const { objectId } = useParams()
     const lineageId = Number(objectId)
 
-    const { canCreateModule, canPatchObjectInModule } = usePermissions()
+    const { canCreateObjectRelatedFile } = usePermissions()
     const { isOwner, queryKey, data: objectData } = useObject()
-    const userCanEdit = (canPatchObjectInModule && isOwner) || canCreateModule
+    const userCanEdit = canCreateObjectRelatedFile || isOwner || false
 
     const activeModal = useModalStore(state => state.activeModal)
     const setActiveModal = useModalStore(state => state.setActiveModal)

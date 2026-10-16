@@ -1,3 +1,7 @@
+import { useMemo, useState } from 'react'
+
+import { PenToSquare, Plus } from '@pzh-ui/icons'
+
 import Indicator from '@/components/Indicator'
 import ObjectRelatedFilesModal from '@/components/Modals/ObjectModals/ObjectRelatedFilesModal'
 import { ObjectRelatedFilesModalActions } from '@/components/Modals/ObjectModals/types'
@@ -5,15 +9,13 @@ import { Model } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
 import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
-import { PenToSquare, Plus } from '@pzh-ui/icons'
-import { useMemo, useState } from 'react'
 
 interface ObjectRelatedFilesProps {
     model: Model
 }
 
 const ObjectRelatedFiles = ({ model }: ObjectRelatedFilesProps) => {
-    const { canCreateModule, canPatchObjectInModule } = usePermissions()
+    const { canCreateObjectRelatedFile } = usePermissions()
     const { isOwner, data: objectData } = useObject()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -23,8 +25,8 @@ const ObjectRelatedFiles = ({ model }: ObjectRelatedFilesProps) => {
     })
 
     const userCanEdit = useMemo(
-        () => (canPatchObjectInModule && isOwner) || canCreateModule,
-        [canPatchObjectInModule, isOwner, canCreateModule]
+        () => canCreateObjectRelatedFile || isOwner,
+        [canCreateObjectRelatedFile, isOwner]
     )
 
     const amount = objectData?.Related_Files?.length ?? 0
@@ -36,7 +38,7 @@ const ObjectRelatedFiles = ({ model }: ObjectRelatedFilesProps) => {
 
     return (
         <>
-            <div className="border-pzh-gray-300 relative mt-4 flex items-center justify-between border-b pb-4">
+            <div className="relative mt-4 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
                 <div className="flex items-center">
                     <Indicator amount={amount} />
                     <span className="ml-3">Gerelateerde bestanden</span>
@@ -55,7 +57,7 @@ const ObjectRelatedFiles = ({ model }: ObjectRelatedFilesProps) => {
                     className="after:content-[' '] after:absolute after:top-0 after:left-0 after:h-full after:w-full">
                     {userCanEdit &&
                         (amount === 0 ? (
-                            <div className="bg-pzh-green-500 flex h-[18px] w-[18px] items-center justify-center rounded-full">
+                            <div className="flex h-4.5 w-4.5 items-center justify-center rounded-full bg-pzh-green-500">
                                 <Plus size={14} className="text-pzh-white" />
                             </div>
                         ) : (
