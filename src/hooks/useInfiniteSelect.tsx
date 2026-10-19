@@ -136,9 +136,14 @@ export const useInfiniteSelectComponents = ({
                             },
                             props.getClassNames('menuList', props)
                         )}
-                        style={
-                            props.getStyles('menuList', props) as CSSProperties
-                        }>
+                        style={{
+                            ...(props.getStyles(
+                                'menuList',
+                                props
+                            ) as CSSProperties),
+                            // Keep appended options from anchoring the scroll to the loader.
+                            overflowAnchor: 'none',
+                        }}>
                         {props.children}
                         <div
                             ref={loadMoreRef}
