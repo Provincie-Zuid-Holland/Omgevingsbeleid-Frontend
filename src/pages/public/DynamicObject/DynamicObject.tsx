@@ -261,21 +261,24 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         />
                     </div>
 
-                    <div
-                        className={classNames('order-7', {
-                            'line-through': isTerminate,
-                        })}>
-                        <ObjectArea
-                            model={model}
-                            objectTitle={data.Title}
-                            area={data.Gebiedengroep_Static}
-                        />
-                    </div>
+                    {'Gebiedengroep_Static' in data && (
+                        <div
+                            className={classNames('order-7', {
+                                'line-through': isTerminate,
+                            })}>
+                            <ObjectArea
+                                model={model}
+                                objectTitle={data.Title}
+                                area={data.Gebiedengroep_Static}
+                            />
+                        </div>
+                    )}
 
                     {!!model.allowedConnections && (
                         <div
-                            className={classNames('order-8 mt-4 md:mt-8', {
+                            className={classNames('order-8', {
                                 'line-through': isTerminate,
+                                'mt-4 md:mt-8': 'Gebiedengroep_Static' in data,
                             })}>
                             <ObjectConnectionsPublic
                                 model={model}
