@@ -70,6 +70,8 @@ const DynamicObjectSearch = ({
 
     const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
 
+    const [selectedOptions, setSelectedOptions] =
+        useState<Option[]>(initialOptions)
     const [inputValue, setInputValue] = useState('')
     const [searchTerm, setSearchTerm] = useState('')
 
@@ -201,6 +203,9 @@ const DynamicObjectSearch = ({
     const handleSuggestions = debounce(loadSuggestions, 500)
 
     const handleChange = (val?: Option | Option[] | null) => {
+        if (infiniteScroll) {
+            setSelectedOptions(Array.isArray(val) ? val : val ? [val] : [])
+        }
         setFieldValue(
             fieldName || objectKey,
             rest.isMulti && Array.isArray(val)
@@ -243,12 +248,20 @@ const DynamicObjectSearch = ({
             {...(infiniteScroll && {
                 optimized: false,
                 isAsync: false,
-                options: pagedOptions || [],
+                options: [
+                    ...(pagedOptions || []),
+                    ...selectedOptions.filter(
+                        selected =>
+                            !pagedOptions?.some(
+                                option => option.value === selected.value
+                            )
+                    ),
+                ],
                 inputValue,
                 filterOption: () => true,
                 isLoading: isFetching || inputValue !== searchTerm,
-                onInputChange: (value, { action }) => {
-                    if (action === 'input-change') setInputValue(value)
+                onInputChange: value => {
+                    setInputValue(value)
                     return value
                 },
                 onMenuScrollToBottom: () => {
