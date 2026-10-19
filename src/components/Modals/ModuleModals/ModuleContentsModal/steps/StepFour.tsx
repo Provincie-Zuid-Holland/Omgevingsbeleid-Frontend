@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom'
 import {
     modulesGetListModuleObjects,
     modulesGetListModules,
-    useObjectsDoListAllLatest,
+    objectsDoListAllLatest,
 } from '@/api/fetchers'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
@@ -23,6 +23,8 @@ import {
 
 import { ContentsModalForm } from '../ModuleContentsModal'
 import { StepProps } from './types'
+
+const PAGE_LIMIT = 100
 
 export const StepFour = ({ setExistingObject }: StepProps) => {
     const { moduleId } = useParams()
@@ -54,43 +56,50 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                         ? `%${moduleFilter}%`
                         : undefined,
                     offset,
-                    limit: 100,
+                    limit: PAGE_LIMIT,
                 },
                 signal
             ),
     })
 
-    const { data: validObjects, isFetching: validIsFetching } =
-        useObjectsDoListAllLatest(
-            {
-                limit: 500,
-                sort_column: 'Title',
-                sort_order: 'ASC',
-                object_types: availableTypes,
-            },
-            {
-                query: {
-                    enabled:
-                        !!values.validOrModule &&
-                        values.validOrModule === 'valid',
-                    select: data =>
-                        data.results.map(object => ({
-                            label: (
-                                <div className="flex justify-between gap-4">
-                                    <span className="truncate">
-                                        {object.Model.Title}
-                                    </span>
-                                    <span className="whitespace-nowrap capitalize opacity-50">
-                                        {object.Object_Type.replace('_', ' ')}
-                                    </span>
-                                </div>
-                            ),
-                            value: object.Model.UUID,
-                            objectContext: object,
-                        })),
+    const {
+        data: validObjectPages,
+        fetchNextPage: fetchNextValidObjects,
+        hasNextPage: hasNextValidObjects,
+        isFetching: validIsFetching,
+        isFetchingNextPage: isFetchingNextValidObjects,
+    } = useInfiniteSelectQuery({
+        queryKey: ['module-contents-valid-objects', availableTypes],
+        queryFn: (offset, signal) =>
+            objectsDoListAllLatest(
+                {
+                    offset,
+                    limit: PAGE_LIMIT,
+                    sort_column: 'Title',
+                    sort_order: 'ASC',
+                    object_types: availableTypes,
                 },
-            }
-        )
+                signal
+            ),
+        enabled: values.validOrModule === 'valid',
+    })
+
+    const validObjects = useStableInfiniteOptions({
+        pages: validObjectPages?.pages,
+        getKey: object => object.Model.UUID as string,
+        toOption: object => ({
+            label: (
+                <div className="flex justify-between gap-4">
+                    <span className="truncate">{object.Model.Title}</span>
+                    <span className="whitespace-nowrap capitalize opacity-50">
+                        {object.Object_Type.replace('_', ' ')}
+                    </span>
+                </div>
+            ),
+            value: object.Model.UUID,
+            objectContext: object,
+        }),
+    })
 
     const {
         data: moduleObjectPages,
@@ -112,7 +121,7 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                         ? `%${moduleObjectFilter}%`
                         : undefined,
                     offset,
-                    limit: 100,
+                    limit: PAGE_LIMIT,
                 },
                 signal
             ),
@@ -173,9 +182,18 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
     })
 
     const moduleObjectSelectComponents = useInfiniteSelectComponents({
-        fetchNextPage: fetchNextModuleObjects,
-        hasNextPage: values.validOrModule !== 'valid' && hasNextModuleObjects,
-        isFetchingNextPage: isFetchingNextModuleObjects,
+        fetchNextPage:
+            values.validOrModule === 'valid'
+                ? fetchNextValidObjects
+                : fetchNextModuleObjects,
+        hasNextPage:
+            values.validOrModule === 'valid'
+                ? hasNextValidObjects
+                : hasNextModuleObjects,
+        isFetchingNextPage:
+            values.validOrModule === 'valid'
+                ? isFetchingNextValidObjects
+                : isFetchingNextModuleObjects,
     })
 
     /**
