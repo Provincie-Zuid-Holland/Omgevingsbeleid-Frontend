@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { Badge, BadgeProps, Button, formatDate, Text } from '@pzh-ui/components'
 import {
     ArrowDownToLine,
@@ -5,13 +7,14 @@ import {
     Check,
     EyeLight,
 } from '@pzh-ui/icons'
-import { useMemo } from 'react'
+
+import { useNavigate } from 'react-router-dom'
 
 import { PackageType, PublicationPackage } from '@/api/fetchers.schemas'
+import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
-
 import { parseUtc } from '@/utils/parseUtc'
-import { useNavigate } from 'react-router-dom'
+
 import { PublicationType } from '../../types'
 import { useActions } from './actions'
 import { getIndicatorClass, getPackageStatus } from './utils'
@@ -42,6 +45,11 @@ const Package = ({
 }: PackageProps) => {
     const navigate = useNavigate()
     const setActiveModal = useModalStore(state => state.setActiveModal)
+
+    const {
+        canUploadPublicationActPackageReport,
+        canUploadPublicationAnnouncementPackageReport,
+    } = usePermissions()
 
     const { downloadPackage } = useActions({
         publicationType,
@@ -77,8 +85,15 @@ const Package = ({
         [Report_Status]
     )
 
+    const canUploadReports =
+        !isLocked &&
+        canPublicate &&
+        (publicationType === 'act'
+            ? canUploadPublicationActPackageReport
+            : canUploadPublicationAnnouncementPackageReport)
+
     return (
-        <div className="border-pzh-gray-200 flex items-center justify-between border-b px-6 py-3 last:border-b-0">
+        <div className="flex items-center justify-between border-b border-pzh-gray-200 px-6 py-3 last:border-b-0">
             <div className="flex items-center gap-4">
                 <div className={indicatorClass}>
                     {Report_Status !== 'pending' && (
@@ -95,7 +110,7 @@ const Package = ({
                     {status && <Badge solid upperCase={false} {...status} />}
                 </div>
             </div>
-            {!!!Zip.Latest_Download_Date ? (
+            {!Zip.Latest_Download_Date ? (
                 <Button
                     size="small"
                     variant="cta"
@@ -108,7 +123,7 @@ const Package = ({
                 <div className="flex items-center gap-4">
                     <div>
                         <Text size="s">Gedownload op {downloadDate}</Text>
-                        {!isLocked && canPublicate && (
+                        {canUploadReports && (
                             <Button
                                 variant="default"
                                 className="group/upload flex items-center gap-2"
@@ -135,7 +150,7 @@ const Package = ({
 
                                 <ArrowUpRightFromSquareLight
                                     size={14}
-                                    className="text-pzh-green-500 -mt-0.5"
+                                    className="-mt-0.5 text-pzh-green-500"
                                 />
                             </Button>
                         )}

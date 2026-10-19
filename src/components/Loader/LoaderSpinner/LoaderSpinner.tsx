@@ -6,7 +6,7 @@ import { Spinner } from '@pzh-ui/icons'
 function LoaderSpinner({ className = '' }) {
     return (
         <Spinner
-            className={`animate-spin inline-block ${className}`}
+            className={`inline-block animate-spin ${className}`}
             data-testid="loader-spinner"
         />
     )

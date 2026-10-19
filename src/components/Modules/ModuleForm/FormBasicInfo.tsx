@@ -1,6 +1,8 @@
-import { FormikInput, FormikSelect, FormikTextArea } from '@pzh-ui/components'
-import { useFormikContext } from 'formik'
 import { useMemo } from 'react'
+
+import { FormikInput, FormikSelect, FormikTextArea } from '@pzh-ui/components'
+
+import { useFormikContext } from 'formik'
 
 import { useUserGetListUsers } from '@/api/fetchers'
 import { ModuleCreate } from '@/api/fetchers.schemas'
@@ -16,7 +18,7 @@ const FormBasicInfo = () => {
     } = useUserGetListUsers({ limit: 500 })
 
     const allowedUserRoles: Role[] = [
-        'Functioneel beheerder',
+        'Regisseur Omgevingsbeleid',
         'Behandelend Ambtenaar',
         'Ambtelijk opdrachtgever',
     ]
@@ -27,7 +29,9 @@ const FormBasicInfo = () => {
     const userOptions1 = useMemo(
         () =>
             users?.results
-                .filter(user => allowedUserRoles.includes(user.Rol))
+                .filter(user =>
+                    user.Roles?.some(role => allowedUserRoles.includes(role))
+                )
                 .filter(user => user.UUID !== values.Module_Manager_2_UUID)
                 .map(user => ({
                     label: user.Gebruikersnaam,
@@ -39,7 +43,9 @@ const FormBasicInfo = () => {
     const userOptions2 = useMemo(
         () =>
             users?.results
-                .filter(user => allowedUserRoles.includes(user.Rol))
+                .filter(user =>
+                    user.Roles?.some(role => allowedUserRoles.includes(role))
+                )
                 .filter(user => user.UUID !== values.Module_Manager_1_UUID)
                 .map(user => ({
                     label: user.Gebruikersnaam,

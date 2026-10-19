@@ -1,3 +1,8 @@
+import { Button, Text } from '@pzh-ui/components'
+
+import { useQueryClient } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
+
 import {
     getPublicationVersionsGetListAttachmentsQueryKey,
     usePublicationVersionsPostDeleteAttachment,
@@ -6,9 +11,7 @@ import Modal from '@/components/Modal'
 import { ModalFooter } from '@/components/Modal/Modal'
 import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
-import { Button, Text } from '@pzh-ui/components'
-import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+
 import { ModalStateMap } from '../../types'
 
 const PublicationAttachmentDeleteModal = () => {
@@ -58,7 +61,7 @@ const PublicationAttachmentDeleteModal = () => {
                     variant="link"
                     type="button"
                     onPress={() => setActiveModal(null)}
-                    className="text-pzh-blue-500 mr-3">
+                    className="mr-3 text-pzh-blue-500">
                     Annuleren
                 </Button>
                 <Button

@@ -1,5 +1,7 @@
-import { Heading, Text } from '@pzh-ui/components'
 import { useMemo } from 'react'
+
+import { Heading, Text } from '@pzh-ui/components'
+
 import { useShallow } from 'zustand/react/shallow'
 
 import * as sections from '@/config/regulations/sections'

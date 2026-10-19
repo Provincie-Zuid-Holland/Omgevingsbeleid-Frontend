@@ -1,4 +1,4 @@
-import { ZodIssueCode, object, string } from 'zod'
+import { object, string, ZodIssueCode } from 'zod'
 
 const noLeadingOrTrailingSpaces = (value: string) => value === value.trim()
 

@@ -1,14 +1,17 @@
+import { useRef, useState } from 'react'
+
 import { Button } from '@pzh-ui/components'
+
 import { useUpdateEffect } from '@react-hookz/web'
 import { useQueryClient } from '@tanstack/react-query'
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik'
-import { useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import { ReadRelation, WriteRelation } from '@/api/fetchers.schemas'
 import { LoaderSpinner } from '@/components/Loader'
 import Modal from '@/components/Modal'
+import { ModalFooter } from '@/components/Modal/Modal'
 import { ObjectConnectionModalActions } from '@/components/Modals/ObjectModals/types'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useObject from '@/hooks/useObject'
@@ -16,7 +19,6 @@ import useModalStore from '@/store/modalStore'
 import { toastNotification } from '@/utils/toastNotification'
 import * as objectConnection from '@/validation/objectConnection'
 
-import { ModalFooter } from '@/components/Modal/Modal'
 import { StepFour, StepOne, StepThree, StepTwo } from './steps'
 
 const steps = [StepOne, StepTwo, StepThree, StepFour]
@@ -68,7 +70,7 @@ const ObjectConnectionModal = ({
      */
     const handleFormSubmit = (
         payload: WriteRelation | { items?: { value: number; label: string }[] }
-    ) => {
+    ) =>
         refetchRelations?.().then(({ data, isSuccess }) => {
             if (isSuccess && !!data) {
                 let newData = data as WriteRelation[]
@@ -113,7 +115,6 @@ const ObjectConnectionModal = ({
                 }).then(() => setActiveModal(null))
             }
         })
-    }
 
     /**
      * Handle delete connection
@@ -165,8 +166,7 @@ const ObjectConnectionModal = ({
 }
 
 type ConnectionPayload =
-    | WriteRelation
-    | { items?: { value: number; label: string }[] }
+    WriteRelation | { items?: { value: number; label: string }[] }
 
 interface ConnectionModalProps extends ObjectConnectionModalProps {
     isFetching?: boolean
@@ -238,9 +238,8 @@ export const ConnectionModal = ({
         } else if (isDeleteStep && 'Object_ID' in payload) {
             handleDeleteConnection(payload)
         } else {
-            setStep(step + 1)
-            helpers.setTouched({})
-            helpers.setSubmitting(false)
+            helpers.resetForm({ values: payload })
+            setStep(currentStep => currentStep + 1)
         }
     }
 
@@ -251,7 +250,7 @@ export const ConnectionModal = ({
             hideTitle
             onClose={handleClose}>
             {isFetching && (
-                <div className="bg-pzh-black/20 absolute top-0 left-0 flex h-full w-full items-center justify-center">
+                <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-pzh-black/20">
                     <LoaderSpinner />
                 </div>
             )}
