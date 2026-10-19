@@ -1,17 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
 
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
+import { useParams } from 'react-router-dom'
 
 import { searchGetSearch } from '@/api/fetchers'
 import {
     RequestData,
     SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
 } from '@/api/fetchers.schemas'
-import { useParams } from 'react-router-dom'
+import {
+    useInfiniteSelectComponents,
+    useInfiniteSelectQuery,
+    useStableInfiniteOptions,
+} from '@/hooks/useInfiniteSelect'
 
 export type Option = {
     label: React.JSX.Element
@@ -41,6 +46,10 @@ export interface DynamicObjectSearchProps extends Omit<
     filterOnModule?: boolean
     /** Initial options  */
     initialOptions?: Option[]
+    /** Number of results to load before a search term is entered */
+    initialLimit?: number
+    /** Load additional result pages while scrolling */
+    infiniteScroll?: boolean
 }
 
 const DynamicObjectSearch = ({
@@ -52,12 +61,99 @@ const DynamicObjectSearch = ({
     filterParams,
     filterOnModule,
     initialOptions = [],
+    initialLimit = 50,
+    infiniteScroll = true,
     ...rest
 }: DynamicObjectSearchProps) => {
     const { moduleId } = useParams()
     const { setFieldValue } = useFormikContext()
 
     const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
+
+    const [inputValue, setInputValue] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setSearchTerm(inputValue), 500)
+        return () => clearTimeout(timeout)
+    }, [inputValue])
+
+    const toOption = (
+        object: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+    ) => ({
+        label: (
+            <div className="flex justify-between gap-4">
+                <span>
+                    {object.Model.Title}
+
+                    {'Module_ID' in object && object.Module_ID && (
+                        <span className="italic"> (nog niet vigerend)</span>
+                    )}
+                </span>
+                <span className="capitalize opacity-50">
+                    {object.Object_Type.replace('_', ' ')}
+                </span>
+            </div>
+        ),
+        value:
+            objectKey === 'Object_UUID'
+                ? object.Model.UUID
+                : objectKey === 'Object_Code'
+                  ? object.Model.Code
+                  : object.Model.Object_ID,
+        object,
+    })
+
+    const { data, fetchNextPage, hasNextPage, isFetching } =
+        useInfiniteSelectQuery({
+            queryKey: [
+                'dynamic-object-search',
+                searchTerm,
+                filterParams,
+                filterOnModule ? moduleId : undefined,
+                initialLimit,
+            ],
+            queryFn: (offset, signal) =>
+                searchGetSearch(
+                    {
+                        query: `%${searchTerm}%`,
+                        ...filterParams,
+                        ...(filterOnModule &&
+                            moduleId && { module_id: parseInt(moduleId) }),
+                    },
+                    { offset, limit: initialLimit },
+                    signal
+                ),
+            enabled:
+                infiniteScroll &&
+                !rest.isDisabled &&
+                !rest.disabled &&
+                (!!rest.defaultOptions || !!searchTerm),
+        })
+
+    const pagedOptions = useStableInfiniteOptions({
+        pages: data?.pages,
+        getKey: object => object.Model.UUID as string,
+        includeItem: object => {
+            if (!filter) return true
+            const value =
+                objectKey === 'Object_UUID'
+                    ? object.Model.UUID
+                    : object.Model.Object_ID
+            return Array.isArray(filter)
+                ? !(filter as (string | number)[]).includes(
+                      value as string | number
+                  )
+                : value !== filter
+        },
+        toOption,
+    })
+
+    const infiniteComponents = useInfiniteSelectComponents({
+        fetchNextPage,
+        hasNextPage: hasNextPage && inputValue === searchTerm,
+        isFetchingNextPage: isFetching,
+    })
 
     const loadSuggestions = (
         query: string,
@@ -70,7 +166,7 @@ const DynamicObjectSearch = ({
                 ...(filterOnModule &&
                     moduleId && { module_id: parseInt(moduleId) }),
             },
-            { limit: 50 }
+            { limit: query ? 50 : initialLimit }
         )
             .then(data => {
                 let filteredObject = data.results
@@ -91,37 +187,7 @@ const DynamicObjectSearch = ({
                     )
                 }
 
-                const options = filteredObject.map(
-                    (
-                        object: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
-                    ) => ({
-                        label: (
-                            <div className="flex justify-between gap-4">
-                                <span>
-                                    {object.Model.Title}
-
-                                    {'Module_ID' in object &&
-                                        object.Module_ID && (
-                                            <span className="italic">
-                                                {' '}
-                                                (nog niet vigerend)
-                                            </span>
-                                        )}
-                                </span>
-                                <span className="capitalize opacity-50">
-                                    {object.Object_Type.replace('_', ' ')}
-                                </span>
-                            </div>
-                        ),
-                        value:
-                            objectKey === 'Object_UUID'
-                                ? object.Model.UUID
-                                : objectKey === 'Object_Code'
-                                  ? object.Model.Code
-                                  : object.Model.Object_ID,
-                        object,
-                    })
-                )
+                const options = filteredObject.map(toOption)
 
                 callback(options)
                 setOptionsState([...options, ...optionsState])
@@ -174,6 +240,31 @@ const DynamicObjectSearch = ({
                 options: optionsState,
             })}
             {...rest}
+            {...(infiniteScroll && {
+                optimized: false,
+                isAsync: false,
+                options: pagedOptions || [],
+                inputValue,
+                filterOption: () => true,
+                isLoading: isFetching || inputValue !== searchTerm,
+                onInputChange: (value, { action }) => {
+                    if (action === 'input-change') setInputValue(value)
+                    return value
+                },
+                onMenuScrollToBottom: () => {
+                    if (
+                        hasNextPage &&
+                        !isFetching &&
+                        inputValue === searchTerm
+                    ) {
+                        fetchNextPage()
+                    }
+                },
+                components: {
+                    ...infiniteComponents,
+                    ...rest.components,
+                },
+            })}
         />
     )
 }
