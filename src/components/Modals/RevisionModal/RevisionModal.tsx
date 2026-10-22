@@ -1,15 +1,17 @@
+import { useMemo, useState } from 'react'
+
 import {
     Button,
     Divider,
     FieldCheckbox,
     FieldSelect,
+    getHeadingStyles,
     Heading,
     Text,
-    getHeadingStyles,
 } from '@pzh-ui/components'
+
 import { useUpdateEffect } from '@react-hookz/web'
 import classNames from 'clsx'
-import { useMemo, useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import ObjectContent from '@/components/DynamicObject/ObjectContent'
@@ -101,8 +103,7 @@ const RevisionModal = ({
         const option = options?.find(option => option.value === e.value)
         const isDraft = !!(
             revisions?.find(r => r.UUID === e.value) as
-                | (ModelReturnType & { isRevision?: boolean })
-                | undefined
+                (ModelReturnType & { isRevision?: boolean }) | undefined
         )?.isRevision
 
         if (type === 'from') {
@@ -163,7 +164,7 @@ const RevisionModal = ({
                 <Heading size="s">{singularCapitalize}</Heading>
                 <h2
                     className={classNames(
-                        'text-pzh-blue-500 mb-4',
+                        'mb-4 text-pzh-blue-500',
                         getHeadingStyles('l')
                     )}>
                     {revisionFrom.Title}
@@ -227,7 +228,10 @@ const RevisionModal = ({
             <Divider className="my-4" />
 
             <div className="inline-block min-h-[120px]">
-                {revisionFromFetching || revisionToFetching || draftFromFetching || draftToFetching ? (
+                {revisionFromFetching ||
+                revisionToFetching ||
+                draftFromFetching ||
+                draftToFetching ? (
                     <LoaderSpinner />
                 ) : (
                     content

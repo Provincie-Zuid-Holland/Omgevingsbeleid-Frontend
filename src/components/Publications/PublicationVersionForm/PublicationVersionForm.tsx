@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react'
+
 import {
     Button,
     cn,
@@ -12,11 +14,21 @@ import {
     Text,
     Tooltip,
 } from '@pzh-ui/components'
+import {
+    ArrowUpRightFromSquare,
+    TrashCan,
+    TriangleExclamationSolid,
+} from '@pzh-ui/icons'
+
 import { useMountEffect } from '@react-hookz/web'
+import { useQuery } from '@tanstack/react-query'
 import { Form, Formik, FormikConfig, FormikProps, FormikValues } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { usePublicationVersionsGetListAttachments } from '@/api/fetchers'
+import {
+    getPublicationVersionsGetDownloadAttachmentQueryKey,
+    usePublicationVersionsGetListAttachments,
+} from '@/api/fetchers'
 import {
     AttachmentShort,
     HTTPValidationError,
@@ -29,10 +41,9 @@ import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import { usePrompt } from '@/hooks/usePrompt'
 import useModalStore from '@/store/modalStore'
 import { collectStringValues } from '@/utils/collectStringValues'
+import { downloadFile } from '@/utils/file'
 import handleError from '@/utils/handleError'
 import { parseUtc } from '@/utils/parseUtc'
-import { TrashCan, TriangleExclamationSolid } from '@pzh-ui/icons'
-import { useMemo, useState } from 'react'
 
 const DOCUMENT_REF = 'REF_BILL_PDF'
 
@@ -61,7 +72,6 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
     isSubmitting,
     isRequired,
     error,
-    errors,
     values,
     dirty,
     ...rest
@@ -195,7 +205,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     />
                 </div>
 
-                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                     <div>
                         <Text bold color="text-pzh-blue-500">
                             Documenten bij het besluit
@@ -227,7 +237,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
 
                 <Appendices />
 
-                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                     <Text>Procedureverloop</Text>
 
                     <div className="flex gap-4 [&_>div]:flex-1">
@@ -257,7 +267,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     </div>
                 </div>
 
-                <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+                <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
                     <Text>Juridische data</Text>
 
                     <div className="flex gap-4 [&_>div]:flex-1">
@@ -299,7 +309,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
 }
 
 const Articles = () => (
-    <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
         <Text bold color="text-pzh-blue-500">
             Artikelen
         </Text>
@@ -346,7 +356,7 @@ const Articles = () => (
 )
 
 const Appendices = () => (
-    <div className="bg-pzh-gray-100 flex flex-col gap-4 p-4">
+    <div className="flex flex-col gap-4 bg-pzh-gray-100 p-4">
         <div>
             <Text bold color="text-pzh-blue-500">
                 Bijlages bij het besluit
@@ -443,9 +453,12 @@ const Document = ({
     Created_Date,
     ID,
     Filename,
+    File_UUID,
     isUsed,
     ...rest
 }: AttachmentShort & { isUsed: boolean }) => {
+    const { versionUUID } = useParams()
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [copied, setCopied] = useState(false)
@@ -461,11 +474,25 @@ const Document = ({
         setTimeout(() => setCopied(false), 1800)
     }
 
+    const downloadDocument = useQuery({
+        queryKey: ['downloadAttachmentFile', File_UUID],
+        queryFn: () =>
+            downloadFile(
+                getPublicationVersionsGetDownloadAttachmentQueryKey(
+                    String(versionUUID),
+                    ID
+                )[0],
+                undefined,
+                true
+            ),
+        enabled: false,
+    })
+
     return (
         <div className="flex min-w-0 gap-2">
             <div
                 className={cn(
-                    'border-pzh-gray-600 bg-pzh-white flex min-w-0 flex-1 justify-between gap-2 rounded-sm border px-4 py-2',
+                    'flex min-w-0 flex-1 justify-between gap-4 rounded-sm border border-pzh-gray-600 bg-pzh-white px-4 py-2',
                     {
                         'border-pzh-yellow-500 bg-pzh-yellow-10': !isUsed,
                     }
@@ -473,18 +500,27 @@ const Document = ({
                 <div className="flex min-w-0 flex-1 items-center gap-4">
                     <Text
                         bold
-                        className="text-heading-xs border-pzh-gray-600 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border">
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pzh-gray-600 text-heading-xs">
                         {ID}
                     </Text>
 
-                    <div className="flex min-w-0 flex-1 items-center gap-1">
-                        <Text
-                            bold
-                            color="text-pzh-blue-500"
-                            className="text-heading-xs block truncate"
-                            title={Filename}>
-                            {Filename}
-                        </Text>
+                    <div className="flex min-w-0 items-center gap-4">
+                        <Button
+                            variant="default"
+                            onPress={() => downloadDocument.refetch()}
+                            className="flex min-w-0 flex-1 items-center">
+                            <Text
+                                bold
+                                color="text-pzh-blue-500"
+                                className="block truncate text-heading-xs underline"
+                                title={Filename}>
+                                {Filename}
+                            </Text>{' '}
+                            <ArrowUpRightFromSquare
+                                className="ml-1 min-w-3.5"
+                                size={14}
+                            />
+                        </Button>
                         {!isUsed && (
                             <Tooltip
                                 label={
@@ -495,7 +531,10 @@ const Document = ({
                                         tekstveld.
                                     </Text>
                                 }>
-                                <TriangleExclamationSolid className="min-w-4 cursor-help" />
+                                <TriangleExclamationSolid
+                                    className="min-w-4.5 cursor-help"
+                                    size={18}
+                                />
                             </Tooltip>
                         )}
                     </div>
@@ -508,7 +547,7 @@ const Document = ({
                         size="small"
                         variant={copied ? 'primary' : 'secondary'}
                         className={cn(
-                            'h-8 min-w-[105px] justify-center transition-all duration-200 active:scale-95',
+                            'h-8 min-w-26.25 justify-center transition-all duration-200 active:scale-95',
                             { 'scale-105': copied }
                         )}
                         onPress={copyClipboard}>
@@ -519,10 +558,16 @@ const Document = ({
 
             <Button
                 variant="default"
-                className="text-pzh-red-500 shrink-0"
+                className="shrink-0 text-pzh-red-500"
                 onPress={() =>
                     setActiveModal('publicationAttachmentDelete', {
-                        attachment: { Created_Date, ID, Filename, ...rest },
+                        attachment: {
+                            Created_Date,
+                            ID,
+                            Filename,
+                            File_UUID,
+                            ...rest,
+                        },
                     })
                 }>
                 <TrashCan />

@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { HttpResponse, http } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { getOmgevingsbeleidAPIMock } from '@/api/fetchers.msw'
 

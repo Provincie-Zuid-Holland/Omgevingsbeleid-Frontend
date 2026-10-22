@@ -1,5 +1,6 @@
-import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 import { useMemo } from 'react'
+
+import { PenToSquare, Plus, Spinner } from '@pzh-ui/icons'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
 import Indicator from '@/components/Indicator'
@@ -59,7 +60,7 @@ const ObjectConnectionPart = ({
     )
 
     return (
-        <div className="border-pzh-gray-300 relative mt-4 flex items-center justify-between border-b pb-4">
+        <div className="relative mt-4 flex items-center justify-between border-b border-pzh-gray-300 pb-4">
             <div className="flex items-center">
                 <Indicator amount={amount} />
                 <span className="ml-3">{model.defaults.pluralCapitalize}</span>
@@ -80,10 +81,10 @@ const ObjectConnectionPart = ({
                     (isLoading ? (
                         <Spinner
                             size={14}
-                            className="text-pzh-gray-600 animate-spin"
+                            className="animate-spin text-pzh-gray-600"
                         />
                     ) : amount === 0 ? (
-                        <div className="bg-pzh-green-500 flex h-[18px] w-[18px] items-center justify-center rounded-full">
+                        <div className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-pzh-green-500">
                             <Plus size={14} className="text-pzh-white" />
                         </div>
                     ) : (

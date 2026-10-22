@@ -1,4 +1,6 @@
 import { Heading, ListLink, Text } from '@pzh-ui/components'
+import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
+
 import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
@@ -9,7 +11,6 @@ import { LoaderSpinner } from '@/components/Loader'
 import PageHero from '@/components/PageHero'
 import model from '@/config/objects/visieAlgemeen'
 import imgEnvironmentProgram from '@/images/environment-program.webp'
-import { ArrowUpRightFromSquare } from '@pzh-ui/icons'
 
 const META = {
     title: 'Omgevingsvisie',
@@ -133,7 +134,7 @@ function EnvironmentVision() {
                         en worden vastgesteld in de Omgevingsvisie.
                     </Text>
                     <Link
-                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-4 block underline"
+                        className="mt-4 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsvisie/ambities">
                         Bekijk de ambities
                     </Link>
@@ -146,7 +147,7 @@ function EnvironmentVision() {
                         ambities en komen voort uit de begroting.
                     </Text>
                     <Link
-                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-4 block underline"
+                        className="mt-4 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsvisie/beleidsdoelen">
                         Bekijk de beleidsdoelen
                     </Link>
@@ -159,7 +160,7 @@ function EnvironmentVision() {
                         de beleidsdoelen en komen voort uit de Omgevingsvisie.
                     </Text>
                     <Link
-                        className="text-pzh-green-500 hover:text-pzh-green-900 mt-4 block underline"
+                        className="mt-4 block text-pzh-green-500 underline hover:text-pzh-green-900"
                         to="/omgevingsvisie/beleidskeuzes">
                         Bekijk de beleidskeuzes
                     </Link>

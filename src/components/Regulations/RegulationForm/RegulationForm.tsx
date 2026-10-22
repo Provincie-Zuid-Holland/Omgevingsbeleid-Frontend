@@ -6,6 +6,7 @@ import {
     PillButton,
 } from '@pzh-ui/components'
 import { Plus } from '@pzh-ui/icons'
+
 import {
     ArrayHelpers,
     FieldArray,
@@ -17,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useShallow } from 'zustand/react/shallow'
 
 import DropArea from '@/components/DropArea'
+import { ModalFooter } from '@/components/Modal/Modal'
 import * as contents from '@/config/regulations/contents'
 import { Section } from '@/config/regulations/sections/types'
 import { Structure } from '@/config/regulations/types'
@@ -26,7 +28,6 @@ import useRegulationStore from '@/store/regulationStore'
 import equalArrays from '@/utils/equalArrays'
 import handleViewTransition from '@/utils/handleViewTransition'
 
-import { ModalFooter } from '@/components/Modal/Modal'
 import RegulationField from './components/RegulationField'
 
 interface RegulationFormProps {
@@ -74,7 +75,7 @@ const RegulationForm = ({
 
                 {section.contents?.length && (
                     <>
-                        <Divider className="bg-pzh-gray-600 my-6" />
+                        <Divider className="my-6 bg-pzh-gray-600" />
                         <Heading level="3" size="m" color="text-pzh-blue-900">
                             Inhoud
                         </Heading>
@@ -136,7 +137,7 @@ const FormContents = ({ section }: Pick<RegulationFormProps, 'section'>) => {
                         return (
                             <div
                                 key={type + index}
-                                className="border-pzh-gray-300 relative border-b py-6">
+                                className="relative border-b border-pzh-gray-300 py-6">
                                 {showTopDropArea && draggingItem && (
                                     <DropArea
                                         position="top"

@@ -1,13 +1,15 @@
 import { useQueries } from '@tanstack/react-query'
 import Leaflet, { Layer } from 'leaflet'
+
 import 'leaflet.pattern'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+
 import { useMap } from 'react-leaflet'
 
 import { Feature, getGeoJsonData } from '@/api/axiosGeoJSON'
 import ToggleableSection from '@/components/ToggleableSection'
-import { useWerkingsgebied } from '@/hooks/useWerkingsgebied'
+import { useArea } from '@/hooks/useArea'
 import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
 import LeafletMap from '../LeafletMap'
 
@@ -49,7 +51,7 @@ const LeafletRevisionOverviewInner = ({
 
     const map = useMap()
 
-    const [werkingsgebied, setWerkingsgebied] = useState<FeatureLayer[]>([])
+    const [areaLayers, setAreaLayers] = useState<FeatureLayer[]>([])
     const layerRefs = useRef<{
         from?: Leaflet.GeoJSON | null
         to?: Leaflet.GeoJSON | null
@@ -58,8 +60,8 @@ const LeafletRevisionOverviewInner = ({
         to: null,
     })
 
-    const { Area_UUID: oldUUID } = useWerkingsgebied(area.old!) || {}
-    const { Area_UUID: newUUID } = useWerkingsgebied(area.new!) || {}
+    const { Source_UUID: oldUUID } = useArea(area.old!) || {}
+    const { Source_UUID: newUUID } = useArea(area.new!) || {}
 
     // store hatch patterns per map instance
     const patternRef = useRef<{
@@ -155,7 +157,7 @@ const LeafletRevisionOverviewInner = ({
             map.removeLayer(layerRefs.current.to)
         }
         layerRefs.current = { from: null, to: null }
-        setWerkingsgebied([])
+        setAreaLayers([])
 
         const mainData = {
             from: geoQueries[0]?.data,
@@ -241,7 +243,7 @@ const LeafletRevisionOverviewInner = ({
         const items: Layer[] = []
         layerRefs.current.from?.eachLayer((l: Layer) => items.push(l))
         layerRefs.current.to?.eachLayer((l: Layer) => items.push(l))
-        setWerkingsgebied(items)
+        setAreaLayers(items)
 
         return () => {
             if (
@@ -254,7 +256,7 @@ const LeafletRevisionOverviewInner = ({
                 map.removeLayer(layerRefs.current.to)
             }
             layerRefs.current = { from: null, to: null }
-            setWerkingsgebied([])
+            setAreaLayers([])
         }
     }, [map, area, oldUUID, newUUID, geoQueries[0]?.data, geoQueries[1]?.data])
 
@@ -268,7 +270,7 @@ const LeafletRevisionOverviewInner = ({
         <LeafletControlLayer>
             <ToggleableSection title="Legenda" positionTop>
                 <ul className="p-2">
-                    {werkingsgebied?.map(layer => (
+                    {areaLayers?.map(layer => (
                         <LeafletAreaLayer
                             key={
                                 layer?.feature?.id ?? Leaflet.Util.stamp(layer)

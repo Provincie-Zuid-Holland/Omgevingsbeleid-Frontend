@@ -1,33 +1,29 @@
 {
     "compilerOptions": {
-        "target": "ESNext",
-        "lib": ["dom", "dom.iterable", "esnext"],
+        "target": "ES2022",
+        "lib": ["DOM", "DOM.Iterable", "ES2022"],
+        "module": "Preserve",
+        "moduleResolution": "Bundler",
         "types": [
             "vite/client",
             "vite-plugin-svgr/client",
-            "node",
-            "vitest/globals"
+            "vitest/globals",
+            "@testing-library/jest-dom/vitest",
+            "node"
         ],
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": false,
-        "allowSyntheticDefaultImports": true,
         "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
-        "module": "ESNext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "noErrorTruncation": true,
+        "resolveJsonModule": true,
+        "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
         "paths": {
             "@public/*": ["./public/*"],
             "@/*": ["./src/*"]
         },
-        "incremental": true,
-        "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo/tsconfig.tsbuildinfo"
+        "incremental": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist", "build"]

@@ -1,4 +1,5 @@
 import { Text } from '@pzh-ui/components'
+
 import { useFormikContext } from 'formik'
 
 import { ReadRelation } from '@/api/fetchers.schemas'
@@ -37,7 +38,9 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
                 }}
                 objectKey="Object_ID"
                 filter={filter}
-                filterType={[singular]}
+                filterParams={{
+                    object_types: [singular],
+                }}
                 placeholder={`Zoek in de ${plural}`}
                 label={pluralCapitalize}
                 defaultValue={

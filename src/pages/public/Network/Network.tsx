@@ -1,4 +1,5 @@
 import { Heading, TabItem, Tabs, Text } from '@pzh-ui/components'
+
 import classNames from 'clsx'
 import { Helmet } from 'react-helmet-async'
 import { useShallow } from 'zustand/react/shallow'
@@ -34,7 +35,7 @@ const Network = () => {
                 <meta name="og:description" content={META.description} />
             </Helmet>
 
-            <Container className="pb-5 pt-4">
+            <Container className="pt-4 pb-5">
                 <div className="col-span-6 mb-8">
                     <Breadcrumbs items={breadcrumbPaths} />
                 </div>
@@ -60,7 +61,7 @@ const Network = () => {
                             setActiveTab(key as typeof activeTab)
                         }>
                         <TabItem title="Visueel" key="visual">
-                            <div className="after:content-[' '] after:absolute after:left-0 after:top-[33px] after:-z-[1] after:h-full after:w-full after:bg-pzh-gray-100">
+                            <div className="after:content-[' '] after:absolute after:top-[33px] after:left-0 after:-z-[1] after:h-full after:w-full after:bg-pzh-gray-100">
                                 <NetworkGraph />
                             </div>
                         </TabItem>

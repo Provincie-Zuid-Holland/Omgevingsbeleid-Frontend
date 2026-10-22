@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
+
 import { FieldSelect, FieldSelectProps } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
-import { useMemo } from 'react'
+
 import { useShallow } from 'zustand/react/shallow'
 
 import Filter from '@/components/Filter'
@@ -183,7 +185,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                 />
             </div>
             {typeof results === 'number' && (
-                <span className="text-s mt-2 block">
+                <span className="mt-2 block text-s">
                     Er {results === 1 ? 'is' : 'zijn'} {results}{' '}
                     {results === 1 ? 'resultaat' : 'resultaten'} gevonden
                 </span>

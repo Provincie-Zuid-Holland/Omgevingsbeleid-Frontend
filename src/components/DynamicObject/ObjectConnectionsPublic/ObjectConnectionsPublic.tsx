@@ -1,4 +1,8 @@
+import { useMemo } from 'react'
+
 import { Heading, Hyperlink, ListLink, Text } from '@pzh-ui/components'
+
+import groupBy from 'lodash.groupby'
 import { Link, useParams } from 'react-router-dom'
 
 import { HierachyReference } from '@/api/fetchers.schemas'
@@ -12,8 +16,6 @@ import {
 import useAuth from '@/hooks/useAuth'
 import { generateObjectPath } from '@/utils/dynamicObject'
 import { sortByFields } from '@/utils/sortByFields'
-import groupBy from 'lodash.groupby'
-import { useMemo } from 'react'
 import ObjectNetwork from '../ObjectNetwork'
 
 interface ObjectConnectionsPublicProps {
@@ -28,9 +30,9 @@ const ObjectConnectionsPublic = ({
     const { moduleId } = useParams()
     const { user } = useAuth()
 
-    const acknowledgedRelationModel =
-        data.Hierarchy_Statics &&
-        models[data.Hierarchy_Statics.Object_Type as ModelType]
+    const acknowledgedRelationModel: Model | undefined = data.Hierarchy_Statics
+        ? models[data.Hierarchy_Statics.Object_Type as ModelType]
+        : undefined
     const { useGetLatestLineage, useGetLatestLineageInModule } =
         acknowledgedRelationModel?.fetchers || {}
 

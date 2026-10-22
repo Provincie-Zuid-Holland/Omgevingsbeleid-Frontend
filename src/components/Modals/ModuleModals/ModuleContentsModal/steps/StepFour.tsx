@@ -1,126 +1,78 @@
-import {
-    FieldSelectProps,
-    FormikSelect,
-    Heading,
-    Text,
-} from '@pzh-ui/components'
+import { useMemo, useState } from 'react'
+
+import { FormikSelect, Heading, Text } from '@pzh-ui/components'
+
 import { useFormikContext } from 'formik'
-import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
-import {
-    useModulesGetListModuleObjects,
-    useModulesGetListModules,
-    useObjectsDoListAllLatest,
-} from '@/api/fetchers'
+import { modulesGetListModules } from '@/api/fetchers'
+import DynamicObjectSearch from '@/components/DynamicObject/DynamicObjectSearch'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
+import {
+    useInfiniteSelectComponents,
+    useInfiniteSelectQuery,
+    useStableInfiniteOptions,
+} from '@/hooks/useInfiniteSelect'
 
 import { ContentsModalForm } from '../ModuleContentsModal'
 import { StepProps } from './types'
 
+const PAGE_LIMIT = 50
+
 export const StepFour = ({ setExistingObject }: StepProps) => {
     const { moduleId } = useParams()
+    const [moduleFilter, setModuleFilter] = useState('')
 
-    const { values, setFieldValue, setFieldError } =
+    const { values, setFieldValue, setFieldError, setFieldTouched } =
         useFormikContext<ContentsModalForm>()
 
     const availableTypes = Object.keys(models).filter(
         model => !models[model as ModelType].defaults.atemporal
     )
 
-    const { data, isFetching } = useModulesGetListModules(
-        {
-            only_mine: false,
-            filter_activated: true,
-            filter_closed: false,
-            limit: 100,
-        },
-        {
-            query: {
-                select: data =>
-                    data.results.filter(
-                        module =>
-                            moduleId && module.Module_ID !== parseInt(moduleId)
-                    ),
-            },
-        }
+    const {
+        data: modulePages,
+        fetchNextPage: fetchNextModules,
+        hasNextPage: hasNextModules,
+        isFetching,
+        isFetchingNextPage: isFetchingNextModules,
+    } = useInfiniteSelectQuery({
+        queryKey: ['module-contents-modules', moduleFilter],
+        queryFn: (offset, signal) =>
+            modulesGetListModules(
+                {
+                    only_mine: false,
+                    filter_activated: true,
+                    filter_closed: false,
+                    filter_title: moduleFilter
+                        ? `%${moduleFilter}%`
+                        : undefined,
+                    offset,
+                    limit: PAGE_LIMIT,
+                },
+                signal
+            ),
+    })
+
+    const moduleOptions = useStableInfiniteOptions({
+        pages: modulePages?.pages,
+        getKey: module => module.Module_ID,
+        includeItem: module =>
+            !!moduleId && module.Module_ID !== parseInt(moduleId),
+        toOption: module => ({
+            label: module.Title,
+            value: module.Module_ID,
+        }),
+    })
+
+    const options = useMemo(
+        () => [
+            { label: 'Alle vigerende objecten', value: 'valid' },
+            ...(moduleOptions || []),
+        ],
+        [moduleOptions]
     )
-
-    const { data: validObjects, isFetching: validIsFetching } =
-        useObjectsDoListAllLatest(
-            {
-                limit: 500,
-                sort_column: 'Title',
-                sort_order: 'ASC',
-                object_types: availableTypes,
-            },
-            {
-                query: {
-                    enabled:
-                        !!values.validOrModule &&
-                        values.validOrModule === 'valid',
-                    select: data =>
-                        data.results.map(object => ({
-                            label: (
-                                <div className="flex justify-between gap-4">
-                                    <span className="truncate">
-                                        {object.Model.Title}
-                                    </span>
-                                    <span className="whitespace-nowrap capitalize opacity-50">
-                                        {object.Object_Type.replace('_', ' ')}
-                                    </span>
-                                </div>
-                            ),
-                            value: object.Model.UUID,
-                            objectContext: object,
-                        })),
-                },
-            }
-        )
-
-    const { data: moduleObjects, isFetching: moduleIsFetching } =
-        useModulesGetListModuleObjects(
-            {
-                module_id: values.validOrModule as number,
-                limit: 100,
-            },
-            {
-                query: {
-                    enabled:
-                        !!values.validOrModule &&
-                        values.validOrModule !== 'valid',
-                    select: data =>
-                        data.results.map(object => ({
-                            label: (
-                                <div className="flex justify-between gap-4">
-                                    <span>{object.Model.Title}</span>
-                                    <span className="whitespace-nowrap capitalize opacity-50">
-                                        {object.Object_Type.replace('_', ' ')}
-                                    </span>
-                                </div>
-                            ),
-                            value: object.Model.UUID,
-                            objectContext: object,
-                        })),
-                },
-            }
-        )
-
-    const options = useMemo(() => {
-        const defaultOption = {
-            label: 'Alle vigerende objecten',
-            value: 'valid',
-        }
-
-        return [
-            defaultOption,
-            ...(data?.map(module => ({
-                label: module.Title,
-                value: module.Module_ID,
-            })) || []),
-        ]
-    }, [data])
 
     const selectedModule = useMemo(() => {
         if (values.validOrModule === 'valid') return
@@ -128,32 +80,11 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
         return options.find(option => option.value === values.validOrModule)
     }, [values.validOrModule, options])
 
-    const objects =
-        values.validOrModule === 'valid' ? validObjects : moduleObjects
-    const objectsFetching =
-        values.validOrModule === 'valid' ? validIsFetching : moduleIsFetching
-
-    /**
-     * Handle filtering of select field
-     */
-    const handleFilter: FieldSelectProps['filterOption'] = (
-        option,
-        inputValue
-    ) => {
-        if (!objects) return false
-
-        const data = option.data as (typeof objects)[0]
-        const label = data.label.props.children[0].props.children as string
-
-        if (
-            label?.toLowerCase().includes(inputValue.toLowerCase()) ||
-            data.value?.toLowerCase().includes(inputValue.toLowerCase())
-        ) {
-            return true
-        }
-
-        return false
-    }
+    const moduleSelectComponents = useInfiniteSelectComponents({
+        fetchNextPage: fetchNextModules,
+        hasNextPage: hasNextModules,
+        isFetchingNextPage: isFetchingNextModules,
+    })
 
     return (
         <div className="flex flex-col gap-4">
@@ -171,16 +102,26 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                 niet automatisch doorgevoerd in andere modules.
             </Text>
             <FormikSelect
-                key={isFetching?.toString() + String(options.length)}
                 name="validOrModule"
+                optimized={false}
                 label="Kies een bron (module of vigerend)"
                 options={options}
                 isLoading={isFetching}
+                filterOption={() => true}
+                onInputChange={(inputValue, { action }) => {
+                    if (action === 'input-change') {
+                        setModuleFilter(inputValue)
+                    }
+
+                    return inputValue
+                }}
                 onChange={() => {
                     setExistingObject(undefined)
                     setFieldValue('Object_UUID', null)
                     setFieldError('Object_UUID', undefined)
+                    setFieldTouched('Object_UUID', false)
                 }}
+                components={moduleSelectComponents}
                 styles={{
                     menu: base => ({
                         ...base,
@@ -193,28 +134,35 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
             />
 
             <div>
-                <FormikSelect
-                    key={objectsFetching?.toString() + String(objects?.length)}
-                    name="Object_UUID"
+                <DynamicObjectSearch
+                    key={values.validOrModule}
+                    objectKey="Object_UUID"
+                    defaultOptions={!!values.validOrModule}
+                    initialLimit={PAGE_LIMIT}
+                    infiniteScroll
                     label="Selecteer een onderdeel"
-                    options={objects}
-                    isLoading={objectsFetching}
                     placeholder={
                         values.validOrModule === 'valid'
-                            ? 'Selecteer een vigerend onderdeel'
-                            : `Selecteer een onderdeel binnen de module '${selectedModule?.label}'`
+                            ? 'Zoek een vigerend onderdeel'
+                            : `Zoek een onderdeel binnen de module '${selectedModule?.label}'`
                     }
+                    disabled={!values.validOrModule}
+                    filterParams={{
+                        object_types: availableTypes,
+                        include_valids: values.validOrModule === 'valid',
+                        include_modules: values.validOrModule !== 'valid',
+                        module_id:
+                            values.validOrModule &&
+                            values.validOrModule !== 'valid'
+                                ? Number(values.validOrModule)
+                                : undefined,
+                    }}
                     onChange={val => {
-                        const selected = objects?.find(
-                            object =>
-                                object.value ===
-                                (val as (typeof objects)[0]).value
+                        setExistingObject(
+                            !Array.isArray(val) ? val?.object : undefined
                         )
-
-                        setExistingObject(selected?.objectContext)
                     }}
                     defaultMenuIsOpen
-                    filterOption={handleFilter}
                     styles={{
                         menu: base => ({
                             ...base,

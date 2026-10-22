@@ -1,16 +1,22 @@
+import { useEffect, useState } from 'react'
+
 import { FieldSelectProps, FormikSelect } from '@pzh-ui/components'
 import { MagnifyingGlass } from '@pzh-ui/icons'
+
 import { useFormikContext } from 'formik'
 import debounce from 'lodash.debounce'
-import { useState } from 'react'
-
-import { searchGetMssqlSearch, searchGetMssqlValidSearch } from '@/api/fetchers'
-import {
-    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-    ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-} from '@/api/fetchers.schemas'
-import { ModelType } from '@/config/objects/types'
 import { useParams } from 'react-router-dom'
+
+import { searchGetSearch } from '@/api/fetchers'
+import {
+    RequestData,
+    SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
+} from '@/api/fetchers.schemas'
+import {
+    useInfiniteSelectComponents,
+    useInfiniteSelectQuery,
+    useStableInfiniteOptions,
+} from '@/hooks/useInfiniteSelect'
 
 export type Option = {
     label: React.JSX.Element
@@ -18,8 +24,10 @@ export type Option = {
     object?: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
 }
 
-export interface DynamicObjectSearchProps
-    extends Omit<FieldSelectProps, 'onChange' | 'name'> {
+export interface DynamicObjectSearchProps extends Omit<
+    FieldSelectProps,
+    'onChange' | 'name'
+> {
     /** Gets called when selecting an option */
     onChange?: (object?: Option | Option[] | null) => void
     /** Key of model */
@@ -32,14 +40,16 @@ export interface DynamicObjectSearchProps
     label?: string
     /** Filter items by UUID or Object_ID */
     filter?: number | string | number[] | string[]
-    /** Filter items by Object_Type */
-    filterType?: ModelType[]
-    /** Filter on Module ID */
+    /** Filter params */
+    filterParams?: Omit<RequestData, 'query'>
+    /** Filter on moduleId */
     filterOnModule?: boolean
-    /** Status of object */
-    status?: 'valid' | 'all'
     /** Initial options  */
     initialOptions?: Option[]
+    /** Number of results to load before a search term is entered */
+    initialLimit?: number
+    /** Load additional result pages while scrolling */
+    infiniteScroll?: boolean
 }
 
 const DynamicObjectSearch = ({
@@ -48,28 +58,117 @@ const DynamicObjectSearch = ({
     fieldName,
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
-    filterType,
+    filterParams,
     filterOnModule,
-    status = 'valid',
     initialOptions = [],
+    initialLimit = 50,
+    infiniteScroll = true,
     ...rest
 }: DynamicObjectSearchProps) => {
     const { moduleId } = useParams()
-
     const { setFieldValue } = useFormikContext()
 
     const [optionsState, setOptionsState] = useState<Option[]>(initialOptions)
 
-    const searchEndpoint =
-        status === 'valid' ? searchGetMssqlValidSearch : searchGetMssqlSearch
+    const [selectedOptions, setSelectedOptions] =
+        useState<Option[]>(initialOptions)
+    const [inputValue, setInputValue] = useState('')
+    const [searchTerm, setSearchTerm] = useState('')
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setSearchTerm(inputValue), 500)
+        return () => clearTimeout(timeout)
+    }, [inputValue])
+
+    const toOption = (
+        object: SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+    ) => ({
+        label: (
+            <div className="flex justify-between gap-4">
+                <span>
+                    {object.Model.Title}
+
+                    {'Module_ID' in object && object.Module_ID && (
+                        <span className="italic"> (nog niet vigerend)</span>
+                    )}
+                </span>
+                <span className="capitalize opacity-50">
+                    {object.Object_Type.replace('_', ' ')}
+                </span>
+            </div>
+        ),
+        value:
+            objectKey === 'Object_UUID'
+                ? object.Model.UUID
+                : objectKey === 'Object_Code'
+                  ? object.Model.Code
+                  : object.Model.Object_ID,
+        object,
+    })
+
+    const { data, fetchNextPage, hasNextPage, isFetching } =
+        useInfiniteSelectQuery({
+            queryKey: [
+                'dynamic-object-search',
+                searchTerm,
+                filterParams,
+                filterOnModule ? moduleId : undefined,
+                initialLimit,
+            ],
+            queryFn: (offset, signal) =>
+                searchGetSearch(
+                    {
+                        query: `%${searchTerm}%`,
+                        ...filterParams,
+                        ...(filterOnModule &&
+                            moduleId && { module_id: parseInt(moduleId) }),
+                    },
+                    { offset, limit: initialLimit },
+                    signal
+                ),
+            enabled:
+                infiniteScroll &&
+                !rest.isDisabled &&
+                !rest.disabled &&
+                (!!rest.defaultOptions || !!searchTerm),
+        })
+
+    const pagedOptions = useStableInfiniteOptions({
+        pages: data?.pages,
+        getKey: object => object.Model.UUID as string,
+        includeItem: object => {
+            if (!filter) return true
+            const value =
+                objectKey === 'Object_UUID'
+                    ? object.Model.UUID
+                    : object.Model.Object_ID
+            return Array.isArray(filter)
+                ? !(filter as (string | number)[]).includes(
+                      value as string | number
+                  )
+                : value !== filter
+        },
+        toOption,
+    })
+
+    const infiniteComponents = useInfiniteSelectComponents({
+        fetchNextPage,
+        hasNextPage: hasNextPage && inputValue === searchTerm,
+        isFetchingNextPage: isFetching,
+    })
 
     const loadSuggestions = (
         query: string,
         callback: (options: Option[]) => void
     ) => {
-        searchEndpoint(
-            { Object_Types: filterType, Like: true },
-            { query, limit: 50 }
+        searchGetSearch(
+            {
+                query: `%${query}%`,
+                ...filterParams,
+                ...(filterOnModule &&
+                    moduleId && { module_id: parseInt(moduleId) }),
+            },
+            { limit: query ? 50 : initialLimit }
         )
             .then(data => {
                 let filteredObject = data.results
@@ -90,53 +189,7 @@ const DynamicObjectSearch = ({
                     )
                 }
 
-                if (filterOnModule && !!moduleId) {
-                    filteredObject = filteredObject.filter(object => {
-                        if (
-                            'Module_ID' in object &&
-                            (object.Module_ID === null ||
-                                object.Module_ID === parseInt(moduleId))
-                        ) {
-                            return true
-                        }
-
-                        return false
-                    })
-                }
-
-                const options = filteredObject.map(
-                    (
-                        object:
-                            | SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
-                            | ValidSearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
-                    ) => ({
-                        label: (
-                            <div className="flex justify-between gap-4">
-                                <span>
-                                    {object.Model.Title}
-
-                                    {'Module_ID' in object &&
-                                        object.Module_ID && (
-                                            <span className="italic">
-                                                {' '}
-                                                (nog niet vigerend)
-                                            </span>
-                                        )}
-                                </span>
-                                <span className="capitalize opacity-50">
-                                    {object.Object_Type.replace('_', ' ')}
-                                </span>
-                            </div>
-                        ),
-                        value:
-                            objectKey === 'Object_UUID'
-                                ? object.Model.UUID
-                                : objectKey === 'Object_Code'
-                                  ? object.Model.Code
-                                  : object.Model.Object_ID,
-                        object,
-                    })
-                )
+                const options = filteredObject.map(toOption)
 
                 callback(options)
                 setOptionsState([...options, ...optionsState])
@@ -150,6 +203,9 @@ const DynamicObjectSearch = ({
     const handleSuggestions = debounce(loadSuggestions, 500)
 
     const handleChange = (val?: Option | Option[] | null) => {
+        if (infiniteScroll) {
+            setSelectedOptions(Array.isArray(val) ? val : val ? [val] : [])
+        }
         setFieldValue(
             fieldName || objectKey,
             rest.isMulti && Array.isArray(val)
@@ -189,6 +245,39 @@ const DynamicObjectSearch = ({
                 options: optionsState,
             })}
             {...rest}
+            {...(infiniteScroll && {
+                optimized: false,
+                isAsync: false,
+                options: [
+                    ...(pagedOptions || []),
+                    ...selectedOptions.filter(
+                        selected =>
+                            !pagedOptions?.some(
+                                option => option.value === selected.value
+                            )
+                    ),
+                ],
+                inputValue,
+                filterOption: () => true,
+                isLoading: isFetching || inputValue !== searchTerm,
+                onInputChange: value => {
+                    setInputValue(value)
+                    return value
+                },
+                onMenuScrollToBottom: () => {
+                    if (
+                        hasNextPage &&
+                        !isFetching &&
+                        inputValue === searchTerm
+                    ) {
+                        fetchNextPage()
+                    }
+                },
+                components: {
+                    ...infiniteComponents,
+                    ...rest.components,
+                },
+            })}
         />
     )
 }

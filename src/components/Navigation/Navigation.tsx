@@ -1,16 +1,18 @@
+import { ReactNode, useRef, useState } from 'react'
+
 import { Badge } from '@pzh-ui/components'
 import { ArrowRightFromBracket, Eye } from '@pzh-ui/icons'
+
 import { useClickOutside } from '@react-hookz/web'
 import classNames from 'clsx'
-import { ReactNode, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { environment } from '@/api/instance'
 import useAuth from '@/hooks/useAuth'
 import useBreakpoint from '@/hooks/useBreakpoint'
 import usePage from '@/hooks/usePage'
-import logoSVG from '@/images/PZH_Basislogo.svg'
 import logoWhite from '@/images/PZH_Basislogo_white.svg'
+import logoSVG from '@/images/PZH_Basislogo.svg'
 import getEnvironmentText from '@/utils/getEnvironmentName'
 
 import { Container } from '../Container'
@@ -42,7 +44,7 @@ const Navigation = () => {
     return (
         <header
             className={classNames(
-                'border-b-pzh-gray-200 top-0 z-[99] h-24 w-full border-b',
+                'top-0 z-[99] h-24 w-full border-b border-b-pzh-gray-200',
                 {
                     sticky: !isAdvancedSearchPage,
                     relative: isAdvancedSearchPage,
@@ -144,7 +146,7 @@ const Navigation = () => {
                 </div>
             </Container>
             {isOpen && (
-                <div className="bg-pzh-gray-800/30 fixed top-24 left-0 z-0 block h-screen w-screen" />
+                <div className="fixed top-24 left-0 z-0 block h-screen w-screen bg-pzh-gray-800/30" />
             )}
         </header>
     )

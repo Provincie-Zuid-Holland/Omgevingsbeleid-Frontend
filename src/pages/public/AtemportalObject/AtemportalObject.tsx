@@ -1,6 +1,8 @@
-import { Heading, Text } from '@pzh-ui/components'
-import groupBy from 'lodash.groupby'
 import { useMemo } from 'react'
+
+import { Heading, Text } from '@pzh-ui/components'
+
+import groupBy from 'lodash.groupby'
 import { Helmet } from 'react-helmet-async'
 import { useParams } from 'react-router-dom'
 
@@ -10,8 +12,8 @@ import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 import * as models from '@/config/objects'
 import { Model, ModelType } from '@/config/objects/types'
-
 import { sortByFields } from '@/utils/sortByFields'
+
 import NotFoundPage from '../NotFoundPage'
 
 interface DynamicObjectProps {
@@ -34,13 +36,9 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
         data = {},
         isLoading,
         isError,
-    } = useGetValidLineage?.(
-        parseInt(id!),
-        {},
-        {
-            query: { enabled: !!id },
-        }
-    ) || {}
+    } = useGetValidLineage?.(parseInt(id!), {
+        query: { enabled: !!id },
+    }) || {}
 
     const formattedRelations = useMemo(() => {
         const connections = model.allowedConnections
@@ -73,7 +71,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
             name: slugOverview || '',
             to: `/${slugOverview}`,
         },
-        { name: pluralCapitalize, to: `/${slugOverview}/${plural}` || '' },
+        { name: pluralCapitalize, to: `/${slugOverview}/${plural}` },
         { name: data.Title || '', isCurrent: true },
     ]
 
@@ -98,7 +96,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                     </Heading>
                     {data?.Description && (
                         <Text
-                            className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line"
+                            className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
                                 __html: data.Description,
                             }}

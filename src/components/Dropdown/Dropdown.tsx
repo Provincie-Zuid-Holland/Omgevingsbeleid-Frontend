@@ -1,8 +1,10 @@
+import { memo, ReactNode, useRef } from 'react'
+
 import { cn } from '@pzh-ui/components'
 import { ArrowUpRightFromSquareLight } from '@pzh-ui/icons'
+
 import { useClickOutside } from '@react-hookz/web'
 import classNames from 'clsx'
-import { memo, ReactNode, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 export type DropdownItem = {
@@ -71,18 +73,18 @@ const DropdownContainer = ({
                 data-testid="dropdown"
                 ref={innerContainer}
                 className={classNames(
-                    'tooltip-right tooltip-triangle bg-pzh-white text-pzh-gray-700 absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded text-left shadow-[0_0_8px_1px_rgba(0,0,0,0.2)]',
+                    'tooltip-right tooltip-triangle absolute top-0 right-0 z-50 mt-12 min-w-[200px] rounded bg-pzh-white text-left text-pzh-gray-700 shadow-[0_0_8px_1px_rgba(0,0,0,0.2)]',
                     className
                 )}>
                 <div className="relative h-full">
-                    <ul className="text-pzh-blue-500 flex w-max flex-col gap-2 py-4">
+                    <ul className="flex w-max flex-col gap-2 py-4 text-pzh-blue-500">
                         {children}
                     </ul>
                 </div>
             </div>
 
             {hasBackdrop && (
-                <div className="bg-pzh-gray-800/30 fixed top-0 left-0 z-[1] block h-screen w-screen" />
+                <div className="fixed top-0 left-0 z-[1] block h-screen w-screen bg-pzh-gray-800/30" />
             )}
         </>
     )

@@ -1,5 +1,6 @@
 import { Badge, Button, Divider, Heading, Text } from '@pzh-ui/components'
 import { Key } from '@pzh-ui/icons'
+
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 
@@ -12,6 +13,7 @@ import { LoaderCard } from '@/components/Loader'
 import UserEditModal from '@/components/Modals/UserModals/UserEditModal'
 import UserGeneratePasswordModal from '@/components/Modals/UserModals/UserGeneratePasswordModal'
 import ToggleSwitch from '@/components/ToggleSwitch'
+import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 import MutateLayout from '@/templates/MutateLayout'
 import { toastNotification } from '@/utils/toastNotification'
@@ -19,6 +21,7 @@ import { toastNotification } from '@/utils/toastNotification'
 const UserDetail = () => {
     const queryClient = useQueryClient()
     const { uuid } = useParams()
+    const { canResetUserPassword, canEditUser } = usePermissions()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data, isLoading, queryKey } = useUserViewGetUser(uuid!, {
@@ -73,7 +76,7 @@ const UserDetail = () => {
                     </Heading>
                 </div>
                 <div className="col-span-6 lg:col-span-3 xl:col-span-2">
-                    <div className="border-pzh-gray-200 flex items-center justify-between gap-4 rounded border px-6 py-4">
+                    <div className="flex items-center justify-between gap-4 rounded border border-pzh-gray-200 px-6 py-4">
                         <Text
                             bold
                             className="-mb-1 whitespace-nowrap"
@@ -86,15 +89,17 @@ const UserDetail = () => {
                                 text={data?.IsActive ? 'Actief' : 'Inactief'}
                                 upperCase={false}
                             />
-                            <ToggleSwitch
-                                checked={data?.IsActive || false}
-                                title={
-                                    data?.IsActive
-                                        ? 'Gebruiker deactiveren'
-                                        : 'Gebruiker activeren'
-                                }
-                                onClick={handleUserStatus}
-                            />
+                            {canEditUser && (
+                                <ToggleSwitch
+                                    checked={data?.IsActive || false}
+                                    title={
+                                        data?.IsActive
+                                            ? 'Gebruiker deactiveren'
+                                            : 'Gebruiker activeren'
+                                    }
+                                    onClick={handleUserStatus}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
@@ -106,11 +111,13 @@ const UserDetail = () => {
                         <Heading level="2" size="m">
                             Gegevens gebruiker
                         </Heading>
-                        <button
-                            onClick={() => setActiveModal('userEdit')}
-                            className="text-s text-pzh-green-500 hover:text-pzh-green-900 underline">
-                            Gegevens wijzigen
-                        </button>
+                        {canEditUser && (
+                            <button
+                                onClick={() => setActiveModal('userEdit')}
+                                className="text-s text-pzh-green-500 underline hover:text-pzh-green-900">
+                                Gegevens wijzigen
+                            </button>
+                        )}
                     </div>
 
                     <Item
@@ -123,7 +130,11 @@ const UserDetail = () => {
                         value={data?.Email}
                         isLoading={isLoading}
                     />
-                    <Item label="Rol" value={data?.Rol} isLoading={isLoading} />
+                    <Item
+                        label="Rol"
+                        value={data?.Roles.join(', ')}
+                        isLoading={isLoading}
+                    />
                 </div>
                 <div className="col-span-6 mt-6 lg:col-span-3 lg:mt-0 xl:col-span-2">
                     <div className="bg-pzh-gray-100 px-8 py-6">
@@ -140,7 +151,9 @@ const UserDetail = () => {
                             data-testid="user-generate-password"
                             onPress={() => setActiveModal('userPasswordReset')}
                             className="whitespace-nowrap"
-                            isDisabled={!!!data?.IsActive}>
+                            isDisabled={
+                                !data?.IsActive && canResetUserPassword
+                            }>
                             Genereer nieuw wachtwoord
                         </Button>
                     </div>
@@ -162,8 +175,8 @@ const Item = ({
     value?: string
     isLoading: boolean
 }) => (
-    <div className="border-pzh-gray-200 flex border-b pb-2">
-        <Text bold className="w-40">
+    <div className="flex border-b border-pzh-gray-200 pb-2">
+        <Text bold className="min-w-40">
             {label}
         </Text>
         {isLoading && <LoaderCard height="30" className="w-auto" />}

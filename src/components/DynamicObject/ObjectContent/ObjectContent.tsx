@@ -1,4 +1,5 @@
 import { Button, Heading, Text, Tooltip } from '@pzh-ui/components'
+
 import classNames from 'clsx'
 import DOMPurify from 'dompurify'
 import parse, { domToReact, HTMLReactParserOptions } from 'html-react-parser'
@@ -24,7 +25,7 @@ interface ObjectContentProps {
 const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
     <div data-section="Inhoud">
         {fields.map(field => {
-            const content = data[field.value]
+            let content = data[field.value]
 
             if (field.list && Array.isArray(content) && !!content.length) {
                 return (
@@ -39,6 +40,10 @@ const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
                         {...field}
                     />
                 )
+            }
+
+            if (field.array && Array.isArray(content)) {
+                content = content.join('<br />')
             }
 
             if (typeof content !== 'string') return null
@@ -103,7 +108,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                                     color="text-pzh-white"
                                     className="block">
                                     Gebiedsaanwijzing:
-                                    <strong className="text-pzh-white ml-1 font-bold">
+                                    <strong className="ml-1 font-bold text-pzh-white">
                                         {label}
                                     </strong>
                                 </Text>
@@ -111,7 +116,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                             <Button
                                 key={label}
                                 variant="default"
-                                className="bg-pzh-yellow-10 border-pzh-gray-300 rounded-sm border px-0.5"
+                                className="rounded-sm border border-pzh-gray-300 bg-pzh-yellow-10 px-0.5"
                                 onPress={() =>
                                     setActiveModal('objectArea', {
                                         moduleId,
@@ -158,7 +163,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
                     {customTitle?.[value] || title}
                 </Heading>
             )}
-            <div className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-h3:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8">
+            <div className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 md:mb-8 prose-h3:text-pzh-blue-900 prose-li:my-0">
                 {parsedContent}
             </div>
             <ObjectAreaModal />
@@ -179,7 +184,7 @@ interface ListProps {
 const List = ({ title, description, items, hidden }: ListProps) => (
     <div
         data-section={title}
-        className="prose prose-neutral text-m text-pzh-blue-900 marker:text-pzh-blue-900 prose-li:my-0 mb-4 max-w-full whitespace-pre-line md:mb-8">
+        className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 md:mb-8 prose-li:my-0">
         <Heading
             level="2"
             className={classNames('mb-4', { 'sr-only': hidden })}>
@@ -219,6 +224,7 @@ export const fields: {
     value: keyof ModelReturnType
     hidden?: boolean
     list?: boolean
+    array?: boolean
 }[] = [
     {
         title: 'Omschrijving',
@@ -226,8 +232,9 @@ export const fields: {
         hidden: true,
     },
     {
-        title: 'Rol',
+        title: 'Sturingsstijl',
         value: 'Role',
+        array: true,
     },
     {
         title: 'Nadere uitwerking',

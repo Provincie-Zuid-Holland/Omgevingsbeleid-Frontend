@@ -38,7 +38,7 @@ export const downloadFile = async (
     try {
         const accessToken = getAccessToken()
 
-        const response = await fetch(`${getApiUrl()}/${path}`, {
+        const response = await fetch(`${getApiUrl()}${path}`, {
             method: postData ? 'POST' : 'GET',
             headers: {
                 ...(accessToken && {
