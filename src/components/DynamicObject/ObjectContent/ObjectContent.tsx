@@ -25,7 +25,7 @@ interface ObjectContentProps {
 const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
     <div data-section="Inhoud">
         {fields.map(field => {
-            let content = data[field.value]
+            const content = data[field.value]
 
             if (field.list && Array.isArray(content) && !!content.length) {
                 return (
@@ -42,11 +42,33 @@ const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
                 )
             }
 
-            if (field.array && Array.isArray(content)) {
-                content = content.join('<br />')
+            if (field.array && Array.isArray(content) && content.length > 0) {
+                return (
+                    <div>
+                        {field.title && (
+                            <Heading
+                                level="3"
+                                size="m"
+                                className={classNames('mb-4', {
+                                    'sr-only':
+                                        field.hidden &&
+                                        !customTitle?.[field.value],
+                                })}>
+                                {customTitle?.[field.value] || field.title}
+                            </Heading>
+                        )}
+                        <div className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 md:mb-8 prose-h3:text-pzh-blue-900 prose-li:my-0">
+                            <ul>
+                                {(content as string[]).map(item => (
+                                    <li key={item}>{item}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                )
             }
 
-            if (typeof content !== 'string') return null
+            if (typeof content !== 'string' || !content) return null
 
             return (
                 <Content
@@ -233,7 +255,7 @@ export const fields: {
     },
     {
         title: 'Sturingsstijl',
-        value: 'Role',
+        value: 'Roles',
         array: true,
     },
     {

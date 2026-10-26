@@ -18,7 +18,10 @@ import { SCHEMA_OBJECT_ANNOTATE_AREA } from '@/validation/objectAnnotate'
 
 import { ModalStateMap } from '../../types'
 
-type Values = Record<string, any>
+type Values = {
+    Object_Code: string
+    Cached_Title: string
+}
 
 const ObjectAreaAnnotateModal = () => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -38,20 +41,20 @@ const ObjectAreaAnnotateModal = () => {
             )
 
             return {
-                Object_Code: {
-                    label:
-                        item?.Cached_Title ??
-                        previousValue?.[AREA_DATA_ATTRS.Cached_Title],
-                    value: code,
-                },
+                Object_Code: code ?? '',
+                Cached_Title:
+                    item?.Cached_Title ??
+                    previousValue?.[AREA_DATA_ATTRS.Cached_Title] ??
+                    '',
             }
         }
 
         return {
-            Object_Code: null,
+            Object_Code: '',
+            Cached_Title: '',
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [modalState?.editor, modalState?.editor?.state.selection])
+    }, [data, modalState?.editor, modalState?.editor?.state.selection])
 
     const handleSubmit = (payload: Values) => {
         modalState?.editor
@@ -140,13 +143,21 @@ const InnerForm = <TData extends Values>({
                     placeholder="Selecteer een gebiedsaanwijzing"
                     objectKey="Object_Code"
                     blurInputOnSelect
-                    initialOptions={[values.Object_Code]}
-                    defaultValue={values.Object_Code}
+                    initialOptions={
+                        values.Object_Code
+                            ? [
+                                  {
+                                      value: values.Object_Code,
+                                      label: <>{values.Cached_Title}</>,
+                                  },
+                              ]
+                            : []
+                    }
                     onChange={val => {
                         if (Array.isArray(val)) {
                             setFieldValue(
                                 'Cached_Title',
-                                val[0].object?.Model.Title ?? ''
+                                val[0]?.object?.Model.Title ?? ''
                             )
                         } else {
                             setFieldValue(
