@@ -13,7 +13,7 @@ import { DropdownContainer } from '../../Dropdown'
 import PasswordChangeModal from '../../Modals/PasswordChangeModal'
 
 const UserMenu = () => {
-    const { user, signout } = useAuth()
+    const { user } = useAuth()
     const navigate = useNavigate()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
@@ -63,7 +63,7 @@ const UserMenu = () => {
                             <Text>Wachtwoord wijzigen</Text>
                         </button>
                         <button
-                            onClick={() => signout(() => navigate('/'))}
+                            onClick={() => navigate('/logout')}
                             className="flex items-center">
                             <AngleRight className="-mt-1 mr-1" />
                             <Text>Uitloggen</Text>
