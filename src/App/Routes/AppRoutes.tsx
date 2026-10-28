@@ -408,7 +408,7 @@ const Logout = () => {
     const { signout } = useAuth()
 
     const cleanup = useCallback(
-        () => signout(() => navigate('/')),
+        () => signout(() => navigate('/', { replace: true })),
         [signout, navigate]
     )
     useLayoutEffect(() => cleanup(), [cleanup])
