@@ -112,7 +112,7 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
         if (!tooltipEl || !hoveredNode) return
 
         const shape = document.querySelector(
-            `[data-code-shape="${hoveredNode.Code}"]`
+            `[data-code-shape="${hoveredNode.code}"]`
         ) as HTMLElement | null
         if (!shape) return
 
@@ -158,10 +158,10 @@ const NetworkVisual = ({ graph }: NetworkVisualProps) => {
             hoveredNodeRef.current = d
             clearHideTooltipTimeout()
 
-            setTooltipContent({ title: d.Title, type: d.Object_Type })
+            setTooltipContent({ title: d.title, type: d.object_type })
 
             const shape = document.querySelector(
-                `[data-code-shape="${d.Code}"]`
+                `[data-code-shape="${d.code}"]`
             ) as HTMLElement | null
 
             if (!shape) {

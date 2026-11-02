@@ -62,13 +62,14 @@ const beleidsregel: DynamicObject = {
         parentType: 'Overig',
     },
     staticData: [
-        'Client_1_UUID',
-        'Owner_1_UUID',
-        'Owner_2_UUID',
-        'Portfolio_Holder_1_UUID',
-        'Portfolio_Holder_2_UUID',
+        'client_1_id',
+        'owner_1_id',
+        'owner_2_id',
+        'owner_3_id',
+        'portfolio_holder_1_id',
     ],
-    allowedConnections: [{ type: 'beleidskeuze', key: 'Beleidskeuzes' }],
+
+    allowedConnections: [{ type: 'beleidskeuze', key: 'beleidskeuzes' }],
     connectionsDescription: (
         <>
             Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
@@ -86,7 +87,7 @@ const beleidsregel: DynamicObject = {
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van de beleidsregel.',
@@ -95,7 +96,7 @@ const beleidsregel: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
@@ -104,7 +105,7 @@ const beleidsregel: DynamicObject = {
                     required: true,
                 },
                 {
-                    name: 'Weblink',
+                    name: 'weblink',
                     label: 'Link beleidsregels op wetten.nl',
                     type: 'url',
                     validation: schemaDefaults.url(),

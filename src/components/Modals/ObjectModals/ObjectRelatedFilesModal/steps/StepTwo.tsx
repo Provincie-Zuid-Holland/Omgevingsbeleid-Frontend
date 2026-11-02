@@ -19,7 +19,7 @@ export const StepTwo = ({
             Upload een bestand om te koppelen aan{' '}
             {model.defaults.singularReadable}:{' '}
             <Text as="span" bold>
-                {objectData?.Title}
+                {objectData?.title}
             </Text>
         </Text>
 

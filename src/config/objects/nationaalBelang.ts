@@ -55,7 +55,7 @@ const nationaalBelang: DynamicObject = {
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van het nationale belang.',
@@ -64,7 +64,7 @@ const nationaalBelang: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Weblink',
+                    name: 'weblink',
                     label: 'Link naar wetten.nl',
                     type: 'url',
                     // @ts-ignore

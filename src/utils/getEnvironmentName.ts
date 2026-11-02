@@ -15,6 +15,8 @@ const getEnvironmentText = (environment: Environment): string => {
             return 'Acceptatieomgeving'
         case 'main':
             return 'Productieomgeving'
+        case 'trial':
+            return 'Trialomgeving'
         default:
             return 'No environment set'
     }

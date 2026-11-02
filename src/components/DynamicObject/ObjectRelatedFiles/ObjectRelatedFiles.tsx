@@ -29,7 +29,7 @@ const ObjectRelatedFiles = ({ model }: ObjectRelatedFilesProps) => {
         [canCreateObjectRelatedFile, isOwner]
     )
 
-    const amount = objectData?.Related_Files?.length ?? 0
+    const amount = objectData?.related_files?.length ?? 0
 
     const handleButtonClick = () => {
         setModal({ initialStep: amount === 0 ? 2 : 1 })

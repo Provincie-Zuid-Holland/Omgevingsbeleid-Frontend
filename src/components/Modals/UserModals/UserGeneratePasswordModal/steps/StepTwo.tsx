@@ -20,9 +20,9 @@ export const StepTwo = ({ newPassword, user }: StepProps) => {
                 Verstuur het nieuwe wachtwoord naar de gebruiker:
                 <br />
                 <a
-                    href={`mailto:${user?.Email}?subject=${mailTo.subject}&body=${mailTo.body}`}
+                    href={`mailto:${user?.email}?subject=${mailTo.subject}&body=${mailTo.body}`}
                     className="text-pzh-green-500 underline hover:text-pzh-green-900">
-                    E-mail naar {user?.Email}
+                    E-mail naar {user?.email}
                 </a>
             </Text>
         </>

@@ -35,28 +35,28 @@ const config = {
 const PAGE_LIMIT = 10
 
 const PackageDetail = () => {
-    const { type, uuid } = useParams<{
+    const { type, id } = useParams<{
         type: PublicationType
-        uuid: string
+        id: string
     }>()
 
-    if (!type || !uuid) return
+    if (!type || !id) return
 
-    return <PackageDetailInner publicationType={type} uuid={uuid} />
+    return <PackageDetailInner publicationType={type} id={id} />
 }
 
 const PackageDetailInner = ({
     publicationType,
-    uuid,
+    id,
 }: {
     publicationType: PublicationType
-    uuid: string
+    id: string
 }) => {
     const [pageIndex, setPageIndex] = useState(1)
 
     const { data, isLoading, reports } = usePackageDetailData({
         publicationType,
-        uuid,
+        id,
         pageIndex,
         PAGE_LIMIT,
     })
@@ -65,11 +65,11 @@ const PackageDetailInner = ({
         publicationType,
         publicationUUID: '',
         versionUUID:
-            data && 'Publication_Version_UUID' in data
-                ? data?.Publication_Version_UUID
+            data && 'publication_version_id' in data
+                ? data?.publication_version_id
                 : undefined,
-        announcementUUID: uuid,
-        packageUUID: uuid,
+        announcementUUID: id,
+        packageUUID: id,
     })
 
     const breadcrumbPaths = [
@@ -91,18 +91,19 @@ const PackageDetailInner = ({
 
             <div className="col-span-3 flex flex-col gap-10">
                 <div>
-                    <Row label="Levering ID" value={data?.Delivery_ID} />
+                    <Row label="Levering ID" value={data?.delivery_id} />
                     <Row
                         label="Module"
-                        value={data?.Module_Title}
-                        link={`/muteer/modules/${data?.Module_ID}/besluiten`}
+                        value={data?.module_title}
+                        link={`/muteer/modules/${data?.module_id}/besluiten`}
                     />
-                    <Row label="Omgeving" value={data?.Environment_Title} />
+
+                    <Row label="Omgeving" value={data?.environment_title} />
                     <Row
                         label="Instrument"
                         value={
                             config.documentType[
-                                data?.Document_Type as DocumentType
+                                data?.document_type as DocumentType
                             ].label
                         }
                     />
@@ -110,7 +111,7 @@ const PackageDetailInner = ({
                         label="Type"
                         value={
                             config.packageType[
-                                data?.Package_Type as PackageType
+                                data?.package_type as PackageType
                             ].label
                         }
                     />
@@ -120,26 +121,27 @@ const PackageDetailInner = ({
                     />
                     <Row
                         label="Resultaat"
-                        value={getPackageStatus(data?.Report_Status)?.text}
+                        value={getPackageStatus(data?.report_status)?.text}
                     />
                     <Row
                         label="Gemaakt op"
                         value={
-                            data?.Created_Date &&
+                            data?.created_date &&
                             formatDate(
-                                parseUtc(data?.Created_Date),
+                                parseUtc(data?.created_date),
                                 "dd-MM-yyyy 'om' HH:mm"
                             )
                         }
                     />
-                    <Row label="Bestandsnaam" value={data?.Zip.Filename} />
+
+                    <Row label="Bestandsnaam" value={data?.zip.filename} />
                 </div>
 
                 <div className="flex flex-wrap justify-between gap-4">
                     <Hyperlink asChild>
                         <Link
-                            to={`/muteer/leveringen?environment=${data?.Environment_UUID}&module_id=${data?.Module_ID}`}>
-                            Bekijk alle "{data?.Module_Title}" leveringen
+                            to={`/muteer/leveringen?environment=${data?.environment_id}&module_id=${data?.module_id}`}>
+                            Bekijk alle "{data?.module_title}" leveringen
                         </Link>
                     </Hyperlink>
 
@@ -161,22 +163,22 @@ const PackageDetailInner = ({
                         Rapporten
                     </Heading>
                     {/* <Button
-                        variant="link"
-                        iconSize={20}
-                        className="text-pzh-green-500 hover:text-pzh-blue-500">
-                        Upload rapporten
-                    </Button> */}
+            variant="link"
+            iconSize={20}
+            className="text-pzh-green-500 hover:text-pzh-blue-500">
+            Upload rapporten
+            </Button> */}
                 </div>
                 <div className="flex flex-col gap-2 rounded-sm border border-pzh-gray-200 p-4">
                     <Heading level="3" size="s" className="mb-2 text-center">
-                        Levering ({data?.Delivery_ID})
+                        Levering ({data?.delivery_id})
                     </Heading>
                     {reports?.results.length ? (
                         <>
                             <div className="flex flex-col gap-2">
                                 {reports.results.map(result => (
                                     <Report
-                                        key={result.UUID}
+                                        key={result.id}
                                         publicationType={publicationType}
                                         {...result}
                                     />

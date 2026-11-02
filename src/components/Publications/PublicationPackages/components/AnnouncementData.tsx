@@ -19,7 +19,7 @@ interface AnnouncementDataProps extends PublicationAnnouncementShort {
 }
 
 const AnnouncementData = ({
-    UUID,
+    id,
     isLocked,
     isClosed,
 }: AnnouncementDataProps) => {
@@ -29,9 +29,9 @@ const AnnouncementData = ({
         usePublicationAnnouncementPackagesGetListAnnouncementPackages(
             {
                 limit: 3,
-                announcement_uuid: UUID,
+                announcement_id: id,
                 package_type: PackageType['publication'],
-                sort_column: 'Created_Date',
+                sort_column: 'created_date',
                 sort_order: 'DESC',
             },
             {
@@ -39,7 +39,7 @@ const AnnouncementData = ({
                     select: data =>
                         data.results.some(
                             pkg =>
-                                pkg.Report_Status === ReportStatusType['valid']
+                                pkg.report_status === ReportStatusType['valid']
                         ),
                 },
             }
@@ -99,7 +99,7 @@ const AnnouncementData = ({
                             onPress={() =>
                                 setActiveModal(
                                     'publicationAnnouncementUpdate',
-                                    { announcementUuid: UUID, isLocked }
+                                    { announcementId: id, isLocked }
                                 )
                             }
                             isDisabled={isClosed}>

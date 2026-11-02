@@ -71,10 +71,10 @@ const ObjectCreate = ({ model }: ObjectCreateProps) => {
                 },
                 {
                     onSuccess: data => {
-                        if (!!connections && !!data.Object_ID) {
+                        if (!!connections && !!data.object_id) {
                             putRelations?.mutateAsync(
                                 {
-                                    lineageId: data.Object_ID,
+                                    lineageId: data.object_id,
                                     data: connections,
                                 },
                                 {

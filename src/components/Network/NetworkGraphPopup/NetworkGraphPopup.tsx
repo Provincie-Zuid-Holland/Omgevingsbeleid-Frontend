@@ -23,18 +23,18 @@ const NetworkGraphPopup = ({ resetGraph }: NetworkGraphPopupProps) => {
                     hidden: !!!activeNode,
                 }
             )}>
-            <Text className="block capitalize">{activeNode?.Object_Type}</Text>
+            <Text className="block capitalize">{activeNode?.object_type}</Text>
             <Hyperlink asChild>
                 <Link
                     to={
                         (activeNode &&
                             generateObjectPath(
-                                activeNode.Object_Type as ModelType,
-                                activeNode.UUID
+                                activeNode.object_type as ModelType,
+                                activeNode.id
                             )) ||
                         ''
                     }>
-                    {activeNode?.Title}
+                    {activeNode?.title}
                 </Link>
             </Hyperlink>
             <button

@@ -6,23 +6,25 @@ export const formatGraphData = (
     graph?: GraphResponse
 ): { links: { source: string; target: string }[]; nodes: GraphVertice[] } => {
     const links =
-        graph?.Edges?.filter(
-            edge =>
-                !!graph.Vertices.some(
-                    vertice => vertice.Code === edge.Vertice_A_Code
-                ) &&
-                !!graph.Vertices.some(
-                    vertice => vertice.Code === edge.Vertice_B_Code
-                )
-        ).map(edge => ({
-            source: edge.Vertice_A_Code,
-            target: edge.Vertice_B_Code,
-        })) || []
+        graph?.edges
+            ?.filter(
+                edge =>
+                    !!graph.vertices.some(
+                        vertice => vertice.code === edge.vertice_a_code
+                    ) &&
+                    !!graph.vertices.some(
+                        vertice => vertice.code === edge.vertice_b_code
+                    )
+            )
+            .map(edge => ({
+                source: edge.vertice_a_code,
+                target: edge.vertice_b_code,
+            })) || []
 
     const nodes =
-        graph?.Vertices?.map(vertice => ({
+        graph?.vertices?.map(vertice => ({
             ...vertice,
-            id: vertice.Code,
+            id: vertice.code,
         })) || []
 
     return { links, nodes }
@@ -38,14 +40,14 @@ export const generateNodes = (
         .data(nodes)
         .join('path')
         .attr('id', (d: any) => d.id)
-        .attr('fill', d => getColor(d.Object_Type))
-        .attr('d', d => getShape(d.Object_Type))
+        .attr('fill', d => getColor(d.object_type))
+        .attr('d', d => getShape(d.object_type))
         .attr('stroke-width', 1.5)
         .attr(
             'class',
             'cursor-pointer stroke-pzh-black hover:stroke-pzh-blue-900 data-[active=true]:stroke-pzh-blue-900'
         )
-        .attr('data-code-shape', d => d.Code)
+        .attr('data-code-shape', d => d.code)
 
 export const getShape = (type: string) => {
     switch (type) {
@@ -140,17 +142,17 @@ export const filterConnections = (
     links
         .filter(link => {
             if (typeof link.target === 'string') {
-                return link.target === d.Code || link.source === d.Code
+                return link.target === d.code || link.source === d.code
             } else {
                 return (
-                    link.target.Code === d.Code || link.source.Code === d.Code
+                    link.target.code === d.code || link.source.code === d.code
                 )
             }
         })
         .flatMap(link => {
             if (
-                d.Object_Type === 'beleidskeuze' &&
-                (link.source.Object_Type === 'beleidsdoel' ||
+                d.object_type === 'beleidskeuze' &&
+                (link.source.object_type === 'beleidsdoel' ||
                     (typeof link.source === 'string' &&
                         link.source.includes('beleidsdoel')))
             ) {
@@ -159,7 +161,7 @@ export const filterConnections = (
                         if (typeof e.target === 'string') {
                             return e.target === link.source
                         } else {
-                            return e.target.Code === link.source.Code
+                            return e.target.code === link.source.code
                         }
                     }),
                     link,
@@ -180,16 +182,16 @@ export const highlightConnections = (
 
     svgElement
         .selectAll('path')
-        .attr('data-active', (d: any) => d.Code === node.Code)
+        .attr('data-active', (d: any) => d.code === node.code)
         .attr('fill-opacity', (d: any) =>
             !links.length
-                ? d.Code === node.Code
+                ? d.code === node.code
                     ? 1
                     : 0.3
                 : !!!links.find(
                         link =>
-                            link.source.Code === d.Code ||
-                            link.target.Code === d.Code
+                            link.source.code === d.code ||
+                            link.target.code === d.code
                     )
                   ? 0.3
                   : 1
@@ -200,8 +202,8 @@ export const highlightConnections = (
         .attr('stroke-opacity', (d: any) =>
             !!!links.find(
                 link =>
-                    link.source.Code === d.source.Code &&
-                    link.target.Code === d.target.Code
+                    link.source.code === d.source.code &&
+                    link.target.code === d.target.code
             )
                 ? 0.1
                 : 1

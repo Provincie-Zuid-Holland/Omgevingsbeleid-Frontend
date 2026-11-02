@@ -25,10 +25,10 @@ const PublicationEditModal = () => {
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const { data, isFetching, queryKey } = usePublicationsGetDetailPublication(
-        modalState?.publication.UUID,
+        modalState?.publication.id,
         {
             query: {
-                enabled: !!modalState?.publication.UUID,
+                enabled: !!modalState?.publication.id,
             },
         }
     )
@@ -54,7 +54,7 @@ const PublicationEditModal = () => {
     } as PublicationEdit
 
     const handleFormSubmit = (payload: PublicationEdit) => {
-        mutate({ publicationUuid: modalState?.publication.UUID, data: payload })
+        mutate({ publicationId: modalState?.publication.id, data: payload })
     }
 
     return (

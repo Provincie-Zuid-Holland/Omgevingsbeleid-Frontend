@@ -1,8 +1,10 @@
+import { useMemo } from 'react'
+
+import { Heading, ListLink } from '@pzh-ui/components'
+
 import { ObjectRelatedFileResponse } from '@/api/fetchers.schemas'
 import { ModelReturnType } from '@/config/objects/types'
 import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
-import { Heading, ListLink } from '@pzh-ui/components'
-import { useMemo } from 'react'
 
 interface ObjectRelatedFilesPublicProps {
     data: ModelReturnType
@@ -11,12 +13,12 @@ interface ObjectRelatedFilesPublicProps {
 const ObjectRelatedFilesPublic = ({ data }: ObjectRelatedFilesPublicProps) => {
     const files = useMemo(
         () =>
-            [...(data.Related_Files ?? [])].sort(
+            [...(data.related_files ?? [])].sort(
                 (a, b) =>
-                    new Date(b.Created_Date).getTime() -
-                    new Date(a.Created_Date).getTime()
+                    new Date(b.created_date).getTime() -
+                    new Date(a.created_date).getTime()
             ),
-        [data.Related_Files]
+        [data.related_files]
     )
 
     return (
@@ -32,7 +34,7 @@ const ObjectRelatedFilesPublic = ({ data }: ObjectRelatedFilesPublicProps) => {
             ) : (
                 <ul>
                     {files.map(file => (
-                        <li key={file.UUID}>
+                        <li key={file.id}>
                             <RelatedFile file={file} />
                         </li>
                     ))}
@@ -43,12 +45,12 @@ const ObjectRelatedFilesPublic = ({ data }: ObjectRelatedFilesPublicProps) => {
 }
 
 const RelatedFile = ({ file }: { file: ObjectRelatedFileResponse }) => {
-    const download = useDownloadStorageFile(file.File_UUID)
+    const download = useDownloadStorageFile(file.file_id)
 
     return (
         <ListLink asChild>
             <button type="button" onClick={() => download.refetch()}>
-                {file.Title}
+                {file.title}
             </button>
         </ListLink>
     )

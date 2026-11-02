@@ -11,7 +11,7 @@ export const StepThree = ({ selectedFile }: StepProps) => (
         <Text className="mb-4">
             Weet je zeker dat je het bestand{' '}
             <Text as="span" bold>
-                {selectedFile?.Title}
+                {selectedFile?.title}
             </Text>{' '}
             van dit doel wilt ontkoppelen en verwijderen? Je zal het bestand
             opnieuw moeten uploaden om het opnieuw te koppelen.

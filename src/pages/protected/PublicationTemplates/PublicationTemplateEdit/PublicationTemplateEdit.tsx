@@ -26,7 +26,7 @@ import { toastNotification } from '@/utils/toastNotification'
 const PublicationTemplateEdit = () => {
     const queryClient = useQueryClient()
 
-    const { uuid } = useParams()
+    const { id } = useParams()
 
     const navigate = useNavigate()
 
@@ -35,9 +35,9 @@ const PublicationTemplateEdit = () => {
     const { plural, pluralCapitalize, singularCapitalize } = model.defaults
 
     const { data, isFetching, queryKey } =
-        usePublicationTemplatesGetDetailTemplate(uuid!, {
+        usePublicationTemplatesGetDetailTemplate(id!, {
             query: {
-                enabled: !!uuid,
+                enabled: !!id,
             },
         })
 
@@ -55,8 +55,8 @@ const PublicationTemplateEdit = () => {
 
         fields?.forEach(field => {
             if (
-                (field === 'Object_Templates' ||
-                    field === 'Object_Field_Map') &&
+                (field === 'object_templates' ||
+                    field === 'object_field_map') &&
                 !!data?.[field as keyof typeof data] &&
                 typeof data[field] === 'object'
             ) {
@@ -80,8 +80,8 @@ const PublicationTemplateEdit = () => {
         payload: TemplateEdit,
         helpers: FormikHelpers<typeof initialData>
     ) => {
-        if (!!payload.Object_Templates?.length) {
-            payload.Object_Templates = (payload.Object_Templates as any).reduce(
+        if (!!payload.object_templates?.length) {
+            payload.object_templates = (payload.object_templates as any).reduce(
                 (acc: any, curr: { key: string; value: string }) => (
                     (acc[curr.key] = curr.value),
                     acc
@@ -90,19 +90,19 @@ const PublicationTemplateEdit = () => {
             )
         }
 
-        if (!!payload.Object_Field_Map?.length) {
-            payload.Object_Field_Map = normalizeFieldMap(
-                payload.Object_Field_Map as any
+        if (!!payload.object_field_map?.length) {
+            payload.object_field_map = normalizeFieldMap(
+                payload.object_field_map as any
             )
         }
 
-        if (!!payload.Object_Types?.length) {
-            payload.Object_Types = (payload.Object_Types as any).map(
+        if (!!payload.object_types?.length) {
+            payload.object_types = (payload.object_types as any).map(
                 (item: any) => (typeof item === 'string' ? item : item.value)
             )
         }
 
-        mutateAsync({ templateUuid: uuid!, data: payload })
+        mutateAsync({ templateId: id!, data: payload })
             .then(() => {
                 Promise.all([
                     queryClient.invalidateQueries({
@@ -127,7 +127,7 @@ const PublicationTemplateEdit = () => {
         if (!data) return
 
         mutate(
-            { templateUuid: uuid!, data: { Is_Active: activate } },
+            { templateId: id!, data: { is_active: activate } },
             {
                 onSuccess: () =>
                     Promise.all([
@@ -169,14 +169,14 @@ const PublicationTemplateEdit = () => {
                 <div className="flex items-center justify-between gap-4 rounded border border-pzh-gray-200 px-6 py-4">
                     <div className="flex items-center gap-4">
                         <Badge
-                            variant={data?.Is_Active ? 'green' : 'red'}
-                            text={data?.Is_Active ? 'Actief' : 'Inactief'}
+                            variant={data?.is_active ? 'green' : 'red'}
+                            text={data?.is_active ? 'Actief' : 'Inactief'}
                             upperCase={false}
                         />
                         <ToggleSwitch
-                            checked={data?.Is_Active || false}
+                            checked={data?.is_active || false}
                             title={
-                                data?.Is_Active
+                                data?.is_active
                                     ? 'Template deactiveren'
                                     : 'Template activeren'
                             }

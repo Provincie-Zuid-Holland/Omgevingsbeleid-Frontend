@@ -5,68 +5,68 @@ import createEmptyObject from '@/utils/createEmptyObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
 export const SCHEMA_PUBLICATION = object({
-    Module_ID: schemaDefaults.requiredNumber(),
-    Title: schemaDefaults.requiredString(),
-    Document_Type: z.nativeEnum(DocumentType),
-    Procedure_Type: z.nativeEnum(ProcedureType),
-    Template_UUID: schemaDefaults.requiredString(),
-    Environment_UUID: schemaDefaults.requiredString(),
-    Act_UUID: schemaDefaults.requiredString(),
-    Module_Status_ID: schemaDefaults.requiredNumber(),
+    module_id: schemaDefaults.requiredNumber(),
+    title: schemaDefaults.requiredString(),
+    document_type: z.nativeEnum(DocumentType),
+    procedure_type: z.nativeEnum(ProcedureType),
+    template_id: schemaDefaults.requiredString(),
+    environment_id: schemaDefaults.requiredString(),
+    act_id: schemaDefaults.requiredString(),
+    module_status_id: schemaDefaults.requiredNumber(),
 })
 
 export const PUBLICATION_EDIT_SCHEMA = object({
-    Template_UUID: schemaDefaults.requiredString(),
+    template_id: schemaDefaults.requiredString(),
 })
 
 export const PUBLICATION_ADD_SCHEMA = object({
-    Act_UUID: schemaDefaults.requiredString(),
-    Template_UUID: schemaDefaults.requiredString(),
-    Module_Status_ID: schemaDefaults.requiredNumber(),
+    act_id: schemaDefaults.requiredString(),
+    template_id: schemaDefaults.requiredString(),
+    module_status_id: schemaDefaults.requiredNumber(),
 })
 
 export const PUBLICATION_VERSION_ADD_SCHEMA = object({
-    Module_Status_ID: schemaDefaults.requiredNumber(),
+    module_status_id: schemaDefaults.requiredNumber(),
 })
 
 export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
-    Module_Status_ID: schemaDefaults.requiredNumber(),
-    Bill_Metadata: object({
-        Official_Title: schemaDefaults.requiredString(),
-        Quote_Title: schemaDefaults.requiredString(),
+    module_status_id: schemaDefaults.requiredNumber(),
+    bill_metadata: object({
+        official_title: schemaDefaults.requiredString(),
+        quote_title: schemaDefaults.requiredString(),
     }),
-    Bill_Compact: object({
-        Preamble: schemaDefaults.optionalRte(),
-        Amendment_Article: schemaDefaults.requiredString(),
-        Time_Article: schemaDefaults.rte(),
-        Custom_Articles: array(
+    bill_compact: object({
+        preamble: schemaDefaults.optionalRte(),
+        amendment_article: schemaDefaults.requiredString(),
+        time_article: schemaDefaults.rte(),
+        custom_articles: array(
             object({
-                Number: schemaDefaults.requiredString(),
-                Content: schemaDefaults.rte(),
+                number: schemaDefaults.requiredString(),
+                content: schemaDefaults.rte(),
             })
         )
             .optional()
             .nullable(),
-        Appendices: array(
+        appendices: array(
             object({
-                Number: schemaDefaults.requiredString(),
-                Title: schemaDefaults.requiredString(),
-                Content: schemaDefaults.rte(),
+                number: schemaDefaults.requiredString(),
+                title: schemaDefaults.requiredString(),
+                content: schemaDefaults.rte(),
             })
         )
             .optional()
             .nullable(),
-        Motivation: z.preprocess(
+        motivation: z.preprocess(
             value => {
                 const motivation = value as {
-                    Title?: string | null
-                    Content?: string | null
-                    Appendices?: unknown[] | null
+                    title?: string | null
+                    content?: string | null
+                    appendices?: unknown[] | null
                 } | null
 
-                const title = motivation?.Title?.trim()
-                const content = motivation?.Content?.trim()
-                const appendices = motivation?.Appendices ?? []
+                const title = motivation?.title?.trim()
+                const content = motivation?.content?.trim()
+                const appendices = motivation?.appendices ?? []
 
                 if (!title && !content && appendices.length === 0) {
                     return null
@@ -75,13 +75,13 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
                 return value
             },
             object({
-                Title: schemaDefaults.requiredString(),
-                Content: schemaDefaults.rte(),
-                Appendices: array(
+                title: schemaDefaults.requiredString(),
+                content: schemaDefaults.rte(),
+                appendices: array(
                     object({
-                        Number: schemaDefaults.requiredString(),
-                        Title: schemaDefaults.requiredString(),
-                        Content: schemaDefaults.rte(),
+                        number: schemaDefaults.requiredString(),
+                        title: schemaDefaults.requiredString(),
+                        content: schemaDefaults.rte(),
                     })
                 )
                     .optional()
@@ -90,36 +90,36 @@ export const PUBLICATION_VERSION_EDIT_SCHEMA = object({
                 .optional()
                 .nullable()
         ),
-        Closing: schemaDefaults.optionalRte(),
-        Signed: schemaDefaults.optionalRte(),
+        closing: schemaDefaults.optionalRte(),
+        signed: schemaDefaults.optionalRte(),
     }),
-    Effective_Date: z.preprocess(
+    effective_date: z.preprocess(
         value => (value === '' ? null : value),
         schemaDefaults.optionalString.nullable().refine(date => {
             return !date || new Date(date) > new Date()
         }, 'De inwerkingtredingsdatum moet in de toekomst liggen')
     ),
-    Announcement_Date: schemaDefaults.optionalString
+    announcement_date: schemaDefaults.optionalString
         .refine(date => {
             return !date || new Date(date) > new Date()
         }, 'De bekendmakingsdatum moet in de toekomst liggen')
         .nullable(),
-    Procedural: object({
-        Enactment_Date: schemaDefaults.optionalString,
-        Signed_Date: schemaDefaults.optionalString,
-        Procedural_Announcement_Date: schemaDefaults.optionalString,
+    procedural: object({
+        enactment_date: schemaDefaults.optionalString,
+        signed_date: schemaDefaults.optionalString,
+        procedural_announcement_date: schemaDefaults.optionalString,
     }),
-}).superRefine(({ Effective_Date, Announcement_Date }, ctx) => {
+}).superRefine(({ effective_date, announcement_date }, ctx) => {
     if (
-        Effective_Date &&
-        Announcement_Date &&
-        new Date(Announcement_Date) >= new Date(Effective_Date)
+        effective_date &&
+        announcement_date &&
+        new Date(announcement_date) >= new Date(effective_date)
     ) {
         ctx.addIssue({
             code: ZodIssueCode.custom,
             message:
                 'De bekendmakingsdatum moet eerder zijn dan de inwerkingtredingsdatum',
-            path: ['Announcement_Date'],
+            path: ['announcement_date'],
         })
     }
 })

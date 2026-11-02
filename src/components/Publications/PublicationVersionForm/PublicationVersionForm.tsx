@@ -93,8 +93,8 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
         useModuleStatusData(moduleId)
 
     const isLastStatus = useMemo(
-        () => values.Module_Status_ID === lastStatus?.ID,
-        [lastStatus, values.Module_Status_ID]
+        () => values.module_status_id === lastStatus?.id,
+        [lastStatus, values.module_status_id]
     )
 
     const { data: attachments } = usePublicationVersionsGetListAttachments(
@@ -107,7 +107,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
     )
 
     const usedDocumentRefs = useMemo(() => {
-        const content = collectStringValues(values.Bill_Compact).join(' ')
+        const content = collectStringValues(values.bill_compact).join(' ')
 
         return new Set(
             Array.from(
@@ -116,7 +116,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                 )
             ).map(match => Number(match[1]))
         )
-    }, [values.Bill_Compact])
+    }, [values.bill_compact])
 
     useMountEffect(() => {
         if (!!error) {
@@ -145,7 +145,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     <div>
                         <FormikSelect
                             key={isLoading.toString()}
-                            name="Module_Status_ID"
+                            name="module_status_id"
                             label="Modulestatus"
                             placeholder="Selecteer een modulestatus"
                             options={statusOptions}
@@ -172,7 +172,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     </div>
                     <div>
                         <FormikInput
-                            name="Bill_Metadata.Official_Title"
+                            name="bill_metadata.official_title"
                             label="Officiële titel van het besluit"
                             description="Format van de officiële titel: (Ontwerp)besluit van [Gedeputeerde staten/Provinciale Staten] van Zuid-Holland van dd m jjjj, nr. XXXX tot wijziging van [de omgevingsvisie Zuid-Holland/ het omgevingsprogramma Zuid-Holland] [Naam herziening incl. Omgevingsbeleid]"
                             placeholder="Ontwerpbesluit van Provinciale Staten van Zuid-Holland van 12 maart 2026, nr. 1234 tot wijziging van de omgevingsvisie Zuid-Holland Herziening Omgevingsbeleid 2025"
@@ -181,7 +181,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     </div>
                     <div>
                         <FormikInput
-                            name="Bill_Metadata.Quote_Title"
+                            name="bill_metadata.quote_title"
                             label="Citeertitel"
                             description="Format van de citeertitel: (Ontwerp)besluit wijziging omgevingsvisie [Naam herziening]"
                             placeholder="Ontwerpbesluit wijziging omgevingsvisie Zuid-Holland Herziening 2025"
@@ -190,7 +190,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     </div>
                     <div>
                         <FormikRte
-                            name="Bill_Compact.Preamble"
+                            name="bill_compact.preamble"
                             label="Aanhef"
                             disabled={readOnly}
                         />
@@ -198,7 +198,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     <Articles readOnly={readOnly} />
                     <div>
                         <FormikRte
-                            name="Bill_Compact.Closing"
+                            name="bill_compact.closing"
                             label="Sluiting"
                             placeholder="Bijv. Gegeven te 's-Gravenhage, 27 september 2023"
                             disabled={readOnly}
@@ -206,21 +206,21 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                     </div>
                     <div>
                         <FormikRte
-                            name="Bill_Compact.Signed"
+                            name="bill_compact.signed"
                             label="Ondertekening"
                             disabled={readOnly}
                         />
                     </div>
                     <div>
                         <FormikInput
-                            name="Bill_Compact.Motivation.Title"
+                            name="bill_compact.motivation.title"
                             label="Motivering"
                             placeholder="Titel"
                         />
                     </div>
                     <div>
                         <FormikRte
-                            name="Bill_Compact.Motivation.Content"
+                            name="bill_compact.motivation.content"
                             customMenuOptions={['heading']}
                             disabled={readOnly}
                         />
@@ -239,9 +239,9 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                         <div className="flex flex-col gap-2">
                             {attachments?.map(attachment => (
                                 <Document
-                                    key={attachment.File_UUID}
+                                    key={attachment.file_id}
                                     {...attachment}
-                                    isUsed={usedDocumentRefs.has(attachment.ID)}
+                                    isUsed={usedDocumentRefs.has(attachment.id)}
                                 />
                             ))}
                         </div>
@@ -264,14 +264,14 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                         <div className="flex gap-4 [&_>div]:flex-1">
                             <div>
                                 <FormikDate
-                                    name="Procedural.Enactment_Date"
+                                    name="procedural.enactment_date"
                                     label="Vaststellingsdatum"
                                     placeholder="Kies een datum"
                                 />
                             </div>
                             <div>
                                 <FormikDate
-                                    name="Procedural.Signed_Date"
+                                    name="procedural.signed_date"
                                     label="Datum van ondertekening"
                                     placeholder="Kies een datum"
                                     required={isRequired}
@@ -279,7 +279,7 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                             </div>
                             <div>
                                 <FormikDate
-                                    name="Procedural.Procedural_Announcement_Date"
+                                    name="procedural.procedural_announcement_date"
                                     label="Bekend op"
                                     placeholder="Kies een datum"
                                     required={isRequired}
@@ -294,17 +294,17 @@ const InnerForm = <TData extends FormikValues & PublicationVersion>({
                         <div className="flex gap-4 [&_>div]:flex-1">
                             <div>
                                 <FormikDate
-                                    name="Announcement_Date"
+                                    name="announcement_date"
                                     label="Bekendmakingsdatum"
                                     placeholder="Kies een datum"
                                     required={isRequired}
                                     popperPlacement="top"
                                 />
                             </div>
-                            {values.Publication.Procedure_Type !== 'draft' && (
+                            {values.publication.procedure_type !== 'draft' && (
                                 <div>
                                     <FormikDate
-                                        name="Effective_Date"
+                                        name="effective_date"
                                         label="Inwerkingtredingsdatum"
                                         placeholder="Kies een datum"
                                         required={isRequired}
@@ -340,21 +340,21 @@ const Articles = ({ readOnly }: { readOnly?: boolean }) => (
 
         <div>
             <FormikTextArea
-                name="Bill_Compact.Amendment_Article"
+                name="bill_compact.amendment_article"
                 label="Wijzigingsartikel"
             />
         </div>
 
         <div>
             <FormikRte
-                name="Bill_Compact.Time_Article"
+                name="bill_compact.time_article"
                 label="Inwerkingstredingartikel"
                 disabled={readOnly}
             />
         </div>
 
         <FieldArray
-            name="Bill_Compact.Custom_Articles"
+            name="bill_compact.custom_articles"
             label=""
             arrayLabel="Artikel"
             buttonLabel="Artikel toevoegen"
@@ -367,13 +367,13 @@ const Articles = ({ readOnly }: { readOnly?: boolean }) => (
             fields={[
                 {
                     type: 'text',
-                    name: 'Number',
+                    name: 'number',
                     label: 'Nummer',
                     placeholder: 'Voer hier een nummer in, bijvoorbeeld: III',
                 },
                 {
                     type: 'wysiwyg',
-                    name: 'Content',
+                    name: 'content',
                     label: 'Inhoud van artikel',
                 },
             ]}
@@ -396,7 +396,7 @@ const Appendices = ({ readOnly }: { readOnly?: boolean }) => (
         </div>
 
         <FieldArray
-            name="Bill_Compact.Appendices"
+            name="bill_compact.appendices"
             label=""
             arrayLabel="Bijlage"
             buttonLabel="Bijlage toevoegen"
@@ -410,19 +410,19 @@ const Appendices = ({ readOnly }: { readOnly?: boolean }) => (
             fields={[
                 {
                     type: 'text',
-                    name: 'Number',
+                    name: 'number',
                     label: 'Nummer',
                     placeholder: 'Bijv. "1, A, a, I"',
                 },
                 {
                     type: 'text',
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     placeholder: 'Titel van de bijlage',
                 },
                 {
                     type: 'wysiwyg',
-                    name: 'Content',
+                    name: 'content',
                     label: '',
                 },
             ]}
@@ -443,7 +443,7 @@ const Appendices = ({ readOnly }: { readOnly?: boolean }) => (
         </div>
 
         <FieldArray
-            name="Bill_Compact.Motivation.Appendices"
+            name="bill_compact.motivation.appendices"
             label=""
             arrayLabel="Bijlage"
             buttonLabel="Bijlage toevoegen"
@@ -457,19 +457,19 @@ const Appendices = ({ readOnly }: { readOnly?: boolean }) => (
             fields={[
                 {
                     type: 'text',
-                    name: 'Number',
+                    name: 'number',
                     label: 'Nummer',
                     placeholder: 'Bijv. "1, A, a, I"',
                 },
                 {
                     type: 'text',
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     placeholder: 'Titel van de bijlage',
                 },
                 {
                     type: 'wysiwyg',
-                    name: 'Content',
+                    name: 'content',
                     label: '',
                 },
             ]}
@@ -478,10 +478,10 @@ const Appendices = ({ readOnly }: { readOnly?: boolean }) => (
 )
 
 const Document = ({
-    Created_Date,
-    ID,
-    Filename,
-    File_UUID,
+    created_date,
+    id,
+    filename,
+    file_id,
     isUsed,
     ...rest
 }: AttachmentShort & { isUsed: boolean }) => {
@@ -492,23 +492,23 @@ const Document = ({
     const [copied, setCopied] = useState(false)
 
     const createdDate = useMemo(
-        () => formatDate(parseUtc(Created_Date), "dd-MM-yyyy 'om' HH:mm"),
-        [Created_Date]
+        () => formatDate(parseUtc(created_date), "dd-MM-yyyy 'om' HH:mm"),
+        [created_date]
     )
 
     const copyClipboard = async () => {
-        await navigator.clipboard.writeText(`[${DOCUMENT_REF}:${ID}]`)
+        await navigator.clipboard.writeText(`[${DOCUMENT_REF}:${id}]`)
         setCopied(true)
         setTimeout(() => setCopied(false), 1800)
     }
 
     const downloadDocument = useQuery({
-        queryKey: ['downloadAttachmentFile', File_UUID],
+        queryKey: ['downloadAttachmentFile', file_id],
         queryFn: () =>
             downloadFile(
                 getPublicationVersionsGetDownloadAttachmentQueryKey(
                     String(versionUUID),
-                    ID
+                    id
                 )[0],
                 undefined,
                 true
@@ -529,7 +529,7 @@ const Document = ({
                     <Text
                         bold
                         className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-pzh-gray-600 text-heading-xs">
-                        {ID}
+                        {id}
                     </Text>
 
                     <div className="flex min-w-0 items-center gap-4">
@@ -541,8 +541,8 @@ const Document = ({
                                 bold
                                 color="text-pzh-blue-500"
                                 className="block truncate text-heading-xs underline"
-                                title={Filename}>
-                                {Filename}
+                                title={filename}>
+                                {filename}
                             </Text>{' '}
                             <ArrowUpRightFromSquare
                                 className="ml-1 min-w-3.5"
@@ -590,10 +590,10 @@ const Document = ({
                 onPress={() =>
                     setActiveModal('publicationAttachmentDelete', {
                         attachment: {
-                            Created_Date,
-                            ID,
-                            Filename,
-                            File_UUID,
+                            created_date,
+                            id,
+                            filename,
+                            file_id,
                             ...rest,
                         },
                     })

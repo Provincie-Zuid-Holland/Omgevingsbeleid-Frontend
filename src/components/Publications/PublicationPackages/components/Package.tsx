@@ -36,17 +36,17 @@ interface PackageProps extends PublicationPackage {
 
 const Package = ({
     publicationType,
-    UUID,
-    Created_Date,
-    Zip,
-    Report_Status,
+    id,
+    created_date,
+    zip,
+    report_status,
     isLocked,
     publicationUUID,
     versionUUID,
     announcementUUID,
     environmentUUID,
     canPublicate,
-    Package_Type,
+    package_type,
     moduleStatus,
 }: PackageProps) => {
     const navigate = useNavigate()
@@ -59,33 +59,33 @@ const Package = ({
 
     const { downloadPackage } = useActions({
         publicationType,
-        packageType: Package_Type as PackageType,
+        packageType: package_type as PackageType,
         publicationUUID,
         versionUUID,
         announcementUUID,
-        packageUUID: UUID,
+        packageUUID: id,
     })
 
     const createdDate = useMemo(
-        () => formatDate(parseUtc(Created_Date), "dd-MM-yyyy 'om' HH:mm"),
+        () => formatDate(parseUtc(created_date), "dd-MM-yyyy 'om' HH:mm"),
 
-        [Created_Date]
+        [created_date]
     )
 
     const downloadDate = useMemo(
         () =>
-            Zip.Latest_Download_Date
-                ? formatDate(parseUtc(Zip.Latest_Download_Date), 'dd-MM-yyyy')
+            zip.latest_download_date
+                ? formatDate(parseUtc(zip.latest_download_date), 'dd-MM-yyyy')
                 : null,
 
-        [Zip.Latest_Download_Date]
+        [zip.latest_download_date]
     )
 
     const moduleStatusDate = useMemo(
         () =>
             moduleStatus
                 ? formatDate(
-                      parseUtc(moduleStatus.Created_Date),
+                      parseUtc(moduleStatus.created_date),
                       "dd-MM-yyyy 'om' HH:mm"
                   )
                 : null,
@@ -96,7 +96,7 @@ const Package = ({
         icon: StatusIcon,
         className: statusIconClassName,
         label: statusLabel,
-    } = useMemo(() => getPackageStatusIcon(Report_Status), [Report_Status])
+    } = useMemo(() => getPackageStatusIcon(report_status), [report_status])
 
     const canUploadReports =
         !isLocked &&
@@ -135,12 +135,12 @@ const Package = ({
                         Gebaseerd op modulestatus
                     </Text>
                     <Text size="s" bold color="text-pzh-blue-500">
-                        {moduleStatus.Status} ({moduleStatusDate})
+                        {moduleStatus.status} ({moduleStatusDate})
                     </Text>
                 </div>
             )}
 
-            {!Zip.Latest_Download_Date ? (
+            {!zip.latest_download_date ? (
                 <Button
                     size="small"
                     variant="cta"
@@ -161,13 +161,13 @@ const Package = ({
                                     setActiveModal(
                                         'publicationPackageReportUpload',
                                         {
-                                            packageUUID: UUID,
+                                            packageUUID: id,
                                             publicationType,
                                             publicationUUID,
                                             announcementUUID,
                                             environmentUUID,
                                             packageType:
-                                                Package_Type as PackageType,
+                                                package_type as PackageType,
                                         }
                                     )
                                 }>
@@ -193,7 +193,7 @@ const Package = ({
                             aria-label="Bekijk levering"
                             onPress={() =>
                                 navigate(
-                                    `/muteer/leveringen/${publicationType}/${UUID}`
+                                    `/muteer/leveringen/${publicationType}/${id}`
                                 )
                             }
                         />

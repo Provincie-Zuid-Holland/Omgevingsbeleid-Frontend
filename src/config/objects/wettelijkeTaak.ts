@@ -55,7 +55,7 @@ const wettelijkeTaak: DynamicObject = {
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van de wettelijke taak.',
@@ -65,7 +65,7 @@ const wettelijkeTaak: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Weblink',
+                    name: 'weblink',
                     label: 'Link naar wetten.nl',
                     type: 'url',
                     // @ts-ignore

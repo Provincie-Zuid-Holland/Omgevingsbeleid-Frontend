@@ -1,13 +1,13 @@
 import { LeafletTinyViewer } from '../Leaflet'
 
 interface AreaPreviewProps {
-    UUID?: string
+    id?: string
 }
 
-const AreaPreview = ({ UUID }: AreaPreviewProps) => (
+const AreaPreview = ({ id }: AreaPreviewProps) => (
     <div className="relative z-0 flex w-full items-center justify-center overflow-hidden rounded bg-pzh-gray-100 text-center">
         <div className="h-120 w-full overflow-hidden rounded-lg">
-            <LeafletTinyViewer uuid={UUID || ''} isSource />
+            <LeafletTinyViewer id={id || ''} isSource />
         </div>
     </div>
 )

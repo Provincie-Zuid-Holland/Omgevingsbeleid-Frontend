@@ -37,10 +37,10 @@ const ObjectRelationApprovedModal = ({
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [initialValues, setInitialValues] = useState({
-        Object_Type: model.defaults.singular,
-        Acknowledged: false,
+        object_type: model.defaults.singular,
+        acknowledged: false,
         consent: false,
-    } as EditAcknowledgedRelation & { Title?: string | null; consent: boolean })
+    } as EditAcknowledgedRelation & { title?: string | null; consent: boolean })
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()
@@ -59,11 +59,11 @@ const ObjectRelationApprovedModal = ({
     /**
      * Handle disconnect relation
      */
-    const handleDisconnect = (Object_ID: number, Title?: string | null) => {
+    const handleDisconnect = (object_id: number, title?: string | null) => {
         setInitialValues({
             ...initialValues,
-            Object_ID,
-            Title,
+            object_id,
+            title,
         })
         setStep(2)
     }
@@ -88,10 +88,10 @@ const ObjectRelationApprovedModal = ({
         postAcknowledgedRelations?.mutate({
             lineageId: parseInt(objectId!),
             data: {
-                Object_ID: payload.Object_ID,
-                Object_Type: payload.Object_Type,
-                Acknowledged: false,
-                Denied: true,
+                object_id: payload.object_id,
+                object_type: payload.object_type,
+                acknowledged: false,
+                denied: true,
             },
         })
     }
@@ -116,7 +116,7 @@ const ObjectRelationApprovedModal = ({
                     <Form>
                         <CurrentStep
                             model={model}
-                            title={data?.Title}
+                            title={data?.title}
                             relations={relations}
                             handleDisconnect={handleDisconnect}
                         />

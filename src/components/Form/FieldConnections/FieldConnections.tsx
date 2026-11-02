@@ -41,7 +41,7 @@ const FieldConnections = ({
      */
     const getConnections = useCallback(
         (type: ModelType) =>
-            value?.filter(relation => relation.Object_Type === type),
+            value?.filter(relation => relation.object_type === type),
         [value]
     )
 
@@ -51,18 +51,18 @@ const FieldConnections = ({
         let newData = value || []
 
         if (!('items' in payload)) {
-            if (!('Object_ID' in payload)) return
+            if (!('object_id' in payload)) return
 
             const isExisting = newData.find(
                 item =>
-                    item.Object_ID === payload?.Object_ID &&
-                    item.Object_Type === payload?.Object_Type
+                    item.object_id === payload?.object_id &&
+                    item.object_type === payload?.object_type
             )
 
             if (isExisting) {
-                isExisting.Description = payload?.Description || ''
+                isExisting.description = payload?.description || ''
             } else {
-                if (payload?.Object_ID && payload.Object_Type) {
+                if (payload?.object_id && payload.object_type) {
                     newData.push(payload)
                 }
             }
@@ -70,12 +70,12 @@ const FieldConnections = ({
             newData = [
                 ...newData.filter(
                     e =>
-                        e.Object_Type !==
+                        e.object_type !==
                         modal.connectionModel?.defaults?.singular
                 ),
                 ...(payload.items?.map(item => ({
-                    Object_Type: modal.connectionModel?.defaults?.singular,
-                    Object_ID: item.value,
+                    object_type: modal.connectionModel?.defaults?.singular,
+                    object_id: item.value,
                     ...item,
                 })) || []),
             ]
@@ -89,8 +89,8 @@ const FieldConnections = ({
         value?.splice(
             value.findIndex(
                 item =>
-                    item.Object_ID === connection.Object_ID &&
-                    item.Object_Type === connection.Object_Type
+                    item.object_id === connection.object_id &&
+                    item.object_type === connection.object_type
             ),
             1
         )
@@ -129,7 +129,7 @@ const FieldConnections = ({
                 handleFormSubmit={handleSubmit}
                 relations={value}
                 data={{
-                    Title: values.Title || 'Naamloos',
+                    title: values.title || 'Naamloos',
                 }}
             />
         </>

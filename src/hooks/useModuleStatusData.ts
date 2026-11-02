@@ -19,11 +19,11 @@ export function useModuleStatusData(moduleId?: string | number) {
     const activeStatuses = useMemo<ModuleStatus[]>(
         () =>
             rawStatuses
-                .filter(s => s.Status !== 'Niet-Actief')
+                .filter(s => s.status !== 'Niet-Actief')
                 .sort(
                     (a, b) =>
-                        parseUtc(b.Created_Date).getTime() -
-                        parseUtc(a.Created_Date).getTime()
+                        parseUtc(b.created_date).getTime() -
+                        parseUtc(a.created_date).getTime()
                 ),
         [rawStatuses]
     )
@@ -31,8 +31,8 @@ export function useModuleStatusData(moduleId?: string | number) {
     const statusOptions = useMemo(
         () =>
             activeStatuses.map(s => ({
-                label: `${s.Status} (${formatDate(parseUtc(s.Created_Date), "dd-MM-yyyy 'om' HH:mm")})`,
-                value: s.ID,
+                label: `${s.status} (${formatDate(parseUtc(s.created_date), "dd-MM-yyyy 'om' HH:mm")})`,
+                value: s.id,
             })),
         [activeStatuses]
     )
@@ -40,7 +40,7 @@ export function useModuleStatusData(moduleId?: string | number) {
     const lastStatus = useMemo<ModuleStatus | null>(() => {
         if (activeStatuses.length === 0) return null
         return activeStatuses.reduce((latest, cur) =>
-            parseUtc(cur.Created_Date) > parseUtc(latest.Created_Date)
+            parseUtc(cur.created_date) > parseUtc(latest.created_date)
                 ? cur
                 : latest
         )

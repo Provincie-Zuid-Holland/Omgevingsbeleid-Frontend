@@ -86,7 +86,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
 
     const [sortBy, setSortBy] = useState([
         {
-            id: 'Modified_Date',
+            id: 'modified_date',
             desc: true,
         },
     ])
@@ -114,7 +114,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                 : undefined,
             filter_successful: type === 'archive' ? true : undefined,
             sort_column:
-                (sortBy?.[0]?.id as ModuleSortColumn) || 'Modified_Date',
+                (sortBy?.[0]?.id as ModuleSortColumn) || 'modified_date',
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
             limit: PAGE_LIMIT,
             offset:
@@ -134,12 +134,12 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
         () => [
             {
                 header: 'Titel',
-                accessorKey: 'Title',
+                accessorKey: 'title',
                 enableSorting: false,
             },
             {
                 header: 'Datum afronding/publicatie',
-                accessorKey: 'Modified_Date',
+                accessorKey: 'modified_date',
             },
         ],
         []
@@ -150,19 +150,21 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
      */
     const formattedData = useMemo(
         () =>
-            modules?.results?.map(({ Title, Modified_Date, Module_ID }) => ({
-                Title: (
+            modules?.results?.map(({ title, modified_date, module_id }) => ({
+                title: (
                     <Text bold color="text-pzh-blue-500">
-                        {Title}
+                        {title}
                     </Text>
                 ),
-                Modified_Date: (
+
+                modified_date: (
                     <span className="flex items-center justify-between">
-                        {formatDate(parseUtc(Modified_Date), 'dd-MM-yyyy')}
+                        {formatDate(parseUtc(modified_date), 'dd-MM-yyyy')}
                         <AngleRight size={20} />
                     </span>
                 ),
-                onClick: () => navigate(`/muteer/modules/${Module_ID}`),
+
+                onClick: () => navigate(`/muteer/modules/${module_id}`),
             })),
         [modules?.results, navigate]
     )
@@ -184,7 +186,7 @@ const TabContent = ({ type, activeTab }: TabContentProps) => {
                             !!modules?.results.length &&
                             modules?.results?.map(module => (
                                 <ModuleTile
-                                    key={`module-${module.Module_ID}`}
+                                    key={`module-${module.module_id}`}
                                     {...module}
                                 />
                             ))

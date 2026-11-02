@@ -18,15 +18,15 @@ describe('ModuleItem', () => {
                     <AuthProvider>
                         <ModuleProvider>
                             <ModuleItem
-                                Object_Type="beleidskeuze"
-                                Module_ID={1}
-                                ModuleObjectContext={{ Action: 'Toevoegen' }}
-                                Module_Latest_Status=""
-                                Model={{
-                                    Title: 'My Policy',
+                                object_type="beleidskeuze"
+                                module_id={1}
+                                module_object_context={{ action: 'Toevoegen' }}
+                                module_latest_status=""
+                                model={{
+                                    title: 'My Policy',
                                 }}
-                                ObjectStatics={{}}
-                                model={beleidskeuze}
+                                object_statics={{}}
+                                objectConfig={beleidskeuze}
                             />
                         </ModuleProvider>
                     </AuthProvider>

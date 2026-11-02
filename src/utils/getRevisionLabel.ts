@@ -16,14 +16,14 @@ const getRevisionLabel = (
     initialObject: MaybeRevision<ModelReturnType>,
     latest?: string
 ): string => {
-    const { Start_Validity, End_Validity, UUID, isRevision } = object
-    if (!Start_Validity) return ''
+    const { start_validity, end_validity, id, isRevision } = object
+    if (!start_validity) return ''
 
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    const startDate = parseUtc(Start_Validity)
-    const endDate = End_Validity ? parseUtc(End_Validity) : null
+    const startDate = parseUtc(start_validity)
+    const endDate = end_validity ? parseUtc(end_validity) : null
     const formattedDate = formatDate(startDate, 'd MMMM yyyy')
 
     if (isRevision) return 'Ontwerpversie'
@@ -36,8 +36,8 @@ const getRevisionLabel = (
         status = 'Vastgesteld'
         prefix = 'Vanaf'
     } else if (
-        initialObject.Start_Validity !== Start_Validity ||
-        UUID !== latest
+        initialObject.start_validity !== start_validity ||
+        id !== latest
     ) {
         status = 'Gearchiveerd'
     }

@@ -53,10 +53,10 @@ const PublicationExportPdfModal = () => {
 
     const { data: environment } =
         usePublicationEnvironmentsGetDetailEnvironment(
-            String(version?.Publication.Environment_UUID),
+            String(version?.publication.environment_id),
             {
                 query: {
-                    enabled: !!version?.Publication.Environment_UUID,
+                    enabled: !!version?.publication.environment_id,
                 },
             }
         )
@@ -65,22 +65,25 @@ const PublicationExportPdfModal = () => {
 
     const statusDate = useMemo(
         () =>
-            version?.Module_Status.Created_Date
+            version?.module_status.created_date
                 ? formatDate(
-                      parseUtc(version.Module_Status.Created_Date),
+                      parseUtc(version.module_status.created_date),
                       "dd-MM-yyyy 'om' HH:mm"
                   )
                 : '',
-        [version?.Module_Status.Created_Date]
+        [version?.module_status.created_date]
     )
 
     const showNewerStatusWarning =
-        !!version && !!lastStatus && version.Module_Status.ID !== lastStatus.ID
+        !!version && !!lastStatus && version.module_status.id !== lastStatus.id
 
     const { mutate: exportPdf, isPending } =
         usePublicationVersionsPostCreateVersionPdf({
             mutation: {
-                mutationFn: async ({ versionUuid, data }): Promise<any> =>
+                mutationFn: async ({
+                    versionId: versionUuid,
+                    data,
+                }): Promise<any> =>
                     downloadFile(
                         `/publication-versions/${versionUuid}/pdf_export`,
                         data
@@ -98,11 +101,11 @@ const PublicationExportPdfModal = () => {
                 </Text>{' '}
                 van module{' '}
                 <Text as="span" bold>
-                    {module?.Module.Title}
+                    {module?.module.title}
                 </Text>{' '}
                 gebaseerd op modulestatus{' '}
                 <Text as="span" bold>
-                    {version?.Module_Status.Status} ({statusDate})
+                    {version?.module_status.status} ({statusDate})
                 </Text>
             </Text>
 
@@ -147,8 +150,8 @@ const PublicationExportPdfModal = () => {
                     isDisabled={isPending}
                     onPress={() =>
                         exportPdf({
-                            versionUuid: String(modalState?.versionUUID),
-                            data: { Mutation: mutation },
+                            versionId: String(modalState?.versionUUID),
+                            data: { mutation_strategy: mutation },
                         })
                     }>
                     Exporteer

@@ -34,7 +34,7 @@ const ModuleCreate = () => {
                         queryKey: getModulesGetListModulesQueryKey(),
                         refetchType: 'all',
                     })
-                    .then(() => navigate(`/muteer/modules/${res.Module_ID}`))
+                    .then(() => navigate(`/muteer/modules/${res.module_id}`))
 
                 toastNotification('moduleCreated')
             },

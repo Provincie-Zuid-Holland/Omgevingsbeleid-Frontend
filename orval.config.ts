@@ -10,6 +10,7 @@ const getApiUrl = (): string => {
         test: process.env.VITE_API_URL_TEST,
         acc: process.env.VITE_API_URL_ACC,
         prod: process.env.VITE_API_URL_PROD,
+        trial: process.env.VITE_API_URL_TRIAL,
     }[environment ?? 'dev']
 
     if (!url) {

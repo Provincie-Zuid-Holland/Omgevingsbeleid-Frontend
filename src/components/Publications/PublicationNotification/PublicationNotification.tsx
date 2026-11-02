@@ -21,19 +21,19 @@ const PublicationNotification = ({
     version,
     announcement,
 }: PublicationNotificationProps) => {
-    const isDraft = version?.Publication.Procedure_Type === 'draft'
+    const isDraft = version?.publication.procedure_type === 'draft'
 
     const actAnnouncementDate = useMemo(
         () =>
-            version?.Announcement_Date &&
-            formatDate(parseUtc(version.Announcement_Date), 'd LLLL yyyy'),
+            version?.announcement_date &&
+            formatDate(parseUtc(version.announcement_date), 'd LLLL yyyy'),
         [version]
     )
 
     const announcementDate = useMemo(
         () =>
-            announcement?.Announcement_Date &&
-            formatDate(parseUtc(announcement.Announcement_Date), 'd LLLL yyyy'),
+            announcement?.announcement_date &&
+            formatDate(parseUtc(announcement.announcement_date), 'd LLLL yyyy'),
         [announcement]
     )
 

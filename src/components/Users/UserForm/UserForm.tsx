@@ -36,21 +36,21 @@ const UserForm = ({
                 <Form className="grid gap-6">
                     <div>
                         <FormikInput
-                            name="Gebruikersnaam"
+                            name="name"
                             label="Naam"
                             placeholder="Voor- en achternaam van de gebruiker"
                         />
                     </div>
                     <div>
                         <FormikInput
-                            name="Email"
+                            name="email"
                             label="E-mailadres"
                             placeholder="Vul een geldig e-mailadres in"
                         />
                     </div>
                     <div>
                         <FormikSelect
-                            name="Roles"
+                            name="roles"
                             label="Rol"
                             placeholder="Kies één of meerdere rollen"
                             options={roleOptions}

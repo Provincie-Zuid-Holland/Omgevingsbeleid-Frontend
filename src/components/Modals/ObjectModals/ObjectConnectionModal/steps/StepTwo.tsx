@@ -22,7 +22,7 @@ export const StepTwo = ({
     >()
 
     const selected = useMemo(
-        () => connections?.map(connection => connection.Object_ID),
+        () => connections?.map(connection => connection.object_id),
         [connections]
     )
 
@@ -37,12 +37,12 @@ export const StepTwo = ({
     const { useGetValid } = fetchers || {}
 
     const { data: items, isLoading } =
-        useGetValid?.<{
+        useGetValid<{
             results: ModelReturnTypeBasicUnion[]
-        }>(
+        }>?.(
             {
                 limit: 500,
-                sort_column: 'Title',
+                sort_column: 'title',
                 sort_order: 'ASC',
             },
             {
@@ -57,9 +57,9 @@ export const StepTwo = ({
                             results: data.results.filter(object =>
                                 Array.isArray(selected)
                                     ? !selected.includes(
-                                          Number(object.Object_ID)
+                                          Number(object.object_id)
                                       )
-                                    : object.Object_ID !== selected
+                                    : object.object_id !== selected
                             ),
                         }
                     },
@@ -69,9 +69,9 @@ export const StepTwo = ({
 
     const options = useMemo(
         () =>
-            items?.results.map(({ Title, Object_ID }) => ({
-                label: Title,
-                value: Object_ID,
+            items?.results.map(({ title: _title, object_id }) => ({
+                label: _title,
+                value: object_id,
             })),
         [items]
     )
@@ -130,17 +130,17 @@ export const StepTwo = ({
             ) : (
                 <FormikSelect
                     key={isLoading?.toString()}
-                    name="Object_ID"
+                    name="object_id"
                     options={options}
                     defaultValue={
-                        values.Title &&
-                        values.Object_ID && {
-                            label: values.Title,
-                            value: values.Object_ID,
+                        values.title &&
+                        values.object_id && {
+                            label: values.title,
+                            value: values.object_id,
                         }
                     }
                     onChange={val =>
-                        setFieldValue('Title', (val as Option)?.label)
+                        setFieldValue('title', (val as Option)?.label)
                     }
                     placeholder={`Zoek in de ${pluralReadable}`}
                     label={`Selecteer een ${singularReadable}`}

@@ -13,7 +13,7 @@ describe('Dropdown', () => {
         items: [
             {
                 text: 'test1',
-                callback: callback,
+                callback,
             },
             {
                 text: 'test2',

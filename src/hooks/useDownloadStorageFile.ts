@@ -1,6 +1,7 @@
+import { useQuery } from '@tanstack/react-query'
+
 import { getStorageFileGetFilesDownloadQueryKey } from '@/api/fetchers'
 import { downloadFile } from '@/utils/file'
-import { useQuery } from '@tanstack/react-query'
 
 /**
  * Downloads a storage file by UUID. The query is disabled by default —

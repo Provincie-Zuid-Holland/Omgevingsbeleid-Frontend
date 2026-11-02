@@ -50,7 +50,7 @@ const PublicationAttachmentDeleteModal = () => {
                 <Text>
                     Weet je zeker dat je{' '}
                     <Text as="span" bold>
-                        {modalState?.attachment?.Title}
+                        {modalState?.attachment?.title}
                     </Text>{' '}
                     wil verwijderen?
                 </Text>
@@ -70,8 +70,8 @@ const PublicationAttachmentDeleteModal = () => {
                     isLoading={isPending && !isError}
                     onPress={() =>
                         mutate({
-                            versionUuid: String(versionUUID),
-                            attachmentId: modalState?.attachment.ID,
+                            versionId: String(versionUUID),
+                            attachmentId: modalState?.attachment.id,
                         })
                     }>
                     Verwijderen

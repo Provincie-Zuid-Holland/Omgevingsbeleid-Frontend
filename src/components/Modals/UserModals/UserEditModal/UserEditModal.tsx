@@ -15,11 +15,11 @@ import { toastNotification } from '@/utils/toastNotification'
 const UserEditModal = () => {
     const queryClient = useQueryClient()
 
-    const { uuid } = useParams()
+    const { id } = useParams()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, queryKey } = useUserViewGetUser(uuid!, {
-        query: { enabled: !!uuid },
+    const { data, queryKey } = useUserViewGetUser(id!, {
+        query: { enabled: !!id },
     })
 
     const { mutateAsync } = useUserPostEditUser({
@@ -39,20 +39,20 @@ const UserEditModal = () => {
     })
 
     const handleSubmit = (user: EditUser) => {
-        if (Array.isArray(user.Roles)) {
-            user.Roles = user.Roles.map((item: any) => item?.value ?? item)
+        if (Array.isArray(user.roles)) {
+            user.roles = user.roles.map((item: any) => item?.value ?? item)
         }
 
-        mutateAsync({ userUuid: uuid!, data: user })
+        mutateAsync({ userUuid: id!, data: user })
     }
 
     return (
         <Modal id="userEdit" title="Gegevens wijzigen">
             <UserForm
                 initialValues={{
-                    Gebruikersnaam: data?.Gebruikersnaam || '',
-                    Email: data?.Email || '',
-                    Roles: data?.Roles || [],
+                    name: data?.name || '',
+                    email: data?.email || '',
+                    roles: data?.roles || [],
                 }}
                 onSubmit={handleSubmit}
                 handleClose={() => setActiveModal(null)}

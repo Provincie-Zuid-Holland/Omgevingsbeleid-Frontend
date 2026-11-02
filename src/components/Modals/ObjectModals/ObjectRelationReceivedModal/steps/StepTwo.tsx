@@ -25,10 +25,10 @@ export const StepTwo = ({ title, model, actionType }: StepProps) => {
                 {actionType === 'accept'
                     ? 'wilt relateren aan'
                     : 'niet gerelateerd wilt hebben aan'}{' '}
-                {singular}: <span className="font-bold">{values.Title}</span>
+                {singular}: <span className="font-bold">{values.title}</span>
             </Text>
             <FormikTextArea
-                name="Explanation"
+                name="explanation"
                 placeholder="Beschrijving / Motivering van de relatie"
                 label="Toelichting"
                 required

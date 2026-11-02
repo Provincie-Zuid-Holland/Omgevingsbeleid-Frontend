@@ -60,8 +60,8 @@ export const StepOne = ({
                         connections.map(connection => (
                             <Connection
                                 key={
-                                    connection.Object_Type +
-                                    connection.Object_ID
+                                    connection.object_type +
+                                    connection.object_id
                                 }
                                 atemporal={atemporal}
                                 setStep={setStep!}
@@ -81,10 +81,10 @@ interface ConnectionProps extends ReadRelation {
 
 const Connection = ({
     atemporal,
-    Object_ID,
-    Object_Type,
-    Title,
-    Description,
+    object_id,
+    object_type,
+    title,
+    description,
     setStep,
 }: ConnectionProps) => {
     const { setFieldValue } = useFormikContext<ReadRelation>()
@@ -97,19 +97,19 @@ const Connection = ({
                     {
                         rounded: atemporal,
                         'rounded-tl rounded-tr': !atemporal,
-                        'rounded-br rounded-bl': !Description && !atemporal,
+                        'rounded-br rounded-bl': !description && !atemporal,
                     }
                 )}>
-                <span className="font-bold">{Title}</span>
+                <span className="font-bold">{title}</span>
                 <div className="-mt-1 flex items-center">
                     {!atemporal && (
                         <button
                             type="button"
                             className="mr-3"
                             onClick={() => {
-                                setFieldValue('Title', Title)
-                                setFieldValue('Description', Description)
-                                setFieldValue('Object_ID', Object_ID)
+                                setFieldValue('title', title)
+                                setFieldValue('description', description)
+                                setFieldValue('object_id', object_id)
                                 setFieldValue('type', 'edit')
                                 setStep(3)
                             }}
@@ -123,9 +123,9 @@ const Connection = ({
                     <button
                         type="button"
                         onClick={() => {
-                            setFieldValue('Title', Title)
-                            setFieldValue('Object_ID', Object_ID)
-                            setFieldValue('Object_Type', Object_Type)
+                            setFieldValue('title', title)
+                            setFieldValue('object_id', object_id)
+                            setFieldValue('object_type', object_type)
                             setStep(4)
                         }}
                         aria-label="Verwijderen">
@@ -133,9 +133,9 @@ const Connection = ({
                     </button>
                 </div>
             </div>
-            {!atemporal && !!Description && (
+            {!atemporal && !!description && (
                 <div className="rounded-br rounded-bl border border-t-0 border-pzh-gray-300 px-3 py-2">
-                    <Text>{Description}</Text>
+                    <Text>{description}</Text>
                 </div>
             )}
         </div>

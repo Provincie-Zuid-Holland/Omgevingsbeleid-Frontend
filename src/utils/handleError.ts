@@ -45,7 +45,7 @@ const handleError = <T>(err: Error, helpers: FormikHelpers<T>) => {
 export const handleFileError = <T>(
     err: Error,
     helpers: FormikHelpers<T>,
-    fieldName = 'File'
+    fieldName = 'file'
 ) => {
     if (Array.isArray(err.data?.detail)) {
         const message = err.data.detail

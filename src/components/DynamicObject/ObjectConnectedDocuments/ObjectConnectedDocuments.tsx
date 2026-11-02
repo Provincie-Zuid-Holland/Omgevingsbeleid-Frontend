@@ -25,13 +25,13 @@ const ObjectConnectedDocuments = ({
 
         <div className="flex flex-col gap-2">
             {documents.map(document => (
-                <Document key={document.Code} {...document} />
+                <Document key={document.code} {...document} />
             ))}
         </div>
     </div>
 )
 
-const Document = ({ Cached_Title, Object_ID }: ObjectStatics) => {
+const Document = ({ cached_title, object_id }: ObjectStatics) => {
     const { moduleId } = useParams()
     const { user } = useAuth()
 
@@ -39,33 +39,33 @@ const Document = ({ Cached_Title, Object_ID }: ObjectStatics) => {
         data: moduleData,
         isSuccess,
         isError,
-    } = useDocumentViewModuleObjectLatest(parseInt(moduleId!), Object_ID, {
+    } = useDocumentViewModuleObjectLatest(parseInt(moduleId!), object_id, {
         query: {
-            enabled: !!moduleId && !!Object_ID && !!user,
+            enabled: !!moduleId && !!object_id && !!user,
         },
     })
 
-    const { data: validData } = useDocumentViewObjectLatest(Object_ID, {
+    const { data: validData } = useDocumentViewObjectLatest(object_id, {
         query: {
             enabled:
-                (!moduleId && !!Object_ID) ||
-                (!!moduleId && !!Object_ID && !moduleData) ||
+                (!moduleId && !!object_id) ||
+                (!!moduleId && !!object_id && !moduleData) ||
                 isError,
         },
     })
 
     const data = moduleId && isSuccess ? moduleData : validData
 
-    const downloadDocument = useDownloadStorageFile(data?.File_UUID)
+    const downloadDocument = useDownloadStorageFile(data?.file_id)
 
-    if (!data?.File_UUID) return null
+    if (!data?.file_id) return null
 
     return (
         <ListLink asChild>
             <Button
                 variant="default"
                 onPress={() => downloadDocument.refetch()}>
-                {Cached_Title}{' '}
+                {cached_title}{' '}
                 <ArrowUpRightFromSquare className="ml-1" size={18} />
             </Button>
         </ListLink>

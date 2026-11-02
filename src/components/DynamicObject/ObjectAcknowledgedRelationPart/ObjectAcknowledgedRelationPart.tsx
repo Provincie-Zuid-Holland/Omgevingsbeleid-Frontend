@@ -49,8 +49,8 @@ const ICON_COLOR_BY_TYPE: Record<RelationType, string> = {
 
 export default function ObjectAcknowledgedRelationPart({
     type,
-    Side_A,
-    Side_B,
+    side_a,
+    side_b,
     handleAction,
     handleEdit,
     handleDisconnect,
@@ -70,16 +70,16 @@ export default function ObjectAcknowledgedRelationPart({
     const header = useMemo(() => {
         // Title always from Side_B
         // Description: awaiting => Side_A.Explanation, otherwise Side_B.Explanation
-        const title = Side_B.Title ?? ''
+        const title = side_b.title ?? ''
         const description = isAwaiting
-            ? (Side_A.Explanation ?? '')
-            : (Side_B.Explanation ?? '')
+            ? (side_a.explanation ?? '')
+            : (side_b.explanation ?? '')
         return { title, description }
-    }, [Side_A.Explanation, Side_B.Title, Side_B.Explanation, isAwaiting])
+    }, [side_a.explanation, side_b.title, side_b.explanation, isAwaiting])
 
     const composedRelation = useMemo(
-        () => ({ ...rest, Side_A, Side_B }),
-        [rest, Side_A, Side_B]
+        () => ({ ...rest, side_a, side_b }),
+        [rest, side_a, side_b]
     )
 
     const onAccept = useCallback(
@@ -95,8 +95,8 @@ export default function ObjectAcknowledgedRelationPart({
         [handleEdit, composedRelation]
     )
     const onDisconnect = useCallback(
-        () => handleDisconnect?.(Side_B.Object_ID, Side_B.Title),
-        [handleDisconnect, Side_B.Object_ID, Side_B.Title]
+        () => handleDisconnect?.(side_b.object_id, side_b.title),
+        [handleDisconnect, side_b.object_id, side_b.title]
     )
 
     return (
@@ -181,10 +181,10 @@ export default function ObjectAcknowledgedRelationPart({
                         className="flex items-start rounded-b border-r border-b border-l border-pzh-gray-300 px-4 pt-2 pb-3">
                         {!isReceived && !isAwaiting && (
                             <div className="mt-1 mr-4">
-                                {(isApproved || Side_B.Acknowledged) && (
+                                {(isApproved || side_b.acknowledged) && (
                                     <MessageCheck size={20} />
                                 )}
-                                {isDeclined && !Side_B.Acknowledged && (
+                                {isDeclined && !side_b.acknowledged && (
                                     <MessageXmark size={20} />
                                 )}
                             </div>
@@ -197,15 +197,15 @@ export default function ObjectAcknowledgedRelationPart({
                     {(isApproved || isDeclined) && (
                         <div className="mt-2 rounded border border-pzh-gray-300 px-4 pt-2 pb-3">
                             <div className="mb-2 flex items-center">
-                                {(isApproved || Side_A.Acknowledged) && (
+                                {(isApproved || side_a.acknowledged) && (
                                     <MessageCheck size={20} className="mr-4" />
                                 )}
-                                {isDeclined && !Side_A.Acknowledged && (
+                                {isDeclined && !side_a.acknowledged && (
                                     <MessageXmark size={20} className="mr-3" />
                                 )}
-                                <Text bold>{Side_A.Title}</Text>
+                                <Text bold>{side_a.title}</Text>
                             </div>
-                            <Text className="ml-9">{Side_A.Explanation}</Text>
+                            <Text className="ml-9">{side_a.explanation}</Text>
                         </div>
                     )}
                 </>

@@ -33,11 +33,12 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
         () =>
             objects?.filter(
                 object =>
-                    object.ObjectStatics?.Owner_1_UUID === user?.UUID ||
-                    object.ObjectStatics?.Owner_2_UUID === user?.UUID ||
-                    object.ObjectStatics?.Client_1_UUID === user?.UUID
+                    object.object_statics?.owner_1_id === user?.id ||
+                    object.object_statics?.owner_2_id === user?.id ||
+                    object.object_statics?.owner_3_id === user?.id ||
+                    object.object_statics?.client_1_id === user?.id
             ),
-        [objects, user?.UUID]
+        [objects, user?.id]
     )
 
     /**
@@ -48,10 +49,11 @@ const ModuleItemList = ({ objects, ...rest }: ModuleItemListProps) => {
         () =>
             objects?.filter(
                 object =>
-                    object.ObjectStatics?.Owner_1_UUID !== user?.UUID &&
-                    object.ObjectStatics?.Owner_2_UUID !== user?.UUID
+                    object.object_statics?.owner_1_id !== user?.id &&
+                    object.object_statics?.owner_2_id !== user?.id &&
+                    object.object_statics?.owner_3_id !== user?.id
             ),
-        [objects, user?.UUID]
+        [objects, user?.id]
     )
 
     /**
@@ -145,17 +147,17 @@ const ItemList = ({
                     {objects.map(object => {
                         const model =
                             models[
-                                object.Object_Type.toLowerCase() as ModelType
+                                object.object_type.toLowerCase() as ModelType
                             ]
 
                         if (!model) return null
 
                         return (
                             <ModuleItem
-                                key={object.Model.UUID}
+                                key={object.model.id}
                                 hasEditButton={hasEditButton}
                                 hasViewButton={hasViewButton}
-                                model={model}
+                                objectConfig={model}
                                 {...object}
                             />
                         )

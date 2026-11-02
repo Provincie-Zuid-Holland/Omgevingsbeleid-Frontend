@@ -61,13 +61,14 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
             graph.nodes.map(node => ({
                 label: (
                     <div className="flex justify-between">
-                        <span>{node.Title}</span>
+                        <span>{node.title}</span>
                         <span className="capitalize opacity-50">
-                            {node.Object_Type}
+                            {node.object_type}
                         </span>
                     </div>
                 ),
-                value: node.Code,
+
+                value: node.code,
             })),
         [graph.nodes]
     )
@@ -113,7 +114,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
      */
     const handleChange = (e: (typeof options)[0]) => {
         if (!!e) {
-            const node = graph.nodes.find(node => node.Code === e.value)
+            const node = graph.nodes.find(node => node.code === e.value)
 
             if (!node) return
 
@@ -124,7 +125,7 @@ const NetworkFilter = ({ graph, results }: NetworkFilterProps) => {
                         connection.source,
                         connection.target,
                     ])
-                    .filter(connection => connection.Code !== node.Code)
+                    .filter(connection => connection.code !== node.code)
             )
 
             highlightConnections(connectedLinks, node)

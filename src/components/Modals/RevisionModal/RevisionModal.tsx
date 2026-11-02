@@ -61,7 +61,7 @@ const RevisionModal = ({
 
         return revisions?.map(revision => ({
             label: getRevisionLabel(revision, initialObject, latestUUID),
-            value: revision.UUID,
+            value: revision.id,
         }))
     }, [revisions, initialObject, latestUUID])
 
@@ -102,7 +102,7 @@ const RevisionModal = ({
     const handleChange = (e: Option, type: 'from' | 'to') => {
         const option = options?.find(option => option.value === e.value)
         const isDraft = !!(
-            revisions?.find(r => r.UUID === e.value) as
+            revisions?.find(r => r.id === e.value) as
                 (ModelReturnType & { isRevision?: boolean }) | undefined
         )?.isRevision
 
@@ -137,16 +137,16 @@ const RevisionModal = ({
 
     const customTitle =
         singular === 'beleidskeuze'
-            ? { Description: 'Wat wil de provincie bereiken?' }
+            ? { description: 'Wat wil de provincie bereiken?' }
             : singular === 'maatregel'
-              ? { Description: 'Wat gaat de provincie doen?' }
+              ? { description: 'Wat gaat de provincie doen?' }
               : undefined
 
     // Ensure the newest version is always revisionFrom and the older is always revisionTo
     const [orderedRevisionTo, orderedRevisionFrom] = useMemo(() => {
         if (!revisionFrom || !revisionTo) return [undefined, undefined]
-        const fromDate = new Date(revisionFrom.Modified_Date || 0)
-        const toDate = new Date(revisionTo.Modified_Date || 0)
+        const fromDate = new Date(revisionFrom.modified_date || 0)
+        const toDate = new Date(revisionTo.modified_date || 0)
         return fromDate >= toDate
             ? [revisionTo, revisionFrom]
             : [revisionFrom, revisionTo]
@@ -167,7 +167,7 @@ const RevisionModal = ({
                         'mb-4 text-pzh-blue-500',
                         getHeadingStyles('l')
                     )}>
-                    {revisionFrom.Title}
+                    {revisionFrom.title}
                 </h2>
                 <ObjectContent data={revisionFrom} customTitle={customTitle} />
             </div>
@@ -177,7 +177,7 @@ const RevisionModal = ({
         <Modal id="revision" title="Versies bekijken en vergelijken">
             <Text className="mb-4">
                 Bekijk en vergelijk de versies van {prefixSingular}{' '}
-                {singularReadable} “{initialObject?.Title}”.
+                {singularReadable} “{initialObject?.title}”.
             </Text>
             <Text bold className="mb-2">
                 Welke versie wil je bekijken?
@@ -190,12 +190,12 @@ const RevisionModal = ({
                     options={
                         isComparing
                             ? options?.filter(
-                                  option => option.value !== revisionTo?.UUID
+                                  option => option.value !== revisionTo?.id
                               )
                             : options
                     }
                     defaultValue={options?.find(
-                        option => option.value === revisionFrom?.UUID
+                        option => option.value === revisionFrom?.id
                     )}
                     onChange={e => handleChange(e as Option, 'from')}
                 />
@@ -215,10 +215,10 @@ const RevisionModal = ({
                         placeholder="Kies een versie om te vergelijken"
                         aria-label="Kies een versie om te vergelijken"
                         options={options?.filter(
-                            option => option.value !== revisionFrom?.UUID
+                            option => option.value !== revisionFrom?.id
                         )}
                         defaultValue={options?.find(
-                            option => option.value === revisionTo?.UUID
+                            option => option.value === revisionTo?.id
                         )}
                         onChange={e => handleChange(e as Option, 'to')}
                     />

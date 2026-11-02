@@ -158,35 +158,33 @@ function ModuleProvider({ children }: { children?: ReactNode }) {
      * Check if logged in user is a manager of the module
      */
     const isModuleManager = useMemo(() => {
-        if (!module.data?.Module) return false
+        if (!module.data?.module) return false
 
-        const { Module_Manager_1_UUID, Module_Manager_2_UUID } =
-            module.data.Module
+        const { module_manager_1_id, module_manager_2_id } = module.data.module
 
         return (
-            Module_Manager_1_UUID === user?.UUID ||
-            Module_Manager_2_UUID === user?.UUID
+            module_manager_1_id === user?.id || module_manager_2_id === user?.id
         )
-    }, [module.data?.Module, user?.UUID])
+    }, [module.data?.module, user?.id])
 
     const isActive = useMemo(
-        () => !!module.data?.Module.Activated,
-        [module.data?.Module.Activated]
+        () => !!module.data?.module.activated,
+        [module.data?.module.activated]
     )
 
     const isLocked = useMemo(
-        () => !!module.data?.Module.Temporary_Locked,
-        [module.data?.Module.Temporary_Locked]
+        () => !!module.data?.module.temporary_locked,
+        [module.data?.module.temporary_locked]
     )
 
     const isClosed = useMemo(
-        () => !!module.data?.Module.Closed,
-        [module.data?.Module.Closed]
+        () => !!module.data?.module.closed,
+        [module.data?.module.closed]
     )
 
     const canComplete = useMemo(
-        () => module.data?.Module.Status?.Status === 'Vastgesteld',
-        [module.data?.Module.Status?.Status]
+        () => module.data?.module.status?.status === 'Vastgesteld',
+        [module.data?.module.status?.status]
     )
 
     const value = {

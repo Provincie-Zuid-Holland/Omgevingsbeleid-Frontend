@@ -14,16 +14,16 @@ import {
 
 export const getStaticDataLabel = (key: keyof ObjectStaticShort) => {
     switch (key) {
-        case 'Client_1_UUID':
+        case 'client_1_id':
             return 'Ambtelijk opdrachtgever'
-        case 'Owner_1_UUID':
+        case 'owner_1_id':
             return 'Eerste eigenaar'
-        case 'Owner_2_UUID':
+        case 'owner_2_id':
             return 'Tweede eigenaar'
-        case 'Portfolio_Holder_1_UUID':
+        case 'portfolio_holder_1_id':
             return 'Eerste portefeuillehouder'
-        case 'Portfolio_Holder_2_UUID':
-            return 'Tweede portefeuillehouder'
+        case 'owner_3_id':
+            return 'Derde eigenaar'
         default:
             throw new Error(
                 `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
@@ -33,16 +33,16 @@ export const getStaticDataLabel = (key: keyof ObjectStaticShort) => {
 
 export const getStaticDataPropertyKey = (key: keyof ObjectStaticShort) => {
     switch (key) {
-        case 'Client_1_UUID':
-            return 'Client_1'
-        case 'Owner_1_UUID':
-            return 'Owner_1'
-        case 'Owner_2_UUID':
-            return 'Owner_2'
-        case 'Portfolio_Holder_1_UUID':
-            return 'Portfolio_Holder_1'
-        case 'Portfolio_Holder_2_UUID':
-            return 'Portfolio_Holder_2'
+        case 'client_1_id':
+            return 'client_1'
+        case 'owner_1_id':
+            return 'owner_1'
+        case 'owner_2_id':
+            return 'owner_2'
+        case 'portfolio_holder_1_id':
+            return 'portfolio_holder_1'
+        case 'owner_3_id':
+            return 'owner_3'
         default:
             throw new Error(
                 `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
@@ -52,12 +52,12 @@ export const getStaticDataPropertyKey = (key: keyof ObjectStaticShort) => {
 
 export const getStaticDataPropertyRequired = (key: keyof ObjectStaticShort) => {
     switch (key) {
-        case 'Owner_2_UUID':
-        case 'Portfolio_Holder_2_UUID':
+        case 'owner_2_id':
+        case 'owner_3_id':
             return false
-        case 'Owner_1_UUID':
-        case 'Client_1_UUID':
-        case 'Portfolio_Holder_1_UUID':
+        case 'owner_1_id':
+        case 'client_1_id':
+        case 'portfolio_holder_1_id':
             return true
         default:
             throw new Error(
@@ -68,14 +68,12 @@ export const getStaticDataPropertyRequired = (key: keyof ObjectStaticShort) => {
 
 export const getStaticDataFilterProperty = (key: keyof ObjectStaticShort) => {
     switch (key) {
-        case 'Owner_1_UUID':
-            return 'Owner_2'
-        case 'Owner_2_UUID':
-            return 'Owner_1'
-        case 'Portfolio_Holder_1_UUID':
-            return 'Portfolio_Holder_2'
-        case 'Portfolio_Holder_2_UUID':
-            return 'Portfolio_Holder_1'
+        case 'owner_1_id':
+            return 'owner_2'
+        case 'owner_2_id':
+            return 'owner_1'
+        case 'owner_3_id':
+            return 'owner_1'
         default:
             break
     }
@@ -85,18 +83,19 @@ export const getStaticDataFilterRoles = (
     key: keyof ObjectStaticShort
 ): Role[] | undefined => {
     switch (key) {
-        case 'Owner_1_UUID':
-        case 'Owner_2_UUID':
+        case 'owner_1_id':
+        case 'owner_2_id':
+        case 'owner_3_id':
             return [
                 'Regisseur Omgevingsbeleid',
                 'Superuser',
                 'Behandelend Ambtenaar',
                 'Ambtelijk opdrachtgever',
             ]
-        case 'Portfolio_Holder_1_UUID':
-        case 'Portfolio_Holder_2_UUID':
+
+        case 'portfolio_holder_1_id':
             return ['Portefeuillehouder']
-        case 'Client_1_UUID':
+        case 'client_1_id':
             return ['Ambtelijk opdrachtgever']
         default:
             break
@@ -150,19 +149,19 @@ export const getObjectRevisionBannerText = (
     type: ModelType
 ) => {
     const model = models[type]
-    const path = `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${revision.Module_ID}/${revision.Module_Object_UUID}`
+    const path = `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${revision.module_id}/${revision.module_object_id}`
 
-    if (revision.Action === 'Terminate') {
-        return `In module '${revision.Module_Title}' zijn we voornemens ${model.defaults.demonstrative} ${model.defaults.singularReadable} te laten vervallen.`
+    if (revision.action === 'Terminate') {
+        return `In module '${revision.module_title}' zijn we voornemens ${model.defaults.demonstrative} ${model.defaults.singularReadable} te laten vervallen.`
     }
 
-    switch (revision.Module_Status) {
+    switch (revision.module_status) {
         case 'Ontwerp GS Concept':
-            return `Op dit moment wordt er in module '${revision.Module_Title}' gewerkt aan een nieuwe versie van ${model.defaults.demonstrative} ${model.defaults.singularReadable}`
+            return `Op dit moment wordt er in module '${revision.module_title}' gewerkt aan een nieuwe versie van ${model.defaults.demonstrative} ${model.defaults.singularReadable}`
         case 'Ter Inzage':
             return (
                 <p>
-                    Op dit moment ligt er in de module ‘{revision.Module_Title}’
+                    Op dit moment ligt er in de module ‘{revision.module_title}’
                     een nieuwe versie van {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable} ter inzage,{' '}
                     <Hyperlink asChild>
@@ -174,7 +173,7 @@ export const getObjectRevisionBannerText = (
         case 'Definitief ontwerp GS Concept':
             return (
                 <p>
-                    Is in inspraak geweest in module ‘{revision.Module_Title}’,{' '}
+                    Is in inspraak geweest in module ‘{revision.module_title}’,{' '}
                     <Hyperlink asChild>
                         <Link to={path}>bekijk deze versie hier</Link>
                     </Hyperlink>
@@ -188,7 +187,7 @@ export const getObjectRevisionBannerText = (
         case 'Definitief ontwerp PS':
             return (
                 <p>
-                    Op dit moment wordt er in module ‘{revision.Module_Title}’
+                    Op dit moment wordt er in module ‘{revision.module_title}’
                     gewerkt aan een nieuwe versie van{' '}
                     {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable},{' '}
@@ -201,7 +200,7 @@ export const getObjectRevisionBannerText = (
         case 'Vastgesteld':
             return (
                 <p>
-                    Er is in module ‘{revision.Module_Title}’ een nieuwe versie
+                    Er is in module ‘{revision.module_title}’ een nieuwe versie
                     van {model.defaults.demonstrative}{' '}
                     {model.defaults.singularReadable} vastgesteld maar nog niet
                     in werking getreden.{' '}
@@ -216,8 +215,8 @@ export const getObjectRevisionBannerText = (
     }
 }
 
-export const generateObjectPath = (type: ModelType, UUID?: string) => {
+export const generateObjectPath = (type: ModelType, id?: string) => {
     const model = models[type]
 
-    return `/${model.defaults.slugOverview}/${model.defaults.plural}/${UUID}`
+    return `/${model.defaults.slugOverview}/${model.defaults.plural}/${id}`
 }

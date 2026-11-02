@@ -35,8 +35,8 @@ function EnvironmentVision() {
             query: {
                 select: data =>
                     data.results.map(item => ({
-                        text: item.Title,
-                        to: `${model.defaults.plural}/${item.UUID}`,
+                        text: item.title,
+                        to: `${model.defaults.plural}/${item.id}`,
                     })),
             },
         }

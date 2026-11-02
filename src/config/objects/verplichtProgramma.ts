@@ -54,12 +54,12 @@ const verplichtProgramma: DynamicObject = {
         icon: CircleExclamation,
     },
     fetchers,
-    allowedConnections: [{ key: 'Maatregelen', type: 'maatregel' }],
+    allowedConnections: [{ key: 'maatregelen', type: 'maatregel' }],
     dynamicSections: [
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van het verplicht programma.',
@@ -69,7 +69,7 @@ const verplichtProgramma: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
@@ -85,11 +85,11 @@ const verplichtProgramma: DynamicObject = {
                         'Een verplicht programma is veelal gekoppeld met maatregelen en wettelijke taken. Geef aan welke onderdelen gekoppeld moeten worden aan dit verplichte programma',
                     allowedConnections: [
                         {
-                            key: 'Maatregelen',
+                            key: 'maatregelen',
                             type: 'maatregel',
                         },
                         {
-                            key: 'WettelijkeTaken',
+                            key: 'wettelijke_taken',
                             type: 'wettelijke_taak',
                         },
                     ],

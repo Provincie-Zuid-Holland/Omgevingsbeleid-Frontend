@@ -7,12 +7,12 @@ import {
     getBeleidskeuzeGetAcknowledgedRelationListQueryKey,
     useBeleidskeuzeEditObjectStatic,
     useBeleidskeuzeGetAcknowledgedRelationList,
-    useBeleidskeuzeGetAcknowledgedRelationRequest,
     useBeleidskeuzeGetListActiveModuleObjects,
     useBeleidskeuzeGetRelationsList,
     useBeleidskeuzeListValidLineages,
     useBeleidskeuzeListValidLineageTree,
     useBeleidskeuzePostAcknowledgedRelationEdit,
+    useBeleidskeuzePostAcknowledgedRelationRequest,
     useBeleidskeuzePostModulePatchObject,
     useBeleidskeuzePostRelationsOverwrite,
     useBeleidskeuzeViewGetObjectStatic,
@@ -41,7 +41,8 @@ const fetchers: ModelFetchers = {
     useGetStatic: useBeleidskeuzeViewGetObjectStatic,
     usePostStatic: useBeleidskeuzeEditObjectStatic,
     useGetAcknowledgedRelations: useBeleidskeuzeGetAcknowledgedRelationList,
-    usePostAcknowledgedRelations: useBeleidskeuzeGetAcknowledgedRelationRequest,
+    usePostAcknowledgedRelations:
+        useBeleidskeuzePostAcknowledgedRelationRequest,
     usePatchAcknowledgedRelations: useBeleidskeuzePostAcknowledgedRelationEdit,
     usePostObject: null,
     useGetActiveModules: useBeleidskeuzeGetListActiveModuleObjects,
@@ -74,16 +75,16 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
     fetchers,
     queryKeys,
     staticData: [
-        'Client_1_UUID',
-        'Owner_1_UUID',
-        'Owner_2_UUID',
-        'Portfolio_Holder_1_UUID',
-        'Portfolio_Holder_2_UUID',
+        'client_1_id',
+        'owner_1_id',
+        'owner_2_id',
+        'owner_3_id',
+        'portfolio_holder_1_id',
     ],
     allowedConnections: [
-        { type: 'wettelijke_taak', key: 'WettelijkeTaken' },
-        { type: 'nationaal_belang', key: 'NationaleBelangen' },
-        { type: 'beleidsdoel', key: 'Beleidsdoelen' },
+        { type: 'wettelijke_taak', key: 'wettelijke_taken' },
+        { type: 'nationaal_belang', key: 'nationale_belangen' },
+        { type: 'beleidsdoel', key: 'beleidsdoelen' },
     ],
     connectionsDescription: object => (
         <>
@@ -134,7 +135,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
             },
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'De titel moet de lading dekken van het onderwerp en een richting aangeven in maximaal 5 woorden.',
@@ -145,7 +146,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Wat wil de provincie bereiken?',
                     description: (
                         <>
@@ -193,7 +194,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     },
                 },
                 {
-                    name: 'Cause',
+                    name: 'cause',
                     label: 'Inhoudelijke aanleiding',
                     description:
                         'Beschrijf beknopt de inhoudelijke aanleiding van de beleidskeuze. Welk probleem/dreiging of welke kans ligt ten grondslag aan deze beleidskeuze? Met andere woorden, waarom vinden wij dit belangrijk?',
@@ -217,7 +218,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     },
                 },
                 {
-                    name: 'Provincial_Interest',
+                    name: 'provincial_interest',
                     label: 'Provinciaal belang',
                     description:
                         'Beschrijf waarom de provincie een rol voor zichzelf ziet bij het oplossen van deze maatschappelijke opgave.',
@@ -241,7 +242,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     },
                 },
                 {
-                    name: 'Explanation',
+                    name: 'explanation',
                     label: 'Nadere uitwerking',
                     description: (
                         <>
@@ -302,7 +303,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     ],
                 },
                 {
-                    name: 'Gebiedengroep_Code',
+                    name: 'gebiedengroep_code',
                     label: 'Gebiedengroep',
                     type: 'search',
                     placeholder: 'Selecteer een gebiedengroep',
@@ -320,7 +321,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     conditionalField: 'Ambtsgebied',
                 },
                 {
-                    name: 'Hierarchy_Code',
+                    name: 'hierarchy_code',
                     label: 'Koppel aan beleidsdoel',
                     description:
                         'Geef aan uit welk beleidsdoel deze beleidskeuze voortkomt.',
@@ -340,7 +341,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     },
                 },
                 {
-                    name: 'Themas',
+                    name: 'themas',
                     label: "Thema's",
                     description:
                         "Om de beleidskeuze beter vindbaar te maken in de landelijke voorziening kun je de beleidskeuze voorzien van één of meerdere thema's.",
@@ -355,7 +356,7 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
                     },
                 },
                 {
-                    name: 'Hoofdlijnen',
+                    name: 'hoofdlijnen',
                     label: 'Hoofdlijnen',
                     description: (
                         <>

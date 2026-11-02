@@ -49,7 +49,7 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                             ((field.required
                                 ? schemaDefaults.requiredString()
                                 : schemaDefaults.optionalString) as any),
-                        Source_Title:
+                        source_title:
                             field.validation ||
                             ((field.required
                                 ? schemaDefaults.requiredString()

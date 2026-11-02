@@ -20,13 +20,13 @@ import { toastNotification } from '@/utils/toastNotification'
 
 const UserDetail = () => {
     const queryClient = useQueryClient()
-    const { uuid } = useParams()
+    const { id } = useParams()
     const { canResetUserPassword, canEditUser } = usePermissions()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data, isLoading, queryKey } = useUserViewGetUser(uuid!, {
+    const { data, isLoading, queryKey } = useUserViewGetUser(id!, {
         query: {
-            enabled: !!uuid,
+            enabled: !!id,
         },
     })
 
@@ -40,7 +40,7 @@ const UserDetail = () => {
 
     const handleUserStatus = (activate: boolean) => {
         mutate(
-            { userUuid: uuid!, data: { ...data, IsActive: activate } },
+            { userUuid: id!, data: { ...data, is_active: activate } },
             {
                 onSuccess: () =>
                     queryClient
@@ -60,7 +60,7 @@ const UserDetail = () => {
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
         { name: 'Gebruikers', path: '/muteer/gebruikers' },
-        { name: data?.Gebruikersnaam || '', isCurrent: true },
+        { name: data?.name || '', isCurrent: true },
     ]
 
     return (
@@ -72,7 +72,7 @@ const UserDetail = () => {
                     </Heading>
                     {isLoading && <LoaderCard height="56" className="w-auto" />}
                     <Heading level="1" size="xxl">
-                        {data?.Gebruikersnaam}
+                        {data?.name}
                     </Heading>
                 </div>
                 <div className="col-span-6 lg:col-span-3 xl:col-span-2">
@@ -85,15 +85,15 @@ const UserDetail = () => {
                         </Text>
                         <div className="flex items-center gap-4">
                             <Badge
-                                variant={data?.IsActive ? 'green' : 'red'}
-                                text={data?.IsActive ? 'Actief' : 'Inactief'}
+                                variant={data?.is_active ? 'green' : 'red'}
+                                text={data?.is_active ? 'Actief' : 'Inactief'}
                                 upperCase={false}
                             />
                             {canEditUser && (
                                 <ToggleSwitch
-                                    checked={data?.IsActive || false}
+                                    checked={data?.is_active || false}
                                     title={
-                                        data?.IsActive
+                                        data?.is_active
                                             ? 'Gebruiker deactiveren'
                                             : 'Gebruiker activeren'
                                     }
@@ -122,17 +122,17 @@ const UserDetail = () => {
 
                     <Item
                         label="Naam"
-                        value={data?.Gebruikersnaam}
+                        value={data?.name}
                         isLoading={isLoading}
                     />
                     <Item
                         label="E-mailadres"
-                        value={data?.Email}
+                        value={data?.email}
                         isLoading={isLoading}
                     />
                     <Item
                         label="Rol"
-                        value={data?.Roles.join(', ')}
+                        value={data?.roles.join(', ')}
                         isLoading={isLoading}
                     />
                 </div>
@@ -152,7 +152,7 @@ const UserDetail = () => {
                             onPress={() => setActiveModal('userPasswordReset')}
                             className="whitespace-nowrap"
                             isDisabled={
-                                !data?.IsActive && canResetUserPassword
+                                !data?.is_active && canResetUserPassword
                             }>
                             Genereer nieuw wachtwoord
                         </Button>

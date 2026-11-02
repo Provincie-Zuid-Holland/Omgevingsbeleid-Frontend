@@ -133,7 +133,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
 
     const value = {
         user: identifier,
-        roles: identifier?.Roles as Role[],
+        roles: identifier?.roles as Role[],
         signin,
         signout,
     }

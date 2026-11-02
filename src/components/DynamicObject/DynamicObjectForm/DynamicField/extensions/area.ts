@@ -2,7 +2,7 @@ import { Mark, mergeAttributes } from '@tiptap/core'
 
 export const AREA_DATA_ATTRS = {
     Object_Code: 'data-code',
-    Cached_Title: 'data-title',
+    cached_title: 'data-title',
 } as const
 
 type AreaAttributes = {
@@ -25,7 +25,7 @@ declare module '@tiptap/core' {
 /**
  * This extension allows you to insert areas.
  */
-export const Area = Mark.create({
+const area = Mark.create({
     name: 'area',
 
     addOptions() {
@@ -34,7 +34,7 @@ export const Area = Mark.create({
                 href: '#',
                 'data-hint-type': 'gebiedsaanwijzing',
                 [AREA_DATA_ATTRS.Object_Code]: null,
-                [AREA_DATA_ATTRS.Cached_Title]: null,
+                [AREA_DATA_ATTRS.cached_title]: null,
             },
         }
     },
@@ -51,9 +51,9 @@ export const Area = Mark.create({
                 default:
                     this.options.HTMLAttributes[AREA_DATA_ATTRS.Object_Code],
             },
-            [AREA_DATA_ATTRS.Cached_Title]: {
+            [AREA_DATA_ATTRS.cached_title]: {
                 default:
-                    this.options.HTMLAttributes[AREA_DATA_ATTRS.Cached_Title],
+                    this.options.HTMLAttributes[AREA_DATA_ATTRS.cached_title],
             },
         }
     },
@@ -87,7 +87,7 @@ export const Area = Mark.create({
                     if (isEmptySelection) {
                         const {
                             text,
-                            [AREA_DATA_ATTRS.Cached_Title]: cachedTitle,
+                            [AREA_DATA_ATTRS.cached_title]: cachedTitle,
                             ...markAttributes
                         } = attributes
 
@@ -109,7 +109,7 @@ export const Area = Mark.create({
                                             type: this.name,
                                             attrs: {
                                                 ...markAttributes,
-                                                [AREA_DATA_ATTRS.Cached_Title]:
+                                                [AREA_DATA_ATTRS.cached_title]:
                                                     cachedTitle,
                                             },
                                         },
@@ -124,3 +124,4 @@ export const Area = Mark.create({
         }
     },
 })
+export { area as Area }

@@ -38,11 +38,7 @@ const ModuleDetail = () => {
     const navigate = useNavigate()
     const { canCreatePublication } = usePermissions()
 
-    const {
-        data: { Module: module } = {},
-        isLoading,
-        isModuleManager,
-    } = useModule()
+    const { data: { module } = {}, isLoading, isModuleManager } = useModule()
 
     const activeTab = useMemo(
         () => getActiveTab(location.pathname),
@@ -63,7 +59,7 @@ const ModuleDetail = () => {
     if (isLoading || !module) return <LoaderContent />
 
     return (
-        <MutateLayout title={module.Title} hasOwnBreadcrumbs>
+        <MutateLayout title={module.title} hasOwnBreadcrumbs>
             <ModuleHeader module={module} />
 
             <div className="col-span-6">

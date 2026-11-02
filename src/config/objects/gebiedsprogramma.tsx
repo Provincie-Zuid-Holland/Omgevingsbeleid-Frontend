@@ -63,13 +63,14 @@ const gebiedsprogramma: DynamicObject = {
         parentType: 'Programma',
     },
     staticData: [
-        'Client_1_UUID',
-        'Owner_1_UUID',
-        'Owner_2_UUID',
-        'Portfolio_Holder_1_UUID',
-        'Portfolio_Holder_2_UUID',
+        'client_1_id',
+        'owner_1_id',
+        'owner_2_id',
+        'owner_3_id',
+        'portfolio_holder_1_id',
     ],
-    allowedConnections: [{ type: 'maatregel', key: 'Maatregelen' }],
+
+    allowedConnections: [{ type: 'maatregel', key: 'maatregelen' }],
     connectionsDescription: (
         <>
             Binnen het omgevingsbeleid bestaan koppelingen en relaties. Een
@@ -87,7 +88,7 @@ const gebiedsprogramma: DynamicObject = {
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van het gebiedsprogramma.',
@@ -96,7 +97,7 @@ const gebiedsprogramma: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
@@ -105,7 +106,7 @@ const gebiedsprogramma: DynamicObject = {
                     required: true,
                 },
                 {
-                    name: 'Image',
+                    name: 'image',
                     label: 'Afbeelding van het gebied',
                     type: 'image',
                     maxSize: 819200,

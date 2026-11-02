@@ -14,36 +14,36 @@ import { LoaderContent } from '@/components/Loader'
 import ObjectList from '@/components/ObjectList'
 
 function AreaDetail() {
-    const { moduleId, uuid } = useParams()
+    const { moduleId, id } = useParams()
 
-    const versionData = useGebiedsprogrammaViewObjectVersion(uuid!, {
-        query: { enabled: !!uuid && !moduleId },
+    const versionData = useGebiedsprogrammaViewObjectVersion(id!, {
+        query: { enabled: !!id && !moduleId },
     })
     const revisionData = useGetRevisionsGebiedsprogrammaVersion(
         parseInt(moduleId!),
-        uuid!,
+        id!,
         {
-            query: { enabled: !!uuid && !!moduleId },
+            query: { enabled: !!id && !!moduleId },
         }
     )
 
     const objectData = useMemo(() => {
-        if (!!moduleId && !!uuid) {
+        if (!!moduleId && !!id) {
             return revisionData
         }
 
         return versionData
-    }, [moduleId, uuid, versionData, revisionData])
+    }, [moduleId, id, versionData, revisionData])
 
     const { data, isLoading } = objectData
 
     const transformedMaatregelen = useMemo(
         () =>
-            data?.Maatregelen?.map(({ Object }) => ({
-                Title: Object?.Title,
-                UUID: Object?.UUID,
+            data?.maatregelen?.map(({ object }) => ({
+                title: object?.title,
+                id: object?.id,
             })),
-        [data?.Maatregelen]
+        [data?.maatregelen]
     )
 
     const breadcrumbPaths = [
@@ -54,7 +54,7 @@ function AreaDetail() {
             to: '/omgevingsprogramma/gebiedsprogrammas',
         },
         {
-            name: data?.Title || '',
+            name: data?.title || '',
         },
     ]
 
@@ -68,21 +68,21 @@ function AreaDetail() {
                 </div>
                 <div className="col-span-6 xl:col-span-4 xl:col-start-2">
                     <Heading level="1" size="xxl" className="mt-10 mb-3">
-                        {data?.Title}
+                        {data?.title}
                     </Heading>
-                    {data?.Description && (
+                    {data?.description && (
                         <Text
                             className="prose mb-8 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
-                                __html: data.Description,
+                                __html: data.description,
                             }}
                         />
                     )}
-                    {data?.Image && (
+                    {data?.image && (
                         <figure>
-                            <img src={data.Image} alt={data?.Title} />
+                            <img src={data.image} alt={data?.title} />
                             <figcaption className="mt-2 text-s text-pzh-blue-900">
-                                Indicatieve weergave gebied ‘{data?.Title}’.
+                                Indicatieve weergave gebied ‘{data?.title}’.
                             </figcaption>
                         </figure>
                     )}

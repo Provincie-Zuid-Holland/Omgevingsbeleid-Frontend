@@ -87,7 +87,7 @@ const NavigationPopupMenu = ({
 
                     <nav
                         id="popup-menu"
-                        className="absolute top-24 left-0 z-[10] w-full bg-pzh-white pb-8"
+                        className="absolute top-24 left-0 z-10 w-full bg-pzh-white pb-8"
                         aria-label="primary">
                         <Container
                             className="h-full overflow-y-auto"

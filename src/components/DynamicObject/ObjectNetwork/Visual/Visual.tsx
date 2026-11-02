@@ -38,7 +38,7 @@ const Visual = ({ graph }: VisualProps) => {
     /** Highlight connected shape on hover */
     const handleMouseInteraction = useCallback(
         ({ type }: MouseEvent, d: GraphVertice) => {
-            const el = document.querySelector(`[data-code-link="${d.Code}"]`)
+            const el = document.querySelector(`[data-code-link="${d.code}"]`)
 
             if (type === 'mouseover') {
                 el?.classList.add('font-bold')
@@ -52,7 +52,7 @@ const Visual = ({ graph }: VisualProps) => {
     /** Handle click event on node */
     const handleClick = useCallback(
         (_: MouseEvent, d: GraphVertice) => {
-            const path = generateObjectPath(d.Object_Type as ModelType, d.UUID)
+            const path = generateObjectPath(d.object_type as ModelType, d.id)
 
             navigate(path)
         },

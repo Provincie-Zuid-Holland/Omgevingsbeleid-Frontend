@@ -50,8 +50,8 @@ const PublicationTemplateCreate = () => {
         payload: TemplateCreate,
         helpers: FormikHelpers<TemplateCreate>
     ) => {
-        if (!!payload.Object_Templates?.length) {
-            payload.Object_Templates = (payload.Object_Templates as any).reduce(
+        if (!!payload.object_templates?.length) {
+            payload.object_templates = (payload.object_templates as any).reduce(
                 (acc: any, curr: { key: string; value: string }) => (
                     (acc[curr.key] = curr.value),
                     acc
@@ -60,13 +60,13 @@ const PublicationTemplateCreate = () => {
             )
         }
 
-        if (!!payload.Object_Field_Map?.length) {
-            payload.Object_Field_Map =
-                normalizeFieldMap(payload.Object_Field_Map as any) || {}
+        if (!!payload.object_field_map?.length) {
+            payload.object_field_map =
+                normalizeFieldMap(payload.object_field_map as any) || {}
         }
 
-        if (!!payload.Object_Types?.length) {
-            payload.Object_Types = (payload.Object_Types as any).map(
+        if (!!payload.object_types?.length) {
+            payload.object_types = (payload.object_types as any).map(
                 (item: any) => (typeof item === 'string' ? item : item.value)
             )
         }

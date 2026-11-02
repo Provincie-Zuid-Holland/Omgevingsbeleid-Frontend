@@ -215,7 +215,7 @@ const SearchResults = () => {
                         <ul>
                             {data?.results.map(item => (
                                 <SearchResultItem
-                                    key={item.Model.UUID}
+                                    key={item.model.id}
                                     query={query || ''}
                                     {...item}
                                 />

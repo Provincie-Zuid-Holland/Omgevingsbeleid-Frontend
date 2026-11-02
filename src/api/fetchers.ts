@@ -34,12 +34,12 @@ import type {
     AmbitieFull,
     AmbitieGetListActiveModuleObjectsParams,
     AmbitieGetModuleListLineageTreeParams,
+    AmbitieID,
     AmbitieListValidLineagesParams,
     AmbitieListValidLineageTreeParams,
     AmbitiePostModulePatchObjectBody,
     AmbitieStaticPostStatics,
     AmbitieStaticStatics,
-    AmbitieUUID,
     AnnouncementCreatedResponse,
     AOJCreate,
     AOJCreatedResponse,
@@ -49,31 +49,31 @@ import type {
     BeleidsdoelFull,
     BeleidsdoelGetListActiveModuleObjectsParams,
     BeleidsdoelGetModuleListLineageTreeParams,
+    BeleidsdoelID,
     BeleidsdoelListValidLineagesParams,
     BeleidsdoelListValidLineageTreeParams,
     BeleidsdoelPostModulePatchObjectBody,
     BeleidsdoelStaticPostStatics,
     BeleidsdoelStaticStatics,
-    BeleidsdoelUUID,
     BeleidskeuzeFull,
     BeleidskeuzeGetAcknowledgedRelationListParams,
     BeleidskeuzeGetListActiveModuleObjectsParams,
     BeleidskeuzeGetModuleListLineageTreeParams,
+    BeleidskeuzeID,
     BeleidskeuzeListValidLineagesParams,
     BeleidskeuzeListValidLineageTreeParams,
     BeleidskeuzePostModulePatchObjectBody,
     BeleidskeuzeStaticPostStatics,
     BeleidskeuzeStaticStatics,
-    BeleidskeuzeUUID,
     BeleidsregelFull,
     BeleidsregelGetListActiveModuleObjectsParams,
     BeleidsregelGetModuleListLineageTreeParams,
+    BeleidsregelID,
     BeleidsregelListValidLineagesParams,
     BeleidsregelListValidLineageTreeParams,
     BeleidsregelPostModulePatchObjectBody,
     BeleidsregelStaticPostStatics,
     BeleidsregelStaticStatics,
-    BeleidsregelUUID,
     BodyAuthenticationPostAuthLoginAccessToken,
     BodyObjectRelatedFilesPostObjectRelatedFilesUpload,
     BodyPublicationActReportsPostUploadActPackageReport,
@@ -85,12 +85,12 @@ import type {
     DocumentFull,
     DocumentGetListActiveModuleObjectsParams,
     DocumentGetModuleListLineageTreeParams,
+    DocumentID,
     DocumentListValidLineagesParams,
     DocumentListValidLineageTreeParams,
     DocumentPostModulePatchObjectBody,
     DocumentStaticPostStatics,
     DocumentStaticStatics,
-    DocumentUUID,
     EditAcknowledgedRelation,
     EditHoofdlijn,
     EditUser,
@@ -100,39 +100,39 @@ import type {
     GebiedengroepFull,
     GebiedengroepGetListActiveModuleObjectsParams,
     GebiedengroepGetModuleListLineageTreeParams,
+    GebiedengroepID,
     GebiedengroepListValidLineagesParams,
     GebiedengroepListValidLineageTreeParams,
     GebiedengroepPostModulePatchObjectBody,
     GebiedengroepStaticPostStatics,
     GebiedengroepStaticStatics,
-    GebiedengroepUUID,
     GebiedFull,
     GebiedGetListActiveModuleObjectsParams,
     GebiedGetModuleListLineageTreeParams,
+    GebiedID,
     GebiedListValidLineagesParams,
     GebiedListValidLineageTreeParams,
     GebiedPostModulePatchObjectBody,
     GebiedsaanwijzingFull,
     GebiedsaanwijzingGetListActiveModuleObjectsParams,
     GebiedsaanwijzingGetModuleListLineageTreeParams,
+    GebiedsaanwijzingID,
     GebiedsaanwijzingListValidLineagesParams,
     GebiedsaanwijzingListValidLineageTreeParams,
     GebiedsaanwijzingPostModulePatchObjectBody,
     GebiedsaanwijzingStaticPostStatics,
     GebiedsaanwijzingStaticStatics,
-    GebiedsaanwijzingUUID,
     GebiedsprogrammaFull,
     GebiedsprogrammaGetListActiveModuleObjectsParams,
     GebiedsprogrammaGetModuleListLineageTreeParams,
+    GebiedsprogrammaID,
     GebiedsprogrammaListValidLineagesParams,
     GebiedsprogrammaListValidLineageTreeParams,
     GebiedsprogrammaPostModulePatchObjectBody,
     GebiedsprogrammaStaticPostStatics,
     GebiedsprogrammaStaticStatics,
-    GebiedsprogrammaUUID,
     GebiedStaticPostStatics,
     GebiedStaticStatics,
-    GebiedUUID,
     GraphGetObjectGraphParams,
     GraphResponse,
     Hoofdlijn,
@@ -149,12 +149,12 @@ import type {
     MaatregelFull,
     MaatregelGetListActiveModuleObjectsParams,
     MaatregelGetModuleListLineageTreeParams,
+    MaatregelID,
     MaatregelListValidLineagesParams,
     MaatregelListValidLineageTreeParams,
     MaatregelPostModulePatchObjectBody,
     MaatregelStaticPostStatics,
     MaatregelStaticStatics,
-    MaatregelUUID,
     ModuleAddExistingObject,
     ModuleAddNewObject,
     ModuleCreate,
@@ -171,10 +171,10 @@ import type {
     NationaalBelangCreate,
     NationaalBelangEdit,
     NationaalBelangFull,
+    NationaalBelangID,
     NationaalBelangListValidLineagesParams,
     NationaalBelangStaticPostStatics,
     NationaalBelangStaticStatics,
-    NationaalBelangUUID,
     NewObjectStaticResponse,
     ObjectRelatedFileResponse,
     ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams,
@@ -234,12 +234,12 @@ import type {
     ProgrammaAlgemeenFull,
     ProgrammaAlgemeenGetListActiveModuleObjectsParams,
     ProgrammaAlgemeenGetModuleListLineageTreeParams,
+    ProgrammaAlgemeenID,
     ProgrammaAlgemeenListValidLineagesParams,
     ProgrammaAlgemeenListValidLineageTreeParams,
     ProgrammaAlgemeenPostModulePatchObjectBody,
     ProgrammaAlgemeenStaticPostStatics,
     ProgrammaAlgemeenStaticStatics,
-    ProgrammaAlgemeenUUID,
     Publication,
     PublicationAct,
     PublicationActPackageDetailResponse,
@@ -303,19 +303,19 @@ import type {
     VerplichtProgrammaCreate,
     VerplichtProgrammaEdit,
     VerplichtProgrammaFull,
+    VerplichtProgrammaID,
     VerplichtProgrammaListValidLineagesParams,
     VerplichtProgrammaStaticPostStatics,
     VerplichtProgrammaStaticStatics,
-    VerplichtProgrammaUUID,
     VisieAlgemeenFull,
     VisieAlgemeenGetListActiveModuleObjectsParams,
     VisieAlgemeenGetModuleListLineageTreeParams,
+    VisieAlgemeenID,
     VisieAlgemeenListValidLineagesParams,
     VisieAlgemeenListValidLineageTreeParams,
     VisieAlgemeenPostModulePatchObjectBody,
     VisieAlgemeenStaticPostStatics,
     VisieAlgemeenStaticStatics,
-    VisieAlgemeenUUID,
     WerkingsgebiedFull,
     WerkingsgebiedGetListActiveModuleObjectsParams,
     WerkingsgebiedGetModuleListLineageTreeParams,
@@ -328,10 +328,10 @@ import type {
     WettelijkeTaakCreate,
     WettelijkeTaakEdit,
     WettelijkeTaakFull,
+    WettelijkeTaakID,
     WettelijkeTaakListValidLineagesParams,
     WettelijkeTaakStaticPostStatics,
     WettelijkeTaakStaticStatics,
-    WettelijkeTaakUUID,
     WriteRelation,
 } from './fetchers.schemas'
 import { customInstance } from './instance'
@@ -4857,308 +4857,6 @@ export const useObjectRelatedFilesDeleteObjectRelatedFilesDelete = <
 }
 
 /**
- * @summary List object types with counts for loggedin user
- */
-export const objectsViewObjectCounts = (signal?: AbortSignal) => {
-    return customInstance<RootModelListObjectCount>({
-        url: `/objects/valid/count`,
-        method: 'GET',
-        signal,
-    })
-}
-
-export const getObjectsViewObjectCountsQueryKey = () => {
-    return [`/objects/valid/count`] as const
-}
-
-export const getObjectsViewObjectCountsQueryOptions = <
-    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-    TError = unknown,
->(options?: {
-    query?: Partial<
-        UseQueryOptions<
-            Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-            TError,
-            TData
-        >
-    >
-}) => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ?? getObjectsViewObjectCountsQueryKey()
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof objectsViewObjectCounts>>
-    > = ({ signal }) => objectsViewObjectCounts(signal)
-
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type ObjectsViewObjectCountsQueryResult = NonNullable<
-    Awaited<ReturnType<typeof objectsViewObjectCounts>>
->
-export type ObjectsViewObjectCountsQueryError = unknown
-
-export function useObjectsViewObjectCounts<
-    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-    TError = unknown,
->(
-    options: {
-        query: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-                TError,
-                TData
-            >
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-                    TError,
-                    Awaited<ReturnType<typeof objectsViewObjectCounts>>
-                >,
-                'initialData'
-            >
-    },
-    queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useObjectsViewObjectCounts<
-    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-    TError = unknown,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-                TError,
-                TData
-            >
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-                    TError,
-                    Awaited<ReturnType<typeof objectsViewObjectCounts>>
-                >,
-                'initialData'
-            >
-    },
-    queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useObjectsViewObjectCounts<
-    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-    TError = unknown,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-                TError,
-                TData
-            >
-        >
-    },
-    queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-}
-/**
- * @summary List object types with counts for loggedin user
- */
-
-export function useObjectsViewObjectCounts<
-    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-    TError = unknown,
->(
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
-                TError,
-                TData
-            >
-        >
-    },
-    queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-} {
-    const queryOptions = getObjectsViewObjectCountsQueryOptions(options)
-
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-        TData,
-        TError
-    > & { queryKey: DataTag<QueryKey, TData, TError> }
-
-    return withQueryKey(query, queryOptions.queryKey)
-}
-
-/**
- * @summary List all objects filterable in short format
- */
-export const objectsDoListAllLatest = (
-    params?: ObjectsDoListAllLatestParams,
-    signal?: AbortSignal
-) => {
-    return customInstance<PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
-        { url: `/objects/valid`, method: 'GET', params, signal }
-    )
-}
-
-export const getObjectsDoListAllLatestQueryKey = (
-    params?: ObjectsDoListAllLatestParams
-) => {
-    return [`/objects/valid`, ...(params ? [params] : [])] as const
-}
-
-export const getObjectsDoListAllLatestQueryOptions = <
-    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-    TError = HTTPValidationError,
->(
-    params?: ObjectsDoListAllLatestParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-                TError,
-                TData
-            >
-        >
-    }
-) => {
-    const { query: queryOptions } = options ?? {}
-
-    const queryKey =
-        queryOptions?.queryKey ?? getObjectsDoListAllLatestQueryKey(params)
-
-    const queryFn: QueryFunction<
-        Awaited<ReturnType<typeof objectsDoListAllLatest>>
-    > = ({ signal }) => objectsDoListAllLatest(params, signal)
-
-    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type ObjectsDoListAllLatestQueryResult = NonNullable<
-    Awaited<ReturnType<typeof objectsDoListAllLatest>>
->
-export type ObjectsDoListAllLatestQueryError = HTTPValidationError
-
-export function useObjectsDoListAllLatest<
-    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-    TError = HTTPValidationError,
->(
-    params: undefined | ObjectsDoListAllLatestParams,
-    options: {
-        query: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-                TError,
-                TData
-            >
-        > &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-                    TError,
-                    Awaited<ReturnType<typeof objectsDoListAllLatest>>
-                >,
-                'initialData'
-            >
-    },
-    queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useObjectsDoListAllLatest<
-    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-    TError = HTTPValidationError,
->(
-    params?: ObjectsDoListAllLatestParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-                TError,
-                TData
-            >
-        > &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-                    TError,
-                    Awaited<ReturnType<typeof objectsDoListAllLatest>>
-                >,
-                'initialData'
-            >
-    },
-    queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useObjectsDoListAllLatest<
-    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-    TError = HTTPValidationError,
->(
-    params?: ObjectsDoListAllLatestParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-                TError,
-                TData
-            >
-        >
-    },
-    queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-}
-/**
- * @summary List all objects filterable in short format
- */
-
-export function useObjectsDoListAllLatest<
-    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-    TError = HTTPValidationError,
->(
-    params?: ObjectsDoListAllLatestParams,
-    options?: {
-        query?: Partial<
-            UseQueryOptions<
-                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
-                TError,
-                TData
-            >
-        >
-    },
-    queryClient?: QueryClient
-): UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData, TError>
-} {
-    const queryOptions = getObjectsDoListAllLatestQueryOptions(params, options)
-
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-        TData,
-        TError
-    > & { queryKey: DataTag<QueryKey, TData, TError> }
-
-    return withQueryKey(query, queryOptions.queryKey)
-}
-
-/**
  * @summary List the public modules
  */
 export const publicModulesGetPublicListModules = (
@@ -5771,12 +5469,12 @@ export function usePublicationAojGetListAoj<
  * @summary Create new Publication Act Package
  */
 export const publicationActPackagesPostCreateActPackage = (
-    versionUuid: string,
+    versionId: string,
     publicationPackageCreate: PublicationPackageCreate,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationPackageCreatedResponse>({
-        url: `/publication-versions/${versionUuid}/packages`,
+        url: `/publication-versions/${versionId}/packages`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationPackageCreate,
@@ -5817,9 +5515,9 @@ export const getPublicationActPackagesPostCreateActPackageMutationOptions = <
         Awaited<ReturnType<typeof publicationActPackagesPostCreateActPackage>>,
         PublicationActPackagesPostCreateActPackageMutationVariables
     > = props => {
-        const { versionUuid, data } = props ?? {}
+        const { versionId, data } = props ?? {}
 
-        return publicationActPackagesPostCreateActPackage(versionUuid, data)
+        return publicationActPackagesPostCreateActPackage(versionId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -5834,7 +5532,7 @@ export type PublicationActPackagesPostCreateActPackageMutationBody =
 export type PublicationActPackagesPostCreateActPackageMutationError =
     HTTPValidationError
 export type PublicationActPackagesPostCreateActPackageMutationVariables = {
-    versionUuid: string
+    versionId: string
     data: PublicationPackageCreate
 }
 
@@ -6070,20 +5768,20 @@ export function usePublicationActPackagesGetListActPackages<
  * @summary Get details of a publication act package
  */
 export const publicationActPackagesGetDetailActPackage = (
-    actPackageUuid: string,
+    actPackageId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationActPackageDetailResponse>({
-        url: `/publication-act-packages/${actPackageUuid}`,
+        url: `/publication-act-packages/${actPackageId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationActPackagesGetDetailActPackageQueryKey = (
-    actPackageUuid: string
+    actPackageId: string
 ) => {
-    return [`/publication-act-packages/${actPackageUuid}`] as const
+    return [`/publication-act-packages/${actPackageId}`] as const
 }
 
 export const getPublicationActPackagesGetDetailActPackageQueryOptions = <
@@ -6092,7 +5790,7 @@ export const getPublicationActPackagesGetDetailActPackageQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6109,17 +5807,17 @@ export const getPublicationActPackagesGetDetailActPackageQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationActPackagesGetDetailActPackageQueryKey(actPackageUuid)
+        getPublicationActPackagesGetDetailActPackageQueryKey(actPackageId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationActPackagesGetDetailActPackage>>
     > = ({ signal }) =>
-        publicationActPackagesGetDetailActPackage(actPackageUuid, signal)
+        publicationActPackagesGetDetailActPackage(actPackageId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: actPackageUuid !== null && actPackageUuid !== undefined,
+        enabled: actPackageId !== null && actPackageId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationActPackagesGetDetailActPackage>>,
@@ -6140,7 +5838,7 @@ export function usePublicationActPackagesGetDetailActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -6178,7 +5876,7 @@ export function usePublicationActPackagesGetDetailActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6216,7 +5914,7 @@ export function usePublicationActPackagesGetDetailActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6242,7 +5940,7 @@ export function usePublicationActPackagesGetDetailActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6260,7 +5958,7 @@ export function usePublicationActPackagesGetDetailActPackage<
 } {
     const queryOptions =
         getPublicationActPackagesGetDetailActPackageQueryOptions(
-            actPackageUuid,
+            actPackageId,
             options
         )
 
@@ -6276,12 +5974,12 @@ export function usePublicationActPackagesGetDetailActPackage<
  * @summary ABORT an Publication Act Package
  */
 export const publicationActPackagesPostAbortActPackage = (
-    actPackageUuid: string,
+    actPackageId: string,
     params?: PublicationActPackagesPostAbortActPackageParams,
     signal?: AbortSignal
 ) => {
     return customInstance<AbortResponse>({
-        url: `/publication-act-packages/${actPackageUuid}/abort`,
+        url: `/publication-act-packages/${actPackageId}/abort`,
         method: 'POST',
         params,
         signal,
@@ -6321,9 +6019,9 @@ export const getPublicationActPackagesPostAbortActPackageMutationOptions = <
         Awaited<ReturnType<typeof publicationActPackagesPostAbortActPackage>>,
         PublicationActPackagesPostAbortActPackageMutationVariables
     > = props => {
-        const { actPackageUuid, params } = props ?? {}
+        const { actPackageId, params } = props ?? {}
 
-        return publicationActPackagesPostAbortActPackage(actPackageUuid, params)
+        return publicationActPackagesPostAbortActPackage(actPackageId, params)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -6337,7 +6035,7 @@ export type PublicationActPackagesPostAbortActPackageMutationResult =
 export type PublicationActPackagesPostAbortActPackageMutationError =
     HTTPValidationError
 export type PublicationActPackagesPostAbortActPackageMutationVariables = {
-    actPackageUuid: string
+    actPackageId: string
     params?: PublicationActPackagesPostAbortActPackageParams
 }
 
@@ -6375,20 +6073,20 @@ export const usePublicationActPackagesPostAbortActPackage = <
  * @summary Download a generated publication act package ZIP file
  */
 export const publicationActPackagesGetDownloadActPackage = (
-    actPackageUuid: string,
+    actPackageId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<unknown>({
-        url: `/publication-act-packages/${actPackageUuid}/download`,
+        url: `/publication-act-packages/${actPackageId}/download`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationActPackagesGetDownloadActPackageQueryKey = (
-    actPackageUuid: string
+    actPackageId: string
 ) => {
-    return [`/publication-act-packages/${actPackageUuid}/download`] as const
+    return [`/publication-act-packages/${actPackageId}/download`] as const
 }
 
 export const getPublicationActPackagesGetDownloadActPackageQueryOptions = <
@@ -6397,7 +6095,7 @@ export const getPublicationActPackagesGetDownloadActPackageQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6416,17 +6114,17 @@ export const getPublicationActPackagesGetDownloadActPackageQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationActPackagesGetDownloadActPackageQueryKey(actPackageUuid)
+        getPublicationActPackagesGetDownloadActPackageQueryKey(actPackageId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationActPackagesGetDownloadActPackage>>
     > = ({ signal }) =>
-        publicationActPackagesGetDownloadActPackage(actPackageUuid, signal)
+        publicationActPackagesGetDownloadActPackage(actPackageId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: actPackageUuid !== null && actPackageUuid !== undefined,
+        enabled: actPackageId !== null && actPackageId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationActPackagesGetDownloadActPackage>>,
@@ -6448,7 +6146,7 @@ export function usePublicationActPackagesGetDownloadActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -6488,7 +6186,7 @@ export function usePublicationActPackagesGetDownloadActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6528,7 +6226,7 @@ export function usePublicationActPackagesGetDownloadActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6556,7 +6254,7 @@ export function usePublicationActPackagesGetDownloadActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    actPackageUuid: string,
+    actPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6576,7 +6274,7 @@ export function usePublicationActPackagesGetDownloadActPackage<
 } {
     const queryOptions =
         getPublicationActPackagesGetDownloadActPackageQueryOptions(
-            actPackageUuid,
+            actPackageId,
             options
         )
 
@@ -6592,20 +6290,20 @@ export function usePublicationActPackagesGetDownloadActPackage<
  * @summary Validate Publication Act Package
  */
 export const publicationActPackagesGetValidateActPackage = (
-    versionUuid: string,
+    versionId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-act-packages/${versionUuid}/validate`,
+        url: `/publication-act-packages/${versionId}/validate`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationActPackagesGetValidateActPackageQueryKey = (
-    versionUuid: string
+    versionId: string
 ) => {
-    return [`/publication-act-packages/${versionUuid}/validate`] as const
+    return [`/publication-act-packages/${versionId}/validate`] as const
 }
 
 export const getPublicationActPackagesGetValidateActPackageQueryOptions = <
@@ -6614,7 +6312,7 @@ export const getPublicationActPackagesGetValidateActPackageQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6633,17 +6331,17 @@ export const getPublicationActPackagesGetValidateActPackageQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationActPackagesGetValidateActPackageQueryKey(versionUuid)
+        getPublicationActPackagesGetValidateActPackageQueryKey(versionId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationActPackagesGetValidateActPackage>>
     > = ({ signal }) =>
-        publicationActPackagesGetValidateActPackage(versionUuid, signal)
+        publicationActPackagesGetValidateActPackage(versionId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: versionUuid !== null && versionUuid !== undefined,
+        enabled: versionId !== null && versionId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationActPackagesGetValidateActPackage>>,
@@ -6665,7 +6363,7 @@ export function usePublicationActPackagesGetValidateActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -6705,7 +6403,7 @@ export function usePublicationActPackagesGetValidateActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6745,7 +6443,7 @@ export function usePublicationActPackagesGetValidateActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6773,7 +6471,7 @@ export function usePublicationActPackagesGetValidateActPackage<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -6793,7 +6491,7 @@ export function usePublicationActPackagesGetValidateActPackage<
 } {
     const queryOptions =
         getPublicationActPackagesGetValidateActPackageQueryOptions(
-            versionUuid,
+            versionId,
             options
         )
 
@@ -6809,7 +6507,7 @@ export function usePublicationActPackagesGetValidateActPackage<
  * @summary Record the submission response from lvbb of a publication package
  */
 export const publicationActReportsPostUploadActPackageReport = (
-    actPackageUuid: string,
+    actPackageId: string,
     bodyPublicationActReportsPostUploadActPackageReport: BodyPublicationActReportsPostUploadActPackageReport,
     signal?: AbortSignal
 ) => {
@@ -6819,7 +6517,7 @@ export const publicationActReportsPostUploadActPackageReport = (
     )
 
     return customInstance<UploadPackageReportResponse>({
-        url: `/publication-act-packages/${actPackageUuid}/report`,
+        url: `/publication-act-packages/${actPackageId}/report`,
         method: 'POST',
         headers: { 'Content-Type': 'multipart/form-data' },
         data: formData,
@@ -6868,10 +6566,10 @@ export const getPublicationActReportsPostUploadActPackageReportMutationOptions =
             >,
             PublicationActReportsPostUploadActPackageReportMutationVariables
         > = props => {
-            const { actPackageUuid, data } = props ?? {}
+            const { actPackageId, data } = props ?? {}
 
             return publicationActReportsPostUploadActPackageReport(
-                actPackageUuid,
+                actPackageId,
                 data
             )
         }
@@ -6890,7 +6588,7 @@ export type PublicationActReportsPostUploadActPackageReportMutationBody =
 export type PublicationActReportsPostUploadActPackageReportMutationError =
     HTTPValidationError
 export type PublicationActReportsPostUploadActPackageReportMutationVariables = {
-    actPackageUuid: string
+    actPackageId: string
     data: BodyPublicationActReportsPostUploadActPackageReport
 }
 
@@ -7151,20 +6849,20 @@ export function usePublicationActReportsGetListActPackageReports<
  * @summary Get details of a publication report
  */
 export const publicationActReportsGetDetailActPackageReport = (
-    actReportUuid: string,
+    actReportId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationActPackageReport>({
-        url: `/publication-act-reports/${actReportUuid}`,
+        url: `/publication-act-reports/${actReportId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationActReportsGetDetailActPackageReportQueryKey = (
-    actReportUuid: string
+    actReportId: string
 ) => {
-    return [`/publication-act-reports/${actReportUuid}`] as const
+    return [`/publication-act-reports/${actReportId}`] as const
 }
 
 export const getPublicationActReportsGetDetailActPackageReportQueryOptions = <
@@ -7173,7 +6871,7 @@ export const getPublicationActReportsGetDetailActPackageReportQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7192,19 +6890,19 @@ export const getPublicationActReportsGetDetailActPackageReportQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationActReportsGetDetailActPackageReportQueryKey(actReportUuid)
+        getPublicationActReportsGetDetailActPackageReportQueryKey(actReportId)
 
     const queryFn: QueryFunction<
         Awaited<
             ReturnType<typeof publicationActReportsGetDetailActPackageReport>
         >
     > = ({ signal }) =>
-        publicationActReportsGetDetailActPackageReport(actReportUuid, signal)
+        publicationActReportsGetDetailActPackageReport(actReportId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: actReportUuid !== null && actReportUuid !== undefined,
+        enabled: actReportId !== null && actReportId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<
@@ -7230,7 +6928,7 @@ export function usePublicationActReportsGetDetailActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -7270,7 +6968,7 @@ export function usePublicationActReportsGetDetailActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7310,7 +7008,7 @@ export function usePublicationActReportsGetDetailActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7338,7 +7036,7 @@ export function usePublicationActReportsGetDetailActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7358,7 +7056,7 @@ export function usePublicationActReportsGetDetailActPackageReport<
 } {
     const queryOptions =
         getPublicationActReportsGetDetailActPackageReportQueryOptions(
-            actReportUuid,
+            actReportId,
             options
         )
 
@@ -7374,20 +7072,20 @@ export function usePublicationActReportsGetDetailActPackageReport<
  * @summary Download publication package report
  */
 export const publicationActReportsGetDownloadActPackageReport = (
-    actReportUuid: string,
+    actReportId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<unknown>({
-        url: `/publication-act-reports/${actReportUuid}/download`,
+        url: `/publication-act-reports/${actReportId}/download`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationActReportsGetDownloadActPackageReportQueryKey = (
-    actReportUuid: string
+    actReportId: string
 ) => {
-    return [`/publication-act-reports/${actReportUuid}/download`] as const
+    return [`/publication-act-reports/${actReportId}/download`] as const
 }
 
 export const getPublicationActReportsGetDownloadActPackageReportQueryOptions = <
@@ -7396,7 +7094,7 @@ export const getPublicationActReportsGetDownloadActPackageReportQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7415,21 +7113,19 @@ export const getPublicationActReportsGetDownloadActPackageReportQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationActReportsGetDownloadActPackageReportQueryKey(
-            actReportUuid
-        )
+        getPublicationActReportsGetDownloadActPackageReportQueryKey(actReportId)
 
     const queryFn: QueryFunction<
         Awaited<
             ReturnType<typeof publicationActReportsGetDownloadActPackageReport>
         >
     > = ({ signal }) =>
-        publicationActReportsGetDownloadActPackageReport(actReportUuid, signal)
+        publicationActReportsGetDownloadActPackageReport(actReportId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: actReportUuid !== null && actReportUuid !== undefined,
+        enabled: actReportId !== null && actReportId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<
@@ -7455,7 +7151,7 @@ export function usePublicationActReportsGetDownloadActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -7495,7 +7191,7 @@ export function usePublicationActReportsGetDownloadActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7535,7 +7231,7 @@ export function usePublicationActReportsGetDownloadActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7563,7 +7259,7 @@ export function usePublicationActReportsGetDownloadActPackageReport<
     >,
     TError = HTTPValidationError,
 >(
-    actReportUuid: string,
+    actReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -7583,7 +7279,7 @@ export function usePublicationActReportsGetDownloadActPackageReport<
 } {
     const queryOptions =
         getPublicationActReportsGetDownloadActPackageReportQueryOptions(
-            actReportUuid,
+            actReportId,
             options
         )
 
@@ -7852,11 +7548,11 @@ export function usePublicationActsGetListActs<
  * @summary Close publication act
  */
 export const publicationActsPostCloseAct = (
-    actUuid: string,
+    actId: number,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-acts/${actUuid}/close`,
+        url: `/publication-acts/${actId}/close`,
         method: 'POST',
         signal,
     })
@@ -7894,9 +7590,9 @@ export const getPublicationActsPostCloseActMutationOptions = <
         Awaited<ReturnType<typeof publicationActsPostCloseAct>>,
         PublicationActsPostCloseActMutationVariables
     > = props => {
-        const { actUuid } = props ?? {}
+        const { actId } = props ?? {}
 
-        return publicationActsPostCloseAct(actUuid)
+        return publicationActsPostCloseAct(actId)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -7907,7 +7603,7 @@ export type PublicationActsPostCloseActMutationResult = NonNullable<
 >
 
 export type PublicationActsPostCloseActMutationError = HTTPValidationError
-export type PublicationActsPostCloseActMutationVariables = { actUuid: string }
+export type PublicationActsPostCloseActMutationVariables = { actId: number }
 
 /**
  * @summary Close publication act
@@ -7941,12 +7637,12 @@ export const usePublicationActsPostCloseAct = <
  * @summary Edit publication act
  */
 export const publicationActsPostEditAct = (
-    actUuid: string,
+    actId: number,
     actEdit: ActEdit,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-acts/${actUuid}`,
+        url: `/publication-acts/${actId}`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: actEdit,
@@ -7986,9 +7682,9 @@ export const getPublicationActsPostEditActMutationOptions = <
         Awaited<ReturnType<typeof publicationActsPostEditAct>>,
         PublicationActsPostEditActMutationVariables
     > = props => {
-        const { actUuid, data } = props ?? {}
+        const { actId, data } = props ?? {}
 
-        return publicationActsPostEditAct(actUuid, data)
+        return publicationActsPostEditAct(actId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -8000,7 +7696,7 @@ export type PublicationActsPostEditActMutationResult = NonNullable<
 export type PublicationActsPostEditActMutationBody = ActEdit
 export type PublicationActsPostEditActMutationError = HTTPValidationError
 export type PublicationActsPostEditActMutationVariables = {
-    actUuid: string
+    actId: number
     data: ActEdit
 }
 
@@ -8036,25 +7732,25 @@ export const usePublicationActsPostEditAct = <
  * @summary Get details of a publication act
  */
 export const publicationActsGetDetailAct = (
-    actUuid: string,
+    actId: number,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationAct>({
-        url: `/publication-acts/${actUuid}`,
+        url: `/publication-acts/${actId}`,
         method: 'GET',
         signal,
     })
 }
 
-export const getPublicationActsGetDetailActQueryKey = (actUuid: string) => {
-    return [`/publication-acts/${actUuid}`] as const
+export const getPublicationActsGetDetailActQueryKey = (actId: number) => {
+    return [`/publication-acts/${actId}`] as const
 }
 
 export const getPublicationActsGetDetailActQueryOptions = <
     TData = Awaited<ReturnType<typeof publicationActsGetDetailAct>>,
     TError = HTTPValidationError,
 >(
-    actUuid: string,
+    actId: number,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -8068,17 +7764,16 @@ export const getPublicationActsGetDetailActQueryOptions = <
     const { query: queryOptions } = options ?? {}
 
     const queryKey =
-        queryOptions?.queryKey ??
-        getPublicationActsGetDetailActQueryKey(actUuid)
+        queryOptions?.queryKey ?? getPublicationActsGetDetailActQueryKey(actId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationActsGetDetailAct>>
-    > = ({ signal }) => publicationActsGetDetailAct(actUuid, signal)
+    > = ({ signal }) => publicationActsGetDetailAct(actId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: actUuid !== null && actUuid !== undefined,
+        enabled: actId !== null && actId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationActsGetDetailAct>>,
@@ -8096,7 +7791,7 @@ export function usePublicationActsGetDetailAct<
     TData = Awaited<ReturnType<typeof publicationActsGetDetailAct>>,
     TError = HTTPValidationError,
 >(
-    actUuid: string,
+    actId: number,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -8122,7 +7817,7 @@ export function usePublicationActsGetDetailAct<
     TData = Awaited<ReturnType<typeof publicationActsGetDetailAct>>,
     TError = HTTPValidationError,
 >(
-    actUuid: string,
+    actId: number,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -8148,7 +7843,7 @@ export function usePublicationActsGetDetailAct<
     TData = Awaited<ReturnType<typeof publicationActsGetDetailAct>>,
     TError = HTTPValidationError,
 >(
-    actUuid: string,
+    actId: number,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -8170,7 +7865,7 @@ export function usePublicationActsGetDetailAct<
     TData = Awaited<ReturnType<typeof publicationActsGetDetailAct>>,
     TError = HTTPValidationError,
 >(
-    actUuid: string,
+    actId: number,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -8185,7 +7880,7 @@ export function usePublicationActsGetDetailAct<
     queryKey: DataTag<QueryKey, TData, TError>
 } {
     const queryOptions = getPublicationActsGetDetailActQueryOptions(
-        actUuid,
+        actId,
         options
     )
 
@@ -8201,12 +7896,12 @@ export function usePublicationActsGetDetailAct<
  * @summary Create new Publication Announcement Package
  */
 export const publicationAnnouncementPackagesPostCreateAnnouncementPackage = (
-    announcementUuid: string,
+    announcementId: string,
     publicationAnnouncementPackageCreate: PublicationAnnouncementPackageCreate,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationAnnouncementPackageCreatedResponse>({
-        url: `/publication-announcements/${announcementUuid}/packages`,
+        url: `/publication-announcements/${announcementId}/packages`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationAnnouncementPackageCreate,
@@ -8260,10 +7955,10 @@ export const getPublicationAnnouncementPackagesPostCreateAnnouncementPackageMuta
             >,
             PublicationAnnouncementPackagesPostCreateAnnouncementPackageMutationVariables
         > = props => {
-            const { announcementUuid, data } = props ?? {}
+            const { announcementId, data } = props ?? {}
 
             return publicationAnnouncementPackagesPostCreateAnnouncementPackage(
-                announcementUuid,
+                announcementId,
                 data
             )
         }
@@ -8284,7 +7979,7 @@ export type PublicationAnnouncementPackagesPostCreateAnnouncementPackageMutation
 export type PublicationAnnouncementPackagesPostCreateAnnouncementPackageMutationError =
     HTTPValidationError
 export type PublicationAnnouncementPackagesPostCreateAnnouncementPackageMutationVariables =
-    { announcementUuid: string; data: PublicationAnnouncementPackageCreate }
+    { announcementId: string; data: PublicationAnnouncementPackageCreate }
 
 /**
  * @summary Create new Publication Announcement Package
@@ -8575,20 +8270,20 @@ export function usePublicationAnnouncementPackagesGetListAnnouncementPackages<
  * @summary Get details of a publication announcement package
  */
 export const publicationAnnouncementPackagesGetDetailAnnouncementPackage = (
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationAnnouncementPackageDetailResponse>({
-        url: `/publication-announcement-packages/${announcementPackageUuid}`,
+        url: `/publication-announcement-packages/${announcementPackageId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageQueryKey =
-    (announcementPackageUuid: string) => {
+    (announcementPackageId: string) => {
         return [
-            `/publication-announcement-packages/${announcementPackageUuid}`,
+            `/publication-announcement-packages/${announcementPackageId}`,
         ] as const
     }
 
@@ -8601,7 +8296,7 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageQuery
         >,
         TError = HTTPValidationError,
     >(
-        announcementPackageUuid: string,
+        announcementPackageId: string,
         options?: {
             query?: Partial<
                 UseQueryOptions<
@@ -8621,7 +8316,7 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageQuery
         const queryKey =
             queryOptions?.queryKey ??
             getPublicationAnnouncementPackagesGetDetailAnnouncementPackageQueryKey(
-                announcementPackageUuid
+                announcementPackageId
             )
 
         const queryFn: QueryFunction<
@@ -8632,7 +8327,7 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageQuery
             >
         > = ({ signal }) =>
             publicationAnnouncementPackagesGetDetailAnnouncementPackage(
-                announcementPackageUuid,
+                announcementPackageId,
                 signal
             )
 
@@ -8640,8 +8335,8 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageQuery
             queryKey,
             queryFn,
             enabled:
-                announcementPackageUuid !== null &&
-                announcementPackageUuid !== undefined,
+                announcementPackageId !== null &&
+                announcementPackageId !== undefined,
             ...queryOptions,
         } as UseQueryOptions<
             Awaited<
@@ -8673,7 +8368,7 @@ export function usePublicationAnnouncementPackagesGetDetailAnnouncementPackage<
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -8715,7 +8410,7 @@ export function usePublicationAnnouncementPackagesGetDetailAnnouncementPackage<
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -8757,7 +8452,7 @@ export function usePublicationAnnouncementPackagesGetDetailAnnouncementPackage<
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -8787,7 +8482,7 @@ export function usePublicationAnnouncementPackagesGetDetailAnnouncementPackage<
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -8807,7 +8502,7 @@ export function usePublicationAnnouncementPackagesGetDetailAnnouncementPackage<
 } {
     const queryOptions =
         getPublicationAnnouncementPackagesGetDetailAnnouncementPackageQueryOptions(
-            announcementPackageUuid,
+            announcementPackageId,
             options
         )
 
@@ -8823,20 +8518,20 @@ export function usePublicationAnnouncementPackagesGetDetailAnnouncementPackage<
  * @summary Download a generated publication announcement package ZIP file
  */
 export const publicationAnnouncementPackagesGetDownloadAnnouncementPackage = (
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<unknown>({
-        url: `/publication-announcement-packages/${announcementPackageUuid}/download`,
+        url: `/publication-announcement-packages/${announcementPackageId}/download`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryKey =
-    (announcementPackageUuid: string) => {
+    (announcementPackageId: string) => {
         return [
-            `/publication-announcement-packages/${announcementPackageUuid}/download`,
+            `/publication-announcement-packages/${announcementPackageId}/download`,
         ] as const
     }
 
@@ -8849,7 +8544,7 @@ export const getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQue
         >,
         TError = HTTPValidationError,
     >(
-        announcementPackageUuid: string,
+        announcementPackageId: string,
         options?: {
             query?: Partial<
                 UseQueryOptions<
@@ -8869,7 +8564,7 @@ export const getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQue
         const queryKey =
             queryOptions?.queryKey ??
             getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryKey(
-                announcementPackageUuid
+                announcementPackageId
             )
 
         const queryFn: QueryFunction<
@@ -8880,7 +8575,7 @@ export const getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQue
             >
         > = ({ signal }) =>
             publicationAnnouncementPackagesGetDownloadAnnouncementPackage(
-                announcementPackageUuid,
+                announcementPackageId,
                 signal
             )
 
@@ -8888,8 +8583,8 @@ export const getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQue
             queryKey,
             queryFn,
             enabled:
-                announcementPackageUuid !== null &&
-                announcementPackageUuid !== undefined,
+                announcementPackageId !== null &&
+                announcementPackageId !== undefined,
             ...queryOptions,
         } as UseQueryOptions<
             Awaited<
@@ -8921,7 +8616,7 @@ export function usePublicationAnnouncementPackagesGetDownloadAnnouncementPackage
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -8963,7 +8658,7 @@ export function usePublicationAnnouncementPackagesGetDownloadAnnouncementPackage
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9005,7 +8700,7 @@ export function usePublicationAnnouncementPackagesGetDownloadAnnouncementPackage
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9035,7 +8730,7 @@ export function usePublicationAnnouncementPackagesGetDownloadAnnouncementPackage
     >,
     TError = HTTPValidationError,
 >(
-    announcementPackageUuid: string,
+    announcementPackageId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9055,7 +8750,7 @@ export function usePublicationAnnouncementPackagesGetDownloadAnnouncementPackage
 } {
     const queryOptions =
         getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageQueryOptions(
-            announcementPackageUuid,
+            announcementPackageId,
             options
         )
 
@@ -9072,7 +8767,7 @@ export function usePublicationAnnouncementPackagesGetDownloadAnnouncementPackage
  */
 export const publicationAnnouncementReportsPostUploadAnnouncementPackageReport =
     (
-        announcementPackageUuid: string,
+        announcementPackageId: string,
         bodyPublicationAnnouncementReportsPostUploadAnnouncementPackageReport: BodyPublicationAnnouncementReportsPostUploadAnnouncementPackageReport,
         signal?: AbortSignal
     ) => {
@@ -9082,7 +8777,7 @@ export const publicationAnnouncementReportsPostUploadAnnouncementPackageReport =
         )
 
         return customInstance<UploadPackageReportResponse>({
-            url: `/publication-announcement-packages/${announcementPackageUuid}/report`,
+            url: `/publication-announcement-packages/${announcementPackageId}/report`,
             method: 'POST',
             headers: { 'Content-Type': 'multipart/form-data' },
             data: formData,
@@ -9136,10 +8831,10 @@ export const getPublicationAnnouncementReportsPostUploadAnnouncementPackageRepor
             >,
             PublicationAnnouncementReportsPostUploadAnnouncementPackageReportMutationVariables
         > = props => {
-            const { announcementPackageUuid, data } = props ?? {}
+            const { announcementPackageId, data } = props ?? {}
 
             return publicationAnnouncementReportsPostUploadAnnouncementPackageReport(
-                announcementPackageUuid,
+                announcementPackageId,
                 data
             )
         }
@@ -9161,7 +8856,7 @@ export type PublicationAnnouncementReportsPostUploadAnnouncementPackageReportMut
     HTTPValidationError
 export type PublicationAnnouncementReportsPostUploadAnnouncementPackageReportMutationVariables =
     {
-        announcementPackageUuid: string
+        announcementPackageId: string
         data: BodyPublicationAnnouncementReportsPostUploadAnnouncementPackageReport
     }
 
@@ -9455,18 +9150,18 @@ export function usePublicationAnnouncementReportsGetListAnnnouncementPackageRepo
  * @summary Get details of a publication announcement report
  */
 export const publicationAnnouncementReportsGetDetailAnnouncementPackageReport =
-    (announcementReportUuid: string, signal?: AbortSignal) => {
+    (announcementReportId: string, signal?: AbortSignal) => {
         return customInstance<PublicationAnnouncementPackageReport>({
-            url: `/publication-announcement-reports/${announcementReportUuid}`,
+            url: `/publication-announcement-reports/${announcementReportId}`,
             method: 'GET',
             signal,
         })
     }
 
 export const getPublicationAnnouncementReportsGetDetailAnnouncementPackageReportQueryKey =
-    (announcementReportUuid: string) => {
+    (announcementReportId: string) => {
         return [
-            `/publication-announcement-reports/${announcementReportUuid}`,
+            `/publication-announcement-reports/${announcementReportId}`,
         ] as const
     }
 
@@ -9479,7 +9174,7 @@ export const getPublicationAnnouncementReportsGetDetailAnnouncementPackageReport
         >,
         TError = HTTPValidationError,
     >(
-        announcementReportUuid: string,
+        announcementReportId: string,
         options?: {
             query?: Partial<
                 UseQueryOptions<
@@ -9499,7 +9194,7 @@ export const getPublicationAnnouncementReportsGetDetailAnnouncementPackageReport
         const queryKey =
             queryOptions?.queryKey ??
             getPublicationAnnouncementReportsGetDetailAnnouncementPackageReportQueryKey(
-                announcementReportUuid
+                announcementReportId
             )
 
         const queryFn: QueryFunction<
@@ -9510,7 +9205,7 @@ export const getPublicationAnnouncementReportsGetDetailAnnouncementPackageReport
             >
         > = ({ signal }) =>
             publicationAnnouncementReportsGetDetailAnnouncementPackageReport(
-                announcementReportUuid,
+                announcementReportId,
                 signal
             )
 
@@ -9518,8 +9213,8 @@ export const getPublicationAnnouncementReportsGetDetailAnnouncementPackageReport
             queryKey,
             queryFn,
             enabled:
-                announcementReportUuid !== null &&
-                announcementReportUuid !== undefined,
+                announcementReportId !== null &&
+                announcementReportId !== undefined,
             ...queryOptions,
         } as UseQueryOptions<
             Awaited<
@@ -9551,7 +9246,7 @@ export function usePublicationAnnouncementReportsGetDetailAnnouncementPackageRep
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -9593,7 +9288,7 @@ export function usePublicationAnnouncementReportsGetDetailAnnouncementPackageRep
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9635,7 +9330,7 @@ export function usePublicationAnnouncementReportsGetDetailAnnouncementPackageRep
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9665,7 +9360,7 @@ export function usePublicationAnnouncementReportsGetDetailAnnouncementPackageRep
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9685,7 +9380,7 @@ export function usePublicationAnnouncementReportsGetDetailAnnouncementPackageRep
 } {
     const queryOptions =
         getPublicationAnnouncementReportsGetDetailAnnouncementPackageReportQueryOptions(
-            announcementReportUuid,
+            announcementReportId,
             options
         )
 
@@ -9701,18 +9396,18 @@ export function usePublicationAnnouncementReportsGetDetailAnnouncementPackageRep
  * @summary Download publication announcement package report
  */
 export const publicationAnnouncementReportsGetDownloadAnnouncementPackageReport =
-    (announcementReportUuid: string, signal?: AbortSignal) => {
+    (announcementReportId: string, signal?: AbortSignal) => {
         return customInstance<unknown>({
-            url: `/publication-announcement-reports/${announcementReportUuid}/download`,
+            url: `/publication-announcement-reports/${announcementReportId}/download`,
             method: 'GET',
             signal,
         })
     }
 
 export const getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey =
-    (announcementReportUuid: string) => {
+    (announcementReportId: string) => {
         return [
-            `/publication-announcement-reports/${announcementReportUuid}/download`,
+            `/publication-announcement-reports/${announcementReportId}/download`,
         ] as const
     }
 
@@ -9725,7 +9420,7 @@ export const getPublicationAnnouncementReportsGetDownloadAnnouncementPackageRepo
         >,
         TError = HTTPValidationError,
     >(
-        announcementReportUuid: string,
+        announcementReportId: string,
         options?: {
             query?: Partial<
                 UseQueryOptions<
@@ -9745,7 +9440,7 @@ export const getPublicationAnnouncementReportsGetDownloadAnnouncementPackageRepo
         const queryKey =
             queryOptions?.queryKey ??
             getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryKey(
-                announcementReportUuid
+                announcementReportId
             )
 
         const queryFn: QueryFunction<
@@ -9756,7 +9451,7 @@ export const getPublicationAnnouncementReportsGetDownloadAnnouncementPackageRepo
             >
         > = ({ signal }) =>
             publicationAnnouncementReportsGetDownloadAnnouncementPackageReport(
-                announcementReportUuid,
+                announcementReportId,
                 signal
             )
 
@@ -9764,8 +9459,8 @@ export const getPublicationAnnouncementReportsGetDownloadAnnouncementPackageRepo
             queryKey,
             queryFn,
             enabled:
-                announcementReportUuid !== null &&
-                announcementReportUuid !== undefined,
+                announcementReportId !== null &&
+                announcementReportId !== undefined,
             ...queryOptions,
         } as UseQueryOptions<
             Awaited<
@@ -9797,7 +9492,7 @@ export function usePublicationAnnouncementReportsGetDownloadAnnouncementPackageR
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -9839,7 +9534,7 @@ export function usePublicationAnnouncementReportsGetDownloadAnnouncementPackageR
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9881,7 +9576,7 @@ export function usePublicationAnnouncementReportsGetDownloadAnnouncementPackageR
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9911,7 +9606,7 @@ export function usePublicationAnnouncementReportsGetDownloadAnnouncementPackageR
     >,
     TError = HTTPValidationError,
 >(
-    announcementReportUuid: string,
+    announcementReportId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -9931,7 +9626,7 @@ export function usePublicationAnnouncementReportsGetDownloadAnnouncementPackageR
 } {
     const queryOptions =
         getPublicationAnnouncementReportsGetDownloadAnnouncementPackageReportQueryOptions(
-            announcementReportUuid,
+            announcementReportId,
             options
         )
 
@@ -9947,11 +9642,11 @@ export function usePublicationAnnouncementReportsGetDownloadAnnouncementPackageR
  * @summary Create new publication announcement
  */
 export const publicationAnnouncementsPostCreateAnnouncement = (
-    actPackageUuid: string,
+    actPackageId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<AnnouncementCreatedResponse>({
-        url: `/publication-act-packages/${actPackageUuid}/create-announcement`,
+        url: `/publication-act-packages/${actPackageId}/create-announcement`,
         method: 'POST',
         signal,
     })
@@ -9998,11 +9693,9 @@ export const getPublicationAnnouncementsPostCreateAnnouncementMutationOptions =
             >,
             PublicationAnnouncementsPostCreateAnnouncementMutationVariables
         > = props => {
-            const { actPackageUuid } = props ?? {}
+            const { actPackageId } = props ?? {}
 
-            return publicationAnnouncementsPostCreateAnnouncement(
-                actPackageUuid
-            )
+            return publicationAnnouncementsPostCreateAnnouncement(actPackageId)
         }
 
         return { mutationFn, ...mutationOptions }
@@ -10018,7 +9711,7 @@ export type PublicationAnnouncementsPostCreateAnnouncementMutationResult =
 export type PublicationAnnouncementsPostCreateAnnouncementMutationError =
     HTTPValidationError
 export type PublicationAnnouncementsPostCreateAnnouncementMutationVariables = {
-    actPackageUuid: string
+    actPackageId: string
 }
 
 /**
@@ -10274,12 +9967,12 @@ export function usePublicationAnnouncementsGetListAnnouncements<
  * @summary Edit an existing publication announcement
  */
 export const publicationAnnouncementsPostEditAnnouncement = (
-    announcementUuid: string,
+    announcementId: string,
     publicationAnnouncementEdit: PublicationAnnouncementEdit,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-announcements/${announcementUuid}`,
+        url: `/publication-announcements/${announcementId}`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationAnnouncementEdit,
@@ -10324,10 +10017,10 @@ export const getPublicationAnnouncementsPostEditAnnouncementMutationOptions = <
         >,
         PublicationAnnouncementsPostEditAnnouncementMutationVariables
     > = props => {
-        const { announcementUuid, data } = props ?? {}
+        const { announcementId, data } = props ?? {}
 
         return publicationAnnouncementsPostEditAnnouncement(
-            announcementUuid,
+            announcementId,
             data
         )
     }
@@ -10344,7 +10037,7 @@ export type PublicationAnnouncementsPostEditAnnouncementMutationBody =
 export type PublicationAnnouncementsPostEditAnnouncementMutationError =
     HTTPValidationError
 export type PublicationAnnouncementsPostEditAnnouncementMutationVariables = {
-    announcementUuid: string
+    announcementId: string
     data: PublicationAnnouncementEdit
 }
 
@@ -10382,20 +10075,20 @@ export const usePublicationAnnouncementsPostEditAnnouncement = <
  * @summary Get details of a publication announcement
  */
 export const publicationAnnouncementsGetDetailAnnouncement = (
-    announcementUuid: string,
+    announcementId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationAnnouncement>({
-        url: `/publication-announcements/${announcementUuid}`,
+        url: `/publication-announcements/${announcementId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationAnnouncementsGetDetailAnnouncementQueryKey = (
-    announcementUuid: string
+    announcementId: string
 ) => {
-    return [`/publication-announcements/${announcementUuid}`] as const
+    return [`/publication-announcements/${announcementId}`] as const
 }
 
 export const getPublicationAnnouncementsGetDetailAnnouncementQueryOptions = <
@@ -10404,7 +10097,7 @@ export const getPublicationAnnouncementsGetDetailAnnouncementQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    announcementUuid: string,
+    announcementId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -10423,21 +10116,19 @@ export const getPublicationAnnouncementsGetDetailAnnouncementQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationAnnouncementsGetDetailAnnouncementQueryKey(
-            announcementUuid
-        )
+        getPublicationAnnouncementsGetDetailAnnouncementQueryKey(announcementId)
 
     const queryFn: QueryFunction<
         Awaited<
             ReturnType<typeof publicationAnnouncementsGetDetailAnnouncement>
         >
     > = ({ signal }) =>
-        publicationAnnouncementsGetDetailAnnouncement(announcementUuid, signal)
+        publicationAnnouncementsGetDetailAnnouncement(announcementId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: announcementUuid !== null && announcementUuid !== undefined,
+        enabled: announcementId !== null && announcementId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<
@@ -10463,7 +10154,7 @@ export function usePublicationAnnouncementsGetDetailAnnouncement<
     >,
     TError = HTTPValidationError,
 >(
-    announcementUuid: string,
+    announcementId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -10503,7 +10194,7 @@ export function usePublicationAnnouncementsGetDetailAnnouncement<
     >,
     TError = HTTPValidationError,
 >(
-    announcementUuid: string,
+    announcementId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -10543,7 +10234,7 @@ export function usePublicationAnnouncementsGetDetailAnnouncement<
     >,
     TError = HTTPValidationError,
 >(
-    announcementUuid: string,
+    announcementId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -10571,7 +10262,7 @@ export function usePublicationAnnouncementsGetDetailAnnouncement<
     >,
     TError = HTTPValidationError,
 >(
-    announcementUuid: string,
+    announcementId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -10591,7 +10282,7 @@ export function usePublicationAnnouncementsGetDetailAnnouncement<
 } {
     const queryOptions =
         getPublicationAnnouncementsGetDetailAnnouncementQueryOptions(
-            announcementUuid,
+            announcementId,
             options
         )
 
@@ -10607,11 +10298,11 @@ export function usePublicationAnnouncementsGetDetailAnnouncement<
  * @summary Download Announcement as Pdf
  */
 export const publicationAnnouncementsPostCreateAnnouncementPdf = (
-    announcementUuid: string,
+    announcementId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<unknown>({
-        url: `/publication-announcements/${announcementUuid}/pdf_export`,
+        url: `/publication-announcements/${announcementId}/pdf_export`,
         method: 'POST',
         signal,
     })
@@ -10658,10 +10349,10 @@ export const getPublicationAnnouncementsPostCreateAnnouncementPdfMutationOptions
             >,
             PublicationAnnouncementsPostCreateAnnouncementPdfMutationVariables
         > = props => {
-            const { announcementUuid } = props ?? {}
+            const { announcementId } = props ?? {}
 
             return publicationAnnouncementsPostCreateAnnouncementPdf(
-                announcementUuid
+                announcementId
             )
         }
 
@@ -10678,7 +10369,7 @@ export type PublicationAnnouncementsPostCreateAnnouncementPdfMutationResult =
 export type PublicationAnnouncementsPostCreateAnnouncementPdfMutationError =
     HTTPValidationError
 export type PublicationAnnouncementsPostCreateAnnouncementPdfMutationVariables =
-    { announcementUuid: string }
+    { announcementId: string }
 
 /**
  * @summary Download Announcement as Pdf
@@ -11035,12 +10726,12 @@ export function usePublicationEnvironmentsGetListEnvironments<
  * @summary Edit publication environment
  */
 export const publicationEnvironmentsPostEditEnvironment = (
-    environmentUuid: string,
+    environmentId: string,
     environmentEdit: EnvironmentEdit,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-environments/${environmentUuid}`,
+        url: `/publication-environments/${environmentId}`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: environmentEdit,
@@ -11081,9 +10772,9 @@ export const getPublicationEnvironmentsPostEditEnvironmentMutationOptions = <
         Awaited<ReturnType<typeof publicationEnvironmentsPostEditEnvironment>>,
         PublicationEnvironmentsPostEditEnvironmentMutationVariables
     > = props => {
-        const { environmentUuid, data } = props ?? {}
+        const { environmentId, data } = props ?? {}
 
-        return publicationEnvironmentsPostEditEnvironment(environmentUuid, data)
+        return publicationEnvironmentsPostEditEnvironment(environmentId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -11098,7 +10789,7 @@ export type PublicationEnvironmentsPostEditEnvironmentMutationBody =
 export type PublicationEnvironmentsPostEditEnvironmentMutationError =
     HTTPValidationError
 export type PublicationEnvironmentsPostEditEnvironmentMutationVariables = {
-    environmentUuid: string
+    environmentId: string
     data: EnvironmentEdit
 }
 
@@ -11136,20 +10827,20 @@ export const usePublicationEnvironmentsPostEditEnvironment = <
  * @summary Get details of a publication environment
  */
 export const publicationEnvironmentsGetDetailEnvironment = (
-    environmentUuid: string,
+    environmentId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationEnvironment>({
-        url: `/publication-environments/${environmentUuid}`,
+        url: `/publication-environments/${environmentId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationEnvironmentsGetDetailEnvironmentQueryKey = (
-    environmentUuid: string
+    environmentId: string
 ) => {
-    return [`/publication-environments/${environmentUuid}`] as const
+    return [`/publication-environments/${environmentId}`] as const
 }
 
 export const getPublicationEnvironmentsGetDetailEnvironmentQueryOptions = <
@@ -11158,7 +10849,7 @@ export const getPublicationEnvironmentsGetDetailEnvironmentQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    environmentUuid: string,
+    environmentId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -11177,17 +10868,17 @@ export const getPublicationEnvironmentsGetDetailEnvironmentQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationEnvironmentsGetDetailEnvironmentQueryKey(environmentUuid)
+        getPublicationEnvironmentsGetDetailEnvironmentQueryKey(environmentId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationEnvironmentsGetDetailEnvironment>>
     > = ({ signal }) =>
-        publicationEnvironmentsGetDetailEnvironment(environmentUuid, signal)
+        publicationEnvironmentsGetDetailEnvironment(environmentId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: environmentUuid !== null && environmentUuid !== undefined,
+        enabled: environmentId !== null && environmentId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationEnvironmentsGetDetailEnvironment>>,
@@ -11209,7 +10900,7 @@ export function usePublicationEnvironmentsGetDetailEnvironment<
     >,
     TError = HTTPValidationError,
 >(
-    environmentUuid: string,
+    environmentId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -11249,7 +10940,7 @@ export function usePublicationEnvironmentsGetDetailEnvironment<
     >,
     TError = HTTPValidationError,
 >(
-    environmentUuid: string,
+    environmentId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -11289,7 +10980,7 @@ export function usePublicationEnvironmentsGetDetailEnvironment<
     >,
     TError = HTTPValidationError,
 >(
-    environmentUuid: string,
+    environmentId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -11317,7 +11008,7 @@ export function usePublicationEnvironmentsGetDetailEnvironment<
     >,
     TError = HTTPValidationError,
 >(
-    environmentUuid: string,
+    environmentId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -11337,7 +11028,7 @@ export function usePublicationEnvironmentsGetDetailEnvironment<
 } {
     const queryOptions =
         getPublicationEnvironmentsGetDetailEnvironmentQueryOptions(
-            environmentUuid,
+            environmentId,
             options
         )
 
@@ -11830,12 +11521,12 @@ export function usePublicationTemplatesGetListTemplates<
  * @summary Edit publication template
  */
 export const publicationTemplatesPostEditTemplate = (
-    templateUuid: string,
+    templateId: string,
     templateEdit: TemplateEdit,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-templates/${templateUuid}`,
+        url: `/publication-templates/${templateId}`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: templateEdit,
@@ -11875,9 +11566,9 @@ export const getPublicationTemplatesPostEditTemplateMutationOptions = <
         Awaited<ReturnType<typeof publicationTemplatesPostEditTemplate>>,
         PublicationTemplatesPostEditTemplateMutationVariables
     > = props => {
-        const { templateUuid, data } = props ?? {}
+        const { templateId, data } = props ?? {}
 
-        return publicationTemplatesPostEditTemplate(templateUuid, data)
+        return publicationTemplatesPostEditTemplate(templateId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -11890,7 +11581,7 @@ export type PublicationTemplatesPostEditTemplateMutationBody = TemplateEdit
 export type PublicationTemplatesPostEditTemplateMutationError =
     HTTPValidationError
 export type PublicationTemplatesPostEditTemplateMutationVariables = {
-    templateUuid: string
+    templateId: string
     data: TemplateEdit
 }
 
@@ -11926,27 +11617,27 @@ export const usePublicationTemplatesPostEditTemplate = <
  * @summary Get details of a publication template
  */
 export const publicationTemplatesGetDetailTemplate = (
-    templateUuid: string,
+    templateId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationTemplate>({
-        url: `/publication-templates/${templateUuid}`,
+        url: `/publication-templates/${templateId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationTemplatesGetDetailTemplateQueryKey = (
-    templateUuid: string
+    templateId: string
 ) => {
-    return [`/publication-templates/${templateUuid}`] as const
+    return [`/publication-templates/${templateId}`] as const
 }
 
 export const getPublicationTemplatesGetDetailTemplateQueryOptions = <
     TData = Awaited<ReturnType<typeof publicationTemplatesGetDetailTemplate>>,
     TError = HTTPValidationError,
 >(
-    templateUuid: string,
+    templateId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -11963,17 +11654,17 @@ export const getPublicationTemplatesGetDetailTemplateQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationTemplatesGetDetailTemplateQueryKey(templateUuid)
+        getPublicationTemplatesGetDetailTemplateQueryKey(templateId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationTemplatesGetDetailTemplate>>
     > = ({ signal }) =>
-        publicationTemplatesGetDetailTemplate(templateUuid, signal)
+        publicationTemplatesGetDetailTemplate(templateId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: templateUuid !== null && templateUuid !== undefined,
+        enabled: templateId !== null && templateId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationTemplatesGetDetailTemplate>>,
@@ -11992,7 +11683,7 @@ export function usePublicationTemplatesGetDetailTemplate<
     TData = Awaited<ReturnType<typeof publicationTemplatesGetDetailTemplate>>,
     TError = HTTPValidationError,
 >(
-    templateUuid: string,
+    templateId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -12024,7 +11715,7 @@ export function usePublicationTemplatesGetDetailTemplate<
     TData = Awaited<ReturnType<typeof publicationTemplatesGetDetailTemplate>>,
     TError = HTTPValidationError,
 >(
-    templateUuid: string,
+    templateId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -12056,7 +11747,7 @@ export function usePublicationTemplatesGetDetailTemplate<
     TData = Awaited<ReturnType<typeof publicationTemplatesGetDetailTemplate>>,
     TError = HTTPValidationError,
 >(
-    templateUuid: string,
+    templateId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -12080,7 +11771,7 @@ export function usePublicationTemplatesGetDetailTemplate<
     TData = Awaited<ReturnType<typeof publicationTemplatesGetDetailTemplate>>,
     TError = HTTPValidationError,
 >(
-    templateUuid: string,
+    templateId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -12097,7 +11788,7 @@ export function usePublicationTemplatesGetDetailTemplate<
     queryKey: DataTag<QueryKey, TData, TError>
 } {
     const queryOptions = getPublicationTemplatesGetDetailTemplateQueryOptions(
-        templateUuid,
+        templateId,
         options
     )
 
@@ -12433,12 +12124,12 @@ export function usePublicationValueListsGetThema<
  * @summary Create new publication version
  */
 export const publicationVersionsPostCreateVersion = (
-    publicationUuid: string,
+    publicationId: string,
     publicationVersionCreate: PublicationVersionCreate,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationVersionCreatedResponse>({
-        url: `/publications/${publicationUuid}/version`,
+        url: `/publications/${publicationId}/version`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationVersionCreate,
@@ -12478,9 +12169,9 @@ export const getPublicationVersionsPostCreateVersionMutationOptions = <
         Awaited<ReturnType<typeof publicationVersionsPostCreateVersion>>,
         PublicationVersionsPostCreateVersionMutationVariables
     > = props => {
-        const { publicationUuid, data } = props ?? {}
+        const { publicationId, data } = props ?? {}
 
-        return publicationVersionsPostCreateVersion(publicationUuid, data)
+        return publicationVersionsPostCreateVersion(publicationId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -12494,7 +12185,7 @@ export type PublicationVersionsPostCreateVersionMutationBody =
 export type PublicationVersionsPostCreateVersionMutationError =
     HTTPValidationError
 export type PublicationVersionsPostCreateVersionMutationVariables = {
-    publicationUuid: string
+    publicationId: string
     data: PublicationVersionCreate
 }
 
@@ -12530,12 +12221,12 @@ export const usePublicationVersionsPostCreateVersion = <
  * @summary List the existing Publication versions
  */
 export const publicationVersionsGetListVersions = (
-    publicationUuid: string | null,
+    publicationId: string | null,
     params?: PublicationVersionsGetListVersionsParams,
     signal?: AbortSignal
 ) => {
     return customInstance<PagedResponsePublicationVersionShort>({
-        url: `/publications/${publicationUuid}/versions`,
+        url: `/publications/${publicationId}/versions`,
         method: 'GET',
         params,
         signal,
@@ -12543,11 +12234,11 @@ export const publicationVersionsGetListVersions = (
 }
 
 export const getPublicationVersionsGetListVersionsQueryKey = (
-    publicationUuid: string | null,
+    publicationId: string | null,
     params?: PublicationVersionsGetListVersionsParams
 ) => {
     return [
-        `/publications/${publicationUuid}/versions`,
+        `/publications/${publicationId}/versions`,
         ...(params ? [params] : []),
     ] as const
 }
@@ -12556,7 +12247,7 @@ export const getPublicationVersionsGetListVersionsQueryOptions = <
     TData = Awaited<ReturnType<typeof publicationVersionsGetListVersions>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string | null,
+    publicationId: string | null,
     params?: PublicationVersionsGetListVersionsParams,
     options?: {
         query?: Partial<
@@ -12572,17 +12263,17 @@ export const getPublicationVersionsGetListVersionsQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationVersionsGetListVersionsQueryKey(publicationUuid, params)
+        getPublicationVersionsGetListVersionsQueryKey(publicationId, params)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationVersionsGetListVersions>>
     > = ({ signal }) =>
-        publicationVersionsGetListVersions(publicationUuid, params, signal)
+        publicationVersionsGetListVersions(publicationId, params, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: publicationUuid !== null && publicationUuid !== undefined,
+        enabled: publicationId !== null && publicationId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationVersionsGetListVersions>>,
@@ -12600,7 +12291,7 @@ export function usePublicationVersionsGetListVersions<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListVersions>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string | null,
+    publicationId: string | null,
     params: undefined | PublicationVersionsGetListVersionsParams,
     options: {
         query: Partial<
@@ -12631,7 +12322,7 @@ export function usePublicationVersionsGetListVersions<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListVersions>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string | null,
+    publicationId: string | null,
     params?: PublicationVersionsGetListVersionsParams,
     options?: {
         query?: Partial<
@@ -12662,7 +12353,7 @@ export function usePublicationVersionsGetListVersions<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListVersions>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string | null,
+    publicationId: string | null,
     params?: PublicationVersionsGetListVersionsParams,
     options?: {
         query?: Partial<
@@ -12685,7 +12376,7 @@ export function usePublicationVersionsGetListVersions<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListVersions>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string | null,
+    publicationId: string | null,
     params?: PublicationVersionsGetListVersionsParams,
     options?: {
         query?: Partial<
@@ -12701,7 +12392,7 @@ export function usePublicationVersionsGetListVersions<
     queryKey: DataTag<QueryKey, TData, TError>
 } {
     const queryOptions = getPublicationVersionsGetListVersionsQueryOptions(
-        publicationUuid,
+        publicationId,
         params,
         options
     )
@@ -12718,12 +12409,12 @@ export function usePublicationVersionsGetListVersions<
  * @summary Edit an existing publication version
  */
 export const publicationVersionsPostEditVersion = (
-    versionUuid: string,
+    versionId: string,
     publicationVersionEdit: PublicationVersionEdit,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationVersionEditResponse>({
-        url: `/publication-versions/${versionUuid}`,
+        url: `/publication-versions/${versionId}`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationVersionEdit,
@@ -12763,9 +12454,9 @@ export const getPublicationVersionsPostEditVersionMutationOptions = <
         Awaited<ReturnType<typeof publicationVersionsPostEditVersion>>,
         PublicationVersionsPostEditVersionMutationVariables
     > = props => {
-        const { versionUuid, data } = props ?? {}
+        const { versionId, data } = props ?? {}
 
-        return publicationVersionsPostEditVersion(versionUuid, data)
+        return publicationVersionsPostEditVersion(versionId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -12779,7 +12470,7 @@ export type PublicationVersionsPostEditVersionMutationBody =
 export type PublicationVersionsPostEditVersionMutationError =
     HTTPValidationError
 export type PublicationVersionsPostEditVersionMutationVariables = {
-    versionUuid: string
+    versionId: string
     data: PublicationVersionEdit
 }
 
@@ -12815,27 +12506,27 @@ export const usePublicationVersionsPostEditVersion = <
  * @summary Get details of a publication version
  */
 export const publicationVersionsGetDetailVersion = (
-    versionUuid: string,
+    versionId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<PublicationVersion>({
-        url: `/publication-versions/${versionUuid}`,
+        url: `/publication-versions/${versionId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationVersionsGetDetailVersionQueryKey = (
-    versionUuid: string
+    versionId: string
 ) => {
-    return [`/publication-versions/${versionUuid}`] as const
+    return [`/publication-versions/${versionId}`] as const
 }
 
 export const getPublicationVersionsGetDetailVersionQueryOptions = <
     TData = Awaited<ReturnType<typeof publicationVersionsGetDetailVersion>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -12850,16 +12541,16 @@ export const getPublicationVersionsGetDetailVersionQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationVersionsGetDetailVersionQueryKey(versionUuid)
+        getPublicationVersionsGetDetailVersionQueryKey(versionId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationVersionsGetDetailVersion>>
-    > = ({ signal }) => publicationVersionsGetDetailVersion(versionUuid, signal)
+    > = ({ signal }) => publicationVersionsGetDetailVersion(versionId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: versionUuid !== null && versionUuid !== undefined,
+        enabled: versionId !== null && versionId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationVersionsGetDetailVersion>>,
@@ -12877,7 +12568,7 @@ export function usePublicationVersionsGetDetailVersion<
     TData = Awaited<ReturnType<typeof publicationVersionsGetDetailVersion>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -12907,7 +12598,7 @@ export function usePublicationVersionsGetDetailVersion<
     TData = Awaited<ReturnType<typeof publicationVersionsGetDetailVersion>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -12937,7 +12628,7 @@ export function usePublicationVersionsGetDetailVersion<
     TData = Awaited<ReturnType<typeof publicationVersionsGetDetailVersion>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -12959,7 +12650,7 @@ export function usePublicationVersionsGetDetailVersion<
     TData = Awaited<ReturnType<typeof publicationVersionsGetDetailVersion>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -12974,7 +12665,7 @@ export function usePublicationVersionsGetDetailVersion<
     queryKey: DataTag<QueryKey, TData, TError>
 } {
     const queryOptions = getPublicationVersionsGetDetailVersionQueryOptions(
-        versionUuid,
+        versionId,
         options
     )
 
@@ -12991,11 +12682,11 @@ export function usePublicationVersionsGetDetailVersion<
  * @summary Mark a publication version as deleted
  */
 export const publicationVersionsPostDeleteVersion = (
-    versionUuid: string,
+    versionId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-versions/${versionUuid}`,
+        url: `/publication-versions/${versionId}`,
         method: 'DELETE',
         signal,
     })
@@ -13033,9 +12724,9 @@ export const getPublicationVersionsPostDeleteVersionMutationOptions = <
         Awaited<ReturnType<typeof publicationVersionsPostDeleteVersion>>,
         PublicationVersionsPostDeleteVersionMutationVariables
     > = props => {
-        const { versionUuid } = props ?? {}
+        const { versionId } = props ?? {}
 
-        return publicationVersionsPostDeleteVersion(versionUuid)
+        return publicationVersionsPostDeleteVersion(versionId)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -13048,7 +12739,7 @@ export type PublicationVersionsPostDeleteVersionMutationResult = NonNullable<
 export type PublicationVersionsPostDeleteVersionMutationError =
     HTTPValidationError
 export type PublicationVersionsPostDeleteVersionMutationVariables = {
-    versionUuid: string
+    versionId: string
 }
 
 /**
@@ -13083,7 +12774,7 @@ export const usePublicationVersionsPostDeleteVersion = <
  * @summary Upload an attachment for a Publication Version
  */
 export const publicationVersionsPostUploadAttachment = (
-    versionUuid: string,
+    versionId: string,
     bodyPublicationVersionsPostUploadAttachment: BodyPublicationVersionsPostUploadAttachment,
     signal?: AbortSignal
 ) => {
@@ -13099,7 +12790,7 @@ export const publicationVersionsPostUploadAttachment = (
     )
 
     return customInstance<UploadAttachmentResponse>({
-        url: `/publication-versions/${versionUuid}/attachments`,
+        url: `/publication-versions/${versionId}/attachments`,
         method: 'POST',
         headers: { 'Content-Type': 'multipart/form-data' },
         data: formData,
@@ -13139,9 +12830,9 @@ export const getPublicationVersionsPostUploadAttachmentMutationOptions = <
         Awaited<ReturnType<typeof publicationVersionsPostUploadAttachment>>,
         PublicationVersionsPostUploadAttachmentMutationVariables
     > = props => {
-        const { versionUuid, data } = props ?? {}
+        const { versionId, data } = props ?? {}
 
-        return publicationVersionsPostUploadAttachment(versionUuid, data)
+        return publicationVersionsPostUploadAttachment(versionId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -13155,7 +12846,7 @@ export type PublicationVersionsPostUploadAttachmentMutationBody =
 export type PublicationVersionsPostUploadAttachmentMutationError =
     HTTPValidationError
 export type PublicationVersionsPostUploadAttachmentMutationVariables = {
-    versionUuid: string
+    versionId: string
     data: BodyPublicationVersionsPostUploadAttachment
 }
 
@@ -13191,27 +12882,27 @@ export const usePublicationVersionsPostUploadAttachment = <
  * @summary List attachments for a Publication Version
  */
 export const publicationVersionsGetListAttachments = (
-    versionUuid: string,
+    versionId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<AttachmentShort[]>({
-        url: `/publication-versions/${versionUuid}/attachments`,
+        url: `/publication-versions/${versionId}/attachments`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationVersionsGetListAttachmentsQueryKey = (
-    versionUuid: string
+    versionId: string
 ) => {
-    return [`/publication-versions/${versionUuid}/attachments`] as const
+    return [`/publication-versions/${versionId}/attachments`] as const
 }
 
 export const getPublicationVersionsGetListAttachmentsQueryOptions = <
     TData = Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -13228,17 +12919,16 @@ export const getPublicationVersionsGetListAttachmentsQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationVersionsGetListAttachmentsQueryKey(versionUuid)
+        getPublicationVersionsGetListAttachmentsQueryKey(versionId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>
-    > = ({ signal }) =>
-        publicationVersionsGetListAttachments(versionUuid, signal)
+    > = ({ signal }) => publicationVersionsGetListAttachments(versionId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: versionUuid !== null && versionUuid !== undefined,
+        enabled: versionId !== null && versionId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
@@ -13257,7 +12947,7 @@ export function usePublicationVersionsGetListAttachments<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -13289,7 +12979,7 @@ export function usePublicationVersionsGetListAttachments<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -13321,7 +13011,7 @@ export function usePublicationVersionsGetListAttachments<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -13345,7 +13035,7 @@ export function usePublicationVersionsGetListAttachments<
     TData = Awaited<ReturnType<typeof publicationVersionsGetListAttachments>>,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -13362,7 +13052,7 @@ export function usePublicationVersionsGetListAttachments<
     queryKey: DataTag<QueryKey, TData, TError>
 } {
     const queryOptions = getPublicationVersionsGetListAttachmentsQueryOptions(
-        versionUuid,
+        versionId,
         options
     )
 
@@ -13378,12 +13068,12 @@ export function usePublicationVersionsGetListAttachments<
  * @summary Delete a publication version attachment
  */
 export const publicationVersionsPostDeleteAttachment = (
-    versionUuid: string,
+    versionId: string,
     attachmentId: number,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publication-versions/${versionUuid}/attachments/${attachmentId}`,
+        url: `/publication-versions/${versionId}/attachments/${attachmentId}`,
         method: 'DELETE',
         signal,
     })
@@ -13421,12 +13111,9 @@ export const getPublicationVersionsPostDeleteAttachmentMutationOptions = <
         Awaited<ReturnType<typeof publicationVersionsPostDeleteAttachment>>,
         PublicationVersionsPostDeleteAttachmentMutationVariables
     > = props => {
-        const { versionUuid, attachmentId } = props ?? {}
+        const { versionId, attachmentId } = props ?? {}
 
-        return publicationVersionsPostDeleteAttachment(
-            versionUuid,
-            attachmentId
-        )
+        return publicationVersionsPostDeleteAttachment(versionId, attachmentId)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -13439,7 +13126,7 @@ export type PublicationVersionsPostDeleteAttachmentMutationResult = NonNullable<
 export type PublicationVersionsPostDeleteAttachmentMutationError =
     HTTPValidationError
 export type PublicationVersionsPostDeleteAttachmentMutationVariables = {
-    versionUuid: string
+    versionId: string
     attachmentId: number
 }
 
@@ -13475,23 +13162,23 @@ export const usePublicationVersionsPostDeleteAttachment = <
  * @summary Download a publication version attachment
  */
 export const publicationVersionsGetDownloadAttachment = (
-    versionUuid: string,
+    versionId: string,
     attachmentId: number,
     signal?: AbortSignal
 ) => {
     return customInstance<unknown>({
-        url: `/publication-versions/${versionUuid}/attachments/${attachmentId}`,
+        url: `/publication-versions/${versionId}/attachments/${attachmentId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationVersionsGetDownloadAttachmentQueryKey = (
-    versionUuid: string,
+    versionId: string,
     attachmentId: number
 ) => {
     return [
-        `/publication-versions/${versionUuid}/attachments/${attachmentId}`,
+        `/publication-versions/${versionId}/attachments/${attachmentId}`,
     ] as const
 }
 
@@ -13501,7 +13188,7 @@ export const getPublicationVersionsGetDownloadAttachmentQueryOptions = <
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     attachmentId: number,
     options?: {
         query?: Partial<
@@ -13520,7 +13207,7 @@ export const getPublicationVersionsGetDownloadAttachmentQueryOptions = <
     const queryKey =
         queryOptions?.queryKey ??
         getPublicationVersionsGetDownloadAttachmentQueryKey(
-            versionUuid,
+            versionId,
             attachmentId
         )
 
@@ -13528,7 +13215,7 @@ export const getPublicationVersionsGetDownloadAttachmentQueryOptions = <
         Awaited<ReturnType<typeof publicationVersionsGetDownloadAttachment>>
     > = ({ signal }) =>
         publicationVersionsGetDownloadAttachment(
-            versionUuid,
+            versionId,
             attachmentId,
             signal
         )
@@ -13537,8 +13224,8 @@ export const getPublicationVersionsGetDownloadAttachmentQueryOptions = <
         queryKey,
         queryFn,
         enabled:
-            versionUuid !== null &&
-            versionUuid !== undefined &&
+            versionId !== null &&
+            versionId !== undefined &&
             attachmentId !== null &&
             attachmentId !== undefined,
         ...queryOptions,
@@ -13561,7 +13248,7 @@ export function usePublicationVersionsGetDownloadAttachment<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     attachmentId: number,
     options: {
         query: Partial<
@@ -13600,7 +13287,7 @@ export function usePublicationVersionsGetDownloadAttachment<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     attachmentId: number,
     options?: {
         query?: Partial<
@@ -13639,7 +13326,7 @@ export function usePublicationVersionsGetDownloadAttachment<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     attachmentId: number,
     options?: {
         query?: Partial<
@@ -13666,7 +13353,7 @@ export function usePublicationVersionsGetDownloadAttachment<
     >,
     TError = HTTPValidationError,
 >(
-    versionUuid: string,
+    versionId: string,
     attachmentId: number,
     options?: {
         query?: Partial<
@@ -13685,7 +13372,7 @@ export function usePublicationVersionsGetDownloadAttachment<
 } {
     const queryOptions =
         getPublicationVersionsGetDownloadAttachmentQueryOptions(
-            versionUuid,
+            versionId,
             attachmentId,
             options
         )
@@ -13702,12 +13389,12 @@ export function usePublicationVersionsGetDownloadAttachment<
  * @summary Download Publication Version as Pdf
  */
 export const publicationVersionsPostCreateVersionPdf = (
-    versionUuid: string,
+    versionId: string,
     publicationPackagePdf: PublicationPackagePdf,
     signal?: AbortSignal
 ) => {
     return customInstance<unknown>({
-        url: `/publication-versions/${versionUuid}/pdf_export`,
+        url: `/publication-versions/${versionId}/pdf_export`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationPackagePdf,
@@ -13747,9 +13434,9 @@ export const getPublicationVersionsPostCreateVersionPdfMutationOptions = <
         Awaited<ReturnType<typeof publicationVersionsPostCreateVersionPdf>>,
         PublicationVersionsPostCreateVersionPdfMutationVariables
     > = props => {
-        const { versionUuid, data } = props ?? {}
+        const { versionId, data } = props ?? {}
 
-        return publicationVersionsPostCreateVersionPdf(versionUuid, data)
+        return publicationVersionsPostCreateVersionPdf(versionId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -13763,7 +13450,7 @@ export type PublicationVersionsPostCreateVersionPdfMutationBody =
 export type PublicationVersionsPostCreateVersionPdfMutationError =
     HTTPValidationError
 export type PublicationVersionsPostCreateVersionPdfMutationVariables = {
-    versionUuid: string
+    versionId: string
     data: PublicationPackagePdf
 }
 
@@ -14055,27 +13742,27 @@ export const usePublicationsPostCreatePublication = <
  * @summary Get details of a publication
  */
 export const publicationsGetDetailPublication = (
-    publicationUuid: string,
+    publicationId: string,
     signal?: AbortSignal
 ) => {
     return customInstance<Publication>({
-        url: `/publications/${publicationUuid}`,
+        url: `/publications/${publicationId}`,
         method: 'GET',
         signal,
     })
 }
 
 export const getPublicationsGetDetailPublicationQueryKey = (
-    publicationUuid: string
+    publicationId: string
 ) => {
-    return [`/publications/${publicationUuid}`] as const
+    return [`/publications/${publicationId}`] as const
 }
 
 export const getPublicationsGetDetailPublicationQueryOptions = <
     TData = Awaited<ReturnType<typeof publicationsGetDetailPublication>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string,
+    publicationId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -14090,17 +13777,16 @@ export const getPublicationsGetDetailPublicationQueryOptions = <
 
     const queryKey =
         queryOptions?.queryKey ??
-        getPublicationsGetDetailPublicationQueryKey(publicationUuid)
+        getPublicationsGetDetailPublicationQueryKey(publicationId)
 
     const queryFn: QueryFunction<
         Awaited<ReturnType<typeof publicationsGetDetailPublication>>
-    > = ({ signal }) =>
-        publicationsGetDetailPublication(publicationUuid, signal)
+    > = ({ signal }) => publicationsGetDetailPublication(publicationId, signal)
 
     return {
         queryKey,
         queryFn,
-        enabled: publicationUuid !== null && publicationUuid !== undefined,
+        enabled: publicationId !== null && publicationId !== undefined,
         ...queryOptions,
     } as UseQueryOptions<
         Awaited<ReturnType<typeof publicationsGetDetailPublication>>,
@@ -14118,7 +13804,7 @@ export function usePublicationsGetDetailPublication<
     TData = Awaited<ReturnType<typeof publicationsGetDetailPublication>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string,
+    publicationId: string,
     options: {
         query: Partial<
             UseQueryOptions<
@@ -14146,7 +13832,7 @@ export function usePublicationsGetDetailPublication<
     TData = Awaited<ReturnType<typeof publicationsGetDetailPublication>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string,
+    publicationId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -14174,7 +13860,7 @@ export function usePublicationsGetDetailPublication<
     TData = Awaited<ReturnType<typeof publicationsGetDetailPublication>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string,
+    publicationId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -14196,7 +13882,7 @@ export function usePublicationsGetDetailPublication<
     TData = Awaited<ReturnType<typeof publicationsGetDetailPublication>>,
     TError = HTTPValidationError,
 >(
-    publicationUuid: string,
+    publicationId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<
@@ -14211,7 +13897,7 @@ export function usePublicationsGetDetailPublication<
     queryKey: DataTag<QueryKey, TData, TError>
 } {
     const queryOptions = getPublicationsGetDetailPublicationQueryOptions(
-        publicationUuid,
+        publicationId,
         options
     )
 
@@ -14227,12 +13913,12 @@ export function usePublicationsGetDetailPublication<
  * @summary Edit an existing publication
  */
 export const publicationsPostEditPublication = (
-    publicationUuid: string,
+    publicationId: string,
     publicationEdit: PublicationEdit,
     signal?: AbortSignal
 ) => {
     return customInstance<ResponseOK>({
-        url: `/publications/${publicationUuid}`,
+        url: `/publications/${publicationId}`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: publicationEdit,
@@ -14272,9 +13958,9 @@ export const getPublicationsPostEditPublicationMutationOptions = <
         Awaited<ReturnType<typeof publicationsPostEditPublication>>,
         PublicationsPostEditPublicationMutationVariables
     > = props => {
-        const { publicationUuid, data } = props ?? {}
+        const { publicationId, data } = props ?? {}
 
-        return publicationsPostEditPublication(publicationUuid, data)
+        return publicationsPostEditPublication(publicationId, data)
     }
 
     return { mutationFn, ...mutationOptions }
@@ -14286,7 +13972,7 @@ export type PublicationsPostEditPublicationMutationResult = NonNullable<
 export type PublicationsPostEditPublicationMutationBody = PublicationEdit
 export type PublicationsPostEditPublicationMutationError = HTTPValidationError
 export type PublicationsPostEditPublicationMutationVariables = {
-    publicationUuid: string
+    publicationId: string
     data: PublicationEdit
 }
 
@@ -17170,7 +16856,7 @@ export const ambitiePostModulePatchObject = (
     ambitiePostModulePatchObjectBody: AmbitiePostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<AmbitieUUID>({
+    return customInstance<AmbitieID>({
         url: `/modules/${moduleId}/object/ambitie/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -19385,7 +19071,7 @@ export const beleidsdoelPostModulePatchObject = (
     beleidsdoelPostModulePatchObjectBody: BeleidsdoelPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsdoelUUID>({
+    return customInstance<BeleidsdoelID>({
         url: `/modules/${moduleId}/object/beleidsdoel/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -21850,7 +21536,7 @@ export function useBeleidskeuzeGetAcknowledgedRelationList<
 /**
  * @summary Request an acknowledged relation to another object
  */
-export const beleidskeuzeGetAcknowledgedRelationRequest = (
+export const beleidskeuzePostAcknowledgedRelationRequest = (
     lineageId: number,
     requestAcknowledgedRelation: RequestAcknowledgedRelation,
     signal?: AbortSignal
@@ -21864,27 +21550,27 @@ export const beleidskeuzeGetAcknowledgedRelationRequest = (
     })
 }
 
-export const getBeleidskeuzeGetAcknowledgedRelationRequestMutationKey = () =>
-    ['beleidskeuzeGetAcknowledgedRelationRequest'] as const
+export const getBeleidskeuzePostAcknowledgedRelationRequestMutationKey = () =>
+    ['beleidskeuzePostAcknowledgedRelationRequest'] as const
 
-export const getBeleidskeuzeGetAcknowledgedRelationRequestMutationOptions = <
+export const getBeleidskeuzePostAcknowledgedRelationRequestMutationOptions = <
     TError = HTTPValidationError,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof beleidskeuzeGetAcknowledgedRelationRequest>>,
+        Awaited<ReturnType<typeof beleidskeuzePostAcknowledgedRelationRequest>>,
         TError,
-        BeleidskeuzeGetAcknowledgedRelationRequestMutationVariables,
+        BeleidskeuzePostAcknowledgedRelationRequestMutationVariables,
         TContext
     >
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof beleidskeuzeGetAcknowledgedRelationRequest>>,
+    Awaited<ReturnType<typeof beleidskeuzePostAcknowledgedRelationRequest>>,
     TError,
-    BeleidskeuzeGetAcknowledgedRelationRequestMutationVariables,
+    BeleidskeuzePostAcknowledgedRelationRequestMutationVariables,
     TContext
 > => {
     const mutationKey =
-        getBeleidskeuzeGetAcknowledgedRelationRequestMutationKey()
+        getBeleidskeuzePostAcknowledgedRelationRequestMutationKey()
     const { mutation: mutationOptions } = options
         ? options.mutation &&
           'mutationKey' in options.mutation &&
@@ -21894,26 +21580,26 @@ export const getBeleidskeuzeGetAcknowledgedRelationRequestMutationOptions = <
         : { mutation: { mutationKey } }
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof beleidskeuzeGetAcknowledgedRelationRequest>>,
-        BeleidskeuzeGetAcknowledgedRelationRequestMutationVariables
+        Awaited<ReturnType<typeof beleidskeuzePostAcknowledgedRelationRequest>>,
+        BeleidskeuzePostAcknowledgedRelationRequestMutationVariables
     > = props => {
         const { lineageId, data } = props ?? {}
 
-        return beleidskeuzeGetAcknowledgedRelationRequest(lineageId, data)
+        return beleidskeuzePostAcknowledgedRelationRequest(lineageId, data)
     }
 
     return { mutationFn, ...mutationOptions }
 }
 
-export type BeleidskeuzeGetAcknowledgedRelationRequestMutationResult =
+export type BeleidskeuzePostAcknowledgedRelationRequestMutationResult =
     NonNullable<
-        Awaited<ReturnType<typeof beleidskeuzeGetAcknowledgedRelationRequest>>
+        Awaited<ReturnType<typeof beleidskeuzePostAcknowledgedRelationRequest>>
     >
-export type BeleidskeuzeGetAcknowledgedRelationRequestMutationBody =
+export type BeleidskeuzePostAcknowledgedRelationRequestMutationBody =
     RequestAcknowledgedRelation
-export type BeleidskeuzeGetAcknowledgedRelationRequestMutationError =
+export type BeleidskeuzePostAcknowledgedRelationRequestMutationError =
     HTTPValidationError
-export type BeleidskeuzeGetAcknowledgedRelationRequestMutationVariables = {
+export type BeleidskeuzePostAcknowledgedRelationRequestMutationVariables = {
     lineageId: number
     data: RequestAcknowledgedRelation
 }
@@ -21921,29 +21607,29 @@ export type BeleidskeuzeGetAcknowledgedRelationRequestMutationVariables = {
 /**
  * @summary Request an acknowledged relation to another object
  */
-export const useBeleidskeuzeGetAcknowledgedRelationRequest = <
+export const useBeleidskeuzePostAcknowledgedRelationRequest = <
     TError = HTTPValidationError,
     TContext = unknown,
 >(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<
-                ReturnType<typeof beleidskeuzeGetAcknowledgedRelationRequest>
+                ReturnType<typeof beleidskeuzePostAcknowledgedRelationRequest>
             >,
             TError,
-            BeleidskeuzeGetAcknowledgedRelationRequestMutationVariables,
+            BeleidskeuzePostAcknowledgedRelationRequestMutationVariables,
             TContext
         >
     },
     queryClient?: QueryClient
 ): UseMutationResult<
-    Awaited<ReturnType<typeof beleidskeuzeGetAcknowledgedRelationRequest>>,
+    Awaited<ReturnType<typeof beleidskeuzePostAcknowledgedRelationRequest>>,
     TError,
-    BeleidskeuzeGetAcknowledgedRelationRequestMutationVariables,
+    BeleidskeuzePostAcknowledgedRelationRequestMutationVariables,
     TContext
 > => {
     return useMutation(
-        getBeleidskeuzeGetAcknowledgedRelationRequestMutationOptions(options),
+        getBeleidskeuzePostAcknowledgedRelationRequestMutationOptions(options),
         queryClient
     )
 }
@@ -22057,7 +21743,7 @@ export const beleidskeuzePostModulePatchObject = (
     beleidskeuzePostModulePatchObjectBody: BeleidskeuzePostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidskeuzeUUID>({
+    return customInstance<BeleidskeuzeID>({
         url: `/modules/${moduleId}/object/beleidskeuze/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -24346,7 +24032,7 @@ export const beleidsregelPostModulePatchObject = (
     beleidsregelPostModulePatchObjectBody: BeleidsregelPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<BeleidsregelUUID>({
+    return customInstance<BeleidsregelID>({
         url: `/modules/${moduleId}/object/beleidsregel/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -26362,7 +26048,7 @@ export const documentPostModulePatchObject = (
     documentPostModulePatchObjectBody: DocumentPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<DocumentUUID>({
+    return customInstance<DocumentID>({
         url: `/modules/${moduleId}/object/document/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -28312,7 +27998,7 @@ export const gebiedPostModulePatchObject = (
     gebiedPostModulePatchObjectBody: GebiedPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedUUID>({
+    return customInstance<GebiedID>({
         url: `/modules/${moduleId}/object/gebied/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -30275,7 +29961,7 @@ export const gebiedengroepPostModulePatchObject = (
     gebiedengroepPostModulePatchObjectBody: GebiedengroepPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedengroepUUID>({
+    return customInstance<GebiedengroepID>({
         url: `/modules/${moduleId}/object/gebiedengroep/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -32482,7 +32168,7 @@ export const gebiedsaanwijzingPostModulePatchObject = (
     gebiedsaanwijzingPostModulePatchObjectBody: GebiedsaanwijzingPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedsaanwijzingUUID>({
+    return customInstance<GebiedsaanwijzingID>({
         url: `/modules/${moduleId}/object/gebiedsaanwijzing/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -34937,7 +34623,7 @@ export const gebiedsprogrammaPostModulePatchObject = (
     gebiedsprogrammaPostModulePatchObjectBody: GebiedsprogrammaPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<GebiedsprogrammaUUID>({
+    return customInstance<GebiedsprogrammaID>({
         url: `/modules/${moduleId}/object/gebiedsprogrammas/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -37316,7 +37002,7 @@ export const maatregelPostModulePatchObject = (
     maatregelPostModulePatchObjectBody: MaatregelPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<MaatregelUUID>({
+    return customInstance<MaatregelID>({
         url: `/modules/${moduleId}/object/maatregel/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -38352,7 +38038,7 @@ export const nationaalBelangAtemporalCreateObject = (
     nationaalBelangCreate: NationaalBelangCreate,
     signal?: AbortSignal
 ) => {
-    return customInstance<NationaalBelangUUID>({
+    return customInstance<NationaalBelangID>({
         url: `/nationaal-belang`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -39497,6 +39183,308 @@ export const useNationaalBelangEditObjectStatic = <
 }
 
 /**
+ * @summary List object types with counts for loggedin user
+ */
+export const objectsViewObjectCounts = (signal?: AbortSignal) => {
+    return customInstance<RootModelListObjectCount>({
+        url: `/objects/valid/count`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getObjectsViewObjectCountsQueryKey = () => {
+    return [`/objects/valid/count`] as const
+}
+
+export const getObjectsViewObjectCountsQueryOptions = <
+    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+    TError = unknown,
+>(options?: {
+    query?: Partial<
+        UseQueryOptions<
+            Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+            TError,
+            TData
+        >
+    >
+}) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getObjectsViewObjectCountsQueryKey()
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectsViewObjectCounts>>
+    > = ({ signal }) => objectsViewObjectCounts(signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ObjectsViewObjectCountsQueryResult = NonNullable<
+    Awaited<ReturnType<typeof objectsViewObjectCounts>>
+>
+export type ObjectsViewObjectCountsQueryError = unknown
+
+export function useObjectsViewObjectCounts<
+    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+    TError = unknown,
+>(
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+                    TError,
+                    Awaited<ReturnType<typeof objectsViewObjectCounts>>
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useObjectsViewObjectCounts<
+    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+    TError = unknown,
+>(
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+                    TError,
+                    Awaited<ReturnType<typeof objectsViewObjectCounts>>
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useObjectsViewObjectCounts<
+    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+    TError = unknown,
+>(
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary List object types with counts for loggedin user
+ */
+
+export function useObjectsViewObjectCounts<
+    TData = Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+    TError = unknown,
+>(
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsViewObjectCounts>>,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions = getObjectsViewObjectCountsQueryOptions(options)
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary List all objects filterable in short format
+ */
+export const objectsDoListAllLatest = (
+    params?: ObjectsDoListAllLatestParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>(
+        { url: `/objects/valid`, method: 'GET', params, signal }
+    )
+}
+
+export const getObjectsDoListAllLatestQueryKey = (
+    params?: ObjectsDoListAllLatestParams
+) => {
+    return [`/objects/valid`, ...(params ? [params] : [])] as const
+}
+
+export const getObjectsDoListAllLatestQueryOptions = <
+    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+    TError = HTTPValidationError,
+>(
+    params?: ObjectsDoListAllLatestParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ?? getObjectsDoListAllLatestQueryKey(params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof objectsDoListAllLatest>>
+    > = ({ signal }) => objectsDoListAllLatest(params, signal)
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ObjectsDoListAllLatestQueryResult = NonNullable<
+    Awaited<ReturnType<typeof objectsDoListAllLatest>>
+>
+export type ObjectsDoListAllLatestQueryError = HTTPValidationError
+
+export function useObjectsDoListAllLatest<
+    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+    TError = HTTPValidationError,
+>(
+    params: undefined | ObjectsDoListAllLatestParams,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                    TError,
+                    Awaited<ReturnType<typeof objectsDoListAllLatest>>
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useObjectsDoListAllLatest<
+    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+    TError = HTTPValidationError,
+>(
+    params?: ObjectsDoListAllLatestParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                    TError,
+                    Awaited<ReturnType<typeof objectsDoListAllLatest>>
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useObjectsDoListAllLatest<
+    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+    TError = HTTPValidationError,
+>(
+    params?: ObjectsDoListAllLatestParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary List all objects filterable in short format
+ */
+
+export function useObjectsDoListAllLatest<
+    TData = Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+    TError = HTTPValidationError,
+>(
+    params?: ObjectsDoListAllLatestParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof objectsDoListAllLatest>>,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions = getObjectsDoListAllLatestQueryOptions(params, options)
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
  * @summary Get all the valid programma_algemeen lineages and shows the latest object of each
  */
 export const programmaAlgemeenListValidLineages = (
@@ -40506,7 +40494,7 @@ export const programmaAlgemeenPostModulePatchObject = (
     programmaAlgemeenPostModulePatchObjectBody: ProgrammaAlgemeenPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<ProgrammaAlgemeenUUID>({
+    return customInstance<ProgrammaAlgemeenID>({
         url: `/modules/${moduleId}/object/programma-algemeen/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -41706,7 +41694,7 @@ export const verplichtProgrammaAtemporalCreateObject = (
     verplichtProgrammaCreate: VerplichtProgrammaCreate,
     signal?: AbortSignal
 ) => {
-    return customInstance<VerplichtProgrammaUUID>({
+    return customInstance<VerplichtProgrammaID>({
         url: `/verplicht-programma`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -43846,7 +43834,7 @@ export const visieAlgemeenPostModulePatchObject = (
     visieAlgemeenPostModulePatchObjectBody: VisieAlgemeenPostModulePatchObjectBody,
     signal?: AbortSignal
 ) => {
-    return customInstance<VisieAlgemeenUUID>({
+    return customInstance<VisieAlgemeenID>({
         url: `/modules/${moduleId}/object/visie-algemeen/${lineageId}`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -47038,7 +47026,7 @@ export const wettelijkeTaakAtemporalCreateObject = (
     wettelijkeTaakCreate: WettelijkeTaakCreate,
     signal?: AbortSignal
 ) => {
-    return customInstance<WettelijkeTaakUUID>({
+    return customInstance<WettelijkeTaakID>({
         url: `/wettelijke-taak`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

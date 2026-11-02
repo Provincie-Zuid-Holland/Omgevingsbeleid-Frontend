@@ -15,14 +15,14 @@ interface PendingPackagesProps extends PublicationEnvironment {
     setFilter: React.Dispatch<React.SetStateAction<Filter>>
 }
 
-const PendingPackages = ({ Title, UUID, setFilter }: PendingPackagesProps) => {
+const PendingPackages = ({ title, id, setFilter }: PendingPackagesProps) => {
     const navigate = useNavigate()
 
     const { data, isFetching } = usePublicationPackagesGetListUnifiedPackages({
         limit: PAGE_LIMIT,
-        environment_uuid: UUID,
+        environment_id: id,
         report_status: 'pending',
-        sort_column: 'Created_Date',
+        sort_column: 'created_date',
         sort_order: 'DESC',
     })
 
@@ -30,16 +30,16 @@ const PendingPackages = ({ Title, UUID, setFilter }: PendingPackagesProps) => {
         <>
             <div className="flex items-center justify-between">
                 <Heading level="2" size="xl">
-                    In afwachting ({Title})
+                    In afwachting ({title})
                 </Heading>
                 {/* <Button
-                    variant="cta"
-                    icon={ArrowUpToLine}
-                    iconSize={20}
-                    isDisabled={!!!data?.results.length || isFetching}
-                    isLoading={isFetching}>
-                    Upload rapporten
-                </Button> */}
+          variant="cta"
+          icon={ArrowUpToLine}
+          iconSize={20}
+          isDisabled={!!!data?.results.length || isFetching}
+          isLoading={isFetching}>
+          Upload rapporten
+          </Button> */}
             </div>
 
             {isFetching ? (
@@ -47,7 +47,7 @@ const PendingPackages = ({ Title, UUID, setFilter }: PendingPackagesProps) => {
             ) : !!data?.results.length ? (
                 <div className="grid grid-cols-3 gap-12">
                     {data.results.map(pkg => (
-                        <PackageTile key={pkg.UUID} {...pkg} />
+                        <PackageTile key={pkg.id} {...pkg} />
                     ))}
                 </div>
             ) : (
@@ -63,7 +63,7 @@ const PendingPackages = ({ Title, UUID, setFilter }: PendingPackagesProps) => {
                     className="self-start"
                     onPress={() => {
                         navigate(
-                            `/muteer/leveringen?environment=${UUID}&report_status=pending`
+                            `/muteer/leveringen?environment=${id}&report_status=pending`
                         )
                         setFilter(() => ({
                             report_status: 'pending',

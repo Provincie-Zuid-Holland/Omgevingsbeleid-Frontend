@@ -14,9 +14,9 @@ interface ModulePartProps extends ModelReturnTypeBasic {
 }
 
 const ModulePart = ({
-    Object_Type,
-    Model,
-    ModuleObjectContext,
+    object_type,
+    model,
+    module_object_context: ModuleObjectContext,
     isLast,
     handleRemove,
 }: ModulePartProps) => (
@@ -28,12 +28,12 @@ const ModulePart = ({
             }
         )}
         data-testid="module-part">
-        <span className="col-span-3 truncate capitalize">{Object_Type}</span>
+        <span className="col-span-3 truncate capitalize">{object_type}</span>
         <Text bold className="col-span-7 truncate">
-            {Model.Title}
+            {model.title}
         </Text>
         <span className="col-span-1 italic">
-            {getObjectActionText(ModuleObjectContext?.Action)}
+            {getObjectActionText(ModuleObjectContext?.action)}
         </span>
         <Tooltip label="Onderdeel niet (meer) meenemen in de module">
             <button

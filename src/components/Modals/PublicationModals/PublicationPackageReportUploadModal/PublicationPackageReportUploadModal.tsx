@@ -58,8 +58,8 @@ const PublicationPackageReportUploadModal = () => {
     ) => {
         uploadReports
             .mutateAsync({
-                actPackageUuid: modalState.packageUUID,
-                announcementPackageUuid: modalState.packageUUID,
+                actPackageId: modalState.packageUUID,
+                announcementPackageId: modalState.packageUUID,
                 data: payload,
             })
             .then(res => {
@@ -74,27 +74,27 @@ const PublicationPackageReportUploadModal = () => {
                         modalState.publicationType === 'act'
                             ? getPublicationActPackagesGetListActPackagesQueryKey(
                                   {
-                                      version_uuid: versionUUID,
+                                      version_id: versionUUID,
                                       package_type: modalState.packageType,
                                       limit: 3,
-                                      sort_column: 'Created_Date',
+                                      sort_column: 'created_date',
                                       sort_order: 'DESC',
                                   }
                               )
                             : getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey(
                                   {
-                                      announcement_uuid:
+                                      announcement_id:
                                           modalState.announcementUUID,
                                       package_type: modalState.packageType,
                                       limit: 3,
-                                      sort_column: 'Created_Date',
+                                      sort_column: 'created_date',
                                       sort_order: 'DESC',
                                   }
                               ),
                 })
 
                 if (
-                    res.Status === 'valid' &&
+                    res.status === 'valid' &&
                     modalState.packageType === 'publication'
                 ) {
                     queryClient.invalidateQueries({
@@ -107,7 +107,7 @@ const PublicationPackageReportUploadModal = () => {
 
                 if (
                     modalState.publicationType === 'announcement' &&
-                    res.Status === 'valid' &&
+                    res.status === 'valid' &&
                     modalState.packageType === 'publication'
                 ) {
                     queryClient.invalidateQueries({
@@ -118,9 +118,9 @@ const PublicationPackageReportUploadModal = () => {
                 }
 
                 if (
-                    (res.Status === 'valid' ||
-                        res.Status === 'failed' ||
-                        res.Status === 'aborted') &&
+                    (res.status === 'valid' ||
+                        res.status === 'failed' ||
+                        res.status === 'aborted') &&
                     modalState.packageType === 'publication'
                 ) {
                     queryClient.invalidateQueries({
@@ -163,7 +163,7 @@ const InnerForm = ({
     const { data: actReports } =
         usePublicationActReportsGetListActPackageReports(
             {
-                act_package_uuid: modalState.packageUUID,
+                act_package_id: modalState.packageUUID,
             },
             {
                 query: {
@@ -175,7 +175,7 @@ const InnerForm = ({
     const { data: announcementReports } =
         usePublicationAnnouncementReportsGetListAnnnouncementPackageReports(
             {
-                announcement_package_uuid: modalState.packageUUID,
+                announcement_package_id: modalState.packageUUID,
             },
             {
                 query: {
@@ -269,18 +269,18 @@ const InnerForm = ({
                     </Text>
                     <ul className="flex flex-col gap-2">
                         {reports.results.map(file => {
-                            const status = getReportStatus(file.Report_Status)
+                            const status = getReportStatus(file.report_status)
 
                             return (
                                 <li
-                                    key={file.UUID}
+                                    key={file.id}
                                     className="pzh-form-input overflow-hidden border-pzh-gray-200">
                                     <div className="flex items-center justify-between gap-2 px-4">
                                         <Text
                                             bold
                                             color="text-pzh-blue-500"
                                             className="truncate">
-                                            {file.Filename}
+                                            {file.filename}
                                         </Text>
                                         <div className="flex items-center gap-4">
                                             <Text
@@ -289,7 +289,7 @@ const InnerForm = ({
                                                 color="text-pzh-gray-600"
                                                 className="whitespace-nowrap">
                                                 {formatDate(
-                                                    parseUtc(file.Created_Date),
+                                                    parseUtc(file.created_date),
                                                     "dd-MM-yyyy 'om' kk:mm"
                                                 )}
                                             </Text>

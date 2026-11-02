@@ -66,7 +66,7 @@ export const StepOne = ({
                     key={`received-relation-${index}`}
                     className="mt-3 flex items-center">
                     <ObjectAcknowledgedRelationPart
-                        type={relation.Denied ? 'declined' : 'approved'}
+                        type={relation.denied ? 'declined' : 'approved'}
                         {...relation}
                     />
                 </div>

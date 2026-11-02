@@ -9,46 +9,46 @@ import createEmptyObject from '@/utils/createEmptyObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
 export const SCHEMA = object({
-    Title: schemaDefaults.title,
-    Description: schemaDefaults.requiredString(),
-    Module_Manager_1_UUID: schemaDefaults.requiredString(),
-    Module_Manager_2_UUID: schemaDefaults.optionalString,
+    title: schemaDefaults.title,
+    description: schemaDefaults.requiredString(),
+    module_manager_1_id: schemaDefaults.requiredString(),
+    module_manager_2_id: schemaDefaults.optionalString,
 })
 
 export const EMPTY_CREATE_MODULE: ModuleCreate = createEmptyObject(SCHEMA)
 
 export const SCHEMA_ADD_OBJECT_STEPS = [
     object({ state: schemaDefaults.requiredString() }),
-    object({ Object_Type: schemaDefaults.requiredString() }),
+    object({ object_type: schemaDefaults.requiredString() }),
     object({
-        Title: schemaDefaults.title,
-        Owner_1_UUID: schemaDefaults.requiredString(),
-        Owner_2_UUID: schemaDefaults.optionalString,
-        Explanation: schemaDefaults.optionalString,
-        Conclusion: schemaDefaults.optionalString,
+        title: schemaDefaults.title,
+        owner_1_id: schemaDefaults.requiredString(),
+        owner_2_id: schemaDefaults.optionalString,
+        explanation: schemaDefaults.optionalString,
+        conclusion: schemaDefaults.optionalString,
     }),
-    object({ Object_UUID: schemaDefaults.requiredString() }),
+    object({ object_id: schemaDefaults.requiredString() }),
     object({
-        Action: schemaDefaults.requiredString(),
-        Explanation: schemaDefaults.optionalString,
-        Conclusion: schemaDefaults.optionalString,
+        action: schemaDefaults.requiredString(),
+        explanation: schemaDefaults.optionalString,
+        conclusion: schemaDefaults.optionalString,
     }),
 ]
 
 export const SCHEMA_ADD_NEW_OBJECT = object({
-    Object_Type: schemaDefaults.requiredString(),
-    Object_UUID: schemaDefaults.requiredString(),
-    Title: schemaDefaults.title,
-    Owner_1_UUID: schemaDefaults.requiredString(),
-    Owner_2_UUID: schemaDefaults.optionalString,
-    Explanation: string().optional(),
-    Conclusion: string().optional(),
+    object_type: schemaDefaults.requiredString(),
+    object_id: schemaDefaults.requiredString(),
+    title: schemaDefaults.title,
+    owner_1_id: schemaDefaults.requiredString(),
+    owner_2_id: schemaDefaults.optionalString,
+    explanation: string().optional(),
+    conclusion: string().optional(),
 })
 
 export const SCHEMA_EDIT_EXISTING_OBJECT = object({
-    Action: schemaDefaults.optionalString,
-    Explanation: schemaDefaults.optionalString,
-    Conclusion: schemaDefaults.optionalString,
+    action: schemaDefaults.optionalString,
+    explanation: schemaDefaults.optionalString,
+    conclusion: schemaDefaults.optionalString,
 })
 
 export const SCHEMA_COMPLETE_MODULE = object({
@@ -77,11 +77,11 @@ export const SCHEMA_COMPLETE_MODULE_STEPS = [
     object({
         ObjectSpecifiekeGeldigheden: array(
             object({
-                Object_Type: schemaDefaults.requiredString(),
-                Object_ID: schemaDefaults.requiredNumber(),
-                Start_Validity: schemaDefaults.date(),
+                object_type: schemaDefaults.requiredString(),
+                object_id: schemaDefaults.requiredNumber(),
+                start_validity: schemaDefaults.date(),
             }).partial({
-                Start_Validity: true,
+                start_validity: true,
             })
         ),
     }),

@@ -21,8 +21,8 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
     const { useGetValidLineage } = model.fetchers
 
     const { data, isLoading } =
-        (useGetValidLineage?.(object?.Object_ID || 0, undefined, {
-            query: { enabled: !!object?.Object_ID },
+        (useGetValidLineage?.(object?.object_id || 0, undefined, {
+            query: { enabled: !!object?.object_id },
         }) as {
             data?: {
                 results?: ModelReturnTypeBasicUnion[]
@@ -35,7 +35,7 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
         () =>
             (data?.results &&
                 data?.results.length > 1 &&
-                data?.results.filter(item => item.UUID !== object?.UUID)) ||
+                data?.results.filter(item => item.id !== object?.id)) ||
             [],
         [data, object]
     )
@@ -75,36 +75,36 @@ const ObjectValidArchived = ({ model }: ObjectValidArchivedProps) => {
                     <div className="grid grid-cols-1 gap-y-2">
                         {archivedObjects?.map(object => (
                             <Link
-                                key={object.UUID}
-                                to={`/${slugOverview}/${plural}/${object.UUID}`}
+                                key={object.id}
+                                to={`/${slugOverview}/${plural}/${object.id}`}
                                 target="_blank"
                                 className="grid grid-cols-9 border-b border-pzh-gray-300 p-2 hover:bg-pzh-gray-100">
                                 <div className="col-span-5">
                                     <Text bold color="text-pzh-blue-500">
-                                        {object.Title}
+                                        {object.title}
                                     </Text>
                                 </div>
                                 <div className="col-span-2">
                                     <Text>
-                                        {'Start_Validity' in object &&
-                                            object.Start_Validity &&
+                                        {'start_validity' in object &&
+                                            object.start_validity &&
                                             formatDate(
-                                                parseUtc(object.Start_Validity),
+                                                parseUtc(object.start_validity),
                                                 'dd-MM-yyyy'
                                             )}
                                     </Text>
                                 </div>
                                 <div className="col-span-2 flex items-center justify-between">
                                     <Text>
-                                        {'Next_Version' in object &&
-                                        object.Next_Version
+                                        {'next_version' in object &&
+                                        object.next_version
                                             ? formatDate(
                                                   parseUtc(
                                                       (
-                                                          object.Next_Version as {
-                                                              Start_Validity: string
+                                                          object.next_version as {
+                                                              start_validity: string
                                                           }
-                                                      ).Start_Validity
+                                                      ).start_validity
                                                   ),
                                                   'dd-MM-yyyy'
                                               )

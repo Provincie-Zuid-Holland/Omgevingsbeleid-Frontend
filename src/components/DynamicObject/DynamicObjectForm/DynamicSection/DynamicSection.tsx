@@ -18,9 +18,7 @@ const DynamicSection = ({
     isLast?: boolean
     isLocked?: boolean
     model: Model
-    defaultValues?: {
-        [key: string]: any
-    }
+    defaultValues?: { [key: string]: any }
 }) => (
     <>
         <div className="col-span-6">

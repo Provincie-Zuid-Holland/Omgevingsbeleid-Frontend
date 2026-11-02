@@ -17,7 +17,7 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
      * Filter items which already have a relation with current object
      */
     const filter = [
-        ...(relations?.map(relation => relation.Side_B.Object_ID) || []),
+        ...(relations?.map(relation => relation.side_b.object_id) || []),
         ...(id ? [id] : []),
     ]
 
@@ -31,12 +31,12 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
             <DynamicObjectSearch
                 onChange={val => {
                     if (Array.isArray(val)) {
-                        setFieldValue('Title', val[0].object?.Model.Title ?? '')
+                        setFieldValue('title', val[0].object?.model.title ?? '')
                     } else {
-                        setFieldValue('Title', val?.object?.Model.Title ?? '')
+                        setFieldValue('title', val?.object?.model.title ?? '')
                     }
                 }}
-                objectKey="Object_ID"
+                objectKey="object_id"
                 filter={filter}
                 filterParams={{
                     object_types: [singular],
@@ -44,10 +44,10 @@ export const StepOne = ({ title, id, model, relations }: StepProps) => {
                 placeholder={`Zoek in de ${plural}`}
                 label={pluralCapitalize}
                 defaultValue={
-                    values.Title &&
-                    values.Object_ID && {
-                        label: values.Title,
-                        value: values.Object_ID,
+                    values.title &&
+                    values.object_id && {
+                        label: values.title,
+                        value: values.object_id,
                     }
                 }
                 styles={{

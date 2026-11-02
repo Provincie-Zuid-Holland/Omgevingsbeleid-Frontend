@@ -20,7 +20,7 @@ import { ModalStateMap } from '../../types'
 
 type Values = {
     Object_Code: string
-    Cached_Title: string
+    cached_title: string
 }
 
 const ObjectAreaAnnotateModal = () => {
@@ -36,22 +36,22 @@ const ObjectAreaAnnotateModal = () => {
 
         if (Object.keys(previousValue ?? {}).length) {
             const code = previousValue?.[AREA_DATA_ATTRS.Object_Code]
-            const item = data?.Gebiedsaanwijzingen_Statics?.find(
-                item => item.Code === code
+            const item = data?.gebiedsaanwijzingen_gebieden?.find(
+                item => item.code === code
             )
 
             return {
                 Object_Code: code ?? '',
-                Cached_Title:
-                    item?.Cached_Title ??
-                    previousValue?.[AREA_DATA_ATTRS.Cached_Title] ??
+                cached_title:
+                    item?.title ??
+                    previousValue?.[AREA_DATA_ATTRS.cached_title] ??
                     '',
             }
         }
 
         return {
             Object_Code: '',
-            Cached_Title: '',
+            cached_title: '',
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, modalState?.editor, modalState?.editor?.state.selection])
@@ -63,7 +63,7 @@ const ObjectAreaAnnotateModal = () => {
             .extendMarkRange('area')
             .setArea({
                 [AREA_DATA_ATTRS.Object_Code]: payload.Object_Code,
-                [AREA_DATA_ATTRS.Cached_Title]: payload.Cached_Title,
+                [AREA_DATA_ATTRS.cached_title]: payload.cached_title,
             })
             .run()
 
@@ -148,7 +148,7 @@ const InnerForm = <TData extends Values>({
                             ? [
                                   {
                                       value: values.Object_Code,
-                                      label: <>{values.Cached_Title}</>,
+                                      label: <>{values.cached_title}</>,
                                   },
                               ]
                             : []
@@ -156,13 +156,13 @@ const InnerForm = <TData extends Values>({
                     onChange={val => {
                         if (Array.isArray(val)) {
                             setFieldValue(
-                                'Cached_Title',
-                                val[0]?.object?.Model.Title ?? ''
+                                'cached_title',
+                                val[0]?.object?.model.title ?? ''
                             )
                         } else {
                             setFieldValue(
-                                'Cached_Title',
-                                val?.object?.Model.Title ?? ''
+                                'cached_title',
+                                val?.object?.model.title ?? ''
                             )
                         }
                     }}

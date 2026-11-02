@@ -10,8 +10,8 @@ type Status = 'Vigerend' | 'Gearchiveerd' | string
 
 export interface ObjectLineageCardProps {
     model: Model
-    UUID?: string
-    Title?: string
+    id?: string
+    title?: string
     status?: Status
     module?: ModuleShort
     validDate?: string
@@ -38,13 +38,13 @@ const toDetailHref = (
     module?: ModuleShort
 ) =>
     module
-        ? `/${slugOverview}/${plural}/ontwerpversie/${module.Module_ID}/${uuid}`
+        ? `/${slugOverview}/${plural}/ontwerpversie/${module.module_id}/${uuid}`
         : `/${slugOverview}/${plural}/${uuid}`
 
 const ObjectLineageCard = ({
     model,
-    UUID,
-    Title,
+    id,
+    title,
     status,
     module,
     validDate,
@@ -65,7 +65,7 @@ const ObjectLineageCard = ({
             />
 
             <Heading level="2" size="m">
-                {Title}
+                {title}
             </Heading>
 
             <div className="flex justify-between">
@@ -73,8 +73,8 @@ const ObjectLineageCard = ({
                     <Text>
                         Module:{' '}
                         <Hyperlink asChild>
-                            <Link to={`/muteer/modules/${module.Module_ID}`}>
-                                {module.Title}
+                            <Link to={`/muteer/modules/${module.module_id}`}>
+                                {module.title}
                             </Link>
                         </Hyperlink>
                     </Text>
@@ -88,7 +88,7 @@ const ObjectLineageCard = ({
                             to={toDetailHref(
                                 slugOverview || '',
                                 plural,
-                                UUID,
+                                id,
                                 module
                             )}
                             target="_blank"

@@ -37,7 +37,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
     const { useGetStatic } = model.fetchers
 
     const { data } =
-        useGetStatic?.<AmbitieStaticStatics>(parseInt(objectId!), {
+        useGetStatic<AmbitieStaticStatics>?.(parseInt(objectId!), {
             query: { enabled: !!objectId },
         }) || {}
 
@@ -57,11 +57,11 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
         (filterRoles?: Role[]) =>
             users?.results
                 ?.filter(user =>
-                    user.Roles?.some(role => filterRoles?.includes(role))
+                    user.roles?.some(role => filterRoles?.includes(role))
                 )
                 ?.map(user => ({
-                    label: user.Gebruikersnaam,
-                    value: user.UUID,
+                    label: user.name,
+                    value: user.id,
                 })),
         [users]
     )
@@ -82,7 +82,7 @@ const ObjectPersonModal = ({ model }: ObjectPersonModalProps) => {
         const key = getStaticDataPropertyKey(item)
         const user = data?.[key]
 
-        acc[item] = user?.UUID
+        acc[item] = user?.id
 
         return acc
     }, {})

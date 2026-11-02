@@ -36,14 +36,14 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
     } = model.defaults
 
     const { data, isLoading } =
-        useGetValid?.<{
+        useGetValid<{
             results?: ModelReturnTypeBasicUnion[]
             total?: number
-        }>(
+        }>?.(
             {
                 limit: PAGE_LIMIT,
                 offset: (currPage - 1) * PAGE_LIMIT,
-                sort_column: 'Title',
+                sort_column: 'title',
                 sort_order: 'ASC',
             },
             {
@@ -59,10 +59,10 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
      */
     const allObjects = useMemo(
         () =>
-            data?.results?.map(({ Title, UUID, Object_ID }) => ({
-                Title,
-                UUID,
-                Object_ID,
+            data?.results?.map(({ title, id, object_id }) => ({
+                title,
+                id,
+                object_id,
             })),
         [data]
     )
@@ -116,7 +116,7 @@ function DynamicOverview({ model }: DynamicOverviewProps) {
                             objectSlug={`${slugOverview}/${plural}`}
                             objectType={pluralCapitalize.toLowerCase()}
                             objectSingular={singular}
-                            objectKey={atemporal ? 'id' : 'uuid'}
+                            objectKey={atemporal ? 'id' : 'id'}
                             limit={PAGE_LIMIT}
                             onPageChange={handlePageChange}
                             total={data?.total}

@@ -1,7 +1,8 @@
-import { ObjectRelatedFileResponse } from '@/api/fetchers.schemas'
-import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
 import { Button, Heading, Hyperlink, Text } from '@pzh-ui/components'
 import { ArrowUpRightFromSquare, TrashCan } from '@pzh-ui/icons'
+
+import { ObjectRelatedFileResponse } from '@/api/fetchers.schemas'
+import useDownloadStorageFile from '@/hooks/useDownloadStorageFile'
 
 import { StepProps } from './types'
 
@@ -12,10 +13,10 @@ export const StepOne = ({
     setStep,
     setSelectedFile,
 }: StepProps) => {
-    const files = [...(objectData?.Related_Files ?? [])].sort(
+    const files = [...(objectData?.related_files ?? [])].sort(
         (a, b) =>
-            new Date(b.Created_Date).getTime() -
-            new Date(a.Created_Date).getTime()
+            new Date(b.created_date).getTime() -
+            new Date(a.created_date).getTime()
     )
 
     return (
@@ -26,7 +27,7 @@ export const StepOne = ({
 
             <Text className="mb-4">
                 Bestanden koppelen aan {model.defaults.singularReadable}:{' '}
-                <b>{objectData?.Title}</b>
+                <b>{objectData?.title}</b>
             </Text>
 
             <div className="flex items-center justify-between">
@@ -49,7 +50,7 @@ export const StepOne = ({
                 <div className="mt-4 flex flex-col gap-2">
                     {files.map(file => (
                         <RelatedFileRow
-                            key={file.UUID}
+                            key={file.id}
                             file={file}
                             userCanEdit={userCanEdit}
                             onDelete={() => {
@@ -75,19 +76,19 @@ const RelatedFileRow = ({
     userCanEdit,
     onDelete,
 }: RelatedFileRowProps) => {
-    const download = useDownloadStorageFile(file.File_UUID)
+    const download = useDownloadStorageFile(file.file_id)
 
     return (
-        <div className="border-pzh-gray-300 bg-pzh-gray-100 flex items-center justify-between gap-4 rounded border p-4">
+        <div className="flex items-center justify-between gap-4 rounded border border-pzh-gray-300 bg-pzh-gray-100 p-4">
             <Hyperlink
                 asChild
                 icon={ArrowUpRightFromSquare}
-                className="text-pzh-blue-500 hover:text-pzh-green-500 inline-flex items-center underline">
+                className="inline-flex items-center text-pzh-blue-500 underline hover:text-pzh-green-500">
                 <button
                     type="button"
                     onClick={() => download.refetch()}
                     className="text-left">
-                    <span className="font-bold">{file.Title}</span>
+                    <span className="font-bold">{file.title}</span>
                 </button>
             </Hyperlink>
 

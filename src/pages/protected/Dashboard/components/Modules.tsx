@@ -20,7 +20,7 @@ const Modules = () => {
                 filter_closed: false,
                 only_mine: false,
                 limit: PAGE_LIMIT,
-                sort_column: 'Modified_Date',
+                sort_column: 'modified_date',
                 sort_order: 'DESC',
             },
             {
@@ -57,7 +57,7 @@ const Modules = () => {
                 ) : modules?.results.length ? (
                     modules?.results?.map(module => (
                         <ModuleTile
-                            key={`module-${module.Module_ID}`}
+                            key={`module-${module.module_id}`}
                             {...module}
                         />
                     ))

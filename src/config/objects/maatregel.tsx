@@ -65,15 +65,15 @@ const maatregel: DynamicObject = {
         parentType: 'Programma',
     },
     staticData: [
-        'Client_1_UUID',
-        'Owner_1_UUID',
-        'Owner_2_UUID',
-        'Portfolio_Holder_1_UUID',
-        'Portfolio_Holder_2_UUID',
+        'client_1_id',
+        'owner_1_id',
+        'owner_2_id',
+        'owner_3_id',
+        'portfolio_holder_1_id',
     ],
     allowedConnections: [
-        { type: 'beleidskeuze', key: 'Beleidskeuzes' },
-        { type: 'gebiedsprogramma', key: 'Gebiedsprogrammas' },
+        { type: 'beleidskeuze', key: 'beleidskeuzes' },
+        { type: 'gebiedsprogramma', key: 'gebiedsprogrammas' },
     ],
     connectionsDescription: object => (
         <>
@@ -133,7 +133,7 @@ const maatregel: DynamicObject = {
             },
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Gebruik in de titel ten minste één werkwoord. Het gekozen werkwoord zegt over het algemeen iets over de rolkeuze uit het NSOB-kwadrant. ',
@@ -144,7 +144,7 @@ const maatregel: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Wat gaat de provincie doen?',
                     description: (
                         <>
@@ -177,7 +177,7 @@ const maatregel: DynamicObject = {
                     },
                 },
                 {
-                    name: 'Roles',
+                    name: 'roles',
                     label: 'Sturingsstijl',
                     description:
                         'Kies de rol die je inneemt met deze maatregel, dit kunnen meerdere rollen zijn.',
@@ -257,7 +257,7 @@ const maatregel: DynamicObject = {
                     validation: schemaDefaults.options,
                 },
                 {
-                    name: 'Effect',
+                    name: 'effect',
                     label: 'Nadere uitwerking',
                     description:
                         'Werk, aan de hand van prestaties, acties en handelingen, uit hoe je invulling geeft aan de genoemde sturingsstijl(en). Benut hiervoor het hoofdstuk ‘Sturingsfilosofie Provincie Zuid-Holland’ uit de Omgevingsvisie.',
@@ -341,7 +341,7 @@ const maatregel: DynamicObject = {
                     ],
                 },
                 {
-                    name: 'Gebiedengroep_Code',
+                    name: 'gebiedengroep_code',
                     label: 'Gebiedengroep',
                     type: 'search',
                     placeholder: 'Selecteer een gebiedengroep',
@@ -359,7 +359,7 @@ const maatregel: DynamicObject = {
                     conditionalField: 'Ambtsgebied',
                 },
                 {
-                    name: 'Hierarchy_Code',
+                    name: 'hierarchy_code',
                     label: 'Koppel aan beleidskeuze',
                     description:
                         'Geef aan uit welke beleidskeuze deze maatregel voortkomt.',
@@ -379,7 +379,7 @@ const maatregel: DynamicObject = {
                     },
                 },
                 {
-                    name: 'Themas',
+                    name: 'themas',
                     label: "Thema's",
                     description:
                         "Om de maatregel beter vindbaar te maken in de landelijke voorziening kun je de maatregel voorzien van één of meerdere thema's.",
@@ -394,7 +394,7 @@ const maatregel: DynamicObject = {
                     },
                 },
                 {
-                    name: 'Hoofdlijnen',
+                    name: 'hoofdlijnen',
                     label: 'Hoofdlijnen',
                     description: (
                         <>
@@ -422,8 +422,8 @@ const maatregel: DynamicObject = {
                     },
                 },
                 {
-                    name: 'Documents',
-                    fieldName: 'Documents',
+                    name: 'documents',
+                    fieldName: 'documents',
                     label: 'Documenten',
                     description:
                         'Dienen er bijlagen mee gepubliceerd te worden, voeg ze dan hier toe. Deze bijlagen volgen de besluitvorming van de herziening. Dit kan alleen in overleg met team omgevingsbeleid.',

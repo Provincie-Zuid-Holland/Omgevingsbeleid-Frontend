@@ -208,7 +208,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
     })
     const [sortBy, setSortBy] = useState([
         {
-            id: 'Title',
+            id: 'title',
             desc: false,
         },
     ])
@@ -216,7 +216,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
     const queryParams = {
         limit: PAGE_LIMIT,
         offset: (pageIndex - 1) * PAGE_LIMIT,
-        sort_column: sortBy?.[0]?.id || 'Gebruikersnaam',
+        sort_column: sortBy?.[0]?.id || 'name',
         sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
         ...(type === 'latest' && {
             object_types: [singular],
@@ -235,7 +235,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
             return {
                 ...data,
                 results: data.results.map(result =>
-                    'Model' in result ? result.Model : result
+                    'model' in result ? result.model : result
                 ),
             }
         },
@@ -276,7 +276,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
         () => [
             {
                 header: 'Titel',
-                accessorKey: 'Title',
+                accessorKey: 'title',
             },
         ],
         []
@@ -292,14 +292,14 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                     ModelReturnTypeBasic | ModelReturnTypeBasicUnion
                 )[]
             )?.map(props => {
-                const { Title, Object_ID } =
-                    'Model' in props ? props.Model : props
+                const { title, object_id } =
+                    'model' in props ? props.model : props
 
                 return {
-                    Title: (
+                    title: (
                         <span className="flex items-center justify-between">
                             <Text bold color="text-pzh-blue-500">
-                                {Title}
+                                {title}
                             </Text>
                             {atemporalCanEditObject && <AngleRight size={20} />}
                         </span>
@@ -308,7 +308,7 @@ const TabTable = ({ type, activeTab, model, query }: TabTableProps) => {
                         (atemporal && atemporalCanEditObject)) && {
                         onClick: () =>
                             navigate(
-                                `/muteer/${plural}/${Object_ID}${
+                                `/muteer/${plural}/${object_id}${
                                     atemporal ? '/bewerk' : ''
                                 }`
                             ),

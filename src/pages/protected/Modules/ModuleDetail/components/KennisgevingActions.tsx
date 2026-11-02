@@ -12,8 +12,8 @@ import useModalStore from '@/store/modalStore'
 import { downloadFile } from '@/utils/file'
 
 interface KennisgevingActionsProps {
-    announcementUuid?: string
-    actPackageUuid?: string
+    announcementId?: string
+    actPackageId?: string
     isRegelingPublished: boolean
     isPublished: boolean
     isClosed?: boolean
@@ -21,8 +21,8 @@ interface KennisgevingActionsProps {
 }
 
 const KennisgevingActions = ({
-    announcementUuid,
-    actPackageUuid,
+    announcementId,
+    actPackageId,
     isRegelingPublished,
     isPublished,
     isClosed,
@@ -41,7 +41,7 @@ const KennisgevingActions = ({
                         queryKey:
                             getPublicationAnnouncementsGetListAnnouncementsQueryKey(
                                 {
-                                    act_package_uuid: actPackageUuid,
+                                    act_package_id: actPackageId,
                                     limit: 100,
                                 }
                             ),
@@ -53,23 +53,23 @@ const KennisgevingActions = ({
     const { mutate: exportPdf, isPending: exporting } =
         usePublicationAnnouncementsPostCreateAnnouncementPdf({
             mutation: {
-                mutationFn: async ({ announcementUuid }): Promise<unknown> =>
+                mutationFn: async ({ announcementId }): Promise<unknown> =>
                     downloadFile(
-                        `/publication-announcements/${announcementUuid}/pdf_export`,
+                        `/publication-announcements/${announcementId}/pdf_export`,
                         {}
                     ),
             },
         })
 
-    if (!announcementUuid) {
+    if (!announcementId) {
         return (
             <Button
                 size="small"
                 variant="cta"
-                isDisabled={!isRegelingPublished || isClosed || !actPackageUuid}
+                isDisabled={!isRegelingPublished || isClosed || !actPackageId}
                 isLoading={creating}
                 onPress={() =>
-                    actPackageUuid && createAnnouncement({ actPackageUuid })
+                    actPackageId && createAnnouncement({ actPackageId })
                 }>
                 Maak kennisgeving
             </Button>
@@ -83,7 +83,7 @@ const KennisgevingActions = ({
                 variant={readOnly ? 'secondary' : 'primary'}
                 onPress={() =>
                     setActiveModal('publicationAnnouncementUpdate', {
-                        announcementUuid,
+                        announcementId,
                         readOnly,
                     })
                 }>
@@ -96,7 +96,7 @@ const KennisgevingActions = ({
                 iconSize={16}
                 isLoading={exporting}
                 isDisabled={exporting}
-                onPress={() => exportPdf({ announcementUuid })}>
+                onPress={() => exportPdf({ announcementId })}>
                 Export PDF
             </Button>
         </>

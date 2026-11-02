@@ -73,7 +73,7 @@ const PublicationAttachmentAddModal = () => {
         }
 
         mutateAsync({
-            versionUuid: String(versionUUID),
+            versionId: String(versionUUID),
             data: {
                 ...payload,
                 uploaded_file: payload.uploaded_file,

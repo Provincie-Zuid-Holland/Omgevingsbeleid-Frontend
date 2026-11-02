@@ -71,18 +71,18 @@ const ModuleVersionCard = ({ variant = 'column' }: ModuleVersionCardProps) => {
      * Handle form submit, reset form on submit
      */
     const handleSubmit = (
-        payload: { Status?: ModuleStatusCode },
-        helpers: FormikHelpers<{ Status: undefined }>
+        payload: { status?: ModuleStatusCode },
+        helpers: FormikHelpers<{ status: undefined }>
     ) => {
-        if (payload.Status) {
+        if (payload.status) {
             createVersion
                 .mutateAsync({
                     moduleId: parseInt(moduleId!),
-                    data: { Status: payload.Status },
+                    data: { status: payload.status },
                 })
                 .then(() => helpers.resetForm())
                 .catch((err: AxiosError<{ detail: string }>) => {
-                    helpers.setFieldError('Status', err.response?.data.detail)
+                    helpers.setFieldError('status', err.response?.data.detail)
                     helpers.setSubmitting(false)
                 })
         }
@@ -117,7 +117,7 @@ const ModuleVersionCard = ({ variant = 'column' }: ModuleVersionCardProps) => {
             </Text>
             <Formik
                 onSubmit={handleSubmit}
-                initialValues={{ Status: undefined }}
+                initialValues={{ status: undefined }}
                 enableReinitialize>
                 {({ isSubmitting }) => (
                     <Form
@@ -127,7 +127,7 @@ const ModuleVersionCard = ({ variant = 'column' }: ModuleVersionCardProps) => {
                         })}>
                         <div className={cn({ 'flex-1': variant === 'row' })}>
                             <FormikSelect
-                                name="Status"
+                                name="status"
                                 placeholder="Selecteer een versie"
                                 options={options}
                                 optimized={false}

@@ -17,9 +17,7 @@ interface ObjectContentProps {
     /** Object data */
     data: ModelReturnType
     /** Custom description title */
-    customTitle?: {
-        [K in keyof ModelReturnType]: string
-    }
+    customTitle?: { [K in keyof ModelReturnType]: string }
 }
 
 const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
@@ -87,9 +85,7 @@ interface ContentProps {
     value: keyof ModelReturnType
     hidden?: boolean
     html: string
-    customTitle?: {
-        [K in keyof ModelReturnType]: string
-    }
+    customTitle?: { [K in keyof ModelReturnType]: string }
 }
 
 const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
@@ -98,7 +94,7 @@ const Content = ({ title, value, hidden, html, customTitle }: ContentProps) => {
 
     let cleanHtml = DOMPurify.sanitize(html)
 
-    if (value === 'Weblink') {
+    if (value === 'weblink') {
         cleanHtml = cleanHtml.replace(
             /\bhttps?:\/\/\S+/gi,
             '<a class="underline text-pzh-green-500 hover:text-pzh-blue-900" href="$&" target="_blank" rel="noreferrer noopener">$&</a>'
@@ -218,20 +214,20 @@ const List = ({ title, description, items, hidden }: ListProps) => (
         </Heading>
         <ul>
             {items.map(item => {
-                if (!item.Object) return null
+                if (!item.object) return null
 
                 return (
-                    <li key={item.Object.UUID}>
-                        {'Weblink' in item.Object && item.Object?.Weblink ? (
+                    <li key={item.object.id}>
+                        {'weblink' in item.object && item.object?.weblink ? (
                             <a
-                                href={item.Object.Weblink}
+                                href={item.object.weblink}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-pzh-green-500 hover:text-pzh-green-900">
-                                {item.Object.Title}
+                                {item.object.title}
                             </a>
                         ) : (
-                            <span>{item.Object.Title}</span>
+                            <span>{item.object.title}</span>
                         )}
                     </li>
                 )
@@ -250,44 +246,44 @@ export const fields: {
 }[] = [
     {
         title: 'Omschrijving',
-        value: 'Description',
+        value: 'description',
         hidden: true,
     },
     {
         title: 'Sturingsstijl',
-        value: 'Roles',
+        value: 'roles',
         array: true,
     },
     {
         title: 'Nadere uitwerking',
-        value: 'Effect',
+        value: 'effect',
     },
     {
-        value: 'Weblink',
+        value: 'weblink',
         hidden: true,
     },
     {
         title: 'Aanleiding',
-        value: 'Cause',
+        value: 'cause',
     },
     {
         title: 'Motivering provinciaal belang',
-        value: 'Provincial_Interest',
+        value: 'provincial_interest',
     },
     {
         title: 'Nadere uitwerking',
-        value: 'Explanation',
+        value: 'explanation',
     },
     {
         title: 'Wettelijke taken',
-        value: 'WettelijkeTaken',
+        value: 'wettelijke_taken',
         description:
             'Wettelijke taken zijn taken die de provincie uitvoert in medebewind, dit zijn taken die door de rijksoverheid wettelijk zijn opgelegd.',
         list: true,
     },
     {
         title: 'Nationale belangen',
-        value: 'NationaleBelangen',
+        value: 'nationale_belangen',
         description:
             'Nationale belangen zijn de inhoudelijke belangen bij de fysieke leefomgeving waarbij het Rijk een rol voor zichzelf ziet en waarvoor het Kabinet in politieke zin aanspreekbaar is. De behartiging van de nationale belangen zijn gedeeld. Dat betekent dat het Rijk moet afstemmen met gemeenten, waterschappen en provincies en andere belanghebbenden. Voor de nationale belangen in de provinciale Omgevingsvisie is bepaald dat de provincie deze met haar uitvoeringsinstrumenten het meest doelmatig en doeltreffend kan realiseren.',
         list: true,

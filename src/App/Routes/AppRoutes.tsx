@@ -76,7 +76,7 @@ const generatePublicModelRoutes = () =>
                         element: <DynamicOverviewPublic model={config} />,
                     },
                     {
-                        path: atemporal ? ':id' : ':uuid',
+                        path: atemporal ? ':id' : ':id',
                         element: atemporal ? (
                             <AtemportalObject model={config} />
                         ) : (
@@ -86,7 +86,7 @@ const generatePublicModelRoutes = () =>
                     ...(!atemporal
                         ? [
                               {
-                                  path: 'ontwerpversie/:moduleId/:uuid',
+                                  path: 'ontwerpversie/:moduleId/:id',
                                   element: (
                                       <DynamicObjectPublic
                                           model={config}
@@ -238,9 +238,9 @@ const AppRoutes = () => {
                     path: 'gebiedsprogrammas',
                     children: [
                         { index: true, element: <AreaOverview /> },
-                        { path: ':uuid', element: <AreaDetail /> },
+                        { path: ':id', element: <AreaDetail /> },
                         {
-                            path: 'ontwerpversie/:moduleId/:uuid',
+                            path: 'ontwerpversie/:moduleId/:id',
                             element: <AreaDetail />,
                         },
                     ],
@@ -249,7 +249,7 @@ const AppRoutes = () => {
                     path: 'thematische-programmas',
                     children: [
                         { index: true, element: <ThemeOverview /> },
-                        { path: ':uuid', element: <ThemeDetail /> },
+                        { path: ':id', element: <ThemeDetail /> },
                     ],
                 },
             ],
@@ -344,7 +344,7 @@ const AppRoutes = () => {
                     ),
                     children: [
                         { index: true, element: <UsersOverview /> },
-                        { path: ':uuid', element: <UserDetail /> },
+                        { path: ':id', element: <UserDetail /> },
                     ],
                 },
                 {
@@ -363,7 +363,7 @@ const AppRoutes = () => {
                             ),
                         },
                         {
-                            path: ':uuid',
+                            path: ':id',
                             element: (
                                 <ProtectedRoute
                                     permissions={{
@@ -404,7 +404,7 @@ const AppRoutes = () => {
                             ),
                         },
                         {
-                            path: ':type/:uuid',
+                            path: ':type/:id',
                             element: (
                                 <ProtectedRoute
                                     permissions={{

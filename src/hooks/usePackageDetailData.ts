@@ -8,43 +8,43 @@ import { PublicationType } from '@/api/fetchers.schemas'
 
 const usePackageDetailData = ({
     publicationType,
-    uuid,
+    id,
     pageIndex,
     PAGE_LIMIT,
 }: {
     publicationType: PublicationType
-    uuid?: string
+    id?: string
     pageIndex: number
     PAGE_LIMIT: number
 }) => {
     const actPackageQuery = usePublicationActPackagesGetDetailActPackage(
-        String(uuid),
+        String(id),
         {
             query: {
-                enabled: publicationType === 'act' && !!uuid,
+                enabled: publicationType === 'act' && !!id,
             },
         }
     )
 
     const announcementPackageQuery =
         usePublicationAnnouncementPackagesGetDetailAnnouncementPackage(
-            String(uuid),
+            String(id),
             {
                 query: {
-                    enabled: publicationType === 'announcement' && !!uuid,
+                    enabled: publicationType === 'announcement' && !!id,
                 },
             }
         )
 
     const actReportsQuery = usePublicationActReportsGetListActPackageReports(
         {
-            act_package_uuid: uuid,
+            act_package_id: id,
             limit: PAGE_LIMIT,
             offset: (pageIndex - 1) * PAGE_LIMIT,
         },
         {
             query: {
-                enabled: publicationType === 'act' && !!uuid,
+                enabled: publicationType === 'act' && !!id,
             },
         }
     )
@@ -52,13 +52,13 @@ const usePackageDetailData = ({
     const announcementReportsQuery =
         usePublicationAnnouncementReportsGetListAnnnouncementPackageReports(
             {
-                announcement_package_uuid: uuid,
+                announcement_package_id: id,
                 limit: PAGE_LIMIT,
                 offset: (pageIndex - 1) * PAGE_LIMIT,
             },
             {
                 query: {
-                    enabled: publicationType === 'announcement' && !!uuid,
+                    enabled: publicationType === 'announcement' && !!id,
                 },
             }
         )

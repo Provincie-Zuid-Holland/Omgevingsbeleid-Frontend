@@ -28,9 +28,9 @@ const PackageCreate = ({
 
     const handleAction = () =>
         createPackage.mutateAsync({
-            versionUuid: String(versionUUID),
-            announcementUuid: String(announcementUUID),
-            data: { Package_Type: packageType },
+            versionId: String(versionUUID),
+            announcementId: String(announcementUUID),
+            data: { package_type: packageType },
         })
 
     if (inline) {

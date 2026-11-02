@@ -31,14 +31,14 @@ const UserObjects = () => {
 
     const { data: objects, isFetching } = useObjectsDoListAllLatest(
         {
-            owner_uuid: user?.UUID,
+            owner_id: user?.id,
             object_types: activeTab ? [activeTab] : [],
             limit: PAGE_LIMIT,
             offset: (currPage - 1) * PAGE_LIMIT,
         },
         {
             query: {
-                enabled: !!user?.UUID && !!activeTab,
+                enabled: !!user?.id && !!activeTab,
                 placeholderData: keepPreviousData,
             },
         }
@@ -125,17 +125,14 @@ const ItemList = ({ isLoading, items, type }: ItemListProps) => (
                 {items?.length ? (
                     <ul className="mt-4">
                         {items.map(item =>
-                            'Module_ID' in item &&
-                            'Status' in item &&
+                            'module_id' in item &&
+                            'status' in item &&
                             type === 'module' ? (
-                                <ModuleTile key={item.Module_ID} {...item} />
+                                <ModuleTile key={item.module_id} {...item} />
                             ) : (
-                                'Model' in item &&
+                                'model' in item &&
                                 type === 'object' && (
-                                    <ObjectCard
-                                        key={item.Model.UUID}
-                                        {...item}
-                                    />
+                                    <ObjectCard key={item.model.id} {...item} />
                                 )
                             )
                         )}

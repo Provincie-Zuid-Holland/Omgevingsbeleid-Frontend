@@ -16,21 +16,21 @@ import { StepProps } from './types'
 export const StepFive = ({ title, existingObject }: StepProps) => {
     const { values } = useFormikContext<ModuleAddExistingObject>()
 
-    const model = models[existingObject?.Object_Type as ModelType] || {}
+    const model = models[existingObject?.object_type as ModelType] || {}
     const { singularReadable, prefixSingular } = model.defaults || {}
 
     return (
         <div>
             <Heading level="2" size="xl" className="mb-4">
-                Bestaande {existingObject?.Object_Type}
+                Bestaande {existingObject?.object_type}
             </Heading>
             <Text className="mb-4">
-                <Text as="strong">{existingObject?.Model.Title}</Text> toevoegen
+                <Text as="strong">{existingObject?.model.title}</Text> toevoegen
                 aan de module <Text as="strong">{title}</Text>
             </Text>
             <FormikRadioGroup
-                key="Action"
-                name="Action"
+                key="action"
+                name="action"
                 placeholder="Selecteer de actie"
                 label="Actie"
                 description={`Gaat ${prefixSingular} ${singularReadable} wijzigen in deze module, of wordt ${prefixSingular} ${singularReadable} verwijderd?`}
@@ -49,16 +49,16 @@ export const StepFive = ({ title, existingObject }: StepProps) => {
             />
             <div className="mt-3">
                 <FormikTextArea
-                    name="Explanation"
+                    name="explanation"
                     label="Toelichting"
                     placeholder="Vul de toelichting in (dit kan ook later)"
                     description="Geef aan waarom je deze wijziging aanbrengt."
                 />
             </div>
-            {values.Action !== 'Terminate' && (
+            {values.action !== 'Terminate' && (
                 <div className="mt-3">
                     <FormikTextArea
-                        name="Conclusion"
+                        name="conclusion"
                         label="Conclusie"
                         placeholder="Vul de conclusie in (dit kan ook later)"
                         description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}.`}

@@ -27,14 +27,14 @@ const ObjectRevisionNotification = ({
 
     const latestRevision = useMemo(
         () =>
-            latest?.Public_Revisions?.find(
-                revision => revision.Module_ID === parseInt(moduleId || '')
+            latest?.public_revisions?.find(
+                revision => revision.module_id === parseInt(moduleId || '')
             ),
         [latest, moduleId]
     )
 
     const isTerminate = useMemo(
-        () => isRevision && latestRevision?.Action === 'Terminate',
+        () => isRevision && latestRevision?.action === 'Terminate',
         [isRevision, latestRevision]
     )
 
@@ -43,7 +43,7 @@ const ObjectRevisionNotification = ({
             <Notification className="order-2 mt-4 [&_p]:first-letter:capitalize">
                 <>
                     {demonstrative} {singularReadable} komt te vervallen met de
-                    module '{latestRevision?.Module_Title}'
+                    module '{latestRevision?.module_title}'
                 </>
             </Notification>
         )
@@ -51,15 +51,15 @@ const ObjectRevisionNotification = ({
 
     return (
         <div className="order-2 mt-4 flex flex-col gap-4">
-            {latestRevision?.Module_Status === 'Vastgesteld' &&
-                latestRevision?.Module_Object_UUID === data?.UUID && (
+            {latestRevision?.module_status === 'Vastgesteld' &&
+                latestRevision?.module_object_id === data?.id && (
                     <Notification className="[&_p]:first-letter:capitalize">
                         {`${demonstrative} ${singularReadable} is vastgesteld, maar nog niet in werking getreden`}
                     </Notification>
                 )}
             <Notification>
-                {latestRevision?.Module_Object_UUID === data?.UUID ||
-                (!moduleId && latest.UUID !== data.UUID) ||
+                {latestRevision?.module_object_id === data?.id ||
+                (!moduleId && latest.id !== data.id) ||
                 !!!latestRevision ? (
                     <p>
                         Let op, dit is een{' '}
@@ -67,7 +67,7 @@ const ObjectRevisionNotification = ({
                         {demonstrative} {singularReadable},{' '}
                         <Hyperlink asChild>
                             <Link
-                                to={`/${slugOverview}/${plural}/${latest.UUID}`}>
+                                to={`/${slugOverview}/${plural}/${latest.id}`}>
                                 bekijk hier de meest actuele versie
                             </Link>
                         </Hyperlink>
@@ -77,7 +77,7 @@ const ObjectRevisionNotification = ({
                         Deze ontwerpversie is verouderd,{' '}
                         <Hyperlink asChild>
                             <Link
-                                to={`/${slugOverview}/${plural}/ontwerpversie/${moduleId}/${latestRevision?.Module_Object_UUID}`}>
+                                to={`/${slugOverview}/${plural}/ontwerpversie/${moduleId}/${latestRevision?.module_object_id}`}>
                                 bekijk de nieuwste ontwerpversie hier
                             </Link>
                         </Hyperlink>

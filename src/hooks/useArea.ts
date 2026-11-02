@@ -7,7 +7,7 @@ import {
 
 import useAuth from './useAuth'
 
-export const useArea = (Object_ID: number) => {
+export const useArea = (object_id: number) => {
     const { moduleId } = useParams()
     const { user } = useAuth()
 
@@ -15,17 +15,17 @@ export const useArea = (Object_ID: number) => {
         data: moduleData,
         isSuccess,
         isError,
-    } = useGebiedengroepViewModuleObjectLatest(parseInt(moduleId!), Object_ID, {
+    } = useGebiedengroepViewModuleObjectLatest(parseInt(moduleId!), object_id, {
         query: {
-            enabled: !!moduleId && !!Object_ID && !!user,
+            enabled: !!moduleId && !!object_id && !!user,
         },
     })
 
-    const { data: validData } = useGebiedengroepViewObjectLatest(Object_ID, {
+    const { data: validData } = useGebiedengroepViewObjectLatest(object_id, {
         query: {
             enabled:
-                (!moduleId && !!Object_ID) ||
-                (!!moduleId && !!Object_ID && !moduleData && isSuccess) ||
+                (!moduleId && !!object_id) ||
+                (!!moduleId && !!object_id && !moduleData && isSuccess) ||
                 isError,
         },
     })

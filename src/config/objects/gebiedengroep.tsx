@@ -52,13 +52,13 @@ const gebiedengroep: DynamicObject = {
         demonstrative: 'deze',
         icon: DrawPolygon,
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: ['owner_1_id', 'owner_2_id'],
     fetchers,
     dynamicSections: [
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van de gebiedengroep.',
@@ -67,7 +67,7 @@ const gebiedengroep: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
@@ -79,7 +79,7 @@ const gebiedengroep: DynamicObject = {
         {
             fields: [
                 {
-                    name: 'Source_UUID',
+                    name: 'source_uuid',
                     label: 'Geodata koppelen',
                     description:
                         'Hieronder staan de ‘Werkingsgebieden’ uit de Geodatabase. Selecteer een ‘Werkingsgebied’ en kies vervolgens de gewenste versie. Zodra een versie wordt geselecteerd, worden onderliggende gebieden zichtbaar op de kaart.',

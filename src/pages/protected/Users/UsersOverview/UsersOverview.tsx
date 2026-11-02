@@ -85,7 +85,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
     })
     const [sortBy, setSortBy] = useState([
         {
-            id: 'Gebruikersnaam',
+            id: 'name',
             desc: false,
         },
     ])
@@ -102,7 +102,7 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         {
             limit: PAGE_LIMIT,
             offset: (pageIndex - 1) * PAGE_LIMIT,
-            sort_column: sortBy?.[0]?.id || 'Gebruikersnaam',
+            sort_column: sortBy?.[0]?.id || 'name',
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
             active: activeTab === 'active',
             ...filter,
@@ -122,15 +122,15 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         () => [
             {
                 header: 'Naam',
-                accessorKey: 'Gebruikersnaam',
+                accessorKey: 'name',
             },
             {
                 header: 'Rol',
-                accessorKey: 'Roles',
+                accessorKey: 'roles',
             },
             {
                 header: 'E-mailadres',
-                accessorKey: 'Email',
+                accessorKey: 'email',
             },
         ],
         []
@@ -141,20 +141,22 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
      */
     const formattedData = useMemo(
         () =>
-            data?.results?.map(({ Gebruikersnaam, Roles, Email, UUID }) => ({
-                Gebruikersnaam: (
+            data?.results?.map(({ name, roles, email, id }) => ({
+                name: (
                     <Text bold color="text-pzh-blue-500">
-                        {Gebruikersnaam}
+                        {name}
                     </Text>
                 ),
-                Roles: Roles.join(', '),
-                Email: (
+
+                roles: roles.join(', '),
+                email: (
                     <span className="flex items-center justify-between">
-                        {Email}
+                        {email}
                         <AngleRight size={20} />
                     </span>
                 ),
-                onClick: () => navigate(`/muteer/gebruikers/${UUID}`),
+
+                onClick: () => navigate(`/muteer/gebruikers/${id}`),
             })),
         [data?.results, navigate]
     )

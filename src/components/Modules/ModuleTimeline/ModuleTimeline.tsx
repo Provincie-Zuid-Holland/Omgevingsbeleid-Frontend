@@ -15,11 +15,11 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
     const filteredHistory = useMemo(
         () =>
             statusHistory
-                .filter(status => status.Status !== 'Niet-Actief')
+                .filter(status => status.status !== 'Niet-Actief')
                 .sort(
                     (a, b) =>
-                        parseUtc(b.Created_Date).getTime() -
-                        parseUtc(a.Created_Date).getTime()
+                        parseUtc(b.created_date).getTime() -
+                        parseUtc(a.created_date).getTime()
                 ),
         [statusHistory]
     )
@@ -37,10 +37,10 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
                         filteredHistory.length !== 1
 
                     return (
-                        <Fragment key={status.ID}>
+                        <Fragment key={status.id}>
                             <span className="text-s whitespace-nowrap">
                                 {formatDate(
-                                    parseUtc(status.Created_Date),
+                                    parseUtc(status.created_date),
                                     'dd-MM-yyyy, kk:mm'
                                 )}
                             </span>
@@ -69,8 +69,8 @@ const ModuleTimeline = ({ statusHistory }: ModuleTimelineProps) => {
 
                             <Badge
                                 className="w-fit truncate"
-                                text={status.Status}
-                                variant={getModuleStatusColor(status.Status)}
+                                text={status.status}
+                                variant={getModuleStatusColor(status.status)}
                                 solid={index === 0}
                                 upperCase={false}
                             />

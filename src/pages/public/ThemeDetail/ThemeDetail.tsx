@@ -14,16 +14,17 @@ import * as models from '@/config/objects'
 import { Model, ModelReturnType, ModelType } from '@/config/objects/types'
 import { generateObjectPath } from '@/utils/dynamicObject'
 import { sortByFields } from '@/utils/sortByFields'
+
 import NotFoundPage from '../NotFoundPage'
 
 function ThemeDetail() {
-    const { uuid } = useParams<{ uuid: string }>()
+    const { id } = useParams<{ id: string }>()
 
     const {
         data = {},
         isLoading,
         isError,
-    } = useBeleidsdoelViewObjectVersion(uuid!)
+    } = useBeleidsdoelViewObjectVersion(id!)
 
     const breadcrumbPaths = [
         { name: 'Home', to: '/' },
@@ -33,12 +34,12 @@ function ThemeDetail() {
             to: '/omgevingsprogramma/thematische-programmas',
         },
         {
-            name: data?.Title || '',
+            name: data?.title || '',
         },
     ]
 
-    const sortedItems = sortByFields(data?.Hierarchy_Children ?? [], [
-        item => item.Title,
+    const sortedItems = sortByFields(data?.hierarchy_children ?? [], [
+        item => item.title,
     ])
 
     if (isLoading) return <LoaderContent />
@@ -47,25 +48,23 @@ function ThemeDetail() {
 
     return (
         <>
-            <Helmet title={data?.Title}>
-                {data?.Description && (
+            <Helmet title={data?.title}>
+                {data?.description && (
                     <>
                         <meta
                             name="description"
                             content={
-                                data.Description?.substring(0, 100).replace(
-                                    '<p>',
-                                    ''
-                                ) + '...'
+                                data.description
+                                    ?.substring(0, 100)
+                                    .replace('<p>', '') + '...'
                             }
                         />
                         <meta
                             name="og:description"
                             content={
-                                data.Description?.substring(0, 100).replace(
-                                    '<p>',
-                                    ''
-                                ) + '...'
+                                data.description
+                                    ?.substring(0, 100)
+                                    .replace('<p>', '') + '...'
                             }
                         />
                     </>
@@ -82,7 +81,7 @@ function ThemeDetail() {
                         level="1"
                         size="xxl"
                         className="order-2 mt-4 mb-2 md:order-3 md:mb-4">
-                        {data?.Title}
+                        {data?.title}
                     </Heading>
 
                     <Heading level="2" size="m" className="order-1">
@@ -96,20 +95,17 @@ function ThemeDetail() {
                             <Link
                                 to={generateObjectPath(
                                     'beleidsdoel',
-                                    data?.UUID
+                                    data?.id
                                 )}>
                                 Lees meer informatie over dit beleidsdoel
                             </Link>
                         </Hyperlink>
                     </div>
 
-                    {data?.Hierarchy_Children && (
+                    {data?.hierarchy_children && (
                         <div className="order-4 mt-8 flex flex-col gap-8">
                             {sortedItems.map(object => (
-                                <ConnectedObject
-                                    key={object.UUID}
-                                    {...object}
-                                />
+                                <ConnectedObject key={object.id} {...object} />
                             ))}
                         </div>
                     )}
@@ -127,32 +123,32 @@ function ThemeDetail() {
     )
 }
 
-const ConnectedObject = ({ UUID, Object_Type, Title }: HierachyReference) => {
-    const model: Model = models[Object_Type as ModelType]
+const ConnectedObject = ({ id, object_type, title }: HierachyReference) => {
+    const model: Model = models[object_type as ModelType]
 
     const { singularReadable, prefixSingular } = model.defaults
     const { useGetVersion } = model.fetchers
 
     const { data, isFetching } =
-        useGetVersion<ModelReturnType>?.(UUID!, {
-            query: { enabled: !!UUID },
+        useGetVersion<ModelReturnType>?.(id!, {
+            query: { enabled: !!id },
         }) || {}
 
     return (
-        <div className="grid gap-3" data-section={Title ?? undefined}>
+        <div className="grid gap-3" data-section={title ?? undefined}>
             <Heading level="2" size="m">
-                {Title}
+                {title}
             </Heading>
 
             <ConnectedObjectChildren
-                items={data?.Hierarchy_Children}
+                items={data?.hierarchy_children}
                 isFetching={isFetching}
             />
 
             <Hyperlink asChild>
-                <Link to={generateObjectPath(Object_Type as ModelType, UUID)}>
+                <Link to={generateObjectPath(object_type as ModelType, id)}>
                     Lees meer informatie over {prefixSingular}{' '}
-                    {singularReadable} '{Title}'
+                    {singularReadable} '{title}'
                 </Link>
             </Hyperlink>
         </div>
@@ -180,21 +176,21 @@ const ConnectedObjectChildren = ({
         )
     }
 
-    const sortedItems = sortByFields(items, [item => item.Title])
+    const sortedItems = sortByFields(items, [item => item.title])
 
     return (
         <div className="flex flex-col">
             {sortedItems.map(item => (
                 <ListLink
                     asChild
-                    key={item.UUID}
+                    key={item.id}
                     className="text-pzh-green-500 hover:text-pzh-blue-500">
                     <Link
                         to={generateObjectPath(
-                            item.Object_Type as ModelType,
-                            item.UUID
+                            item.object_type as ModelType,
+                            item.id
                         )}>
-                        {item.Title}
+                        {item.title}
                     </Link>
                 </ListLink>
             ))}

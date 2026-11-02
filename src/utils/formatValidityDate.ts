@@ -6,29 +6,29 @@ import { ModelReturnType } from '@/config/objects/types'
 import { parseUtc } from './parseUtc'
 
 interface Props {
-    UUID?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Next_Version?: NextObjectVersion | null
+    id?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    next_version?: NextObjectVersion | null
     isRevision?: boolean
     revisions?: ModelReturnType[]
     withPrefix?: boolean
 }
 
 export const formatValidityDate = ({
-    UUID,
-    Start_Validity,
-    End_Validity,
-    Next_Version,
+    id,
+    start_validity,
+    end_validity,
+    next_version,
     isRevision,
     revisions,
     withPrefix = true,
 }: Props) => {
     const today = new Date()
-    const startDate = Start_Validity ? parseUtc(Start_Validity) : null
-    const endDate = End_Validity ? parseUtc(End_Validity) : null
-    const nextStartDate = Next_Version?.Start_Validity
-        ? parseUtc(Next_Version.Start_Validity)
+    const startDate = start_validity ? parseUtc(start_validity) : null
+    const endDate = end_validity ? parseUtc(end_validity) : null
+    const nextStartDate = next_version?.start_validity
+        ? parseUtc(next_version.start_validity)
         : null
 
     if (!startDate || isRevision) {
@@ -39,7 +39,7 @@ export const formatValidityDate = ({
     const hasNextVersionStarted = nextStartDate && today > nextStartDate
 
     if (isCurrentlyValid) {
-        if (!Next_Version) {
+        if (!next_version) {
             return `${withPrefix ? 'Geldend van ' : ''}${formatDate(
                 startDate,
                 'dd-MM-yyyy'
@@ -54,13 +54,11 @@ export const formatValidityDate = ({
     }
 
     if (endDate && revisions?.length) {
-        const currentIndex = revisions.findIndex(
-            revision => revision.UUID === UUID
-        )
+        const currentIndex = revisions.findIndex(revision => revision.id === id)
         if (currentIndex !== -1 && currentIndex < revisions.length - 1) {
             const prevRevision = revisions[currentIndex + 1]
-            const prevStartDate = prevRevision.Start_Validity
-                ? parseUtc(prevRevision.Start_Validity)
+            const prevStartDate = prevRevision.start_validity
+                ? parseUtc(prevRevision.start_validity)
                 : null
 
             if (prevStartDate) {

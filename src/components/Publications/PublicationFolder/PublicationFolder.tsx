@@ -39,17 +39,17 @@ const PublicationFolder = ({
     const environmentPublications = useMemo(
         () =>
             providedPublications?.filter(
-                publication => publication.Environment_UUID === environment.UUID
+                publication => publication.environment_id === environment.id
             ),
-        [providedPublications, environment.UUID]
+        [providedPublications, environment.id]
     )
 
     const getPublication = useCallback(
         (documentType: DocumentType, forProcedureType: ProcedureType) =>
             environmentPublications?.find(
                 publication =>
-                    publication.Document_Type === documentType &&
-                    publication.Procedure_Type === forProcedureType
+                    publication.document_type === documentType &&
+                    publication.procedure_type === forProcedureType
             ),
         [environmentPublications]
     )

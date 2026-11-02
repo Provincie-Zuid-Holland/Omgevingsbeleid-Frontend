@@ -39,37 +39,37 @@ const availableTypes: ModelType[] = [
 type AvailableType = (typeof availableTypes)[number]
 
 const Module = ({
-    Module_ID,
-    Title,
-    Description,
-    Status,
+    module_id,
+    title,
+    description,
+    status,
 }: PublicModuleShort) => {
     const { data, isLoading } =
-        usePublicModulesGetPublicModuleOverview(Module_ID)
+        usePublicModulesGetPublicModuleOverview(module_id)
 
     /**
      * Disable tabs which have no objects
      */
     const disabledKeys = useMemo(() => {
-        if (!data?.Objects) return availableTypes
+        if (!data?.objects) return availableTypes
 
         const availableKeys = new Set<AvailableType>()
 
-        data.Objects.forEach(({ Object_Type }) => {
-            const model = models[Object_Type as ModelType]
+        data.objects.forEach(({ object_type }) => {
+            const model = models[object_type as ModelType]
             if (model?.defaults.singular) {
                 availableKeys.add(model.defaults.singular)
             }
         })
 
         return availableTypes.filter(type => !availableKeys.has(type))
-    }, [data?.Objects])
+    }, [data?.objects])
 
     /**
      * Group objects by availableType
      */
     const groupedObjects = useMemo(() => {
-        if (!data?.Objects)
+        if (!data?.objects)
             return Object.fromEntries(availableTypes.map(type => [type, []]))
 
         const groups = Object.fromEntries(
@@ -78,8 +78,8 @@ const Module = ({
             )
         )
 
-        data.Objects.forEach(object => {
-            const model = models[object.Object_Type as ModelType]
+        data.objects.forEach(object => {
+            const model = models[object.object_type as ModelType]
             if (
                 model?.defaults.singular &&
                 availableTypes.includes(model.defaults.singular)
@@ -92,15 +92,15 @@ const Module = ({
         Object.values(groups).forEach(group => {
             group.sort((a, b) => {
                 return (
-                    (a.ModuleObjectContext?.Action || '').localeCompare(
-                        b.ModuleObjectContext?.Action || ''
-                    ) || a.Title.localeCompare(b.Title)
+                    (a.module_object_context?.action || '').localeCompare(
+                        b.module_object_context?.action || ''
+                    ) || a.title.localeCompare(b.title)
                 )
             })
         })
 
         return groups
-    }, [data?.Objects])
+    }, [data?.objects])
 
     return (
         <Container>
@@ -108,16 +108,16 @@ const Module = ({
                 <div>
                     <span className="text-pzh-gray-600">Module</span>
                     <div className="flex items-center">
-                        <Heading level="2">{Title}</Heading>
+                        <Heading level="2">{title}</Heading>
                         <Badge
-                            text={Status?.Status.replace('-', ' ') || ''}
-                            variant={getModuleStatusColor(Status?.Status)}
+                            text={status?.status.replace('-', ' ') || ''}
+                            variant={getModuleStatusColor(status?.status)}
                             upperCase={false}
                             className="-mt-2 ml-3 whitespace-nowrap"
                         />
                     </div>
                 </div>
-                {Description && <Text>{Description}</Text>}
+                {description && <Text>{description}</Text>}
                 <div>
                     {!isLoading ? (
                         <Tabs disabledKeys={disabledKeys}>
@@ -131,8 +131,8 @@ const Module = ({
                                         {groupedObjects[type].map(object => (
                                             <RevisionItem
                                                 key={
-                                                    object.Object_Type +
-                                                    object.Object_ID
+                                                    object.object_type +
+                                                    object.object_id
                                                 }
                                                 {...object}
                                             />
@@ -153,20 +153,20 @@ const Module = ({
 }
 
 const RevisionItem = ({
-    Title,
-    Object_Type,
-    Module_ID,
-    UUID,
-    ModuleObjectContext,
+    title,
+    object_type,
+    module_id,
+    id,
+    module_object_context: ModuleObjectContext,
 }: PublicModuleObjectShort) => {
-    const model = models[Object_Type as ModelType]
+    const model = models[object_type as ModelType]
 
     if (!model) return
 
     const { slugOverview, plural } = model.defaults
 
-    const action = getPublicObjectActionText(ModuleObjectContext?.Action)
-    const Icon = getPublicObjectActionIcon(ModuleObjectContext?.Action)
+    const action = getPublicObjectActionText(ModuleObjectContext?.action)
+    const Icon = getPublicObjectActionIcon(ModuleObjectContext?.action)
 
     return (
         <div className="flex items-center gap-2">
@@ -177,16 +177,16 @@ const RevisionItem = ({
                             '-mt-1 flex h-4 w-4 cursor-help items-center justify-center rounded',
                             {
                                 'bg-pzh-green-500':
-                                    ModuleObjectContext?.Action === 'Create',
+                                    ModuleObjectContext?.action === 'Create',
                                 'bg-pzh-red-500':
-                                    ModuleObjectContext?.Action === 'Terminate',
+                                    ModuleObjectContext?.action === 'Terminate',
                                 'bg-pzh-blue-500':
-                                    ModuleObjectContext?.Action === 'Edit',
+                                    ModuleObjectContext?.action === 'Edit',
                             }
                         )}>
                         <Icon
                             size={
-                                ModuleObjectContext?.Action === 'Edit' ? 10 : 14
+                                ModuleObjectContext?.action === 'Edit' ? 10 : 14
                             }
                             className="text-pzh-white"
                         />
@@ -196,8 +196,8 @@ const RevisionItem = ({
 
             <Hyperlink asChild>
                 <Link
-                    to={`/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${UUID}`}>
-                    {Title}
+                    to={`/${slugOverview}/${plural}/ontwerpversie/${module_id}/${id}`}>
+                    {title}
                 </Link>
             </Hyperlink>
         </div>

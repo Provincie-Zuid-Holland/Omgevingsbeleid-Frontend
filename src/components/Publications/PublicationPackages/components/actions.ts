@@ -58,7 +58,7 @@ export const useActions = ({
                         queryKey:
                             getPublicationActPackagesGetListActPackagesQueryKey(
                                 {
-                                    version_uuid: versionUUID,
+                                    version_id: versionUUID,
                                 }
                             ),
                     })
@@ -67,7 +67,7 @@ export const useActions = ({
                         queryKey:
                             getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey(
                                 {
-                                    announcement_uuid: announcementUUID,
+                                    announcement_id: announcementUUID,
                                 }
                             ),
                     })
@@ -134,12 +134,12 @@ export const useActions = ({
                         publicationType === 'act'
                             ? getPublicationActPackagesGetListActPackagesQueryKey(
                                   {
-                                      version_uuid: versionUUID,
+                                      version_id: versionUUID,
                                   }
                               )
                             : getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey(
                                   {
-                                      announcement_uuid: announcementUUID,
+                                      announcement_id: announcementUUID,
                                   }
                               ),
                 })
@@ -172,7 +172,7 @@ export const useActions = ({
                         queryKey:
                             getPublicationActPackagesGetListActPackagesQueryKey(
                                 {
-                                    version_uuid: versionUUID,
+                                    version_id: versionUUID,
                                 }
                             ),
                     })
@@ -181,13 +181,13 @@ export const useActions = ({
                         queryKey:
                             getPublicationAnnouncementPackagesGetListAnnouncementPackagesQueryKey(
                                 {
-                                    announcement_uuid: announcementUUID,
+                                    announcement_id: announcementUUID,
                                 }
                             ),
                     })
                 }
 
-                if (data.Status === 'valid') {
+                if (data.status === 'valid') {
                     queryClient.invalidateQueries({
                         queryKey:
                             getPublicationVersionsGetListVersionsQueryKey(

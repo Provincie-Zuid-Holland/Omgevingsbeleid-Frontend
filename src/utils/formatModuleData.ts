@@ -1,8 +1,13 @@
 import { Module } from '@/api/fetchers.schemas'
 
 export const formatEditModuleData = (data: Module) => {
-    const { Title, Description, Module_Manager_1_UUID, Module_Manager_2_UUID } =
+    const { title, description, module_manager_1_id, module_manager_2_id } =
         data
 
-    return { Title, Description, Module_Manager_1_UUID, Module_Manager_2_UUID }
+    return {
+        title,
+        description,
+        module_manager_1_id,
+        module_manager_2_id,
+    }
 }

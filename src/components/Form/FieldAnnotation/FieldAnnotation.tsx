@@ -15,11 +15,11 @@ type Option = {
 }
 
 const mapOptions = (
-    results: Array<{ Name: string; Type: string; UUID: string }>
+    results: Array<{ name: string; kind: string; id: string }>
 ) =>
     results.map(item => ({
-        label: `${item.Name} (${item.Type})`,
-        value: item.UUID,
+        label: `${item.name} (${item.kind})`,
+        value: item.id,
     }))
 
 const FieldAnnotation = ({ ...props }: FieldSelectProps) => {

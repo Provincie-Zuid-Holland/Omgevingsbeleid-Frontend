@@ -30,11 +30,11 @@ const FieldAreaAnnotate = ({
                           label: item.aanwijzing_type.label,
                           value: item.aanwijzing_type.label,
                       }))
-                : !!values.Ref_Type
+                : !!values.ref_type
                   ? data?.gebiedsaanwijzingen
                         .find(
                             item =>
-                                item.aanwijzing_type.label === values.Ref_Type
+                                item.aanwijzing_type.label === values.ref_type
                         )
                         ?.waardes.filter(item => !item.deprecated)
                         .map(item => ({
@@ -42,20 +42,20 @@ const FieldAreaAnnotate = ({
                             value: item.label,
                         }))
                   : undefined,
-        [data, values.Ref_Type, optionType]
+        [data, values.ref_type, optionType]
     )
 
     useUpdateEffect(() => {
-        setFieldValue('Ref_Group', null)
-        setFieldTouched('Ref_Group', false)
-    }, [values.Ref_Type])
+        setFieldValue('ref_group', null)
+        setFieldTouched('ref_group', false)
+    }, [values.ref_type])
 
     return (
         <FormikSelect
             key={
                 props.name +
                 (optionType === 'group'
-                    ? isLoading.toString() + values.Ref_Type
+                    ? isLoading.toString() + values.ref_type
                     : isLoading.toString())
             }
             {...props}
@@ -63,7 +63,7 @@ const FieldAreaAnnotate = ({
             isLoading={isLoading}
             disabled={
                 props.disabled ||
-                (optionType === 'group' ? !values.Ref_Type : undefined)
+                (optionType === 'group' ? !values.ref_type : undefined)
             }
             blurInputOnSelect
         />

@@ -44,7 +44,7 @@ const FieldSelectArea = ({
 
     const { values, setFieldValue, setFieldTouched, errors, touched } =
         useFormikContext<
-            ModelReturnType & { Source_Title?: string; Source_UUID?: string }
+            ModelReturnType & { source_title?: string; source_uuid?: string }
         >()
 
     const [query, setQuery] = useState('')
@@ -56,8 +56,8 @@ const FieldSelectArea = ({
                 query: {
                     select: data =>
                         data.results.map(item => ({
-                            label: item.Title,
-                            value: item.Title,
+                            label: item.title,
+                            value: item.title,
                         })),
                 },
             }
@@ -65,15 +65,15 @@ const FieldSelectArea = ({
 
     const { data: versions, isLoading: versionsLoading } =
         useInputGeoGetInputGeoWerkingsgebiedenHistory(
-            { title: String(values.Source_Title) },
+            { title: String(values.source_title) },
             {
                 query: {
-                    enabled: !!values.Source_Title,
+                    enabled: !!values.source_title,
                     select: data =>
                         data.sort(
                             (a, b) =>
-                                new Date(b.Created_Date).getTime() -
-                                new Date(a.Created_Date).getTime()
+                                new Date(b.created_date).getTime() -
+                                new Date(a.created_date).getTime()
                         ),
                 },
             }
@@ -83,22 +83,22 @@ const FieldSelectArea = ({
         () =>
             !!versions?.length
                 ? versions.filter(version =>
-                      version.Description.toLowerCase().includes(
-                          query.toLowerCase()
-                      )
+                      version.description
+                          .toLowerCase()
+                          .includes(query.toLowerCase())
                   )
                 : undefined,
         [query, versions]
     )
 
     useUpdateEffect(() => {
-        setFieldValue('Source_UUID', null)
-        setFieldTouched('Source_UUID', false)
-    }, [values.Source_Title])
+        setFieldValue('source_uuid', null)
+        setFieldTouched('source_uuid', false)
+    }, [values.source_title])
 
     return (
         <>
-            {!!data?.Gebieden_Statics?.length && (
+            {!!data?.gebieden_statics?.length && (
                 <>
                     <div className="prose text-m text-pzh-blue-500 marker:text-s marker:text-pzh-blue-500 prose-ul:my-0 prose-ul:pl-6 prose-li:my-0">
                         <p className="mb-2 text-heading-s font-bold">
@@ -106,8 +106,8 @@ const FieldSelectArea = ({
                         </p>
 
                         <ul>
-                            {data.Gebieden_Statics.map(item => (
-                                <li key={item.Code}>{item.Cached_Title}</li>
+                            {data.gebieden_statics.map(item => (
+                                <li key={item.code}>{item.cached_title}</li>
                             ))}
                         </ul>
                     </div>
@@ -127,13 +127,14 @@ const FieldSelectArea = ({
             )}
             <FormikSelect
                 key={isLoading?.toString()}
-                name="Source_Title"
+                name="source_title"
                 placeholder="Selecteer geodata om te koppelen"
                 options={options}
                 isLoading={isLoading}
                 disabled={disabled}
             />
-            {!!values.Source_Title && !!versions?.length && (
+
+            {!!values.source_title && !!versions?.length && (
                 <>
                     <div className="mt-4">
                         <div className="grid grid-cols-6 gap-12">
@@ -174,20 +175,20 @@ const FieldSelectArea = ({
                                     ) : !!filteredVersions?.length ? (
                                         filteredVersions.map(version => (
                                             <div
-                                                key={version.UUID}
+                                                key={version.id}
                                                 className="relative rounded border border-pzh-gray-600 px-4 py-2">
                                                 <div className="flex items-center justify-between [&_>span]:hidden [&_input]:top-0 [&_input]:left-0 [&_input]:h-full [&_input]:w-full [&_input]:cursor-pointer [&_input]:opacity-0">
                                                     <FormikRadio
-                                                        name="Source_UUID"
-                                                        value={version.UUID}
+                                                        name="source_uuid"
+                                                        value={version.id}
                                                         defaultChecked={
-                                                            version.UUID ===
-                                                            values.Source_UUID
+                                                            version.id ===
+                                                            values.source_uuid
                                                         }
                                                         disabled={disabled}>
                                                         {formatDate(
                                                             parseUtc(
-                                                                version.Created_Date
+                                                                version.created_date
                                                             ),
                                                             'd MMMM yyyy'
                                                         )}
@@ -195,7 +196,7 @@ const FieldSelectArea = ({
                                                 </div>
 
                                                 <span className="ml-7 block text-s">
-                                                    {version.Description}
+                                                    {version.description}
                                                 </span>
                                             </div>
                                         ))
@@ -214,8 +215,8 @@ const FieldSelectArea = ({
 
                                 <div className="flex flex-1 rounded border border-pzh-gray-200">
                                     <AreaPreview
-                                        key={values?.Source_UUID}
-                                        UUID={values.Source_UUID}
+                                        key={values?.source_uuid}
+                                        id={values.source_uuid}
                                     />
                                 </div>
                             </div>

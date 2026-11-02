@@ -14,12 +14,12 @@ interface ObjectListProps {
     /** Singular of the object */
     objectSingular?: string
     /** Key of object */
-    objectKey?: 'uuid' | 'id'
+    objectKey?: 'id' | 'id'
     /** Array of objects */
     data?: {
-        Title?: string | null
-        UUID?: string
-        Object_ID?: number
+        title?: string | null
+        id?: string
+        object_id?: number
     }[]
     /** Is data loading */
     isLoading?: boolean
@@ -42,7 +42,7 @@ const ObjectList = ({
     objectType,
     objectSlug,
     objectSingular,
-    objectKey = 'uuid',
+    objectKey = 'id',
     isLoading,
     hasSearch = true,
     title,
@@ -88,11 +88,9 @@ const ObjectList = ({
                         <ListLink asChild>
                             <Link
                                 to={`/${objectSlug}/${
-                                    objectKey === 'uuid'
-                                        ? obj.UUID
-                                        : obj.Object_ID
+                                    objectKey === 'id' ? obj.id : obj.object_id
                                 }`}>
-                                {obj.Title}
+                                {obj.title}
                             </Link>
                         </ListLink>
                     </li>

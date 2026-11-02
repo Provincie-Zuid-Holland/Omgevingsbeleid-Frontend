@@ -29,10 +29,10 @@ interface ObjectEditProps {
 type FormData = Record<string, any>
 
 const EXTRA_FIELDS = [
-    'File',
+    'file',
     'File_Ignore',
     'Werkingsgebied_Version',
-    'Source_Title',
+    'source_title',
 ]
 
 const isVisuallyEmptyRichText = (value: unknown): boolean => {
@@ -61,14 +61,14 @@ const normalizePayload = (payload: FormData, initialData: FormData) => {
         }
     })
 
-    if (Array.isArray(cleanedPayload.Documents)) {
-        cleanedPayload.Documents = cleanedPayload.Documents.map(
+    if (Array.isArray(cleanedPayload.documents)) {
+        cleanedPayload.documents = cleanedPayload.documents.map(
             (item: any) => item?.value ?? item
         )
     }
 
-    if (Array.isArray(cleanedPayload.Target_Codes)) {
-        cleanedPayload.Target_Codes = cleanedPayload.Target_Codes.map(
+    if (Array.isArray(cleanedPayload.target_codes)) {
+        cleanedPayload.target_codes = cleanedPayload.target_codes.map(
             (item: any) => item?.value ?? item
         )
     }
@@ -77,23 +77,23 @@ const normalizePayload = (payload: FormData, initialData: FormData) => {
         Array.isArray(cleanedPayload.Ambtsgebied) &&
         cleanedPayload.Ambtsgebied.includes('true')
     ) {
-        cleanedPayload.Gebiedengroep_Code = null
+        cleanedPayload.gebiedengroep_code = null
     }
 
-    if (Array.isArray(cleanedPayload.Themas)) {
-        cleanedPayload.Themas = cleanedPayload.Themas.map(
+    if (Array.isArray(cleanedPayload.themas)) {
+        cleanedPayload.themas = cleanedPayload.themas.map(
             (item: any) => item?.value ?? item
         )
     }
 
-    if (Array.isArray(cleanedPayload.Hoofdlijnen)) {
-        cleanedPayload.Hoofdlijnen = cleanedPayload.Hoofdlijnen.map(
+    if (Array.isArray(cleanedPayload.hoofdlijnen)) {
+        cleanedPayload.hoofdlijnen = cleanedPayload.hoofdlijnen.map(
             (item: any) => item?.value ?? item
         )
     }
 
-    if (Array.isArray(cleanedPayload.Roles)) {
-        cleanedPayload.Roles = cleanedPayload.Roles.map(
+    if (Array.isArray(cleanedPayload.roles)) {
+        cleanedPayload.roles = cleanedPayload.roles.map(
             (item: any) => item?.value ?? item
         )
     }
@@ -114,46 +114,46 @@ const getInitialData = (model: Model, object?: Record<string, any>) => {
         return acc
     }, {})
 
-    if (fields.includes('Ambtsgebied') && object?.Gebiedengroep_Code === null) {
+    if (fields.includes('Ambtsgebied') && object?.gebiedengroep_code === null) {
         objectData.Ambtsgebied = ['true']
     }
 
-    if (fields.includes('File_UUID')) {
-        objectData.File = null
+    if (fields.includes('file_id')) {
+        objectData.file = null
     }
 
     return objectData
 }
 
 const getDefaultValues = (object?: Record<string, any>) => ({
-    ...(object?.Hierarchy_Statics && {
-        Hierarchy_Code: {
-            label: object.Hierarchy_Statics.Cached_Title,
-            value: object.Hierarchy_Statics.Code,
+    ...(object?.hierarchy_statics && {
+        hierarchy_code: {
+            label: object.hierarchy_statics.cached_title,
+            value: object.hierarchy_statics.code,
         },
     }),
-    ...(object?.Gebiedengroep_Static && {
-        Gebiedengroep_Code: {
-            label: object.Gebiedengroep_Static.Cached_Title,
-            value: object.Gebiedengroep_Static.Code,
+    ...(object?.gebiedengroep_static && {
+        gebiedengroep_code: {
+            label: object.gebiedengroep_static.cached_title,
+            value: object.gebiedengroep_static.code,
         },
     }),
-    ...(object?.Documents_Statics && {
-        Documents: object.Documents_Statics.map((item: any) => ({
-            label: item.Cached_Title,
-            value: item.Code,
+    ...(object?.documents_statics && {
+        documents: object.documents_statics.map((item: any) => ({
+            label: item.cached_title,
+            value: item.code,
         })),
     }),
-    ...(object?.Geo_Statics && {
-        Target_Codes: object.Geo_Statics.map((item: any) => ({
-            label: item.Cached_Title,
-            value: item.Code,
+    ...(object?.geo_statics && {
+        target_codes: object.geo_statics.map((item: any) => ({
+            label: item.cached_title,
+            value: item.code,
         })),
     }),
-    ...(object?.Hoofdlijnen_Statics && {
-        Hoofdlijnen: object.Hoofdlijnen_Statics.map((item: any) => ({
-            label: `${item.Name} (${item.Type})`,
-            value: item.UUID,
+    ...(object?.hoofdlijnen_statics && {
+        hoofdlijnen: object.hoofdlijnen_statics.map((item: any) => ({
+            label: `${item.name} (${item.type})`,
+            value: item.id,
         })),
     }),
 })
@@ -205,27 +205,27 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         const cleanedPayload = normalizePayload(payload, initialData)
 
         try {
-            if ('File' in cleanedPayload && cleanedPayload.File) {
+            if ('file' in cleanedPayload && cleanedPayload.file) {
                 const res = await uploadStorageFile({
                     data: {
-                        title: cleanedPayload.Filename,
-                        uploaded_file: cleanedPayload.File,
+                        title: cleanedPayload.filename,
+                        uploaded_file: cleanedPayload.file,
                         ignore_report: Boolean(cleanedPayload.File_Ignore),
                     },
                 })
 
-                cleanedPayload.File_UUID = res.UUID
-                delete cleanedPayload.File
+                cleanedPayload.file_id = res.id
+                delete cleanedPayload.file
             }
 
             if (
-                'Source_UUID' in cleanedPayload &&
-                cleanedPayload.Source_UUID !== object?.Source_UUID
+                'source_uuid' in cleanedPayload &&
+                cleanedPayload.source_uuid !== object?.source_uuid
             ) {
                 await patchInputGeo({
                     moduleId: parseInt(moduleId, 10),
                     lineageId: parseInt(objectId, 10),
-                    inputGeoWerkingsgebiedUuid: cleanedPayload.Source_UUID,
+                    inputGeoWerkingsgebiedUuid: cleanedPayload.source_uuid,
                 })
             }
 
@@ -253,9 +253,9 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
             if (!error.response) return
 
             const hasFileError =
-                'File' in cleanedPayload ||
-                'File_UUID' in cleanedPayload ||
-                'Source_UUID' in cleanedPayload
+                'file' in cleanedPayload ||
+                'file_id' in cleanedPayload ||
+                'source_uuid' in cleanedPayload
 
             if (hasFileError) {
                 handleFileError<FormData>(error.response, helpers)
@@ -270,7 +270,7 @@ const ObjectEdit = ({ model }: ObjectEditProps) => {
         { name: 'Dashboard', path: '/muteer' },
         { name: 'Modules', path: '/muteer/modules' },
         {
-            name: data?.Module.Title || '',
+            name: data?.module.title || '',
             path: `/muteer/modules/${moduleId}`,
         },
         { name: `${singularCapitalize} bewerken`, isCurrent: true },

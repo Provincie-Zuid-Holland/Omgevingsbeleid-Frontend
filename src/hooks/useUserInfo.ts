@@ -10,7 +10,7 @@ const useUserInfo = (uuid: string) => {
         {
             query: {
                 enabled: !!user,
-                select: data => data.results.find(user => user.UUID === uuid),
+                select: data => data.results.find(user => user.id === uuid),
             },
         }
     )

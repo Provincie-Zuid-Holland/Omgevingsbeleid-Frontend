@@ -24,7 +24,7 @@ const ModuleHeader = ({ module }: ModuleHeaderProps) => {
     const breadcrumbPaths = [
         { name: 'Dashboard', to: '/muteer' },
         { name: 'Modules', to: '/muteer/modules' },
-        { name: module?.Title || '' },
+        { name: module?.title || '' },
     ]
 
     return (
@@ -33,7 +33,7 @@ const ModuleHeader = ({ module }: ModuleHeaderProps) => {
                 <Breadcrumbs items={breadcrumbPaths} />
                 {(canEditModule || isModuleManager) && !isClosed && (
                     <Hyperlink asChild>
-                        <Link to={`/muteer/modules/${module.Module_ID}/bewerk`}>
+                        <Link to={`/muteer/modules/${module.module_id}/bewerk`}>
                             Module bewerken
                         </Link>
                     </Hyperlink>
@@ -43,27 +43,27 @@ const ModuleHeader = ({ module }: ModuleHeaderProps) => {
                 <div className="w-[85%] flex-1 pr-4">
                     <div className="flex items-center">
                         <Heading level="1" size="xxl">
-                            {module.Title}
+                            {module.title}
                         </Heading>
                         <Badge
-                            text={module.Status?.Status.replace('-', ' ') || ''}
+                            text={module.status?.status.replace('-', ' ') || ''}
                             upperCase={false}
                             className="ml-3 truncate"
                             variant={getModuleStatusColor(
-                                module.Status?.Status
+                                module.status?.status
                             )}
                         />
                     </div>
                     <div>
-                        <Text className="truncate" title={module.Description}>
-                            {module.Description}
+                        <Text className="truncate" title={module.description}>
+                            {module.description}
                         </Text>
                     </div>
                 </div>
                 <div className="flex">
-                    {managers?.[0] && <Avatar uuid={managers[0].UUID} />}
+                    {managers?.[0] && <Avatar id={managers[0].id} />}
                     {managers?.[1] && (
-                        <Avatar uuid={managers[1].UUID} className="-ml-2" />
+                        <Avatar id={managers[1].id} className="-ml-2" />
                     )}
                 </div>
             </div>

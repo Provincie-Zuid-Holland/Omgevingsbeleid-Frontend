@@ -31,7 +31,7 @@ export interface DynamicObjectSearchProps extends Omit<
     /** Gets called when selecting an option */
     onChange?: (object?: Option | Option[] | null) => void
     /** Key of model */
-    objectKey?: 'Object_UUID' | 'Object_ID' | 'Object_Code'
+    objectKey?: 'object_id' | 'object_id' | 'Object_Code'
     /** Name of field */
     fieldName?: string
     /** Placeholder of field (optional) */
@@ -54,7 +54,7 @@ export interface DynamicObjectSearchProps extends Omit<
 
 const DynamicObjectSearch = ({
     onChange,
-    objectKey = 'Object_UUID',
+    objectKey = 'object_id',
     fieldName,
     placeholder = 'Zoek op titel van beleidskeuze, maatregel, etc.',
     filter,
@@ -86,23 +86,23 @@ const DynamicObjectSearch = ({
         label: (
             <div className="flex justify-between gap-4">
                 <span>
-                    {object.Model.Title}
+                    {object.model.title}
 
-                    {'Module_ID' in object && object.Module_ID && (
+                    {'module_id' in object && object.module_id && (
                         <span className="italic"> (nog niet vigerend)</span>
                     )}
                 </span>
                 <span className="capitalize opacity-50">
-                    {object.Object_Type.replace('_', ' ')}
+                    {object.object_type.replace('_', ' ')}
                 </span>
             </div>
         ),
         value:
-            objectKey === 'Object_UUID'
-                ? object.Model.UUID
+            objectKey === 'object_id'
+                ? object.model.id
                 : objectKey === 'Object_Code'
-                  ? object.Model.Code
-                  : object.Model.Object_ID,
+                  ? object.model.code
+                  : object.model.object_id,
         object,
     })
 
@@ -135,13 +135,13 @@ const DynamicObjectSearch = ({
 
     const pagedOptions = useStableInfiniteOptions({
         pages: data?.pages,
-        getKey: object => object.Model.UUID as string,
+        getKey: object => object.model.id as string,
         includeItem: object => {
             if (!filter) return true
             const value =
-                objectKey === 'Object_UUID'
-                    ? object.Model.UUID
-                    : object.Model.Object_ID
+                objectKey === 'object_id'
+                    ? object.model.id
+                    : object.model.object_id
             return Array.isArray(filter)
                 ? !(filter as (string | number)[]).includes(
                       value as string | number
@@ -176,16 +176,16 @@ const DynamicObjectSearch = ({
                 if (filter) {
                     filteredObject = data.results.filter(object =>
                         Array.isArray(filter)
-                            ? objectKey === 'Object_UUID'
+                            ? objectKey === 'object_id'
                                 ? !(filter as string[]).includes(
-                                      object.Model.UUID || ''
+                                      object.model.id || ''
                                   )
                                 : !(filter as number[]).includes(
-                                      object.Model.Object_ID || 0
+                                      object.model.object_id || 0
                                   )
-                            : objectKey === 'Object_UUID'
-                              ? object.Model.UUID !== filter
-                              : object.Model.Object_ID !== filter
+                            : objectKey === 'object_id'
+                              ? object.model.id !== filter
+                              : object.model.object_id !== filter
                     )
                 }
 

@@ -20,11 +20,11 @@ interface ObjectConnectionsProps {
 }
 
 export interface Connection {
-    Description?: string
-    Object_Type: string
-    Object_ID: number
-    UUID?: string
-    Title?: string
+    description?: string
+    object_type: string
+    object_id: number
+    id?: string
+    title?: string
 }
 
 const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
@@ -53,7 +53,7 @@ const ObjectConnections = ({ model }: ObjectConnectionsProps) => {
      */
     const getConnections = useCallback(
         (type: ModelType) =>
-            relations?.filter(relation => relation.Object_Type === type),
+            relations?.filter(relation => relation.object_type === type),
         [relations]
     )
 

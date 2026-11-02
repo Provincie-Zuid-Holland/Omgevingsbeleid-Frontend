@@ -45,7 +45,7 @@ const PackagesOverview = () => {
             { is_active: true },
             {
                 query: {
-                    select: data => data.results.filter(s => s.Can_Publicate),
+                    select: data => data.results.filter(s => s.can_publicate),
                 },
             }
         )
@@ -55,14 +55,14 @@ const PackagesOverview = () => {
     // -------------------------------
     const [activeEnv, setActiveEnv] = useState<string | null>(null)
     const [filter, setFilter] = useState<FilterState>({})
-    const [sorting, setSorting] = useState([{ id: 'Created_Date', desc: true }])
+    const [sorting, setSorting] = useState([{ id: 'created_date', desc: true }])
 
     // -------------------------------
     // Initialize from URL on mount
     // -------------------------------
     useEffect(() => {
         const params = new URLSearchParams(window.location.search)
-        const env = params.get('environment') || environments?.[0]?.UUID || null
+        const env = params.get('environment') || environments?.[0]?.id || null
         setActiveEnv(env)
         setFilter({
             publication_type:
@@ -80,7 +80,7 @@ const PackagesOverview = () => {
         })
         setSorting([
             {
-                id: params.get('sort_column') || 'Created_Date',
+                id: params.get('sort_column') || 'created_date',
                 desc: true,
             },
         ])
@@ -118,7 +118,7 @@ const PackagesOverview = () => {
         const handlePopState = () => {
             const params = new URLSearchParams(window.location.search)
             setActiveEnv(
-                params.get('environment') || environments?.[0]?.UUID || null
+                params.get('environment') || environments?.[0]?.id || null
             )
             setFilter({
                 publication_type:
@@ -137,7 +137,7 @@ const PackagesOverview = () => {
             })
             setSorting([
                 {
-                    id: params.get('sort_column') || 'Created_Date',
+                    id: params.get('sort_column') || 'created_date',
                     desc: true,
                 },
             ])
@@ -170,8 +170,8 @@ const PackagesOverview = () => {
                         selectedKey={activeEnv ?? undefined}
                         onSelectionChange={val => setActiveEnv(val as string)}>
                         {environments.map(env => (
-                            <TabItem key={env.UUID} title={env.Title}>
-                                {activeEnv === env.UUID && (
+                            <TabItem key={env.id} title={env.title}>
+                                {activeEnv === env.id && (
                                     <div className="mt-6 flex flex-col gap-y-6">
                                         <PendingPackages
                                             {...env}
@@ -182,10 +182,10 @@ const PackagesOverview = () => {
                                             className="flex scroll-mt-24 flex-col gap-y-6"
                                             id="packages-list">
                                             <Heading level="2" size="xl">
-                                                {config.title} ({env.Title})
+                                                {config.title} ({env.title})
                                             </Heading>
                                             <Overview
-                                                environmentUuid={env.UUID}
+                                                environmentUuid={env.id}
                                                 filter={filter}
                                                 setFilter={setFilter}
                                                 sorting={sorting}
@@ -225,7 +225,7 @@ const Overview = ({
     const initialPage = Number(urlParams.get('page') || 1)
     const [pageIndex, setPageIndex] = useState(initialPage)
 
-    const sortColumn = sorting[0]?.id || 'Created_Date'
+    const sortColumn = sorting[0]?.id || 'created_date'
     const sortOrder: SortOrder = sorting[0]?.desc ? 'DESC' : 'ASC'
 
     const { data: packages, isFetching } =
@@ -235,7 +235,7 @@ const Overview = ({
                 offset: (pageIndex - 1) * PAGE_LIMIT,
                 sort_column: sortColumn,
                 sort_order: sortOrder,
-                environment_uuid: environmentUuid,
+                environment_id: environmentUuid,
                 ...filter,
             },
             {
@@ -244,9 +244,9 @@ const Overview = ({
                     select: data => ({
                         ...data,
                         ...(filter.module_id && {
-                            Module_Title: data.results.find(
-                                item => item.Module_ID === filter.module_id
-                            )?.Module_Title,
+                            module_title: data.results.find(
+                                item => item.module_id === filter.module_id
+                            )?.module_title,
                         }),
                     }),
                 },
@@ -261,12 +261,12 @@ const Overview = ({
     // -------------------------------
     const columns = useMemo(
         () => [
-            { header: 'Module', accessorKey: 'Module_Title' },
-            { header: 'Soort', accessorKey: 'Publication_Type' },
-            { header: 'Instrument', accessorKey: 'Document_Type' },
-            { header: 'Type', accessorKey: 'Package_Type' },
-            { header: 'Gemaakt op', accessorKey: 'Created_Date' },
-            { header: 'Status', accessorKey: 'Report_Status' },
+            { header: 'module', accessorKey: 'module_title' },
+            { header: 'Soort', accessorKey: 'publication_type' },
+            { header: 'Instrument', accessorKey: 'document_type' },
+            { header: 'type', accessorKey: 'package_type' },
+            { header: 'Gemaakt op', accessorKey: 'created_date' },
+            { header: 'status', accessorKey: 'report_status' },
         ],
         []
     )
@@ -275,41 +275,42 @@ const Overview = ({
         () =>
             packages?.results.map(
                 ({
-                    Package_Type,
-                    Publication_Type,
-                    Document_Type,
-                    Report_Status,
-                    Created_Date,
-                    UUID,
-                    Module_Title,
+                    package_type,
+                    publication_type,
+                    document_type,
+                    report_status,
+                    created_date,
+                    id,
+                    module_title,
                 }) => ({
-                    Module_Title: (
+                    module_title: (
                         <Text bold color="text-pzh-blue-500" as="span">
-                            {Module_Title}
+                            {module_title}
                         </Text>
                     ),
-                    Publication_Type:
+
+                    publication_type:
                         config.publicationType[
-                            Publication_Type as PublicationType
+                            publication_type as PublicationType
                         ].label,
-                    Document_Type:
-                        config.documentType[Document_Type as DocumentType]
+                    document_type:
+                        config.documentType[document_type as DocumentType]
                             .label,
-                    Package_Type:
-                        config.packageType[Package_Type as PackageType].label,
-                    Created_Date: formatDate(
-                        parseUtc(Created_Date),
+                    package_type:
+                        config.packageType[package_type as PackageType].label,
+                    created_date: formatDate(
+                        parseUtc(created_date),
                         'dd-MM-yyyy, p'
                     ),
-                    Report_Status: (
+                    report_status: (
                         <span className="flex items-center justify-between">
-                            {getPackageStatus(Report_Status)?.text}
+                            {getPackageStatus(report_status)?.text}
                             <AngleRight size={20} />
                         </span>
                     ),
                     onClick: () =>
                         navigate(
-                            `/muteer/${config.plural}/${Publication_Type}/${UUID}`
+                            `/muteer/${config.plural}/${publication_type}/${id}`
                         ),
                 })
             ) || [],
@@ -347,13 +348,13 @@ const Overview = ({
         <>
             <div className="mb-6">
                 <Filter filter={filter} setFilter={handleFilter} />
-                {filter.module_id && packages?.Module_Title && (
+                {filter.module_id && packages?.module_title && (
                     <>
                         <Text size="s" className="mr-2 inline-block">
                             Module:{' '}
                         </Text>
                         <Tag
-                            text={packages.Module_Title}
+                            text={packages.module_title}
                             onClick={() =>
                                 setFilter(prev => ({
                                     ...prev,

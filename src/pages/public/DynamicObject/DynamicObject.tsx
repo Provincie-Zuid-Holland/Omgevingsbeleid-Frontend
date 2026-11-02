@@ -31,7 +31,7 @@ interface DynamicObjectProps {
 }
 
 const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
-    const { moduleId, uuid } = useParams()
+    const { moduleId, id } = useParams()
 
     const { setInitialObject, setRevisionFrom, setRevisionTo } =
         useRevisionStore(
@@ -61,24 +61,24 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         useGetRevision,
     } = model.fetchers
 
-    const versionData = useGetVersion<ModelReturnType>?.(uuid!, {
-        query: { enabled: !!uuid && !moduleId },
+    const versionData = useGetVersion<ModelReturnType>?.(id!, {
+        query: { enabled: !!id && !moduleId },
     })
     const revisionData = useGetRevision<ModelReturnType>?.(
         parseInt(moduleId!),
-        uuid!,
+        id!,
         {
-            query: { enabled: !!uuid && !!moduleId },
+            query: { enabled: !!id && !!moduleId },
         }
     )
 
     const objectData = useMemo(() => {
-        if (!!moduleId && !!uuid) {
+        if (!!moduleId && !!id) {
             return revisionData
         }
 
         return versionData
-    }, [moduleId, uuid, versionData, revisionData])
+    }, [moduleId, id, versionData, revisionData])
 
     const { data = {}, isLoading, isError } = objectData || {}
 
@@ -86,18 +86,18 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
         data: latest,
         isLoading: latestIsLoading,
         isError: latestIsError,
-    } = useGetLatestLineage?.<ModelReturnType>(data!.Object_ID!, {
-        query: { enabled: !!data?.Object_ID },
+    } = useGetLatestLineage<ModelReturnType>?.(data!.object_id!, {
+        query: { enabled: !!data?.object_id },
     }) || {}
     const { data: revisions, isPending: revisionsLoading } =
-        useGetValidLineage?.<{ results?: ModelReturnType[] }>(
-            data!.Object_ID!,
+        useGetValidLineage<{ results?: ModelReturnType[] }>?.(
+            data!.object_id!,
             {
                 limit: 100,
             },
             {
                 query: {
-                    enabled: !!data?.Object_ID,
+                    enabled: !!data?.object_id,
                     select: (e: { results: ModelReturnType[] }) => {
                         if (isRevision) {
                             return {
@@ -117,14 +117,14 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
     const latestRevision = useMemo(
         () =>
-            latest?.Public_Revisions?.find(
-                revision => revision.Module_ID === parseInt(moduleId || '')
+            latest?.public_revisions?.find(
+                revision => revision.module_id === parseInt(moduleId || '')
             ),
         [latest, moduleId]
     )
 
     const isTerminate = useMemo(
-        () => isRevision && latestRevision?.Action === 'Terminate',
+        () => isRevision && latestRevision?.action === 'Terminate',
         [isRevision, latestRevision]
     )
 
@@ -146,12 +146,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                   {
                       name: 'Ontwerpversie',
                       to: !latestIsError
-                          ? `/${slugOverview}/${plural}/${latest?.UUID}`
+                          ? `/${slugOverview}/${plural}/${latest?.id}`
                           : `/${slugOverview}/${plural}`,
                   },
               ]
             : []),
-        { name: data?.Title || '' },
+        { name: data?.title || '' },
     ]
 
     /**
@@ -170,25 +170,23 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
 
     return (
         <>
-            <Helmet title={data?.Title}>
-                {data.Description && (
+            <Helmet title={data?.title}>
+                {data.description && (
                     <>
                         <meta
                             name="description"
                             content={
-                                data.Description?.substring(0, 100).replace(
-                                    '<p>',
-                                    ''
-                                ) + '...'
+                                data.description
+                                    ?.substring(0, 100)
+                                    .replace('<p>', '') + '...'
                             }
                         />
                         <meta
                             name="og:description"
                             content={
-                                data.Description?.substring(0, 100).replace(
-                                    '<p>',
-                                    ''
-                                ) + '...'
+                                data.description
+                                    ?.substring(0, 100)
+                                    .replace('<p>', '') + '...'
                             }
                         />
                     </>
@@ -211,12 +209,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         level="1"
                         size="xxl"
                         className="order-2 mt-4 mb-2 md:order-3 md:mb-4">
-                        {data?.Title}
+                        {data?.title}
                     </Heading>
 
                     {!latestIsLoading &&
                         latest &&
-                        (data?.UUID !== latest.UUID || isRevision) && (
+                        (data?.id !== latest.id || isRevision) && (
                             <ObjectRevisionNotification
                                 model={model}
                                 data={data}
@@ -225,11 +223,11 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             />
                         )}
 
-                    {data?.UUID === latest?.UUID &&
-                        !!latest?.Public_Revisions?.length &&
-                        latest.Public_Revisions.map(revision => (
+                    {data?.id === latest?.id &&
+                        !!latest?.public_revisions?.length &&
+                        latest.public_revisions.map(revision => (
                             <Notification
-                                key={revision.Module_Object_UUID}
+                                key={revision.module_object_id}
                                 className="order-2 mt-4">
                                 {getRevisionText(revision)}
                             </Notification>
@@ -248,12 +246,12 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                             customTitle={
                                 singular === 'beleidskeuze'
                                     ? {
-                                          Description:
+                                          description:
                                               'Wat wil de provincie bereiken?',
                                       }
                                     : singular === 'maatregel'
                                       ? {
-                                            Description:
+                                            description:
                                                 'Wat gaat de provincie doen?',
                                         }
                                       : undefined
@@ -261,15 +259,15 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         />
                     </div>
 
-                    {'Gebiedengroep_Static' in data && (
+                    {'gebiedengroep_static' in data && (
                         <div
                             className={classNames('order-7', {
                                 'line-through': isTerminate,
                             })}>
                             <ObjectArea
                                 model={model}
-                                objectTitle={data.Title}
-                                area={data.Gebiedengroep_Static}
+                                objectTitle={data.title}
+                                area={data.gebiedengroep_static}
                             />
                         </div>
                     )}
@@ -278,7 +276,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                         <div
                             className={classNames('order-8', {
                                 'line-through': isTerminate,
-                                'mt-4 md:mt-8': 'Gebiedengroep_Static' in data,
+                                'mt-4 md:mt-8': 'gebiedengroep_static' in data,
                             })}>
                             <ObjectConnectionsPublic
                                 model={model}
@@ -316,7 +314,7 @@ const DynamicObject = ({ model, isRevision }: DynamicObjectProps) => {
                     revisions={revisions?.results}
                     isOpen={revisionModalOpen}
                     onClose={() => setRevisionModalOpen(false)}
-                    latestUUID={latest?.UUID}
+                    latestUUID={latest?.id}
                     moduleId={moduleId ? parseInt(moduleId) : undefined}
                 />
             )}

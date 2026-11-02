@@ -34,19 +34,19 @@ interface ObjectSidebarProps extends ModelReturnType {
 }
 
 const ObjectSidebar = ({
-    Start_Validity,
-    End_Validity,
+    start_validity,
+    end_validity,
     revisions,
     revisionsLoading,
-    Object_ID,
-    ObjectStatics,
+    object_id,
+    object_statics: ObjectStatics,
     model,
     isRevision,
     hideRevisions,
     handleModal,
-    Next_Version,
-    UUID,
-    Documents_Statics,
+    next_version,
+    id,
+    documents_statics,
 }: ObjectSidebarProps) => {
     const { user } = useAuth()
     const { moduleId } = useParams()
@@ -58,21 +58,14 @@ const ObjectSidebar = ({
     const formattedDate = useMemo(
         () =>
             formatValidityDate({
-                UUID,
-                Start_Validity,
-                End_Validity,
+                id,
+                start_validity,
+                end_validity,
                 isRevision,
-                Next_Version,
+                next_version,
                 revisions,
             }),
-        [
-            Start_Validity,
-            End_Validity,
-            isRevision,
-            Next_Version,
-            revisions,
-            UUID,
-        ]
+        [start_validity, end_validity, isRevision, next_version, revisions, id]
     )
 
     const hasMultipleVersions = !!revisions && revisions.length > 1
@@ -113,9 +106,9 @@ const ObjectSidebar = ({
                     ))}
             </div>
 
-            {!!Documents_Statics?.length && (
+            {!!documents_statics?.length && (
                 <div className="group">
-                    <ObjectConnectedDocuments documents={Documents_Statics} />
+                    <ObjectConnectedDocuments documents={documents_statics} />
                 </div>
             )}
 
@@ -126,14 +119,14 @@ const ObjectSidebar = ({
                         gebruikers die zijn ingelogd.
                     </Text>
 
-                    <People ObjectStatics={ObjectStatics} />
+                    <People object_statics={ObjectStatics} />
 
                     <Hyperlink asChild>
                         <Link
                             to={
                                 isRevision && !!moduleId
-                                    ? `/muteer/modules/${moduleId}/${singular}/${Object_ID}`
-                                    : `/muteer/${plural}/${Object_ID}`
+                                    ? `/muteer/modules/${moduleId}/${singular}/${object_id}`
+                                    : `/muteer/${plural}/${object_id}`
                             }>
                             Open in beheeromgeving
                         </Link>
@@ -145,59 +138,58 @@ const ObjectSidebar = ({
 }
 
 const People = ({
-    ObjectStatics,
-}: Pick<ObjectSidebarProps, 'ObjectStatics'>) => {
+    object_statics: ObjectStatics,
+}: Pick<ObjectSidebarProps, 'object_statics'>) => {
     if (!ObjectStatics) return null
 
     return (
         <div className="mb-3 flex">
-            {(ObjectStatics.Portfolio_Holder_1 ||
-                ObjectStatics.Portfolio_Holder_2) && (
+            {ObjectStatics.portfolio_holder_1 && (
                 <div className="mr-2 flex">
-                    {ObjectStatics.Portfolio_Holder_1 && (
+                    {ObjectStatics.portfolio_holder_1 && (
                         <Avatar
-                            uuid={ObjectStatics.Portfolio_Holder_1.UUID}
-                            prefix={getStaticDataLabel(
-                                'Portfolio_Holder_1_UUID'
-                            )}
-                        />
-                    )}
-                    {ObjectStatics.Portfolio_Holder_2 && (
-                        <Avatar
-                            uuid={ObjectStatics.Portfolio_Holder_2.UUID}
-                            prefix={getStaticDataLabel(
-                                'Portfolio_Holder_2_UUID'
-                            )}
-                            className={
-                                ObjectStatics.Portfolio_Holder_1 && '-ml-2'
-                            }
+                            id={ObjectStatics.portfolio_holder_1.id}
+                            prefix={getStaticDataLabel('portfolio_holder_1_id')}
                         />
                     )}
                 </div>
             )}
 
-            {ObjectStatics.Client_1 && (
+            {ObjectStatics.client_1 && (
                 <div className="mr-2">
                     <Avatar
-                        uuid={ObjectStatics.Client_1.UUID}
-                        prefix={getStaticDataLabel('Client_1_UUID')}
+                        id={ObjectStatics.client_1.id}
+                        prefix={getStaticDataLabel('client_1_id')}
                     />
                 </div>
             )}
 
-            {(ObjectStatics.Owner_1 || ObjectStatics.Owner_2) && (
+            {(ObjectStatics.owner_1 ||
+                ObjectStatics.owner_2 ||
+                ObjectStatics.owner_3) && (
                 <div className="flex">
-                    {ObjectStatics.Owner_1 && (
+                    {ObjectStatics.owner_1 && (
                         <Avatar
-                            uuid={ObjectStatics.Owner_1.UUID}
-                            prefix={getStaticDataLabel('Owner_1_UUID')}
+                            id={ObjectStatics.owner_1.id}
+                            prefix={getStaticDataLabel('owner_1_id')}
                         />
                     )}
-                    {ObjectStatics.Owner_2 && (
+                    {ObjectStatics.owner_2 && (
                         <Avatar
-                            uuid={ObjectStatics.Owner_2.UUID}
-                            prefix={getStaticDataLabel('Owner_2_UUID')}
-                            className={ObjectStatics.Owner_1 && '-ml-2'}
+                            id={ObjectStatics.owner_2.id}
+                            prefix={getStaticDataLabel('owner_2_id')}
+                            className={ObjectStatics.owner_1 && '-ml-2'}
+                        />
+                    )}
+                    {ObjectStatics.owner_3 && (
+                        <Avatar
+                            id={ObjectStatics.owner_3.id}
+                            prefix={getStaticDataLabel('owner_3_id')}
+                            className={
+                                (ObjectStatics.owner_1 ||
+                                    ObjectStatics.owner_2) &&
+                                '-ml-2'
+                            }
                         />
                     )}
                 </div>

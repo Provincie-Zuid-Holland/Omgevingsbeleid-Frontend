@@ -1,9 +1,9 @@
 import { Heading } from '@pzh-ui/components'
 
 import UserForm from '@/components/Users/UserForm'
+import { UserSchema } from '@/components/Users/UserForm/UserForm'
 import { EMPTY_SCHEMA_ADD_USER } from '@/validation/user'
 
-import { UserSchema } from '@/components/Users/UserForm/UserForm'
 import { StepProps } from './types'
 
 export const StepOne = ({ handleSubmit, handleClose }: StepProps) => (

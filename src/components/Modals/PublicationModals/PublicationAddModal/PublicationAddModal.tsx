@@ -38,30 +38,32 @@ const PublicationAddModal = () => {
 
     const initialValues: PublicationSchema = {
         ...EMPTY_PUBLICATION_OBJECT,
-        Environment_UUID: modalState?.environmentUUID,
-        Document_Type: modalState?.documentType,
-        Procedure_Type: modalState?.procedureType,
-        Module_ID: parseInt(String(moduleId)),
+        environment_id: modalState?.environmentUUID,
+        document_type: modalState?.documentType,
+        procedure_type: modalState?.procedureType,
+        module_id: parseInt(String(moduleId)),
     }
 
     /**
      * Handle submit of contents form
      */
     const handleFormSubmit = ({
-        Module_Status_ID,
+        module_status_id,
         ...payload
     }: PublicationSchema) => {
-        postPublication({ data: payload })
+        postPublication({
+            data: { ...payload, act_id: Number(payload.act_id) },
+        })
             .then(data => {
                 postVersion({
-                    publicationUuid: data.UUID,
+                    publicationId: data.id,
                     data: {
-                        Module_Status_ID,
+                        module_status_id,
                     },
                 }).finally(() => {
                     queryClient.invalidateQueries({
                         queryKey: getPublicationVersionsGetListVersionsQueryKey(
-                            data.UUID
+                            data.id
                         ),
                     })
 

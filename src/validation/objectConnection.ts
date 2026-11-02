@@ -7,23 +7,23 @@ import { schemaDefaults } from '@/validation/zodSchema'
 export const SCHEMA_CONNECTION_STEPS = [
     object({}),
     object({
-        Object_ID: schemaDefaults.requiredNumber(),
+        object_id: schemaDefaults.requiredNumber(),
     }),
     object({
-        Description: schemaDefaults.requiredString(),
+        description: schemaDefaults.requiredString(),
     }),
     object({}),
 ]
 
 export const SCHEMA = object({
-    Object_Type: schemaDefaults.requiredString(),
-    Object_ID: schemaDefaults.requiredNumber(),
-    Description: string().optional(),
+    object_type: schemaDefaults.requiredString(),
+    object_id: schemaDefaults.requiredNumber(),
+    description: string().optional(),
 }).or(
     array(
         object({
-            Object_Type: schemaDefaults.requiredString(),
-            Object_ID: schemaDefaults.requiredNumber(),
+            object_type: schemaDefaults.requiredString(),
+            object_id: schemaDefaults.requiredNumber(),
         })
     )
 )

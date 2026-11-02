@@ -15,7 +15,7 @@ import { StepOne, StepTwo } from './steps'
 const steps = [StepOne, StepTwo]
 
 const UserGeneratePasswordModal = () => {
-    const { uuid } = useParams()
+    const { id } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
@@ -24,8 +24,8 @@ const UserGeneratePasswordModal = () => {
 
     const CurrentStep = steps[step - 1]
 
-    const { data } = useUserViewGetUser(uuid!, {
-        query: { enabled: !!uuid },
+    const { data } = useUserViewGetUser(id!, {
+        query: { enabled: !!id },
     })
 
     const { mutateAsync, isPending } = useUserPostResetUserPassword({
@@ -52,7 +52,7 @@ const UserGeneratePasswordModal = () => {
     /**
      * Handle generate password
      */
-    const handleClick = () => mutateAsync({ userUuid: uuid! })
+    const handleClick = () => mutateAsync({ userUuid: id! })
 
     return (
         <Modal

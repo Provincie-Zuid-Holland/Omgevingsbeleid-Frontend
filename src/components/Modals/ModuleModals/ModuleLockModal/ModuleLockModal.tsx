@@ -38,7 +38,7 @@ const ModuleLockModal = () => {
                     onPress={() =>
                         mutate({
                             moduleId: parseInt(moduleId!),
-                            data: { Temporary_Locked: true },
+                            data: { temporary_locked: true },
                         })
                     }>
                     Vergrendelen

@@ -30,7 +30,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     description:
                         'Geef aan voor welk instrument dit template is.',
                     placeholder: 'Kies een instrument',
-                    name: 'Document_Type',
+                    name: 'document_type',
                     options: Object.keys(DocumentType).map(type => ({
                         label: type,
                         value: type,
@@ -38,7 +38,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     required: true,
                 },
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van dit template.',
@@ -48,7 +48,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     description: 'Geef een omschrijving voor dit template.',
                     type: 'textarea',
@@ -59,7 +59,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
         {
             fields: [
                 {
-                    name: 'Text_Template',
+                    name: 'text_template',
                     label: 'Text template',
                     description:
                         'Geef aan hoe de template er uit moet komen te zien voor de export. Je kunt hiervoor object templates gebruiken die je hieronder kan definiëren.',
@@ -71,7 +71,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
         {
             fields: [
                 {
-                    name: 'Object_Types',
+                    name: 'object_types',
                     type: 'select',
                     label: 'Object types',
                     description:
@@ -88,7 +88,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
                     validation: schemaDefaults.options,
                 },
                 {
-                    name: 'Object_Templates',
+                    name: 'object_templates',
                     label: 'Object templates',
                     description:
                         'Geef per gebruikt object aan hoe het moet worden getoond in de export.',
@@ -130,7 +130,7 @@ const model: DynamicObject<any, keyof TemplateEdit> = {
         {
             fields: [
                 {
-                    name: 'Object_Field_Map',
+                    name: 'object_field_map',
                     label: 'Field maps',
                     description: 'Geef per gebruikt object een field map.',
                     arrayLabel: 'Field map',

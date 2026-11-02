@@ -30,7 +30,7 @@ const ObjectDefaultInfo = ({ model }: ObjectDefaultInfoProps) => {
 
     const { isOwner, isClient } = useObject()
     const { data, isLoading } =
-        useGetStatic?.<AmbitieStaticStatics>(parseInt(objectId!), {
+        useGetStatic<AmbitieStaticStatics>?.(parseInt(objectId!), {
             query: { enabled: !!objectId },
         }) || {}
 
@@ -83,7 +83,7 @@ interface ItemProps {
 }
 
 const Item = ({ label, user: providedUser, isLoading }: ItemProps) => {
-    const user = useUserInfo(providedUser?.UUID ?? '')
+    const user = useUserInfo(providedUser?.id ?? '')
 
     return (
         <div className="mt-3 border-b border-pzh-gray-300 px-2 pb-2">
@@ -96,7 +96,7 @@ const Item = ({ label, user: providedUser, isLoading }: ItemProps) => {
                         className={cn({
                             'text-pzh-gray-600': !user,
                         })}>
-                        {user?.Gebruikersnaam || 'Niet geselecteerd'}
+                        {user?.name || 'Niet geselecteerd'}
                     </Text>
                 ) : (
                     <div className="w-[50%]">

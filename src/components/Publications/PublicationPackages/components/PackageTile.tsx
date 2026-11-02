@@ -8,25 +8,25 @@ import { config } from '@/pages/protected/Packages/config'
 import { getPackageStatus } from './utils'
 
 const PackageTile = ({
-    Module_Title,
-    Document_Type,
-    UUID,
-    Report_Status,
-    Publication_Type,
+    module_title,
+    document_type,
+    id,
+    report_status,
+    publication_type,
 }: UnifiedPackage) => {
-    const status = getPackageStatus(Report_Status)
+    const status = getPackageStatus(report_status)
 
     return (
         <Link
-            to={`/muteer/leveringen/${Publication_Type}/${UUID}`}
+            to={`/muteer/leveringen/${publication_type}/${id}`}
             data-testid="dashboard-module-tile"
             className="group flex flex-col justify-between rounded border border-pzh-gray-200 p-6">
             <div className="mb-4">
                 <Heading level="3" size="m">
-                    {config.documentType[Document_Type as DocumentType].label}
+                    {config.documentType[document_type as DocumentType].label}
                 </Heading>
                 <Text size="s" color="text-pzh-gray-600">
-                    {Module_Title}
+                    {module_title}
                 </Text>
             </div>
             <div className="flex items-center justify-between">

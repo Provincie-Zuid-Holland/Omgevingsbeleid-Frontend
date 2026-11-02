@@ -5,14 +5,14 @@ import classNames from 'clsx'
 import useUserInfo from '@/hooks/useUserInfo'
 
 interface AvatarProps {
-    uuid: string
+    id: string
     prefix?: string
     className?: string | null
     isSmall?: boolean
 }
 
-const Avatar = ({ uuid, prefix, className, isSmall }: AvatarProps) => {
-    const { Gebruikersnaam: name = '' } = useUserInfo(uuid) || {}
+const Avatar = ({ id, prefix, className, isSmall }: AvatarProps) => {
+    const { name = '' } = useUserInfo(id) || {}
 
     const rgx = new RegExp(/(\p{L}{1})\p{L}+/gu)
     const match = [...name.matchAll(rgx)]
@@ -38,7 +38,7 @@ const Avatar = ({ uuid, prefix, className, isSmall }: AvatarProps) => {
                     'flex cursor-pointer items-center justify-center rounded-full bg-pzh-blue-500',
                     {
                         'h-10 w-10 text-s': isSmall,
-                        'h-[46px] w-[46px]': !isSmall,
+                        'h-11.5 w-11.5': !isSmall,
                     },
                     className
                 )}>

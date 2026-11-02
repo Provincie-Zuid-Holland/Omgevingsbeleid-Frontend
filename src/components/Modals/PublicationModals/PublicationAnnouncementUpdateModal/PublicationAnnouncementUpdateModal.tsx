@@ -40,10 +40,10 @@ const PublicationAnnouncementUpdateModal = () => {
 
     const { data, isFetching, queryKey } =
         usePublicationAnnouncementsGetDetailAnnouncement(
-            modalState?.announcementUuid,
+            modalState?.announcementId,
             {
                 query: {
-                    enabled: !!modalState?.announcementUuid,
+                    enabled: !!modalState?.announcementId,
                 },
             }
         )
@@ -75,13 +75,13 @@ const PublicationAnnouncementUpdateModal = () => {
         payload: typeof mergedValues,
         helpers: FormikHelpers<typeof mergedValues>
     ) => {
-        if (payload.Announcement_Date && payload.Procedural) {
-            payload.Procedural.Procedural_Announcement_Date =
-                payload.Announcement_Date
+        if (payload.announcement_date && payload.procedural) {
+            payload.procedural.procedural_announcement_date =
+                payload.announcement_date
         }
 
         mutateAsync({
-            announcementUuid: modalState?.announcementUuid,
+            announcementId: modalState?.announcementId,
             data: payload,
         }).catch(
             (err: AxiosError<HTTPValidationError>) =>
@@ -109,7 +109,7 @@ const PublicationAnnouncementUpdateModal = () => {
                             <div className="flex flex-col gap-4">
                                 <div>
                                     <FormikInput
-                                        name="Metadata.Official_Title"
+                                        name="meta_data.official_title"
                                         label="Officiële titel van kennisgeving"
                                         placeholder="Officiële titel"
                                         disabled={isLocked}
@@ -118,7 +118,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                 </div>
                                 <div>
                                     <FormikInput
-                                        name="Content.Texts.0.Title"
+                                        name="content.texts.0.title"
                                         label="Titel van kennisgeving"
                                         placeholder="Titel"
                                         disabled={isLocked}
@@ -126,7 +126,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                 </div>
                                 <div>
                                     <FormikRte
-                                        name="Content.Texts.0.Description"
+                                        name="content.texts.0.description"
                                         label="Tekst van kennisgeving"
                                         customMenuOptions={['link']}
                                         disabled={isLocked}
@@ -137,7 +137,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     <Text>Tekstblokken</Text>
 
                                     <FieldArray
-                                        name="Content.Texts"
+                                        name="content.texts"
                                         label=""
                                         arrayLabel="Tekstblok"
                                         buttonLabel="Tekstblok toevoegen"
@@ -150,7 +150,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                         fields={[
                                             {
                                                 type: 'text',
-                                                name: 'Title',
+                                                name: 'title',
                                                 label: 'Titel',
                                                 disabled: isLocked,
                                                 placeholder:
@@ -158,7 +158,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                             },
                                             {
                                                 type: 'wysiwyg',
-                                                name: 'Description',
+                                                name: 'description',
                                                 label: 'Inhoud van tekstblok',
                                                 disabled: isLocked,
                                                 required: true,
@@ -172,7 +172,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                 <div className="flex gap-4 [&_>div]:flex-1">
                                     <div>
                                         <FormikDate
-                                            name="Announcement_Date"
+                                            name="announcement_date"
                                             label="Bekend op"
                                             placeholder="Kies een datum"
                                             disabled={isLocked}
@@ -181,7 +181,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     </div>
                                     <div>
                                         <FormikDate
-                                            name="Procedural.Begin_Inspection_Period_Date"
+                                            name="procedural.begin_inspection_period_date"
                                             label="Begin inzage"
                                             placeholder="Kies een datum"
                                             disabled={isLocked}
@@ -190,7 +190,7 @@ const PublicationAnnouncementUpdateModal = () => {
                                     </div>
                                     <div>
                                         <FormikDate
-                                            name="Procedural.End_Inspection_Period_Date"
+                                            name="procedural.end_inspection_period_date"
                                             label="Eind inzage"
                                             placeholder="Kies een datum"
                                             disabled={isLocked}

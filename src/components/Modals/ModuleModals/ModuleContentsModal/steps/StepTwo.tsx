@@ -25,7 +25,7 @@ export const StepTwo = ({}: StepProps) => {
             <Text className="mb-4">
                 Welk soort onderdeel wil je toevoegen aan deze module?
             </Text>
-            <FormikRadioGroup name="Object_Type" options={options} />
+            <FormikRadioGroup name="object_type" options={options} />
         </div>
     )
 }

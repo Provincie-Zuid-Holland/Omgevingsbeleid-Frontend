@@ -66,7 +66,7 @@ export interface ModalStateMap {
     }
     moduleDeleteObject: {
         object: ModelReturnTypeBasic
-        module: Pick<Module, 'Module_ID' | 'Title'>
+        module: Pick<Module, 'module_id' | 'title'>
     }
     objectArea: {
         moduleId: string
@@ -94,7 +94,7 @@ export interface ModalStateMap {
     publicationVersionAdd: { publication: Publication }
     publicationVersionEdit: {
         publication: Publication
-        UUID: string
+        id: string
         isRequired?: boolean
         error?: Error
         readOnly?: boolean
@@ -102,19 +102,19 @@ export interface ModalStateMap {
     publicationPackages: {
         publication: Publication
         version: PublicationVersionShort
-        announcementUuid: string
+        announcementId: string
     }
     publicationAnnouncementPackages: {
         environment?: PublicationEnvironment
         version: PublicationVersionShort
-        announcementUuid: string
+        announcementId: string
     }
     publicationVersionAbort: {
         publication: Publication
         version: PublicationVersionShort
     }
     publicationAnnouncementUpdate: {
-        announcementUuid: string
+        announcementId: string
         isLocked?: boolean
         readOnly?: boolean
     }

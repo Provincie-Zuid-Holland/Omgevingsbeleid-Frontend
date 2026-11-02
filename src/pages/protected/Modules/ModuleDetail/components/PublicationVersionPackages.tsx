@@ -44,10 +44,10 @@ const PublicationVersionPackages = () => {
 
     const { data: environment, isFetching: environmentFetching } =
         usePublicationEnvironmentsGetDetailEnvironment(
-            String(version?.Publication.Environment_UUID),
+            String(version?.publication.environment_id),
             {
                 query: {
-                    enabled: !!version?.Publication.Environment_UUID,
+                    enabled: !!version?.publication.environment_id,
                 },
             }
         )
@@ -55,19 +55,19 @@ const PublicationVersionPackages = () => {
     const { data: validActPackage } =
         usePublicationActPackagesGetListActPackages(
             {
-                version_uuid: version?.UUID,
+                version_id: version?.id,
                 package_type: PackageType['publication'],
                 limit: 3,
-                sort_column: 'Created_Date',
+                sort_column: 'created_date',
                 sort_order: 'DESC',
             },
             {
                 query: {
-                    enabled: !!version?.UUID,
+                    enabled: !!version?.id,
                     select: data =>
                         data.results.find(
                             pkg =>
-                                pkg.Report_Status === ReportStatusType['valid']
+                                pkg.report_status === ReportStatusType['valid']
                         ),
                 },
             }
@@ -77,11 +77,11 @@ const PublicationVersionPackages = () => {
         usePublicationAnnouncementsGetListAnnouncements(
             {
                 limit: 100,
-                act_package_uuid: validActPackage?.UUID,
+                act_package_id: validActPackage?.id,
             },
             {
                 query: {
-                    enabled: !!validActPackage?.UUID,
+                    enabled: !!validActPackage?.id,
                     select: data => data.results[0],
                 },
             }
@@ -90,25 +90,25 @@ const PublicationVersionPackages = () => {
     const { data: validAnnouncementPackage } =
         usePublicationAnnouncementPackagesGetListAnnouncementPackages(
             {
-                announcement_uuid: announcement?.UUID,
+                announcement_id: announcement?.id,
                 limit: 3,
                 package_type: PackageType['publication'],
-                sort_column: 'Created_Date',
+                sort_column: 'created_date',
                 sort_order: 'DESC',
             },
             {
                 query: {
-                    enabled: !!announcement?.UUID,
+                    enabled: !!announcement?.id,
                     select: data =>
                         data.results.find(
                             pkg =>
-                                pkg.Report_Status === ReportStatusType['valid']
+                                pkg.report_status === ReportStatusType['valid']
                         ),
                 },
             }
         )
 
-    const isDraft = version?.Publication.Procedure_Type === 'draft'
+    const isDraft = version?.publication.procedure_type === 'draft'
     const isRegelingPublished = !!validActPackage
     const isKennisgevingPublished = !!validAnnouncementPackage
 
@@ -126,28 +126,28 @@ const PublicationVersionPackages = () => {
     const requiredFieldsFilled = useMemo(() => {
         if (!version) return false
 
-        const billMetadata = version.Bill_Metadata as BillMetadata
-        const billCompact = version.Bill_Compact as BillCompact
+        const billMetadata = version.bill_metadata as BillMetadata
+        const billCompact = version.bill_compact as BillCompact
 
         const hasRequiredContent =
-            !!billMetadata?.Official_Title?.trim() &&
-            !!billMetadata?.Quote_Title?.trim() &&
-            !!billCompact?.Amendment_Article?.trim()
+            !!billMetadata?.official_title?.trim() &&
+            !!billMetadata?.quote_title?.trim() &&
+            !!billCompact?.amendment_article?.trim()
 
         const hasRequiredDates =
-            !!version.Announcement_Date &&
-            !!version.Procedural?.Signed_Date &&
-            !!version.Procedural?.Procedural_Announcement_Date
+            !!version.announcement_date &&
+            !!version.procedural?.signed_date &&
+            !!version.procedural?.procedural_announcement_date
 
         const hasEffectiveDate =
-            version.Publication.Procedure_Type !== 'final' ||
-            !!version.Effective_Date
+            version.publication.procedure_type !== 'final' ||
+            !!version.effective_date
 
         const hasValidDateOrder =
-            !version.Announcement_Date ||
-            !version.Effective_Date ||
-            new Date(version.Announcement_Date) <
-                new Date(version.Effective_Date)
+            !version.announcement_date ||
+            !version.effective_date ||
+            new Date(version.announcement_date) <
+                new Date(version.effective_date)
 
         return (
             hasRequiredContent &&
@@ -158,18 +158,18 @@ const PublicationVersionPackages = () => {
     }, [version])
 
     const isLastStatus = useMemo(
-        () => version?.Module_Status.ID === lastStatus?.ID,
-        [version?.Module_Status.ID, lastStatus?.ID]
+        () => version?.module_status.id === lastStatus?.id,
+        [version?.module_status.id, lastStatus?.id]
     )
 
     const procedureLabel =
         (version &&
             config.procedureType[
-                version.Publication.Procedure_Type as ProcedureType
+                version.publication.procedure_type as ProcedureType
             ]?.label) ||
         ''
 
-    const showKennisgeving = isDraft && !!environment?.Can_Publicate
+    const showKennisgeving = isDraft && !!environment?.can_publicate
     const hasAnnouncement = showKennisgeving && !!announcement
 
     const [activeItems, setActiveItems] = useState<string[]>(['act'])
@@ -212,21 +212,21 @@ const PublicationVersionPackages = () => {
             <PublicationPackages
                 environment={environment}
                 version={version}
-                publication={version?.Publication}
+                publication={version?.publication}
                 publicationType="act"
-                isLocked={version.Is_Locked}
+                isLocked={version.is_locked}
                 isClosed={isClosed}
                 actions={
                     <RegelingActions
-                        publication={version.Publication}
-                        versionUUID={version.UUID}
+                        publication={version.publication}
+                        versionUUID={version.id}
                         procedureLabel={procedureLabel}
-                        moduleStatus={version.Module_Status}
+                        moduleStatus={version.module_status}
                         isPublished={isRegelingPublished}
                         requiredFieldsFilled={requiredFieldsFilled}
                         isLastStatus={isLastStatus}
                         isClosed={isClosed}
-                        isLocked={version.Is_Locked}
+                        isLocked={version.is_locked}
                     />
                 }
             />
@@ -243,7 +243,7 @@ const PublicationVersionPackages = () => {
                 <PublicationPackages
                     environment={environment}
                     version={version}
-                    publication={version?.Publication}
+                    publication={version?.publication}
                     publicationType="announcement"
                     validPublicationPackage={validActPackage}
                     announcement={announcement}
@@ -251,12 +251,12 @@ const PublicationVersionPackages = () => {
                     isClosed={isClosed}
                     actions={
                         <KennisgevingActions
-                            announcementUuid={announcement?.UUID}
-                            actPackageUuid={validActPackage?.UUID}
+                            announcementId={announcement?.id}
+                            actPackageId={validActPackage?.id}
                             isRegelingPublished={isRegelingPublished}
                             isPublished={isKennisgevingPublished}
                             isClosed={isClosed}
-                            isLocked={announcement?.Is_Locked}
+                            isLocked={announcement?.is_locked}
                         />
                     }
                 />

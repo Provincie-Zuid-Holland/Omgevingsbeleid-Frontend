@@ -14,9 +14,8 @@ interface FilterState {
     /** All possible filters */
     filters: Filter
     /** Active filters */
-    selectedFilters: {
-        [key in FilterKey]: ModelType[]
-    }
+    selectedFilters: { [key in FilterKey]: ModelType[] }
+
     /** Set active filters */
     setSelectedFilters: (key: FilterKey, selectedFilters?: ModelType[]) => void
 }

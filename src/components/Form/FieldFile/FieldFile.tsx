@@ -40,9 +40,9 @@ const FieldFile = ({
     required,
     description,
     placeholder,
-    fileFieldName = 'File',
+    fileFieldName = 'file',
     ignoreFieldName = 'File_Ignore',
-    existingFileUuidField = 'File_UUID',
+    existingFileUuidField = 'file_id',
     showIgnoreCheckbox,
     onFileSelect,
     prefillFieldName,
@@ -57,11 +57,11 @@ const FieldFile = ({
         query: { enabled: !!existingFileUuid },
     })
 
-    const download = useDownloadStorageFile(data?.UUID)
+    const download = useDownloadStorageFile(data?.id)
 
     useEffect(() => {
-        if (data?.Filename) {
-            setFileName(data.Filename)
+        if (data?.filename) {
+            setFileName(data.filename)
         }
     }, [data])
 
@@ -154,7 +154,7 @@ const FieldFile = ({
                 </div>
             )}
 
-            {data?.UUID && data.UUID === existingFileUuid && (
+            {data?.id && data.id === existingFileUuid && (
                 <Hyperlink asChild>
                     <button
                         type="button"

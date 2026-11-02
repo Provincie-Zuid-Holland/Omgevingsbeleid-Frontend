@@ -21,54 +21,24 @@ const generateSchema = (values: (keyof ObjectStaticShort)[]) => {
     })
 
     return zodAlwaysRefine(schema).superRefine((data, ctx) => {
-        // Cast data to a type with optional properties to handle the case where they might not exist
-        const {
-            Owner_1_UUID,
-            Owner_2_UUID,
-            Portfolio_Holder_1_UUID,
-            Portfolio_Holder_2_UUID,
-        } = data as {
-            Owner_1_UUID?: string
-            Owner_2_UUID?: string
-            Portfolio_Holder_1_UUID?: string
-            Portfolio_Holder_2_UUID?: string
-        }
+        const owners = data as Partial<Record<keyof ObjectStaticShort, string>>
+        const ownerKeys = ['owner_1_id', 'owner_2_id', 'owner_3_id'] as const
 
-        if (!!Owner_1_UUID && !!Owner_2_UUID && Owner_1_UUID === Owner_2_UUID) {
-            ctx.addIssue({
-                code: 'custom',
-                message:
-                    'De eerste en tweede eigenaar mogen niet dezelfde persoon zijn',
-                path: ['Owner_1_UUID'],
-            })
-
-            ctx.addIssue({
-                code: 'custom',
-                message:
-                    'De eerste en tweede eigenaar mogen niet dezelfde persoon zijn',
-                path: ['Owner_2_UUID'],
-            })
-        }
-
-        if (
-            !!Portfolio_Holder_1_UUID &&
-            !!Portfolio_Holder_2_UUID &&
-            Portfolio_Holder_1_UUID === Portfolio_Holder_2_UUID
-        ) {
-            ctx.addIssue({
-                code: 'custom',
-                message:
-                    'De eerste en tweede portefeuillehouder mogen niet dezelfde persoon zijn',
-                path: ['Portfolio_Holder_1_UUID'],
-            })
-
-            ctx.addIssue({
-                code: 'custom',
-                message:
-                    'De eerste en tweede portefeuillehouder mogen niet dezelfde persoon zijn',
-                path: ['Portfolio_Holder_2_UUID'],
-            })
-        }
+        ownerKeys.forEach(key => {
+            const value = owners[key]
+            if (
+                value &&
+                ownerKeys.some(
+                    other => other !== key && owners[other] === value
+                )
+            ) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: 'De eigenaren mogen niet dezelfde persoon zijn',
+                    path: [key],
+                })
+            }
+        })
     })
 }
 

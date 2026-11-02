@@ -3,26 +3,26 @@ import { boolean, object } from 'zod'
 import { schemaDefaults } from '@/validation/zodSchema'
 
 export const SCHEMA_RELATION_STEPS = [
-    object({ Object_ID: schemaDefaults.requiredNumber() }),
+    object({ object_id: schemaDefaults.requiredNumber() }),
     object({
-        Explanation: schemaDefaults.requiredString(),
+        explanation: schemaDefaults.requiredString(),
     }),
 ]
 
 export const SCHEMA_RELATION_ADD = object({
-    Object_Type: schemaDefaults.requiredString(),
-    Object_ID: schemaDefaults.requiredNumber(),
-    Explanation: schemaDefaults.requiredString(),
+    object_type: schemaDefaults.requiredString(),
+    object_id: schemaDefaults.requiredNumber(),
+    explanation: schemaDefaults.requiredString(),
 })
 
 export const SCHEMA_RELATION_EDIT = object({
-    Object_Type: schemaDefaults.requiredString(),
-    Object_ID: schemaDefaults.requiredNumber(),
-    Explanation: schemaDefaults.requiredString(),
+    object_type: schemaDefaults.requiredString(),
+    object_id: schemaDefaults.requiredNumber(),
+    explanation: schemaDefaults.requiredString(),
 })
 
 export const SCHEMA_RELATION_DISCONNECT = object({
-    Object_Type: schemaDefaults.requiredString(),
-    Object_ID: schemaDefaults.requiredNumber(),
+    object_type: schemaDefaults.requiredString(),
+    object_id: schemaDefaults.requiredNumber(),
     consent: boolean(),
 })

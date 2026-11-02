@@ -41,8 +41,8 @@ const ObjectRelationSentModal = ({
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [initialValues, setInitialValues] = useState({
-        Object_Type: model.defaults.singular,
-    } as EditAcknowledgedRelation & { Title?: string | null })
+        object_type: model.defaults.singular,
+    } as EditAcknowledgedRelation & { title?: string | null })
     const [step, setStep] = useState(1)
 
     const { data, queryKey: objectQueryKey } = useObject()
@@ -65,9 +65,9 @@ const ObjectRelationSentModal = ({
     const handleEdit = (relation: AcknowledgedRelation) => {
         setInitialValues({
             ...initialValues,
-            Object_ID: relation.Side_B.Object_ID,
-            Explanation: relation.Side_A.Explanation,
-            Title: relation.Side_B.Title,
+            object_id: relation.side_b.object_id,
+            explanation: relation.side_a.explanation,
+            title: relation.side_b.title,
         })
         setStep(2)
     }
@@ -79,7 +79,7 @@ const ObjectRelationSentModal = ({
                     queryClient.invalidateQueries({ queryKey }),
                     queryClient.invalidateQueries({
                         queryKey: getAcknowledgedRelations?.(
-                            initialValues.Object_ID
+                            initialValues.object_id
                         ),
                         refetchType: 'all',
                     }),
@@ -98,9 +98,9 @@ const ObjectRelationSentModal = ({
         postAcknowledgedRelations?.mutate({
             lineageId: parseInt(objectId!),
             data: {
-                Object_ID: payload.Object_ID,
-                Object_Type: payload.Object_Type,
-                Explanation: payload.Explanation,
+                object_id: payload.object_id,
+                object_type: payload.object_type,
+                explanation: payload.explanation,
             },
         })
     }
@@ -109,9 +109,9 @@ const ObjectRelationSentModal = ({
         postAcknowledgedRelations?.mutate({
             lineageId: parseInt(objectId!),
             data: {
-                Deleted: true,
-                Object_ID: initialValues.Object_ID,
-                Object_Type: initialValues.Object_Type,
+                deleted: true,
+                object_id: initialValues.object_id,
+                object_type: initialValues.object_type,
             },
         })
     }
@@ -136,7 +136,7 @@ const ObjectRelationSentModal = ({
                     <Form>
                         <CurrentStep
                             model={model}
-                            title={data?.Title}
+                            title={data?.title}
                             relations={relations}
                             history={history}
                             handleEdit={handleEdit}

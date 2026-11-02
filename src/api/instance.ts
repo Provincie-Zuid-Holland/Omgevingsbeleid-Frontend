@@ -4,7 +4,7 @@ import qs from 'qs'
 import getApiUrl from '@/utils/getApiUrl'
 import { handleHttpError } from '@/utils/handleHttpError'
 
-export type Environment = 'dev' | 'test' | 'acc' | 'main'
+export type Environment = 'dev' | 'test' | 'acc' | 'main' | 'trial'
 
 const environment = import.meta.env.VITE_API_ENV as Environment
 
@@ -25,9 +25,9 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use(async config => {
-    config.headers &&
-        !!getAccessToken() &&
-        (config.headers.Authorization = `Bearer ${getAccessToken()}`)
+    if (config.headers && !!getAccessToken()) {
+        config.headers.Authorization = `Bearer ${getAccessToken()}`
+    }
 
     return config
 }, Promise.reject)

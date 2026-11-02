@@ -24,10 +24,12 @@ const ModuleEdit = () => {
 
     const { canEditModule } = usePermissions()
 
-    const { data: { Module: module } = {}, isLoading } =
-        useModulesViewModuleOverview(parseInt(moduleId!), {
+    const { data: { module } = {}, isLoading } = useModulesViewModuleOverview(
+        parseInt(moduleId!),
+        {
             query: { enabled: !!moduleId },
-        })
+        }
+    )
 
     const { useEditModule, isModuleManager } = useModule()
     const { mutateAsync } = useEditModule('moduleEdit', () =>
@@ -46,7 +48,7 @@ const ModuleEdit = () => {
     const breadcrumbPaths = [
         { name: 'Dashboard', path: '/muteer' },
         { name: 'Modules', path: '/muteer/modules' },
-        { name: module?.Title || '', path: `/muteer/modules/${moduleId}` },
+        { name: module?.title || '', path: `/muteer/modules/${moduleId}` },
         { name: 'Module bewerken', isCurrent: true },
     ]
 

@@ -15,7 +15,7 @@ import ModuleItemDropdown from '../ModuleItemDropdown'
 
 interface ModuleItemProps extends ModelReturnTypeBasic {
     /** Model */
-    model: Model
+    objectConfig: Model
     /** Has edit button */
     hasEditButton?: boolean
     /** Has view button */
@@ -23,12 +23,12 @@ interface ModuleItemProps extends ModelReturnTypeBasic {
 }
 
 const ModuleItem = ({
-    model,
-    Model,
-    Object_Type,
-    Module_ID,
-    ModuleObjectContext,
-    ObjectStatics,
+    objectConfig: model,
+    model: _model,
+    object_type,
+    module_id,
+    module_object_context: ModuleObjectContext,
+    object_statics: ObjectStatics,
     hasEditButton,
     hasViewButton,
     ...rest
@@ -47,8 +47,9 @@ const ModuleItem = ({
         if (
             canEditModule ||
             isModuleManager ||
-            ObjectStatics?.Owner_1_UUID === user?.UUID ||
-            ObjectStatics?.Owner_2_UUID === user?.UUID
+            ObjectStatics?.owner_1_id === user?.id ||
+            ObjectStatics?.owner_2_id === user?.id ||
+            ObjectStatics?.owner_3_id === user?.id
         )
             return true
 
@@ -56,9 +57,10 @@ const ModuleItem = ({
     }, [
         canEditModule,
         isModuleManager,
-        ObjectStatics?.Owner_1_UUID,
-        ObjectStatics?.Owner_2_UUID,
-        user?.UUID,
+        ObjectStatics?.owner_1_id,
+        ObjectStatics?.owner_2_id,
+        ObjectStatics?.owner_3_id,
+        user?.id,
     ])
 
     return (
@@ -73,22 +75,22 @@ const ModuleItem = ({
                         <div className="flex items-center">
                             <Text size="s" className="mr-1 text-pzh-gray-600">
                                 {getObjectActionText(
-                                    ModuleObjectContext?.Action
+                                    ModuleObjectContext?.action
                                 )}
                             </Text>
                             <CircleInfo className="text-pzh-gray-600" />
                         </div>
                     </div>
-                    <Text className="truncate">{Model.Title}</Text>
+                    <Text className="truncate">{_model.title}</Text>
                     {hasEditButton &&
-                        ModuleObjectContext?.Action !== 'Terminate' &&
+                        ModuleObjectContext?.action !== 'Terminate' &&
                         hasRights &&
                         canPatchObjectInModule &&
                         !isLocked &&
                         isActive && (
                             <Hyperlink asChild>
                                 <Link
-                                    to={`/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`}>
+                                    to={`/muteer/modules/${module_id}/${object_type}/${_model.object_id}/bewerk`}>
                                     Bewerk onderdeel
                                 </Link>
                             </Hyperlink>
@@ -96,19 +98,19 @@ const ModuleItem = ({
                     {hasViewButton && !hasRights && (
                         <Hyperlink asChild>
                             <Link
-                                to={`/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}`}>
+                                to={`/muteer/modules/${module_id}/${object_type}/${_model.object_id}`}>
                                 Bekijk detailpagina
                             </Link>
                         </Hyperlink>
                     )}
                 </div>
                 <ModuleItemDropdown
-                    model={model}
-                    Module_ID={Module_ID}
-                    Object_Type={Object_Type}
-                    ObjectStatics={ObjectStatics}
-                    ModuleObjectContext={ModuleObjectContext}
-                    Model={Model}
+                    objectConfig={model}
+                    module_id={module_id}
+                    object_type={object_type}
+                    object_statics={ObjectStatics}
+                    module_object_context={ModuleObjectContext}
+                    model={_model}
                     {...rest}
                 />
             </div>

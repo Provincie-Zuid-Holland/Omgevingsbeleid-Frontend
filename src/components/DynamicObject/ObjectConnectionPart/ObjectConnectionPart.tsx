@@ -36,15 +36,15 @@ const ObjectConnectionPart = ({
             initialStep: amount === 0 ? 2 : 1,
             initialValues: (model.defaults.atemporal
                 ? {
-                      Object_ID: 0,
-                      items: connections?.map(({ Object_ID, Title }) => ({
-                          value: Object_ID,
-                          label: Title,
+                      object_id: 0,
+                      items: connections?.map(({ object_id, title }) => ({
+                          value: object_id,
+                          label: title,
                       })),
                   }
                 : {
-                      Object_Type: model.defaults.singular,
-                      Object_ID: undefined,
+                      object_type: model.defaults.singular,
+                      object_id: undefined,
                   }) as Partial<ReadRelation>,
             connectionModel: model,
         })

@@ -16,7 +16,7 @@ interface ObjectRelatedObjectsProps {
 }
 
 const ObjectRelatedObjects = ({ objects }: ObjectRelatedObjectsProps) => {
-    if (!objects.Module_Objects.length && !objects.Valid_Objects.length)
+    if (!objects.module_objects.length && !objects.valid_objects.length)
         return null
 
     return (
@@ -28,16 +28,12 @@ const ObjectRelatedObjects = ({ objects }: ObjectRelatedObjectsProps) => {
             </div>
 
             <div className="flex flex-col gap-4">
-                {objects.Module_Objects.map(object => (
-                    <RelatedObject
-                        key={object.UUID}
-                        type="module"
-                        {...object}
-                    />
+                {objects.module_objects.map(object => (
+                    <RelatedObject key={object.id} type="module" {...object} />
                 ))}
 
-                {objects.Valid_Objects.map(object => (
-                    <RelatedObject key={object.UUID} type="valid" {...object} />
+                {objects.valid_objects.map(object => (
+                    <RelatedObject key={object.id} type="valid" {...object} />
                 ))}
             </div>
         </>
@@ -53,17 +49,17 @@ interface RelatedObjectProps
 
 const RelatedObject = ({
     type,
-    Title,
-    Object_Type,
-    UUID,
-    Module_ID,
-    Module_Title,
+    title,
+    object_type,
+    id,
+    module_id,
+    module_title,
 }: RelatedObjectProps) => {
-    const model = models[Object_Type as ModelType]
+    const model = models[object_type as ModelType]
     const path =
         type === 'module'
-            ? `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${Module_ID}/${UUID}`
-            : `/${model.defaults.slugOverview}/${model.defaults.plural}/${UUID}`
+            ? `/${model.defaults.slugOverview}/${model.defaults.plural}/ontwerpversie/${module_id}/${id}`
+            : `/${model.defaults.slugOverview}/${model.defaults.plural}/${id}`
 
     return (
         <Link
@@ -73,13 +69,13 @@ const RelatedObject = ({
             <div>
                 <Text as="span" color="text-pzh-gray-500">
                     {model.defaults.singularCapitalize}
-                    {type === 'module' && ` in module '${Module_Title}'`}
+                    {type === 'module' && ` in module '${module_title}'`}
                 </Text>
                 <Heading
                     level="4"
                     size="s"
                     className="decoration-1 group-hover:underline">
-                    {Title}
+                    {title}
                 </Heading>
             </div>
             <Eye className="text-pzh-green-500" size={20} />

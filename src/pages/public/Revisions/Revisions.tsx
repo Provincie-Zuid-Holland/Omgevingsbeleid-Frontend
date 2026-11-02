@@ -84,7 +84,7 @@ const Revisions = () => {
             {!isLoading ? (
                 !!data?.results.length ? (
                     data?.results.map(module => (
-                        <Fragment key={module.Module_ID}>
+                        <Fragment key={module.module_id}>
                             <Module {...module} />
                             <Divider className="pzh-container mx-auto" />
                         </Fragment>

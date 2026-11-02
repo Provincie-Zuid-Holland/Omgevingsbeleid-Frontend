@@ -67,9 +67,7 @@ const ObjectAreaModal = () => {
                     </div>
                 </div>
                 <div className="h-[360px] w-full overflow-hidden rounded-lg">
-                    {data?.Area_UUID && (
-                        <LeafletTinyViewer uuid={data.Area_UUID} />
-                    )}
+                    {data?.area_id && <LeafletTinyViewer id={data.area_id} />}
                 </div>
             </div>
         </Modal>

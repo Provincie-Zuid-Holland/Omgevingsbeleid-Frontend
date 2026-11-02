@@ -24,15 +24,15 @@ const NetworkGraph = () => {
      */
     const filteredData = useMemo(
         () => ({
-            Edges: data?.Edges,
-            Vertices:
+            edges: data?.edges,
+            vertices:
                 selectedFilters && selectedFilters.length > 0
-                    ? data?.Vertices.filter(vertice =>
+                    ? data?.vertices.filter(vertice =>
                           selectedFilters?.includes(
-                              vertice.Object_Type as ModelType
+                              vertice.object_type as ModelType
                           )
                       )
-                    : data?.Vertices,
+                    : data?.vertices,
         }),
         [data, selectedFilters]
     ) as GraphResponse

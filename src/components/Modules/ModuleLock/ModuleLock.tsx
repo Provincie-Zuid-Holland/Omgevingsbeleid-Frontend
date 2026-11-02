@@ -52,7 +52,7 @@ const ModuleLock = () => {
                                 mutate({
                                     moduleId: parseInt(moduleId!),
                                     data: {
-                                        Temporary_Locked: false,
+                                        temporary_locked: false,
                                     },
                                 })
                             }

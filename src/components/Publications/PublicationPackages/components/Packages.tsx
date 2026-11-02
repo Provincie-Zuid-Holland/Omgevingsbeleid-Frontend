@@ -79,10 +79,10 @@ const Packages = ({
     const { createPackage } = useActions({
         publicationType,
         packageType,
-        versionUUID: version.UUID,
-        announcementUUID: announcement?.UUID,
-        publicationUUID: String(publication?.UUID),
-        environmentUUID: environment?.UUID,
+        versionUUID: version.id,
+        announcementUUID: announcement?.id,
+        publicationUUID: String(publication?.id),
+        environmentUUID: environment?.id,
     })
 
     return (
@@ -110,11 +110,11 @@ const Packages = ({
                     ) : !data?.length ? (
                         <PackageCreate
                             createPackage={createPackage}
-                            announcementUUID={announcement?.UUID}
+                            announcementUUID={announcement?.id}
                             packageType={packageType}
                             isLocked={
                                 isLocked ||
-                                (environment?.Is_Locked &&
+                                (environment?.is_locked &&
                                     packageType === 'publication')
                             }
                             isClosed={isClosed}
@@ -138,29 +138,29 @@ const Packages = ({
                             )}
                             {data.map(item => (
                                 <Package
-                                    key={item.UUID}
+                                    key={item.id}
                                     publicationType={publicationType}
                                     isLocked={isLocked}
-                                    publicationUUID={String(publication?.UUID)}
-                                    versionUUID={version.UUID}
-                                    announcementUUID={announcement?.UUID}
-                                    environmentUUID={environment?.UUID}
-                                    canPublicate={environment?.Can_Publicate}
+                                    publicationUUID={String(publication?.id)}
+                                    versionUUID={version.id}
+                                    announcementUUID={announcement?.id}
+                                    environmentUUID={environment?.id}
+                                    canPublicate={environment?.can_publicate}
                                     moduleStatus={
                                         publicationType === 'act'
-                                            ? version.Module_Status
+                                            ? version.module_status
                                             : undefined
                                     }
                                     {...item}
                                 />
                             ))}
 
-                            {((!version.Is_Locked && !environment?.Is_Locked) ||
-                                (environment?.Is_Locked &&
+                            {((!version.is_locked && !environment?.is_locked) ||
+                                (environment?.is_locked &&
                                     packageType !== 'publication')) && (
                                 <PackageCreate
                                     createPackage={createPackage}
-                                    announcementUUID={announcement?.UUID}
+                                    announcementUUID={announcement?.id}
                                     inline
                                     packageType={packageType}
                                     isClosed={isClosed}
@@ -170,7 +170,7 @@ const Packages = ({
                     )}
                 </div>
 
-                {environment?.Is_Locked && packageType === 'publication' && (
+                {environment?.is_locked && packageType === 'publication' && (
                     <Notification
                         title="De publicatieomgeving is vergrendeld"
                         variant="warning"
@@ -198,7 +198,7 @@ const Packages = ({
                                                 'publicationVersionEdit',
                                                 {
                                                     publication,
-                                                    UUID: version.UUID,
+                                                    id: version.id,
                                                     isRequired: true,
                                                     error: createPackage.error
                                                         .response,
@@ -236,21 +236,21 @@ export const ActPackages = ({
         usePublicationActPackagesGetListActPackages(
             {
                 limit: limit.amount,
-                version_uuid: version.UUID,
+                version_id: version.id,
                 package_type: packageType,
-                sort_column: 'Created_Date',
+                sort_column: 'created_date',
                 sort_order: 'DESC',
             },
             {
                 query: {
-                    enabled: !!version.UUID,
+                    enabled: !!version.id,
                     placeholderData: keepPreviousData,
                     select: data => ({
                         ...data,
                         results: data.results.sort(
                             (a, b) =>
-                                parseUtc(a.Created_Date).getTime() -
-                                parseUtc(b.Created_Date).getTime()
+                                parseUtc(a.created_date).getTime() -
+                                parseUtc(b.created_date).getTime()
                         ),
                     }),
                 },
@@ -295,11 +295,11 @@ export const AnnouncementPackages = ({
         usePublicationAnnouncementsGetListAnnouncements(
             {
                 limit: 100,
-                act_package_uuid: validPublicationPackage?.UUID,
+                act_package_id: validPublicationPackage?.id,
             },
             {
                 query: {
-                    enabled: !!validPublicationPackage?.UUID,
+                    enabled: !!validPublicationPackage?.id,
                     select: data => data.results[0],
                 },
             }
@@ -309,21 +309,21 @@ export const AnnouncementPackages = ({
         usePublicationAnnouncementPackagesGetListAnnouncementPackages(
             {
                 limit: limit.amount,
-                announcement_uuid: announcement?.UUID,
+                announcement_id: announcement?.id,
                 package_type: packageType,
-                sort_column: 'Created_Date',
+                sort_column: 'created_date',
                 sort_order: 'DESC',
             },
             {
                 query: {
-                    enabled: !!announcement?.UUID,
+                    enabled: !!announcement?.id,
                     placeholderData: keepPreviousData,
                     select: data => ({
                         ...data,
                         results: data.results.sort(
                             (a, b) =>
-                                parseUtc(a.Created_Date).getTime() -
-                                parseUtc(b.Created_Date).getTime()
+                                parseUtc(a.created_date).getTime() -
+                                parseUtc(b.created_date).getTime()
                         ),
                     }),
                 },
@@ -334,18 +334,18 @@ export const AnnouncementPackages = ({
         usePublicationAnnouncementPackagesGetListAnnouncementPackages(
             {
                 limit: 3,
-                announcement_uuid: announcement?.UUID,
+                announcement_id: announcement?.id,
                 package_type: PackageType['publication'],
-                sort_column: 'Created_Date',
+                sort_column: 'created_date',
                 sort_order: 'DESC',
             },
             {
                 query: {
-                    enabled: !!announcement?.UUID,
+                    enabled: !!announcement?.id,
                     select: data =>
                         data.results.find(
                             pkg =>
-                                pkg.Report_Status === ReportStatusType['valid']
+                                pkg.report_status === ReportStatusType['valid']
                         ),
                 },
             }

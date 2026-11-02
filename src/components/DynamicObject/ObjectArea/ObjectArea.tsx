@@ -36,18 +36,18 @@ const ObjectArea = ({ objectTitle, model, area }: ObjectAreaProps) => {
 const Viewer = ({
     model,
     objectTitle,
-    Object_ID,
-    Cached_Title,
+    object_id,
+    cached_title,
 }: ObjectStatics & ObjectAreaProps) => {
     const { singular, prefixSingular } = model.defaults
 
-    const data = useArea(Object_ID)
+    const data = useArea(object_id)
 
     return (
         <>
             <Text className="mb-4 first-letter:capitalize">
                 {prefixSingular} {singular} ‘{objectTitle}’ heeft als
-                gebiedengroep ‘{data?.Title || Cached_Title}’.
+                gebiedengroep ‘{data?.title || cached_title}’.
             </Text>
 
             <Notification className="mb-3">
@@ -62,7 +62,7 @@ const Viewer = ({
             </Notification>
 
             <div className="h-125 overflow-hidden rounded-lg">
-                <LeafletTinyViewer uuid={data?.Source_UUID || ''} isSource />
+                <LeafletTinyViewer id={data?.source_uuid || ''} isSource />
             </div>
         </>
     )

@@ -77,9 +77,9 @@ const ObjectRelationNewModal = ({
             postAcknowledgedRelations?.mutate({
                 lineageId: parseInt(objectId!),
                 data: {
-                    Object_ID: payload.Object_ID,
-                    Object_Type: payload.Object_Type,
-                    Explanation: payload.Explanation,
+                    object_id: payload.object_id,
+                    object_type: payload.object_type,
+                    explanation: payload.explanation,
                 },
             })
         } else {
@@ -112,8 +112,8 @@ const ObjectRelationNewModal = ({
                     <Form>
                         <CurrentStep
                             model={model}
-                            title={data?.Title}
-                            id={data?.Object_ID}
+                            title={data?.title}
+                            id={data?.object_id}
                             relations={relations}
                         />
                         <ModalFooter className="mt-4">

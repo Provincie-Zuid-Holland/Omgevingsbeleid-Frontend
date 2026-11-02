@@ -162,7 +162,7 @@ const ObjectRelatedFilesModal = ({
         } else if (isDeleteStep && selectedFile) {
             removeFile({
                 lineageId,
-                params: { related_file_uuid: selectedFile.UUID },
+                params: { related_file_uuid: selectedFile.id },
             })
         }
     }

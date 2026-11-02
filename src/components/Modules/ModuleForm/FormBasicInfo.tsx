@@ -30,35 +30,35 @@ const FormBasicInfo = () => {
         () =>
             users?.results
                 .filter(user =>
-                    user.Roles?.some(role => allowedUserRoles.includes(role))
+                    user.roles?.some(role => allowedUserRoles.includes(role))
                 )
-                .filter(user => user.UUID !== values.Module_Manager_2_UUID)
+                .filter(user => user.id !== values.module_manager_2_id)
                 .map(user => ({
-                    label: user.Gebruikersnaam,
-                    value: user.UUID,
+                    label: user.name,
+                    value: user.id,
                 })),
-        [users, values.Module_Manager_2_UUID]
+        [users, values.module_manager_2_id]
     )
 
     const userOptions2 = useMemo(
         () =>
             users?.results
                 .filter(user =>
-                    user.Roles?.some(role => allowedUserRoles.includes(role))
+                    user.roles?.some(role => allowedUserRoles.includes(role))
                 )
-                .filter(user => user.UUID !== values.Module_Manager_1_UUID)
+                .filter(user => user.id !== values.module_manager_1_id)
                 .map(user => ({
-                    label: user.Gebruikersnaam,
-                    value: user.UUID,
+                    label: user.name,
+                    value: user.id,
                 })),
-        [users, values.Module_Manager_1_UUID]
+        [users, values.module_manager_1_id]
     )
 
     return (
         <>
             <div className="col-span-6">
                 <FormikInput
-                    name="Title"
+                    name="title"
                     label="Titel"
                     placeholder="Titel van de module"
                     description="Formuleer in enkele woorden de titel van de module."
@@ -69,9 +69,9 @@ const FormBasicInfo = () => {
                         <FormikSelect
                             key={String(
                                 userOptions1?.length +
-                                    (values.Module_Manager_2_UUID || '')
+                                    (values.module_manager_2_id || '')
                             )}
-                            name="Module_Manager_1_UUID"
+                            name="module_manager_1_id"
                             label="Moduletrekker 1"
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
@@ -87,9 +87,9 @@ const FormBasicInfo = () => {
                         <FormikSelect
                             key={String(
                                 userOptions2?.length +
-                                    values.Module_Manager_1_UUID
+                                    values.module_manager_1_id
                             )}
-                            name="Module_Manager_2_UUID"
+                            name="module_manager_2_id"
                             label="Moduletrekker 2"
                             placeholder="Selecteer een moduletrekker"
                             isLoading={isLoading && isFetching}
@@ -104,7 +104,7 @@ const FormBasicInfo = () => {
                 </div>
                 <div className="mt-6">
                     <FormikTextArea
-                        name="Description"
+                        name="description"
                         label="Omschrijving"
                         description="Geef een omschrijving van de module. Denk hierbij aan de aanpassingen die worden gedaan."
                         required

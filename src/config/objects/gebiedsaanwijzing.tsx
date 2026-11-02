@@ -52,13 +52,13 @@ const gebiedsaanwijzing: DynamicObject = {
         demonstrative: 'deze',
         icon: ObjectGroup,
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: ['owner_1_id', 'owner_2_id'],
     fetchers,
     dynamicSections: [
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Naam',
                     description:
                         'De naam is het meest gedetailleerde niveau waarop je de gebiedsaanwijzing inhoudelijk kunt duiden. Je bent vrij in de keuze van de naam van de gebiedsaanwijzing.',
@@ -67,7 +67,7 @@ const gebiedsaanwijzing: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Ref_Type',
+                    name: 'ref_type',
                     label: 'Gebiedsaanwijzing Type',
                     placeholder: 'Selecteer een type',
                     description:
@@ -77,7 +77,7 @@ const gebiedsaanwijzing: DynamicObject = {
                     required: true,
                 },
                 {
-                    name: 'Ref_Group',
+                    name: 'ref_group',
                     label: 'Gebiedsaanwijzing Groep',
                     placeholder: 'Selecteer een groep',
                     description:
@@ -87,7 +87,7 @@ const gebiedsaanwijzing: DynamicObject = {
                     required: true,
                 },
                 {
-                    name: 'Target_Codes',
+                    name: 'target_codes',
                     label: 'Locaties',
                     description:
                         'Hiermee selecteer je de bijbehorende geo-data, meestal is dit de legenda laag van een kaart. Denk hierbij aan gebieden, lijnen en punten en de groepen hiervan.',

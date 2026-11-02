@@ -22,10 +22,10 @@ export const StepTwo = ({ title, model }: StepProps) => {
                 <span className="font-bold">{title}</span>
                 <br />
                 wilt relateren aan {singular}:{' '}
-                <span className="font-bold">{values.Title}</span>
+                <span className="font-bold">{values.title}</span>
             </Text>
             <FormikTextArea
-                name="Explanation"
+                name="explanation"
                 placeholder="Beschrijving / Motivering van de relatie"
                 label="Toelichting"
                 required

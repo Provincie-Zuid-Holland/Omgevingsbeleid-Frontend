@@ -45,20 +45,20 @@ export const buildVersionTitle = (
     environment?: PublicationEnvironment
 ) => {
     const procedureLabel =
-        version?.Publication &&
+        version?.publication &&
         config.procedureType[
-            version.Publication.Procedure_Type as ProcedureType
+            version.publication.procedure_type as ProcedureType
         ]?.label
 
     const documentLabel =
-        version?.Publication &&
-        config.documentType[version.Publication.Document_Type as DocumentType]
+        version?.publication &&
+        config.documentType[version.publication.document_type as DocumentType]
             ?.label
 
     const title =
         procedureLabel && documentLabel
             ? `${procedureLabel} - ${documentLabel}${
-                  environment?.Title ? ` (${environment.Title})` : ''
+                  environment?.title ? ` (${environment.title})` : ''
               }`
             : null
 

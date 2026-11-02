@@ -64,15 +64,15 @@ const beleidsdoel: DynamicObject = {
     },
     fetchers,
     staticData: [
-        'Client_1_UUID',
-        'Owner_1_UUID',
-        'Owner_2_UUID',
-        'Portfolio_Holder_1_UUID',
-        'Portfolio_Holder_2_UUID',
+        'client_1_id',
+        'owner_1_id',
+        'owner_2_id',
+        'owner_3_id',
+        'portfolio_holder_1_id',
     ],
     allowedConnections: [
-        { type: 'ambitie', key: 'Ambities' },
-        { type: 'beleidskeuze', key: 'Beleidskeuzes' },
+        { type: 'ambitie', key: 'ambities' },
+        { type: 'beleidskeuze', key: 'beleidskeuzes' },
     ],
     hasRelatedFiles: true,
     connectionsDescription: object => (
@@ -90,7 +90,7 @@ const beleidsdoel: DynamicObject = {
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van het beleidsdoel.',
@@ -99,7 +99,7 @@ const beleidsdoel: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
@@ -109,7 +109,7 @@ const beleidsdoel: DynamicObject = {
                     hasAreaSelect: true,
                 },
                 {
-                    name: 'Hierarchy_Code',
+                    name: 'hierarchy_code',
                     label: 'Koppel aan ambitie',
                     description:
                         'Geef aan uit welke ambitie dit beleidsdoel voortkomt.',
@@ -129,7 +129,7 @@ const beleidsdoel: DynamicObject = {
                     },
                 },
                 {
-                    name: 'Themas',
+                    name: 'themas',
                     label: "Thema's",
                     description:
                         "Om het beleidsdoel beter vindbaar te maken in de landelijke voorziening kun je het beleidsdoel voorzien van één of meerdere thema's.",
@@ -144,7 +144,7 @@ const beleidsdoel: DynamicObject = {
                     },
                 },
                 {
-                    name: 'Hoofdlijnen',
+                    name: 'hoofdlijnen',
                     label: 'Hoofdlijnen',
                     description: (
                         <>

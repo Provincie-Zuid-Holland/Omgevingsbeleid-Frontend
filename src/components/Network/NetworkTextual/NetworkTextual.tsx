@@ -52,11 +52,11 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
                             connection.source,
                             connection.target,
                         ])
-                        .filter(connection => connection !== node.Code)
+                        .filter(connection => connection !== node.code)
                 ),
             ]
             const nodes = connections.map(connection =>
-                graph.nodes.find(node => node.Code === connection)
+                graph.nodes.find(node => node.code === connection)
             ) as GraphVertice[]
 
             setActiveConnections(nodes)
@@ -69,7 +69,7 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
 
     const [sortBy, setSortBy] = useState([
         {
-            id: 'Title',
+            id: 'title',
             desc: false,
         },
     ])
@@ -81,11 +81,11 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
         () => [
             {
                 header: 'Titel',
-                accessorKey: 'Title',
+                accessorKey: 'title',
             },
             {
-                header: 'Type',
-                accessorKey: 'Object_Type',
+                header: 'type',
+                accessorKey: 'object_type',
                 sortingFn: customSortType,
             },
         ],
@@ -95,13 +95,13 @@ const NetworkTextual = ({ graph }: NetworkTextualProps) => {
     const formattedData = useMemo(
         () =>
             graph.nodes?.map(node => ({
-                Title: node.Title,
-                Object_Type: (
+                title: node.title,
+                object_type: (
                     <span
-                        data-value={node.Object_Type}
+                        data-value={node.object_type}
                         className="flex items-center justify-between">
                         {
-                            models[node.Object_Type as ModelType].defaults
+                            models[node.object_type as ModelType].defaults
                                 .singularCapitalize
                         }
                         <AngleRight className="ml-8" />

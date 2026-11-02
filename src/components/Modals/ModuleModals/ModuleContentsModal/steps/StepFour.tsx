@@ -57,12 +57,12 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
 
     const moduleOptions = useStableInfiniteOptions({
         pages: modulePages?.pages,
-        getKey: module => module.Module_ID,
+        getKey: module => module.module_id,
         includeItem: module =>
-            !!moduleId && module.Module_ID !== parseInt(moduleId),
+            !!moduleId && module.module_id !== parseInt(moduleId),
         toOption: module => ({
-            label: module.Title,
-            value: module.Module_ID,
+            label: module.title,
+            value: module.module_id,
         }),
     })
 
@@ -117,9 +117,9 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
                 }}
                 onChange={() => {
                     setExistingObject(undefined)
-                    setFieldValue('Object_UUID', null)
-                    setFieldError('Object_UUID', undefined)
-                    setFieldTouched('Object_UUID', false)
+                    setFieldValue('object_id', null)
+                    setFieldError('object_id', undefined)
+                    setFieldTouched('object_id', false)
                 }}
                 components={moduleSelectComponents}
                 styles={{
@@ -136,7 +136,7 @@ export const StepFour = ({ setExistingObject }: StepProps) => {
             <div>
                 <DynamicObjectSearch
                     key={values.validOrModule}
-                    objectKey="Object_UUID"
+                    objectKey="object_id"
                     defaultOptions={!!values.validOrModule}
                     initialLimit={PAGE_LIMIT}
                     infiniteScroll

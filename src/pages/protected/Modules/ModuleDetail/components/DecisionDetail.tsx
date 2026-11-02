@@ -22,10 +22,10 @@ const DecisionDetail = () => {
 
     const { data: environment } =
         usePublicationEnvironmentsGetDetailEnvironment(
-            String(version?.Publication.Environment_UUID),
+            String(version?.publication.environment_id),
             {
                 query: {
-                    enabled: !!version?.Publication.Environment_UUID,
+                    enabled: !!version?.publication.environment_id,
                 },
             }
         )

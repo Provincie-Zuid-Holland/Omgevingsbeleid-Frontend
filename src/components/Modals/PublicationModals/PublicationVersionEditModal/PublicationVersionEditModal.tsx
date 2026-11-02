@@ -30,10 +30,10 @@ const PublicationVersionEditModal = () => {
     ) as ModalStateMap['publicationVersionEdit']
 
     const { data, isFetching } = usePublicationVersionsGetDetailVersion(
-        modalState?.UUID,
+        modalState?.id,
         {
             query: {
-                enabled: !!modalState?.publication.UUID && !!modalState?.UUID,
+                enabled: !!modalState?.publication.id && !!modalState?.id,
             },
         }
     )
@@ -43,12 +43,12 @@ const PublicationVersionEditModal = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries({
                     queryKey: getPublicationVersionsGetListVersionsQueryKey(
-                        modalState.publication.UUID
+                        modalState.publication.id
                     ),
                 })
                 queryClient.invalidateQueries({
                     queryKey: getPublicationVersionsGetDetailVersionQueryKey(
-                        modalState.UUID
+                        modalState.id
                     ),
                 })
 
@@ -58,20 +58,20 @@ const PublicationVersionEditModal = () => {
     })
 
     const handleFormSubmit = (payload: PublicationVersionEdit) => {
-        const motivation = payload.Bill_Compact?.Motivation
+        const motivation = payload.bill_compact?.motivation
 
         const hasMotivation =
-            hasValue(motivation?.Title) ||
-            hasValue(motivation?.Content) ||
-            !!motivation?.Appendices?.length
+            hasValue(motivation?.title) ||
+            hasValue(motivation?.content) ||
+            !!motivation?.appendices?.length
 
         mutate({
-            versionUuid: modalState.UUID,
+            versionId: modalState.id,
             data: {
                 ...payload,
-                Bill_Compact: {
-                    ...payload.Bill_Compact,
-                    Motivation: hasMotivation ? motivation : null,
+                bill_compact: {
+                    ...payload.bill_compact,
+                    motivation: hasMotivation ? motivation : null,
                 },
             },
         })
@@ -79,11 +79,11 @@ const PublicationVersionEditModal = () => {
 
     const initialValues = {
         ...data,
-        Effective_Date:
-            data?.Publication.Procedure_Type === 'draft'
+        effective_date:
+            data?.publication.procedure_type === 'draft'
                 ? null
-                : (data?.Effective_Date ?? null),
-        Module_Status_ID: data?.Module_Status.ID,
+                : (data?.effective_date ?? null),
+        module_status_id: data?.module_status.id,
     } as PublicationVersion
 
     return (

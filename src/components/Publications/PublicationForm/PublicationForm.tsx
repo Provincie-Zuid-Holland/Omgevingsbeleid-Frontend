@@ -79,14 +79,14 @@ const Fields = ({ type }: PublicationFormProps) => {
         {
             limit: 100,
             is_active: true,
-            document_type: values.Document_Type as DocumentType,
+            document_type: values.document_type as DocumentType,
         },
         {
             query: {
                 select: data =>
                     data.results.map(template => ({
-                        label: template.Title,
-                        value: template.UUID,
+                        label: template.title,
+                        value: template.id,
                     })),
             },
         }
@@ -99,8 +99,8 @@ const Fields = ({ type }: PublicationFormProps) => {
                 query: {
                     select: data =>
                         data.results.map(environment => ({
-                            label: environment.Title,
-                            value: environment.UUID,
+                            label: environment.title,
+                            value: environment.id,
                         })),
                     enabled: type === 'edit',
                 },
@@ -112,18 +112,17 @@ const Fields = ({ type }: PublicationFormProps) => {
             {
                 limit: 100,
                 is_active: true,
-                environment_uuid: values.Environment_UUID,
-                document_type: values.Document_Type as DocumentType,
+                environment_id: values.environment_id,
+                document_type: values.document_type as DocumentType,
             },
             {
                 query: {
                     select: data =>
                         data.results.map(act => ({
-                            label: act.Title,
-                            value: act.UUID,
+                            label: act.title,
+                            value: act.id,
                         })),
-                    enabled:
-                        !!values.Environment_UUID && !!values.Document_Type,
+                    enabled: !!values.environment_id && !!values.document_type,
                 },
             }
         )
@@ -158,21 +157,21 @@ const Fields = ({ type }: PublicationFormProps) => {
             {type === 'edit' && (
                 <div className="flex gap-4 [&_>div]:flex-1">
                     <FormikSelect
-                        name="Document_Type"
+                        name="document_type"
                         label="Instrument"
                         options={documentTypeOptions}
                         disabled
                         required
                     />
                     <FormikSelect
-                        name="Environment_UUID"
+                        name="environment_id"
                         label="Publicatieomgeving"
                         options={environmentOptions}
                         disabled
                         required
                     />
                     <FormikSelect
-                        name="Procedure_Type"
+                        name="procedure_type"
                         label="Type"
                         options={procedureTypeOptions}
                         disabled
@@ -182,7 +181,7 @@ const Fields = ({ type }: PublicationFormProps) => {
             )}
             <div>
                 <FormikSelect
-                    name="Act_UUID"
+                    name="act_id"
                     label="Regeling"
                     options={publicationActOptions}
                     placeholder="Selecteer een regeling"
@@ -192,7 +191,7 @@ const Fields = ({ type }: PublicationFormProps) => {
             </div>
             <div>
                 <FormikSelect
-                    name="Template_UUID"
+                    name="template_id"
                     label="Publicatie template"
                     options={publicationTemplateOptions}
                     placeholder="Selecteer een publicatie template"
@@ -202,7 +201,7 @@ const Fields = ({ type }: PublicationFormProps) => {
             {type === 'add' && (
                 <div>
                     <FormikSelect
-                        name="Module_Status_ID"
+                        name="module_status_id"
                         label="Modulestatus"
                         placeholder="Selecteer een modulestatus"
                         options={statusOptions}

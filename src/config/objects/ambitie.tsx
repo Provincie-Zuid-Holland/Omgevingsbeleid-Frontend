@@ -63,13 +63,14 @@ const ambitie: DynamicObject = {
         slugOverviewPublic: true,
     },
     staticData: [
-        'Client_1_UUID',
-        'Owner_1_UUID',
-        'Owner_2_UUID',
-        'Portfolio_Holder_1_UUID',
-        'Portfolio_Holder_2_UUID',
+        'client_1_id',
+        'owner_1_id',
+        'owner_2_id',
+        'owner_3_id',
+        'portfolio_holder_1_id',
     ],
-    allowedConnections: [{ type: 'beleidsdoel', key: 'Beleidsdoelen' }],
+
+    allowedConnections: [{ type: 'beleidsdoel', key: 'beleidsdoelen' }],
     connectionsDescription: (
         <>
             Onder deze ambitie zijn beleidsdoelen uitgewerkt. Om deze ambitie
@@ -87,7 +88,7 @@ const ambitie: DynamicObject = {
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van de ambitie.',
@@ -96,7 +97,7 @@ const ambitie: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',
@@ -106,7 +107,7 @@ const ambitie: DynamicObject = {
                     hasAreaSelect: true,
                 },
                 {
-                    name: 'Themas',
+                    name: 'themas',
                     label: "Thema's",
                     description:
                         "Om de ambitie beter vindbaar te maken in de landelijke voorziening kun je de ambitie voorzien van één of meerdere thema's.",
@@ -121,7 +122,7 @@ const ambitie: DynamicObject = {
                     },
                 },
                 {
-                    name: 'Hoofdlijnen',
+                    name: 'hoofdlijnen',
                     label: 'Hoofdlijnen',
                     description: (
                         <>

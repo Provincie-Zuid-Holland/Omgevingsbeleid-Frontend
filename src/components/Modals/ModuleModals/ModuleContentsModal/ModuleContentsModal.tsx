@@ -178,12 +178,12 @@ const ModuleContentsModal = ({
         if (isFinalStep) {
             const { state, ...data } = payload
 
-            if (state === 'new' && 'Object_Type' in data) {
+            if (state === 'new' && 'object_type' in data) {
                 addNewObjectToModule.mutate({
                     moduleId: parseInt(moduleId!),
                     data,
                 })
-            } else if (state === 'existing' && 'Action' in data) {
+            } else if (state === 'existing' && 'action' in data) {
                 addExistingObjectToModule.mutate({
                     moduleId: parseInt(moduleId!),
                     data,
@@ -215,7 +215,7 @@ const ModuleContentsModal = ({
                         onSubmit={e => e.preventDefault()}
                         className="flex flex-col gap-4">
                         <CurrentStep
-                            title={module?.Title}
+                            title={module?.title}
                             existingObject={existingObject}
                             setExistingObject={setExistingObject}
                         />

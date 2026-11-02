@@ -4,6 +4,7 @@ import useAuth from '@/hooks/useAuth'
 import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import { formatRoles } from '@/utils/formatRoles'
+
 import Models from './components/Models'
 import Modules from './components/Modules'
 import UserObjects from './components/UserObjects'
@@ -16,7 +17,7 @@ const Dashboard = () => {
         <MutateLayout title="Dashboard">
             <div className="col-span-6 mb-8 lg:col-span-3">
                 <Heading level="1" size="xxl" className="mb-3">
-                    Welkom {user?.Gebruikersnaam}!
+                    Welkom {user?.name}!
                 </Heading>
                 <Text>
                     Het digitaal omgevingsbeleid van de provincie Zuid-Holland.

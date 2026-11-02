@@ -54,26 +54,26 @@ const werkingsgebied: DynamicObject = {
         demonstrative: 'dit',
         icon: DrawPolygon,
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: ['owner_1_id', 'owner_2_id'],
     fetchers,
     dynamicSections: [
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     type: 'text',
                     required: true,
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Omschrijving',
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                 },
                 {
-                    name: 'Area_UUID',
+                    name: 'area_id',
                     label: 'Bron',
                     type: 'area',
                     placeholder:
@@ -87,13 +87,13 @@ const werkingsgebied: DynamicObject = {
 
 werkingsgebied.validationSchema = generateDynamicSchema(
     werkingsgebied.dynamicSections
-).superRefine(({ Title, Source_Title }: any, ctx) => {
-    if (!!Source_Title && Title !== Source_Title) {
+).superRefine(({ title, source_title }: any, ctx) => {
+    if (!!source_title && title !== source_title) {
         ctx.addIssue({
             code: ZodIssueCode.custom,
             message:
                 'De titel moet overeen komen met de titel van de gekozen bron',
-            path: ['Title'],
+            path: ['title'],
         })
     }
 })

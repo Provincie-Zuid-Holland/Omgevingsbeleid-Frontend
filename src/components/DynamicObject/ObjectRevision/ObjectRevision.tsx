@@ -33,7 +33,7 @@ const ObjectRevision = ({
 
     const { singularCapitalize, singularReadable, singular } = model.defaults
 
-    const titleDiff = htmlDiff(revisionTo.Title || '', revisionFrom.Title || '')
+    const titleDiff = htmlDiff(revisionTo.title || '', revisionFrom.title || '')
 
     return (
         <div>
@@ -67,12 +67,12 @@ const ObjectRevision = ({
                         customTitle={
                             singular === 'beleidskeuze'
                                 ? {
-                                      Description:
+                                      description:
                                           'Wat wil de provincie bereiken?',
                                   }
                                 : singular === 'maatregel'
                                   ? {
-                                        Description:
+                                        description:
                                             'Wat gaat de provincie doen?',
                                     }
                                   : undefined
@@ -82,8 +82,8 @@ const ObjectRevision = ({
                 )
             })}
 
-            {(!!revisionTo.Gebiedengroep_Static ||
-                !!revisionFrom.Gebiedengroep_Static) &&
+            {(!!revisionTo.gebiedengroep_static ||
+                !!revisionFrom.gebiedengroep_static) &&
                 ((!!!user && !moduleId) || !!user) && (
                     <>
                         <Divider className="mt-0 mb-6" />
@@ -93,44 +93,44 @@ const ObjectRevision = ({
                         </Heading>
 
                         <Text className="mb-3">
-                            {revisionTo.Gebiedengroep_Static?.Object_ID ===
-                            revisionFrom.Gebiedengroep_Static?.Object_ID
-                                ? `Het gebied '${revisionTo.Gebiedengroep_Static?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is ongewijzigd.`
-                                : !!revisionTo.Gebiedengroep_Static
-                                        ?.Object_ID &&
-                                    !!revisionFrom.Gebiedengroep_Static
-                                        ?.Object_ID
-                                  ? `${singularCapitalize} '${revisionTo.Title}' is gewijzigd van gebied '${revisionTo.Werkingsgebied_Statics?.Cached_Title}' naar gebied '${revisionFrom.Werkingsgebied_Statics?.Cached_Title}'`
-                                  : !!revisionTo.Gebiedengroep_Static?.Object_ID
-                                    ? `Het gebied '${revisionTo.Gebiedengroep_Static?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is verwijderd.`
-                                    : `Het gebied '${revisionFrom.Gebiedengroep_Static?.Cached_Title}' in ${singularReadable} '${revisionTo.Title}' is toegevoegd.`}
+                            {revisionTo.gebiedengroep_static?.object_id ===
+                            revisionFrom.gebiedengroep_static?.object_id
+                                ? `Het gebied '${revisionTo.gebiedengroep_static?.cached_title}' in ${singularReadable} '${revisionTo.title}' is ongewijzigd.`
+                                : !!revisionTo.gebiedengroep_static
+                                        ?.object_id &&
+                                    !!revisionFrom.gebiedengroep_static
+                                        ?.object_id
+                                  ? `${singularCapitalize} '${revisionTo.title}' is gewijzigd van gebied '${revisionTo.werkingsgebied_statics?.cached_title}' naar gebied '${revisionFrom.werkingsgebied_statics?.cached_title}'`
+                                  : !!revisionTo.gebiedengroep_static?.object_id
+                                    ? `Het gebied '${revisionTo.gebiedengroep_static?.cached_title}' in ${singularReadable} '${revisionTo.title}' is verwijderd.`
+                                    : `Het gebied '${revisionFrom.gebiedengroep_static?.cached_title}' in ${singularReadable} '${revisionTo.title}' is toegevoegd.`}
                         </Text>
 
                         <div className="h-[320px] overflow-hidden rounded-lg">
                             <LeafletRevisionOverview
-                                id={`revision-map-${initialObject?.UUID}`}
+                                id={`revision-map-${initialObject?.id}`}
                                 area={{
                                     type: 'Gebiedengroep',
-                                    old: revisionFrom.Gebiedengroep_Static
-                                        ?.Object_ID,
-                                    new: revisionTo.Gebiedengroep_Static
-                                        ?.Object_ID,
+                                    old: revisionFrom.gebiedengroep_static
+                                        ?.object_id,
+                                    new: revisionTo.gebiedengroep_static
+                                        ?.object_id,
                                 }}
                             />
                         </div>
                         <div className="mt-3 space-y-1">
                             <span className="flex items-center">
-                                <div className="border-pzh-red-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(-45deg,#D11F3D_0px,#D11F3D_2px,white_2px,white_4px)]" />
+                                <div className="mr-2 h-[14px] w-[14px] rounded-full border border-pzh-red-500 bg-[repeating-linear-gradient(-45deg,#D11F3D_0px,#D11F3D_2px,white_2px,white_4px)]" />
                                 Verwijderde gebiedengroep
                             </span>
 
                             <span className="flex items-center">
-                                <div className="border-pzh-green-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(45deg,#00804D_0px,#00804D_2px,white_2px,white_4px)]" />
+                                <div className="mr-2 h-[14px] w-[14px] rounded-full border border-pzh-green-500 bg-[repeating-linear-gradient(45deg,#00804D_0px,#00804D_2px,white_2px,white_4px)]" />
                                 Toegevoegde gebiedengroep
                             </span>
 
                             <span className="flex items-center">
-                                <div className="border-pzh-blue-500 mr-2 h-[14px] w-[14px] rounded-full border bg-[repeating-linear-gradient(0deg,#281F6B_0px,#281F6B_2px,white_2px,white_4px)]" />
+                                <div className="mr-2 h-[14px] w-[14px] rounded-full border border-pzh-blue-500 bg-[repeating-linear-gradient(0deg,#281F6B_0px,#281F6B_2px,white_2px,white_4px)]" />
                                 Ongewijzigde gebiedengroep
                             </span>
                         </div>
@@ -143,9 +143,8 @@ const ObjectRevision = ({
 interface ContentProps {
     title?: string
     /** Custom description title */
-    customTitle?: {
-        [K in keyof ModelReturnType]: string
-    }
+    customTitle?: { [K in keyof ModelReturnType]: string }
+
     htmlFrom: string
     htmlTo: string
     value: keyof ModelReturnType

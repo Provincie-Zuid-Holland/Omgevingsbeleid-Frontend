@@ -23,8 +23,8 @@ interface ObjectContextType extends QueryObserverBaseResult<ModelReturnType> {
     /** Can be used to patch the object */
     usePatchObject: () => UseMutationResult<
         {
-            Object_ID?: number
-            UUID?: string
+            object_id?: number
+            id?: string
         },
         HTTPValidationError,
         {
@@ -130,12 +130,14 @@ function ObjectProvider({
      */
     const isOwner = useMemo(
         () =>
-            data?.data?.ObjectStatics?.Owner_1?.UUID === user?.UUID ||
-            data?.data?.ObjectStatics?.Owner_2?.UUID === user?.UUID,
+            data?.data?.object_statics?.owner_1?.id === user?.id ||
+            data?.data?.object_statics?.owner_2?.id === user?.id ||
+            data?.data?.object_statics?.owner_3?.id === user?.id,
         [
-            user?.UUID,
-            data?.data?.ObjectStatics?.Owner_1?.UUID,
-            data?.data?.ObjectStatics?.Owner_2?.UUID,
+            user?.id,
+            data?.data?.object_statics?.owner_1?.id,
+            data?.data?.object_statics?.owner_2?.id,
+            data?.data?.object_statics?.owner_3?.id,
         ]
     )
 
@@ -143,8 +145,8 @@ function ObjectProvider({
      * Check if logged in user is set as client
      */
     const isClient = useMemo(
-        () => data?.data?.ObjectStatics?.Client_1?.UUID === user?.UUID,
-        [user?.UUID, data?.data?.ObjectStatics?.Client_1?.UUID]
+        () => data?.data?.object_statics?.client_1?.id === user?.id,
+        [user?.id, data?.data?.object_statics?.client_1?.id]
     )
 
     const value = {

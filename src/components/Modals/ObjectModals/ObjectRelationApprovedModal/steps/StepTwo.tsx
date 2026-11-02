@@ -22,7 +22,7 @@ export const StepTwo = ({ title, model }: StepProps) => {
                 <span className="font-bold">{title}</span>
                 <br />
                 niet meer gerelateerd wilt hebben aan {singular}:{' '}
-                <span className="font-bold">{values.Title}</span>
+                <span className="font-bold">{values.title}</span>
             </Text>
 
             <FormikCheckbox name="consent" required>

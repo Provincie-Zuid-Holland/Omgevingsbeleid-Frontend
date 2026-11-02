@@ -38,7 +38,7 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
         data: activeModules,
         isLoading: activeModulesLoading,
         isFetching,
-    } = useGetActiveModules?.<ActiveModuleObjectsResponse[]>(
+    } = useGetActiveModules<ActiveModuleObjectsResponse[]>?.(
         parseInt(objectId!),
         { minimum_status: 'Ontwerp GS Concept' },
         {
@@ -47,10 +47,10 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     ) || {}
 
     const { data: validLineage, isLoading: validLineageLoading } =
-        useGetValidLineage?.<{
+        useGetValidLineage<{
             results?: ModelReturnTypeBasicUnion[]
             total?: number
-        }>(
+        }>?.(
             objectIdNum ?? 0,
             {
                 limit: pageIndex * PAGE_LIMIT,
@@ -66,20 +66,18 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
     const lineage = useMemo(() => {
         const fromActive = (activeModules ?? []).map(item => (
             <LineageCard
-                key={item.Module_Object.UUID}
+                key={item.module_object.id}
                 model={model}
-                status={item.Module.Status?.Status}
-                module={item.Module}
-                {...item.Module_Object}
+                status={item.module.status?.status}
+                module={item.module}
+                {...item.module_object}
             />
         ))
         const fromValid = (validLineage?.results ?? []).map(item => (
             <LineageCard
-                key={item.UUID}
+                key={item.id}
                 model={model}
-                status={
-                    item.UUID === object?.UUID ? 'Vigerend' : 'Gearchiveerd'
-                }
+                status={item.id === object?.id ? 'Vigerend' : 'Gearchiveerd'}
                 validDate={formatValidityDate({ ...item, withPrefix: false })}
                 {...item}
             />
@@ -97,8 +95,8 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             {
                 name:
                     (!!object
-                        ? object.Title
-                        : activeModules?.[0]?.Module_Object.Title) || '',
+                        ? object.title
+                        : activeModules?.[0]?.module_object.title) || '',
                 isCurrent: true,
             },
         ]
@@ -108,11 +106,11 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
             { name: pluralCapitalize, path: `/muteer/${plural}` },
             ...tail,
         ]
-    }, [object?.Title, plural, pluralCapitalize, activeModules])
+    }, [object?.title, plural, pluralCapitalize, activeModules])
 
     return (
         <MutateLayout
-            title={`${singularCapitalize}: ${object?.Title ?? ''}`}
+            title={`${singularCapitalize}: ${object?.title ?? ''}`}
             breadcrumbs={breadcrumbs}>
             <div className="col-span-6 flex flex-col gap-6 sm:col-span-4">
                 <Heading level="1" size="m">
@@ -149,8 +147,8 @@ const ObjectDetail = ({ model }: ObjectDetailProps) => {
                     <ObjectRelations model={model} />
                 )}
 
-                {model.hasRelatedObjects && !!object?.Related_Objects && (
-                    <ObjectRelatedObjects objects={object.Related_Objects} />
+                {model.hasRelatedObjects && !!object?.related_objects && (
+                    <ObjectRelatedObjects objects={object.related_objects} />
                 )}
             </div>
         </MutateLayout>

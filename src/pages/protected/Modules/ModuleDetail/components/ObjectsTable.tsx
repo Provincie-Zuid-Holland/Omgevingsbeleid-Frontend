@@ -68,13 +68,13 @@ const ObjectsTableFilters = ({
     const store = useObjectTableStore()
     const filters = store.getFilters(tableStateId)
 
-    const [title, setTitle] = useState(filters.Title)
+    const [title, setTitle] = useState(filters.title)
 
-    const activeTypeFilters = filters.Object_Type.filter(filter =>
+    const activeTypeFilters = filters.object_type.filter(filter =>
         typeOptions.some(option => option.value === filter.value)
     ).length
 
-    const activeActionFilters = filters.Action.filter(filter =>
+    const activeActionFilters = filters.action.filter(filter =>
         actionOptions.some(option => option.value === filter.value)
     ).length
 
@@ -88,14 +88,14 @@ const ObjectsTableFilters = ({
 
     const applyTitleFilter = () => {
         onFilterChange()
-        store.setFilter(tableStateId, 'Title', title.trim())
+        store.setFilter(tableStateId, 'title', title.trim())
     }
 
     return (
         <div className="mb-6 flex items-center justify-between gap-4">
             <div className="flex-2">
                 <FieldInput
-                    name="Title"
+                    name="title"
                     placeholder="Zoek op titel van een onderdeel"
                     value={title}
                     onChange={e => setTitle(e.target.value)}
@@ -125,7 +125,7 @@ const ObjectsTableFilters = ({
                     />
                 )}
                 <FieldSelect
-                    name="Object_Type"
+                    name="object_type"
                     options={typeOptions}
                     placeholder="Filter op type"
                     isMulti
@@ -134,10 +134,10 @@ const ObjectsTableFilters = ({
                     hideSelectedOptions={false}
                     isSearchable={false}
                     controlShouldRenderValue={false}
-                    value={filters.Object_Type}
+                    value={filters.object_type}
                     onChange={selected =>
                         handleFilterChange(
-                            'Object_Type',
+                            'object_type',
                             selected as FilterOption[]
                         )
                     }
@@ -153,7 +153,7 @@ const ObjectsTableFilters = ({
                     />
                 )}
                 <FieldSelect
-                    name="Action"
+                    name="action"
                     options={actionOptions}
                     placeholder="Filter op actie"
                     isMulti
@@ -162,9 +162,9 @@ const ObjectsTableFilters = ({
                     hideSelectedOptions={false}
                     isSearchable={false}
                     controlShouldRenderValue={false}
-                    value={filters.Action}
+                    value={filters.action}
                     onChange={selected =>
-                        handleFilterChange('Action', selected as FilterOption[])
+                        handleFilterChange('action', selected as FilterOption[])
                     }
                     variant="small"
                 />
@@ -204,33 +204,39 @@ const useFormattedData = (
     useMemo(
         () =>
             objects.map(obj => {
-                const { Object_Type, ModuleObjectContext, Model, ...rest } = obj
+                const {
+                    object_type,
+                    module_object_context: ModuleObjectContext,
+                    model: _model,
+                    ...rest
+                } = obj
 
-                const model = models[Object_Type as ModelType]
+                const model = models[object_type as ModelType]
                 const actionText = getObjectActionText(
-                    ModuleObjectContext?.Action
+                    ModuleObjectContext?.action
                 )
-                const modifiedDate = parseUtc(Model.Modified_Date || '')
+                const modifiedDate = parseUtc(_model.modified_date || '')
                 const isEditable =
                     !model.defaults.disabled &&
-                    ModuleObjectContext?.Action !== 'Terminate'
+                    ModuleObjectContext?.action !== 'Terminate'
 
                 return {
-                    Title: (
+                    title: (
                         <Text bold color="text-pzh-blue-500">
-                            {Model.Title}
+                            {_model.title}
                         </Text>
                     ),
-                    Object_Type: model?.defaults?.singularCapitalize,
-                    Action: actionText,
-                    Modified_Date: (
+
+                    object_type: model?.defaults?.singularCapitalize,
+                    action: actionText,
+                    modified_date: (
                         <span className="flex items-center justify-between whitespace-nowrap">
                             {formatDate(modifiedDate, 'dd-MM-yyyy, p')}
                             <ModuleItemDropdown
-                                model={model}
-                                Object_Type={Object_Type}
-                                ModuleObjectContext={ModuleObjectContext}
-                                Model={Model}
+                                objectConfig={model}
+                                object_type={object_type}
+                                module_object_context={ModuleObjectContext}
+                                model={_model}
                                 invertHover
                                 {...rest}
                             />
@@ -240,7 +246,7 @@ const useFormattedData = (
                         owners !== 'Others' && {
                             onClick: () =>
                                 navigate(
-                                    `/muteer/modules/${rest.Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`
+                                    `/muteer/modules/${rest.module_id}/${object_type}/${_model.object_id}/bewerk`
                                 ),
                         }),
                 }
@@ -259,9 +265,9 @@ const ObjectsTable = ({
     const { canAddNewObjectToModule } = usePermissions()
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
-    const { data: { Module: { Module_ID = 0 } = {} } = {} } = useModule()
+    const { data: { module: { module_id = 0 } = {} } = {} } = useModule()
 
-    const tableStateId = `${Module_ID}-${owners}`
+    const tableStateId = `${module_id}-${owners}`
 
     const store = useObjectTableStore()
     const filters = store.getFilters(tableStateId)
@@ -290,30 +296,30 @@ const ObjectsTable = ({
     )
 
     const hasActiveFilters =
-        !!filters.Title.trim() ||
-        !!filters.Object_Type.length ||
-        !!filters.Action.length
+        !!filters.title.trim() ||
+        !!filters.object_type.length ||
+        !!filters.action.length
 
     const { data: objects, isFetching } = useModulesGetListModuleObjects(
         {
             module_id: Number(moduleId),
             owner_type: owners,
             ...(owners !== 'All' && {
-                owner_uuid: user?.UUID,
+                owner_id: user?.id,
             }),
-            object_types: filters.Object_Type.length
-                ? filters.Object_Type.map(type => type.value || '')
+            object_types: filters.object_type.length
+                ? filters.object_type.map(type => type.value || '')
                 : undefined,
-            actions: filters.Action.length
-                ? filters.Action.map(
+            actions: filters.action.length
+                ? filters.action.map(
                       type => type.value as ModuleObjectActionFull
                   )
                 : undefined,
             only_active_modules: false,
-            title: filters.Title ? `%${filters.Title}%` : undefined,
+            title: filters.title ? `%${filters.title}%` : undefined,
             offset: (pagination.pageIndex - 1) * pagination.pageSize,
             limit: pagination.pageSize,
-            sort_column: sortBy?.[0]?.id || 'Title',
+            sort_column: sortBy?.[0]?.id || 'title',
             sort_order: sortBy?.[0]?.desc ? 'DESC' : 'ASC',
         },
         {
@@ -334,10 +340,10 @@ const ObjectsTable = ({
 
     const columns = useMemo(
         () => [
-            { header: 'Titel', accessorKey: 'Title' },
-            { header: 'Type', accessorKey: 'Object_Type' },
-            { header: 'Actie', accessorKey: 'Action' },
-            { header: 'Laatst bewerkt', accessorKey: 'Modified_Date' },
+            { header: 'Titel', accessorKey: 'title' },
+            { header: 'Type', accessorKey: 'object_type' },
+            { header: 'Actie', accessorKey: 'action' },
+            { header: 'Laatst bewerkt', accessorKey: 'modified_date' },
         ],
         []
     )
@@ -349,7 +355,7 @@ const ObjectsTable = ({
             {data.length || hasActiveFilters ? (
                 <>
                     <ObjectsTableFilters
-                        moduleId={Module_ID}
+                        moduleId={module_id}
                         isLocked={isLocked}
                         isClosed={isClosed}
                         typeOptions={typeOptions}

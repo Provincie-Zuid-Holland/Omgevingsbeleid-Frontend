@@ -31,25 +31,25 @@ const ModuleEditObjectModal = () => {
     ) as ModalStateMap['moduleEditObject']
 
     const { object = {} as ModelReturnTypeBasic } = modalState || {}
-    const model = models[object.Object_Type as ModelType] || {}
+    const model = models[object.object_type as ModelType] || {}
     const { singularReadable, singularCapitalize, prefixSingular } =
         model.defaults || {}
 
     const isAdded =
-        object.ModuleObjectContext?.Action === 'Create' ||
-        object.ModuleObjectContext?.Action === 'Toevoegen'
+        object.module_object_context?.action === 'Create' ||
+        object.module_object_context?.action === 'Toevoegen'
 
     const {
         data: objectData,
         isLoading: isDataLoading,
         isFetching: isDataFetching,
     } = useModulesGetModuleGetObjectContext(
-        object.Module_ID,
-        object.Object_Type,
-        object.Model?.Object_ID || 0,
+        object.module_id,
+        object.object_type,
+        object.model?.object_id || 0,
         {
             query: {
-                enabled: !!object.Model?.Object_ID,
+                enabled: !!object.model?.object_id,
             },
         }
     )
@@ -65,14 +65,14 @@ const ModuleEditObjectModal = () => {
                         queryClient.invalidateQueries({
                             queryKey:
                                 getModulesGetModuleGetObjectContextQueryKey(
-                                    object.Module_ID,
-                                    object.Object_Type,
-                                    object.Model?.Object_ID || 0
+                                    object.module_id,
+                                    object.object_type,
+                                    object.model?.object_id || 0
                                 ),
                         }),
                         queryClient.invalidateQueries({
                             queryKey: getModulesViewModuleOverviewQueryKey(
-                                object.Module_ID
+                                object.module_id
                             ),
                         }),
                     ]).then(() => setActiveModal(null)),
@@ -84,13 +84,13 @@ const ModuleEditObjectModal = () => {
     const handleFormSubmit = (payload: ModuleEditObjectContext) => {
         if (object) {
             mutate({
-                moduleId: object.Module_ID,
-                objectType: object.Object_Type,
-                lineageId: object.Model?.Object_ID || 0,
+                moduleId: object.module_id,
+                objectType: object.object_type,
+                lineageId: object.model?.object_id || 0,
                 data: {
-                    Explanation: payload.Explanation,
-                    Conclusion: payload.Conclusion,
-                    ...(!isAdded && { Action: payload.Action }),
+                    explanation: payload.explanation,
+                    conclusion: payload.conclusion,
+                    ...(!isAdded && { action: payload.action }),
                 },
             })
         }
@@ -114,12 +114,12 @@ const ModuleEditObjectModal = () => {
                         <Text className="mb-4">
                             Hier kun je de {!isAdded ? 'actie, ' : ''}
                             toelichting en conclusie aanpassen van “
-                            {object.Model?.Title}”.
+                            {object.model?.title}”.
                         </Text>
                         {!isAdded && (
                             <FormikSelect
-                                key="Action"
-                                name="Action"
+                                key="action"
+                                name="action"
                                 placeholder="Selecteer de actie"
                                 label="Actie"
                                 description={`Gaat ${prefixSingular} ${singularReadable} wijzigen in deze module, of komt hij te vervallen?`}
@@ -142,7 +142,7 @@ const ModuleEditObjectModal = () => {
                         )}
                         <div className="mt-3">
                             <FormikTextArea
-                                name="Explanation"
+                                name="explanation"
                                 label="Toelichting"
                                 placeholder="Vul de toelichting in"
                                 description={`Geef aan waarom ${prefixSingular} ${singularReadable} gaat worden aangepast in deze module`}
@@ -151,7 +151,7 @@ const ModuleEditObjectModal = () => {
                         </div>
                         <div className="mt-3 mb-4">
                             <FormikTextArea
-                                name="Conclusion"
+                                name="conclusion"
                                 label="Conclusie"
                                 placeholder="Vul de conclusie in"
                                 description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}`}

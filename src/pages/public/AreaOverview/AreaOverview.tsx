@@ -43,11 +43,11 @@ function AreaOverview() {
                     {data ? (
                         <ul className="grid grid-cols-1 gap-9 lg:grid-cols-2 xl:grid-cols-3">
                             {data.results.map(item => (
-                                <li key={item.UUID}>
+                                <li key={item.id}>
                                     <AreaCard
-                                        image={item?.Image}
-                                        title={item?.Title || ''}
-                                        link={`/omgevingsprogramma/gebiedsprogrammas/${item.UUID}`}
+                                        image={item?.image}
+                                        title={item?.title || ''}
+                                        link={`/omgevingsprogramma/gebiedsprogrammas/${item.id}`}
                                     />
                                 </li>
                             ))}

@@ -65,7 +65,7 @@ const PublicationPackages = ({
             className={clsx(
                 'group relative rounded-lg border border-pzh-gray-200',
                 {
-                    'bg-pzh-gray-100': version.Is_Locked,
+                    'bg-pzh-gray-100': version.is_locked,
                 }
             )}>
             <AccordionTrigger
@@ -95,13 +95,13 @@ const PublicationPackages = ({
                         {...rest}
                     />
                 )}
-                {environment?.Can_Validate && (
+                {environment?.can_validate && (
                     <Packages
                         version={version}
                         publicationType={publicationType}
                         packageType="validation"
                         customLabel={
-                            !environment.Can_Publicate
+                            !environment.can_publicate
                                 ? 'Publicatie'
                                 : undefined
                         }
@@ -111,7 +111,7 @@ const PublicationPackages = ({
                         {...rest}
                     />
                 )}
-                {environment?.Can_Publicate && (
+                {environment?.can_publicate && (
                     <Packages
                         version={version}
                         publicationType={publicationType}

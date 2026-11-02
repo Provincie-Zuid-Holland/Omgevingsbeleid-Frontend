@@ -45,7 +45,7 @@ const ObjectConnectionModal = ({
         data: relations,
         refetch: refetchRelations,
         queryKey,
-    } = useGetRelations?.<ReadRelation[]>(parseInt(objectId!), {
+    } = useGetRelations<ReadRelation[]>?.(parseInt(objectId!), {
         query: { enabled: !!objectId },
     }) || {}
 
@@ -76,22 +76,22 @@ const ObjectConnectionModal = ({
                 let newData = data as WriteRelation[]
 
                 if (!('items' in payload)) {
-                    if (!('Object_ID' in payload)) return
+                    if (!('object_id' in payload)) return
 
                     const isExisting = newData.find(
                         item =>
-                            item.Object_ID === payload?.Object_ID &&
-                            item.Object_Type === payload?.Object_Type
+                            item.object_id === payload?.object_id &&
+                            item.object_type === payload?.object_type
                     )
 
                     if (isExisting) {
-                        isExisting.Description = payload?.Description || ''
+                        isExisting.description = payload?.description || ''
                     } else {
-                        if (payload?.Object_ID && payload.Object_Type) {
+                        if (payload?.object_id && payload.object_type) {
                             newData.push({
-                                Object_ID: payload?.Object_ID,
-                                Object_Type: payload?.Object_Type,
-                                Description: payload?.Description || '',
+                                object_id: payload?.object_id,
+                                object_type: payload?.object_type,
+                                description: payload?.description || '',
                             })
                         }
                     }
@@ -99,12 +99,12 @@ const ObjectConnectionModal = ({
                     newData = [
                         ...newData.filter(
                             e =>
-                                e.Object_Type !==
+                                e.object_type !==
                                 connectionModel?.defaults?.singular
                         ),
                         ...(payload.items?.map(item => ({
-                            Object_ID: item.value,
-                            Object_Type: connectionModel?.defaults?.singular,
+                            object_id: item.value,
+                            object_type: connectionModel?.defaults?.singular,
                         })) || []),
                     ]
                 }
@@ -125,8 +125,8 @@ const ObjectConnectionModal = ({
                 data.splice(
                     data.findIndex(
                         item =>
-                            item.Object_ID === connection.Object_ID &&
-                            item.Object_Type === connection.Object_Type
+                            item.object_id === connection.object_id &&
+                            item.object_type === connection.object_type
                     ),
                     1
                 )
@@ -138,7 +138,7 @@ const ObjectConnectionModal = ({
                     if ('items' in initialValues) {
                         initialValues.items?.splice(
                             initialValues.items.findIndex(
-                                item => item.value === connection.Object_ID
+                                item => item.value === connection.object_id
                             ),
                             1
                         )
@@ -235,7 +235,7 @@ export const ConnectionModal = ({
     ) => {
         if (isFinalStep) {
             handleFormSubmit(payload)
-        } else if (isDeleteStep && 'Object_ID' in payload) {
+        } else if (isDeleteStep && 'object_id' in payload) {
             handleDeleteConnection(payload)
         } else {
             helpers.resetForm({ values: payload })
@@ -267,12 +267,12 @@ export const ConnectionModal = ({
                 {({ isValid, isSubmitting, submitForm, values }) => (
                     <Form onSubmit={e => e.preventDefault()}>
                         <CurrentStep
-                            title={data?.Title}
+                            title={data?.title}
                             connectionModel={connectionModel}
                             model={model}
                             connections={relations?.filter(
                                 relation =>
-                                    relation.Object_Type === connectionKey
+                                    relation.object_type === connectionKey
                             )}
                             setStep={setStep}
                         />

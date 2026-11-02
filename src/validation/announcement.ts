@@ -3,20 +3,20 @@ import { array, object } from 'zod'
 import { schemaDefaults } from './zodSchema'
 
 export const ANNOUNCEMENT_EDIT_SCHEMA = object({
-    Metadata: object({
-        Official_Title: schemaDefaults.requiredString(),
+    meta_data: object({
+        official_title: schemaDefaults.requiredString(),
     }),
-    Content: object({
-        Texts: array(
+    content: object({
+        texts: array(
             object({
-                Title: schemaDefaults.optionalString,
-                Description: schemaDefaults.requiredString(),
+                title: schemaDefaults.optionalString,
+                description: schemaDefaults.requiredString(),
             })
         ),
     }),
-    Announcement_Date: schemaDefaults.requiredString(),
-    Procedural: object({
-        Begin_Inspection_Period_Date: schemaDefaults.requiredString(),
-        End_Inspection_Period_Date: schemaDefaults.requiredString(),
+    announcement_date: schemaDefaults.requiredString(),
+    procedural: object({
+        begin_inspection_period_date: schemaDefaults.requiredString(),
+        end_inspection_period_date: schemaDefaults.requiredString(),
     }),
 })

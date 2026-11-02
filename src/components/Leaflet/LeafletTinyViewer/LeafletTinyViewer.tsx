@@ -16,7 +16,7 @@ import { LeafletAreaLayer, LeafletControlLayer } from '../LeafletLayers'
 import LeafletMap from '../LeafletMap'
 
 interface LeafletTinyViewerProps {
-    uuid: string
+    id: string
     isSource?: boolean
 }
 
@@ -38,7 +38,7 @@ const buildCql = (
     return orChain
 }
 
-const LeafletTinyViewer = ({ uuid, isSource }: LeafletTinyViewerProps) => (
+const LeafletTinyViewer = ({ id, isSource }: LeafletTinyViewerProps) => (
     <LeafletMap
         options={{
             center: [52, 4.316168],
@@ -46,21 +46,21 @@ const LeafletTinyViewer = ({ uuid, isSource }: LeafletTinyViewerProps) => (
             boundsOptions: { padding: [100, 100] },
         }}
         controllers={{ showLayers: false }}
-        id={`leaflet-tiny-viewer-${uuid}`}
+        id={`leaflet-tiny-viewer-${id}`}
         ariaLabel="Hier staat een kaartviewer waarin de kaart wordt weergegeven waar ons beleid van toepassing is.">
-        <LeafletTinyViewerInner uuid={uuid} isSource={isSource} />
+        <LeafletTinyViewerInner id={id} isSource={isSource} />
     </LeafletMap>
 )
 
-const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
+const LeafletTinyViewerInner = ({ id, isSource }: LeafletTinyViewerProps) => {
     const map = useMap()
 
     // This WFS response (as you showed) contains Onderverdeling_UUID + Onderverdeling
     // We use it to build the legend and to filter the single WMS layer.
     const { data: werkingsgebied } = useQuery({
-        queryKey: ['werkingsgebied', uuid],
-        queryFn: () => getWerkingsgebied(uuid),
-        enabled: !!uuid,
+        queryKey: ['werkingsgebied', id],
+        queryFn: () => getWerkingsgebied(id),
+        enabled: !!id,
     })
 
     const [layerFilter, setLayerFilter] = useState<{
@@ -94,7 +94,7 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
     }, [werkingsgebied])
 
     useEffect(() => {
-        if (!uuid) return
+        if (!id) return
         if (!map) return
         if (!werkingsgebied) return
 
@@ -111,11 +111,7 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
             tiled: true,
             updateWhenZooming: false,
             tileSize: 512,
-            cql_filter: buildCql(
-                uuid,
-                layerFilter.onderverdelingUuids,
-                isSource
-            ),
+            cql_filter: buildCql(id, layerFilter.onderverdelingUuids, isSource),
         })
 
         wmsRef.current = layerInstance
@@ -132,21 +128,17 @@ const LeafletTinyViewerInner = ({ uuid, isSource }: LeafletTinyViewerProps) => {
             wmsRef.current = null
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map, uuid, isSource, werkingsgebied])
+    }, [map, id, isSource, werkingsgebied])
 
     // Whenever selected onderverdelingen change, update the WMS CQL
     useEffect(() => {
-        if (!uuid) return
+        if (!id) return
         if (!wmsRef.current) return
 
         wmsRef.current.setParams({
-            cql_filter: buildCql(
-                uuid,
-                layerFilter.onderverdelingUuids,
-                isSource
-            ),
+            cql_filter: buildCql(id, layerFilter.onderverdelingUuids, isSource),
         })
-    }, [uuid, layerFilter.onderverdelingUuids])
+    }, [id, layerFilter.onderverdelingUuids])
 
     useEffect(() => {
         if (!werkingsgebied?.features?.length) return

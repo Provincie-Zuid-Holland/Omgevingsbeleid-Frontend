@@ -55,8 +55,7 @@ export const Publications = () => {
 
     const isEnvironmentLocked = useMemo(
         () =>
-            environments?.results.find(env => env.UUID === activeEnv)
-                ?.Is_Locked,
+            environments?.results.find(env => env.id === activeEnv)?.is_locked,
         [environments, activeEnv]
     )
 
@@ -69,9 +68,7 @@ export const Publications = () => {
                     onSelectionChange={val => setActiveEnv(val as string)}
                     className="place-self-center">
                     {environments.results.map(environment => (
-                        <TabItem
-                            title={environment.Title}
-                            key={environment.UUID}>
+                        <TabItem title={environment.title} key={environment.id}>
                             {isEnvironmentLocked && (
                                 <Notification
                                     title="De publicatieomgeving is vergrendeld"

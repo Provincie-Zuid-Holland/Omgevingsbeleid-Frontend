@@ -24,18 +24,18 @@ const ModuleObjectDeleteConfirmationModal = () => {
 
     const handleDeletion = () =>
         mutate({
-            moduleId: module.Module_ID,
-            objectType: object.Object_Type,
-            lineageId: object.Model?.Object_ID || 0,
+            moduleId: module.module_id,
+            objectType: object.object_type,
+            lineageId: object.model?.object_id || 0,
         })
 
-    const model = models[object?.Object_Type as ModelType]
+    const model = models[object?.object_type as ModelType]
 
     return (
         <Modal id="moduleDeleteObject" title="Onderdeel verwijderen">
             <Text>
-                Wanneer je {model?.defaults.prefixSingular} {object.Object_Type}{' '}
-                ‘{object.Model?.Title}’ uit de module ‘{module.Title}’
+                Wanneer je {model?.defaults.prefixSingular} {object.object_type}{' '}
+                ‘{object.model?.title}’ uit de module ‘{module.title}’
                 verwijdert, zal de huidige ontwerpversie komen te vervallen.
                 <br />
                 <br />

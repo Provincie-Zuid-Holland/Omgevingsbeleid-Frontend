@@ -21,28 +21,28 @@ interface ObjectNetworkProps {
 
 const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
     const { data: graph } = useGraphGetObjectGraph(
-        { uuid: data.UUID! },
-        { query: { enabled: !!data.UUID } }
+        { uuid: data.id! },
+        { query: { enabled: !!data.id } }
     )
 
     /**
      * Format relations
      */
     const relations = useMemo(() => {
-        if (!graph?.Vertices) return {}
+        if (!graph?.vertices) return {}
 
-        const grouped = groupBy(graph.Vertices, 'Object_Type')
+        const grouped = groupBy(graph.vertices, 'object_type')
         const sorted = Object.keys(grouped)
             .sort()
             .reduce((obj: any, key) => {
                 obj[key] = grouped[key].sort((a, b) =>
-                    a.Title.localeCompare(b.Title)
+                    a.title.localeCompare(b.title)
                 )
                 return obj
             }, {})
 
         return sorted
-    }, [graph?.Vertices]) as { [key in ModelType]: GraphVertice[] }
+    }, [graph?.vertices]) as { [key in ModelType]: GraphVertice[] }
 
     /**
      * Highlight connected shape on hover
@@ -87,31 +87,31 @@ const ObjectNetwork = ({ data }: ObjectNetworkProps) => {
 
                             {Array.isArray(objects) &&
                                 objects.map(object => (
-                                    <div key={object.UUID} className="mb-1">
+                                    <div key={object.id} className="mb-1">
                                         <Link
                                             to={generateObjectPath(
                                                 index as ModelType,
-                                                object.UUID
+                                                object.id
                                             )}
                                             className="flex items-baseline"
-                                            data-code-link={object.Code}
+                                            data-code-link={object.code}
                                             onMouseEnter={el =>
                                                 handleMouseInteraction(
                                                     el.currentTarget,
-                                                    object.Code,
+                                                    object.code,
                                                     'enter'
                                                 )
                                             }
                                             onMouseLeave={el =>
                                                 handleMouseInteraction(
                                                     el.currentTarget,
-                                                    object.Code,
+                                                    object.code,
                                                     'leave'
                                                 )
                                             }>
                                             {getObjectIcon(index as ModelType)}
                                             <Text size="s" className="ml-3">
-                                                {object.Title}
+                                                {object.title}
                                             </Text>
                                         </Link>
                                     </div>

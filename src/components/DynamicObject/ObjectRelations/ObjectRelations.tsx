@@ -37,7 +37,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
 
     const { useGetAcknowledgedRelations } = model.fetchers
     const { data, isLoading, queryKey } =
-        useGetAcknowledgedRelations?.<AcknowledgedRelation[]>(
+        useGetAcknowledgedRelations<AcknowledgedRelation[]>?.(
             parseInt(objectId!),
             undefined,
             {
@@ -47,25 +47,25 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
 
     const { approved, sent, received } = useMemo(() => {
         const filteredData = data?.filter(
-            relation => !relation.Denied && !relation.Deleted_At
+            relation => !relation.denied && !relation.deleted_at
         )
 
         /** Approved relations */
         const approved = filteredData?.filter(
             relation =>
-                relation.Side_A.Acknowledged && relation.Side_B.Acknowledged
+                relation.side_a.acknowledged && relation.side_b.acknowledged
         )
 
         /** Sent requests */
         const sent = filteredData?.filter(
             relation =>
-                relation.Side_A.Acknowledged && !relation.Side_B.Acknowledged
+                relation.side_a.acknowledged && !relation.side_b.acknowledged
         )
 
         /** Received requests */
         const received = filteredData?.filter(
             relation =>
-                !relation.Side_A.Acknowledged && relation.Side_B.Acknowledged
+                !relation.side_a.acknowledged && relation.side_b.acknowledged
         )
 
         return { approved, sent, received }
@@ -74,18 +74,18 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
     const history = useMemo(() => {
         const filteredData = data?.filter(
             relation =>
-                relation.Denied ||
-                (relation.Side_A.Acknowledged && relation.Side_B.Acknowledged)
+                relation.denied ||
+                (relation.side_a.acknowledged && relation.side_b.acknowledged)
         )
 
         /** Sent history */
         const sent = filteredData?.filter(
-            relation => relation.Requested_By_Code === objectData?.Code
+            relation => relation.requested_by_code === objectData?.code
         )
 
         /** Received history */
         const received = filteredData?.filter(
-            relation => relation.Requested_By_Code !== objectData?.Code
+            relation => relation.requested_by_code !== objectData?.code
         )
 
         return { sent, received }
@@ -174,7 +174,7 @@ const ObjectRelations = ({ model }: ObjectRelationsProps) => {
                 {...modal}
                 initialValues={
                     {
-                        Object_Type: model.defaults.singular,
+                        object_type: model.defaults.singular,
                     } as RequestAcknowledgedRelation
                 }
             />

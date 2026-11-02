@@ -41,8 +41,8 @@ const ObjectRelationReceivedModal = ({
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [initialValues, setInitialValues] = useState({
-        Object_Type: model.defaults.singular,
-    } as EditAcknowledgedRelation & { Title?: string | null })
+        object_type: model.defaults.singular,
+    } as EditAcknowledgedRelation & { title?: string | null })
     const [actionType, setActionType] = useState<'accept' | 'deny' | null>(null)
     const [step, setStep] = useState(1)
 
@@ -70,9 +70,9 @@ const ObjectRelationReceivedModal = ({
         setActionType(action)
         setInitialValues({
             ...initialValues,
-            Object_ID: relation.Side_B.Object_ID,
-            Explanation: relation.Side_A.Explanation,
-            Title: relation.Side_B.Title,
+            object_id: relation.side_b.object_id,
+            explanation: relation.side_a.explanation,
+            title: relation.side_b.title,
         })
         setStep(2)
     }
@@ -84,7 +84,7 @@ const ObjectRelationReceivedModal = ({
                     queryClient.invalidateQueries({ queryKey }),
                     queryClient.invalidateQueries({
                         queryKey: getAcknowledgedRelations?.(
-                            initialValues.Object_ID
+                            initialValues.object_id
                         ),
                         refetchType: 'all',
                     }),
@@ -103,11 +103,11 @@ const ObjectRelationReceivedModal = ({
         postAcknowledgedRelations?.mutate({
             lineageId: parseInt(objectId!),
             data: {
-                Object_ID: payload.Object_ID,
-                Object_Type: payload.Object_Type,
-                Explanation: payload.Explanation,
-                Acknowledged: actionType === 'accept' ? true : false,
-                Denied: actionType === 'deny' ? true : false,
+                object_id: payload.object_id,
+                object_type: payload.object_type,
+                explanation: payload.explanation,
+                acknowledged: actionType === 'accept' ? true : false,
+                denied: actionType === 'deny' ? true : false,
             },
         })
     }
@@ -132,7 +132,7 @@ const ObjectRelationReceivedModal = ({
                     <Form>
                         <CurrentStep
                             model={model}
-                            title={data?.Title}
+                            title={data?.title}
                             relations={relations}
                             history={history}
                             handleAction={handleAction}

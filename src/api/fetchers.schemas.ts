@@ -10,40 +10,40 @@
  */
 export interface AOJCreate {
     /** @minLength 3 */
-    Administrative_Borders_ID: string
+    administrative_borders_id: string
     /** @minLength 3 */
-    Administrative_Borders_Domain: string
-    Administrative_Borders_Date: string
+    administrative_borders_domain: string
+    administrative_borders_date: string
 }
 
 export interface AOJCreatedResponse {
-    UUID: string
+    id: string
 }
 
 export interface AbortResponse {
-    new_state_uuid: string
+    new_state_id: string
 }
 
 export interface AcknowledgedRelationSide {
-    Object_ID: number
-    Object_Type: string
-    Explanation?: string | null
-    Acknowledged?: string | null
-    Acknowledged_By_UUID?: string | null
-    Title?: string | null
+    object_id: number
+    object_type: string
+    explanation?: string | null
+    acknowledged?: string | null
+    acknowledged_by_id?: string | null
+    title?: string | null
 }
 
 export interface AcknowledgedRelation {
-    Side_A: AcknowledgedRelationSide
-    Side_B: AcknowledgedRelationSide
-    Version: number
-    Requested_By_Code: string
-    Created_Date: string
-    Created_By_UUID: string
-    Modified_Date: string
-    Modified_By_UUID: string
-    Denied?: string | null
-    Deleted_At?: string | null
+    side_a: AcknowledgedRelationSide
+    side_b: AcknowledgedRelationSide
+    version: number
+    requested_by_code: string
+    created_date: string
+    created_by_id: string
+    modified_date: string
+    modified_by_id: string
+    denied?: string | null
+    deleted_at?: string | null
 }
 
 export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
@@ -54,55 +54,55 @@ export const DocumentType = {
 } as const
 
 export interface ActCreate {
-    Environment_UUID: string
-    Document_Type: DocumentType
-    Title: string
-    Work_Other?: string | null
+    environment_id: string
+    document_type: DocumentType
+    title: string
+    work_other?: string | null
 }
 
 export interface ActCreatedResponse {
-    UUID: string
+    id: number
 }
 
 export interface ActMetadata {
-    Official_Title?: string
-    Quote_Title?: string
-    Subjects?: string[]
-    Jurisdictions?: string[]
+    official_title?: string
+    quote_title?: string
+    subjects?: string[]
+    jurisdictions?: string[]
 }
 
 export interface ActEdit {
-    Title?: string | null
-    Metadata?: ActMetadata | null
+    title?: string | null
+    meta_data?: ActMetadata | null
 }
 
 export interface ActiveModuleObject {
-    Module_ID?: number | null
-    UUID: string
-    Modified_Date: string
-    Title: string
+    module_id?: number | null
+    id: string
+    modified_date: string
+    title: string
 }
 
 export interface ModuleStatus {
-    ID: number
-    Module_ID: number
-    Status: string
-    Created_Date: string
-    Created_By_UUID: string
+    id: number
+    module_id: number
+    status: string
+    created_date: string
+    created_by_id: string
 }
 
 export interface UserShort {
-    UUID: string
+    id: string
 }
 
 export interface ModuleShort {
-    Module_ID: number
-    Closed: boolean
-    Title: string
-    Description: string
-    Status?: ModuleStatus | null
-    Module_Manager_1?: UserShort | null
-    Module_Manager_2?: UserShort | null
+    module_id: number
+    closed: boolean
+    title: string
+    description: string
+    status?: ModuleStatus | null
+    module_manager_1?: UserShort | null
+    module_manager_2?: UserShort | null
 }
 
 export type ModuleObjectActionFull =
@@ -115,97 +115,103 @@ export const ModuleObjectActionFull = {
 } as const
 
 export interface ActiveModuleObjectsResponse {
-    Module: ModuleShort
-    Module_Object: ActiveModuleObject
-    Action: ModuleObjectActionFull
+    module: ModuleShort
+    module_object: ActiveModuleObject
+    action: ModuleObjectActionFull
 }
 
 export interface NextObjectVersion {
-    UUID: string
-    Title: string
-    Start_Validity: string
-    End_Validity?: string | null
-    Created_Date: string
-    Modified_Date: string
-    Previous_UUID: string
+    id: string
+    title: string
+    start_validity: string
+    end_validity?: string | null
+    created_date: string
+    modified_date: string
+    previous_id: string
 }
 
 export interface AmbitieBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    next_version?: NextObjectVersion | null
 }
 
 export interface AmbitieExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface AmbitieExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: AmbitieExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    themas?: string[]
+    hoofdlijnen?: string[]
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: AmbitieExtendedStatics
 }
 
 export interface ReadRelationShort {
-    Object_ID: number
-    Object_Type: string
-    Description?: string
+    object_id: number
+    object_type: string
+    description?: string
 }
 
 export interface BeleidsdoelMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    id?: string
+    title?: string
 }
 
 export interface ReadRelationShortBeleidsdoelMinimal {
-    Relation?: ReadRelationShort
-    Object?: BeleidsdoelMinimal
+    relation?: ReadRelationShort
+    object?: BeleidsdoelMinimal
 }
 
 export interface HierachyReference {
-    UUID: string
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Hierarchy_Code: string
-    Title?: string | null
+    id: string
+    object_type: string
+    object_id: number
+    code: string
+    hierarchy_code: string
+    title?: string | null
 }
 
-export interface ObjectStatics {
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Cached_Title: string
+export interface GebiedBasic {
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    area_id?: string | null
+    start_validity?: string | null
+    end_validity?: string | null
 }
 
 export interface Hoofdlijn {
-    UUID: string
-    Name: string
-    Type: string
+    id: string
+    name: string
+    kind: string
 }
 
 export type ModuleStatusCode =
@@ -235,138 +241,138 @@ export const PublicModuleStatusCode = {
 } as const
 
 export interface PublicModuleObjectRevision {
-    Module_ID: number
-    Module_Title: string
-    Module_Status: ModuleStatusCode
-    Module_Object_UUID: string
-    Module_Object_Code: string
-    Module_Object_Status: PublicModuleStatusCode
-    Action: ModuleObjectActionFull
+    module_id: number
+    module_title: string
+    module_status: ModuleStatusCode
+    module_object_id: string
+    module_object_code: string
+    module_object_status: PublicModuleStatusCode
+    action: ModuleObjectActionFull
 }
 
 export interface AmbitieFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface AmbitieFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
-    Hierarchy_Children?: HierachyReference[]
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
-    Hoofdlijnen_Statics?: Hoofdlijn[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: AmbitieFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    themas?: string[]
+    hoofdlijnen?: string[]
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
+    hierarchy_children?: HierachyReference[]
+    gebiedsaanwijzingen_gebieden?: GebiedBasic[]
+    hoofdlijnen_statics?: Hoofdlijn[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: AmbitieFullStatics
+}
+
+export interface AmbitieID {
+    object_id?: number
+    id?: string
 }
 
 export interface AmbitieMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    id?: string
+    title?: string
 }
 
 export interface AmbitieStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
-    Client_1_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
+    portfolio_holder_1_id?: string | null
+    client_1_id?: string | null
 }
 
 export interface AmbitieStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
-}
-
-export interface AmbitieUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface AmendmentAppendix {
-    Number: string
-    Title: string
+    number: string
+    title: string
 }
 
 export interface AnnouncementText {
-    Title: string | null
-    Description: string
+    title: string | null
+    description: string
 }
 
 export interface AnnouncementContent {
-    Texts: AnnouncementText[]
+    texts: AnnouncementText[]
 }
 
 export interface AnnouncementCreatedResponse {
-    UUID: string
+    id: string
 }
 
 export interface AnnouncementMetadata {
-    Official_Title?: string
-    Subjects?: string[]
+    official_title?: string
+    subjects?: string[]
 }
 
 export interface AnnouncementProcedural {
-    Procedural_Announcement_Date?: string | null
-    Begin_Inspection_Period_Date?: string | null
-    End_Inspection_Period_Date?: string | null
+    procedural_announcement_date?: string | null
+    begin_inspection_period_date?: string | null
+    end_inspection_period_date?: string | null
 }
 
 export interface Appendix {
-    Number: string
-    Title: string
-    Content: string
+    number: string
+    title: string
+    content: string
 }
 
 export interface AreaBasic {
-    UUID: string
-    Created_Date: string
-    Created_By_UUID: string
-    Source_UUID: string
-    Source_Title: string
-    Source_Created_Date: string
+    id: string
+    created_date: string
+    created_by_id: string
+    source_id: string
+    source_title: string
+    source_created_date: string
 }
 
 export interface Article {
-    Label?: string
-    Number: string
-    Content: string
+    label?: string
+    number: string
+    content: string
 }
 
 export interface AttachmentShort {
-    ID: number
-    File_UUID: string
-    Filename: string
-    Title: string
-    Created_Date: string
-    Modified_Date: string
+    id: number
+    file_id: string
+    filename: string
+    title: string
+    created_date: string
+    modified_date: string
 }
 
 export interface UserLoginDetail {
-    UUID: string
-    Roles: string[]
-    Gebruikersnaam: string
+    id: string
+    roles: string[]
+    name: string
 }
 
 export interface AuthToken {
@@ -376,429 +382,434 @@ export interface AuthToken {
 }
 
 export interface BeleidsdoelBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    next_version?: NextObjectVersion | null
 }
 
 export interface BeleidsdoelExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidsdoelExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Hierarchy_Code?: string
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: BeleidsdoelExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    hierarchy_code?: string
+    themas?: string[]
+    hoofdlijnen?: string[]
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: BeleidsdoelExtendedStatics
 }
 
 export interface HierarchyStatics {
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Cached_Title: string
+    object_type: string
+    object_id: number
+    code: string
+    cached_title: string
 }
 
 export interface ReadRelationShortAmbitieMinimal {
-    Relation?: ReadRelationShort
-    Object?: AmbitieMinimal
+    relation?: ReadRelationShort
+    object?: AmbitieMinimal
 }
 
 export interface BeleidskeuzeMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    id?: string
+    title?: string
 }
 
 export interface ReadRelationShortBeleidskeuzeMinimal {
-    Relation?: ReadRelationShort
-    Object?: BeleidskeuzeMinimal
+    relation?: ReadRelationShort
+    object?: BeleidskeuzeMinimal
 }
 
 export interface ObjectRelatedFileResponse {
-    UUID: string
-    Code: string
-    File_UUID: string
-    Title: string
-    Created_Date: string
-    Created_By_UUID: string
+    id: string
+    code: string
+    file_id: string
+    title: string
+    created_date: string
+    created_by_id: string
 }
 
 export interface BeleidsdoelFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidsdoelFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Hierarchy_Code?: string
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Hierarchy_Statics?: HierarchyStatics | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Ambities?: ReadRelationShortAmbitieMinimal[]
-    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
-    Hierarchy_Children?: HierachyReference[]
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
-    Hoofdlijnen_Statics?: Hoofdlijn[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    Related_Files?: ObjectRelatedFileResponse[]
-    ObjectStatics?: BeleidsdoelFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    hierarchy_code?: string
+    themas?: string[]
+    hoofdlijnen?: string[]
+    hierarchy_statics?: HierarchyStatics | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    ambities?: ReadRelationShortAmbitieMinimal[]
+    beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    hierarchy_children?: HierachyReference[]
+    gebiedsaanwijzingen_gebieden?: GebiedBasic[]
+    hoofdlijnen_statics?: Hoofdlijn[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    related_files?: ObjectRelatedFileResponse[]
+    object_statics?: BeleidsdoelFullStatics
+}
+
+export interface BeleidsdoelID {
+    object_id?: number
+    id?: string
 }
 
 export interface BeleidsdoelStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
-    Client_1_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
+    portfolio_holder_1_id?: string | null
+    client_1_id?: string | null
 }
 
 export interface BeleidsdoelStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
-}
-
-export interface BeleidsdoelUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidskeuzeBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Title?: string
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    title?: string
+    next_version?: NextObjectVersion | null
 }
 
 export interface BeleidskeuzeExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidskeuzeExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Title?: string
-    Hierarchy_Code?: string
-    Werkingsgebied_Code?: string
-    Gebiedengroep_Code?: string | null
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: BeleidskeuzeExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    title?: string
+    hierarchy_code?: string
+    werkingsgebied_code?: string
+    gebiedengroep_code?: string | null
+    themas?: string[]
+    hoofdlijnen?: string[]
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: BeleidskeuzeExtendedStatics
 }
 
 export interface WerkingsgebiedStatics {
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Cached_Title: string
+    object_type: string
+    object_id: number
+    code: string
+    cached_title: string
 }
 
 export interface WettelijkeTaakMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
 }
 
 export interface ReadRelationShortWettelijkeTaakMinimal {
-    Relation?: ReadRelationShort
-    Object?: WettelijkeTaakMinimal
+    relation?: ReadRelationShort
+    object?: WettelijkeTaakMinimal
 }
 
 export interface NationaalBelangMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
 }
 
 export interface ReadRelationShortNationaalBelangMinimal {
-    Relation?: ReadRelationShort
-    Object?: NationaalBelangMinimal
+    relation?: ReadRelationShort
+    object?: NationaalBelangMinimal
 }
 
 export interface BeleidsregelMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    id?: string
+    title?: string
 }
 
 export interface ReadRelationShortBeleidsregelMinimal {
-    Relation?: ReadRelationShort
-    Object?: BeleidsregelMinimal
+    relation?: ReadRelationShort
+    object?: BeleidsregelMinimal
 }
 
 export interface MaatregelMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    id?: string
+    title?: string
 }
 
 export interface ReadRelationShortMaatregelMinimal {
-    Relation?: ReadRelationShort
-    Object?: MaatregelMinimal
+    relation?: ReadRelationShort
+    object?: MaatregelMinimal
 }
 
 export interface WerkingsgebiedBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Area_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    area_id?: string | null
+    start_validity?: string | null
+    end_validity?: string | null
+}
+
+export interface ObjectStatics {
+    object_type: string
+    object_id: number
+    code: string
+    cached_title: string
 }
 
 export interface BeleidskeuzeFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidskeuzeFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Title?: string
-    Description?: string
-    Cause?: string
-    Provincial_Interest?: string
-    Explanation?: string
-    Hierarchy_Code?: string
-    Werkingsgebied_Code?: string
-    Gebiedengroep_Code?: string | null
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Hierarchy_Statics?: HierarchyStatics | null
-    Werkingsgebied_Statics?: WerkingsgebiedStatics | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    WettelijkeTaken?: ReadRelationShortWettelijkeTaakMinimal[]
-    NationaleBelangen?: ReadRelationShortNationaalBelangMinimal[]
-    Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
-    Beleidsregels?: ReadRelationShortBeleidsregelMinimal[]
-    Maatregelen?: ReadRelationShortMaatregelMinimal[]
-    Werkingsgebied?: WerkingsgebiedBasic | null
-    Hierarchy_Children?: HierachyReference[]
-    Gebiedengroep_Static?: ObjectStatics | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
-    Hoofdlijnen_Statics?: Hoofdlijn[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: BeleidskeuzeFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    title?: string
+    description?: string
+    cause?: string
+    provincial_interest?: string
+    explanation?: string
+    hierarchy_code?: string
+    werkingsgebied_code?: string
+    gebiedengroep_code?: string | null
+    themas?: string[]
+    hoofdlijnen?: string[]
+    hierarchy_statics?: HierarchyStatics | null
+    werkingsgebied_statics?: WerkingsgebiedStatics | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    wettelijke_taken?: ReadRelationShortWettelijkeTaakMinimal[]
+    nationale_belangen?: ReadRelationShortNationaalBelangMinimal[]
+    beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
+    beleidsregels?: ReadRelationShortBeleidsregelMinimal[]
+    maatregelen?: ReadRelationShortMaatregelMinimal[]
+    werkingsgebied?: WerkingsgebiedBasic | null
+    hierarchy_children?: HierachyReference[]
+    gebiedengroep_static?: ObjectStatics | null
+    gebiedsaanwijzingen_gebieden?: GebiedBasic[]
+    hoofdlijnen_statics?: Hoofdlijn[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: BeleidskeuzeFullStatics
+}
+
+export interface BeleidskeuzeID {
+    object_id?: number
+    id?: string
 }
 
 export interface BeleidskeuzeStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
-    Client_1_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    portfolio_holder_1_id?: string | null
+    client_1_id?: string | null
 }
 
 export interface BeleidskeuzeStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
-}
-
-export interface BeleidskeuzeUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidsregelBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    next_version?: NextObjectVersion | null
 }
 
 export interface BeleidsregelExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidsregelExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: BeleidsregelExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: BeleidsregelExtendedStatics
 }
 
 export interface BeleidsregelFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface BeleidsregelFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: BeleidsregelFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: BeleidsregelFullStatics
+}
+
+export interface BeleidsregelID {
+    object_id?: number
+    id?: string
 }
 
 export interface BeleidsregelStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
-    Client_1_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    portfolio_holder_1_id?: string | null
+    client_1_id?: string | null
 }
 
 export interface BeleidsregelStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
-}
-
-export interface BeleidsregelUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface Motivation {
-    Number?: string | null
-    Title: string
-    Content: string
-    Appendices?: Appendix[]
+    number?: string | null
+    title: string
+    content: string
+    appendices?: Appendix[]
 }
 
 export interface BillCompact {
-    Preamble?: string
-    Closing?: string
-    Signed?: string
-    Amendment_Article?: string
-    Amendment_Appendix?: AmendmentAppendix
-    Time_Article?: string
-    Custom_Articles?: Article[]
-    Appendices?: Appendix[]
-    Motivation?: Motivation | null
+    preamble?: string
+    closing?: string
+    signed?: string
+    amendment_article?: string
+    amendment_appendix?: AmendmentAppendix
+    time_article?: string
+    custom_articles?: Article[]
+    appendices?: Appendix[]
+    motivation?: Motivation | null
 }
 
 export interface BillMetadata {
-    Official_Title?: string
-    Quote_Title?: string
-    Subjects?: string[]
-    Jurisdictions?: string[]
+    official_title?: string
+    quote_title?: string
+    subjects?: string[]
+    jurisdictions?: string[]
 }
 
 export interface BodyAuthenticationPostAuthLoginAccessToken {
@@ -845,151 +856,155 @@ export interface CreateHoofdlijn {
      * @minLength 3
      * @maxLength 255
      */
-    Name: string
+    name: string
     /**
      * @minLength 3
      * @maxLength 255
      */
-    Type: string
+    kind: string
 }
 
 export interface DocumentBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Filename?: string
-    File_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    filename?: string
+    file_id?: string | null
+    start_validity?: string | null
+    end_validity?: string | null
+    next_version?: NextObjectVersion | null
 }
 
 export interface DocumentExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface DocumentExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Filename?: string
-    File_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: DocumentExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    filename?: string
+    file_id?: string | null
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: DocumentExtendedStatics
 }
 
 export interface StorageFileBasic {
-    UUID: string
-    Checksum: string
-    Filename: string
-    Content_Type: string
-    Size: number
-    Created_Date: string
-    Created_By_UUID: string
+    id: string
+    checksum: string
+    filename: string
+    content_type: string
+    size: number
+    created_date: string
+    created_by_id: string
 }
 
 export interface DocumentFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface DocumentFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Filename?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    File_UUID?: string | null
-    File?: StorageFileBasic | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: DocumentFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    filename?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    file_id?: string | null
+    file?: StorageFileBasic | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: DocumentFullStatics
+}
+
+export interface DocumentID {
+    object_id?: number
+    id?: string
 }
 
 export interface DocumentStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface DocumentStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface DocumentUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface EditAcknowledgedRelation {
-    Object_ID: number
-    Object_Type: string
-    Explanation?: string | null
-    Acknowledged?: boolean | null
-    Denied?: boolean | null
-    Deleted?: boolean | null
+    object_id: number
+    object_type: string
+    explanation?: string | null
+    acknowledged?: boolean | null
+    denied?: boolean | null
+    deleted?: boolean | null
 }
 
 export interface EditHoofdlijn {
-    Name?: string | null
-    Type?: string | null
+    name?: string | null
+    kind?: string | null
 }
 
 export interface EditUser {
-    Gebruikersnaam?: string | null
-    Email?: string | null
-    Roles?: string[] | null
-    IsActive?: boolean | null
+    name?: string | null
+    email?: string | null
+    roles?: string[] | null
+    is_active?: boolean | null
 }
 
 export interface EnvironmentCreate {
     /** @minLength 3 */
-    Title: string
-    Description: string
-    Province_ID: string
-    Authority_ID: string
-    Submitter_ID: string
-    Frbr_Country: string
-    Frbr_Language: string
-    Has_State: boolean
-    Can_Validate: boolean
-    Can_Publicate: boolean
+    title: string
+    description: string
+    province_id: string
+    authority_id: string
+    submitter_id: string
+    frbr_country: string
+    frbr_language: string
+    has_state: boolean
+    can_validate: boolean
+    can_publicate: boolean
 }
 
 export interface EnvironmentCreatedResponse {
-    UUID: string
+    id: string
 }
 
 export interface EnvironmentEdit {
-    Title?: string | null
-    Description?: string | null
-    Province_ID?: string | null
-    Authority_ID?: string | null
-    Submitter_ID?: string | null
-    Frbr_Country?: string | null
-    Frbr_Language?: string | null
-    Is_Active?: boolean | null
-    Can_Validate?: boolean | null
-    Can_Publicate?: boolean | null
+    title?: string | null
+    description?: string | null
+    province_id?: string | null
+    authority_id?: string | null
+    submitter_id?: string | null
+    frbr_country?: string | null
+    frbr_language?: string | null
+    is_active?: boolean | null
+    can_validate?: boolean | null
+    can_publicate?: boolean | null
 }
 
 export type ErrorDetailsCtx = { [key: string]: unknown }
@@ -1003,153 +1018,148 @@ export interface ErrorDetails {
     url?: string
 }
 
-export interface GebiedBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Area_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
-}
-
 export interface GebiedExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Area_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: GebiedExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    area_id?: string | null
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: GebiedExtendedStatics
 }
 
 export interface GebiedFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Area_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Area?: AreaBasic | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: GebiedFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    area_id?: string | null
+    start_validity?: string | null
+    end_validity?: string | null
+    area?: AreaBasic | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: GebiedFullStatics
+}
+
+export interface GebiedID {
+    object_id?: number
+    id?: string
 }
 
 export interface GebiedStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface GebiedStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface GebiedUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedengroepBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Source_Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    source_title?: string
+    start_validity?: string | null
+    end_validity?: string | null
 }
 
 export interface GebiedengroepExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedengroepExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Source_Title?: string
-    Source_UUID?: string | null
-    Gebieden?: string[]
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: GebiedengroepExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    source_title?: string
+    source_uuid?: string | null
+    gebieden?: string[]
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: GebiedengroepExtendedStatics
 }
 
 export interface GebiedengroepFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedengroepFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Source_Title?: string
-    Source_UUID?: string | null
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Gebieden?: string[]
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Gebieden_Statics?: ObjectStatics[]
-    ObjectStatics?: GebiedengroepFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    source_title?: string
+    source_uuid?: string | null
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    gebieden?: string[]
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    gebieden_statics?: ObjectStatics[]
+    object_statics?: GebiedengroepFullStatics
+}
+
+export interface GebiedengroepID {
+    object_id?: number
+    id?: string
 }
 
 export interface GebiedengroepStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface GebiedengroepStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface GebiedengroepUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedsaanwijzingType {
@@ -1188,171 +1198,175 @@ export interface Gebiedsaanwijzing {
 }
 
 export interface GebiedsaanwijzingBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
 }
 
 export interface GebiedsaanwijzingExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedsaanwijzingExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Ref_Type?: string
-    Ref_Group?: string
-    Target_Codes?: string[]
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: GebiedsaanwijzingExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    ref_type?: string
+    ref_group?: string
+    target_codes?: string[]
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: GebiedsaanwijzingExtendedStatics
 }
 
 export interface GebiedsaanwijzingFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedsaanwijzingFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Ref_Type?: string
-    Ref_Group?: string
-    Target_Codes?: string[]
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Geo_Statics?: ObjectStatics[]
-    ObjectStatics?: GebiedsaanwijzingFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    ref_type?: string
+    ref_group?: string
+    target_codes?: string[]
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    geo_statics?: ObjectStatics[]
+    object_statics?: GebiedsaanwijzingFullStatics
+}
+
+export interface GebiedsaanwijzingID {
+    object_id?: number
+    id?: string
 }
 
 export interface GebiedsaanwijzingStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface GebiedsaanwijzingStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface GebiedsaanwijzingUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface GebiedsprogrammaBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Image?: string | null
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    image?: string | null
+    next_version?: NextObjectVersion | null
 }
 
 export interface GebiedsprogrammaExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface GebiedsprogrammaExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Image?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: GebiedsprogrammaExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    image?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: GebiedsprogrammaExtendedStatics
 }
 
 export interface GebiedsprogrammaFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface GebiedsprogrammaFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Image?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Maatregelen?: ReadRelationShortMaatregelMinimal[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: GebiedsprogrammaFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    image?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    maatregelen?: ReadRelationShortMaatregelMinimal[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: GebiedsprogrammaFullStatics
+}
+
+export interface GebiedsprogrammaID {
+    object_id?: number
+    id?: string
 }
 
 export interface GebiedsprogrammaMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    UUID?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    id?: string
+    title?: string
 }
 
 export interface GebiedsprogrammaStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
-    Client_1_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
+    portfolio_holder_1_id?: string | null
+    client_1_id?: string | null
 }
 
 export interface GebiedsprogrammaStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
-}
-
-export interface GebiedsprogrammaUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export type GraphEdgeType = (typeof GraphEdgeType)[keyof typeof GraphEdgeType]
@@ -1364,22 +1378,22 @@ export const GraphEdgeType = {
 } as const
 
 export interface GraphEdge {
-    Vertice_A_Code: string
-    Vertice_B_Code: string
-    Type: GraphEdgeType
+    vertice_a_code: string
+    vertice_b_code: string
+    type: GraphEdgeType
 }
 
 export interface GraphVertice {
-    UUID: string
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Title: string
+    id: string
+    object_type: string
+    object_id: number
+    code: string
+    title: string
 }
 
 export interface GraphResponse {
-    Vertices: GraphVertice[]
-    Edges: GraphEdge[]
+    vertices: GraphVertice[]
+    edges: GraphEdge[]
 }
 
 export type ValidationErrorCtx = { [key: string]: unknown }
@@ -1397,38 +1411,38 @@ export interface HTTPValidationError {
 }
 
 export interface HoofdlijnCreatedResponse {
-    UUID: string
+    id: string
 }
 
 export interface InputGeoOnderverdeling {
-    UUID: string
-    Created_Date: string
-    Title: string
-    Description: string
-    Geometry_Hash: string
+    id: string
+    created_date: string
+    title: string
+    description: string
+    geometry_hash: string
 }
 
 export interface InputGeoWerkingsgebied {
-    UUID: string
-    Created_Date: string
-    Title: string
-    Description: string
+    id: string
+    created_date: string
+    title: string
+    description: string
 }
 
 export interface InputGeoWerkingsgebiedDetailed {
-    UUID: string
-    Created_Date: string
-    Title: string
-    Description: string
-    Onderverdelingen: InputGeoOnderverdeling[]
+    id: string
+    created_date: string
+    title: string
+    description: string
+    onderverdelingen: InputGeoOnderverdeling[]
 }
 
 export type InputGeoWerkingsgebiedenSortColumn =
     (typeof InputGeoWerkingsgebiedenSortColumn)[keyof typeof InputGeoWerkingsgebiedenSortColumn]
 
 export const InputGeoWerkingsgebiedenSortColumn = {
-    Title: 'Title',
-    Created_Date: 'Created_Date',
+    title: 'title',
+    created_date: 'created_date',
 } as const
 
 export interface ListAreaDesignationResponse {
@@ -1451,135 +1465,135 @@ export interface ListThemaResponse {
 }
 
 export interface MaatregelBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Title?: string
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    title?: string
+    next_version?: NextObjectVersion | null
 }
 
 export interface MaatregelExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface MaatregelExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Title?: string
-    Hierarchy_Code?: string
-    Werkingsgebied_Code?: string
-    Gebiedengroep_Code?: string | null
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: MaatregelExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    title?: string
+    hierarchy_code?: string
+    werkingsgebied_code?: string
+    gebiedengroep_code?: string | null
+    themas?: string[]
+    hoofdlijnen?: string[]
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: MaatregelExtendedStatics
 }
 
 export interface ReadRelationShortGebiedsprogrammaMinimal {
-    Relation?: ReadRelationShort
-    Object?: GebiedsprogrammaMinimal
+    relation?: ReadRelationShort
+    object?: GebiedsprogrammaMinimal
 }
 
 export interface MaatregelFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface MaatregelFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Title?: string
-    Description?: string
-    Documents?: string[]
-    Role?: string
-    Roles?: string[]
-    Effect?: string
-    Hierarchy_Code?: string
-    Werkingsgebied_Code?: string
-    Gebiedengroep_Code?: string | null
-    Themas?: string[]
-    Hoofdlijnen?: string[]
-    Hierarchy_Statics?: HierarchyStatics | null
-    Werkingsgebied_Statics?: WerkingsgebiedStatics | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
-    Gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
-    Werkingsgebied?: WerkingsgebiedBasic | null
-    Documents_Statics?: ObjectStatics[]
-    Gebiedengroep_Static?: ObjectStatics | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
-    Hoofdlijnen_Statics?: Hoofdlijn[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: MaatregelFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    title?: string
+    description?: string
+    documents?: string[]
+    role?: string
+    roles?: string[]
+    effect?: string
+    hierarchy_code?: string
+    werkingsgebied_code?: string
+    gebiedengroep_code?: string | null
+    themas?: string[]
+    hoofdlijnen?: string[]
+    hierarchy_statics?: HierarchyStatics | null
+    werkingsgebied_statics?: WerkingsgebiedStatics | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    gebiedsprogrammas?: ReadRelationShortGebiedsprogrammaMinimal[]
+    werkingsgebied?: WerkingsgebiedBasic | null
+    documents_statics?: ObjectStatics[]
+    gebiedengroep_static?: ObjectStatics | null
+    gebiedsaanwijzingen_gebieden?: GebiedBasic[]
+    hoofdlijnen_statics?: Hoofdlijn[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: MaatregelFullStatics
+}
+
+export interface MaatregelID {
+    object_id?: number
+    id?: string
 }
 
 export interface MaatregelStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
-    Client_1_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
+    portfolio_holder_1_id?: string | null
+    client_1_id?: string | null
 }
 
 export interface MaatregelStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-    Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
-    Client_1?: UserShort | null
-}
-
-export interface MaatregelUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
+    portfolio_holder_1?: UserShort | null
+    client_1?: UserShort | null
 }
 
 export interface Module {
-    Module_ID: number
-    Created_Date: string
-    Modified_Date: string
-    Created_By_UUID: string
-    Modified_By_UUID: string
-    Activated: boolean
-    Closed: boolean
-    Successful: boolean
-    Temporary_Locked: boolean
-    Title: string
-    Description: string
-    Module_Manager_1_UUID: string
-    Module_Manager_2_UUID?: string | null
-    Status?: ModuleStatus | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Module_Manager_1?: UserShort | null
-    Module_Manager_2?: UserShort | null
+    module_id: number
+    created_date: string
+    modified_date: string
+    created_by_id: string
+    modified_by_id: string
+    activated: boolean
+    closed: boolean
+    successful: boolean
+    temporary_locked: boolean
+    title: string
+    description: string
+    module_manager_1_id: string
+    module_manager_2_id?: string | null
+    status?: ModuleStatus | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    module_manager_1?: UserShort | null
+    module_manager_2?: UserShort | null
 }
 
 export type ModuleObjectAction =
@@ -1591,143 +1605,144 @@ export const ModuleObjectAction = {
 } as const
 
 export interface ModuleAddExistingObject {
-    Object_UUID: string
-    Action: ModuleObjectAction
-    Explanation?: string
-    Conclusion?: string
+    object_uuid: string
+    action: ModuleObjectAction
+    explanation?: string
+    conclusion?: string
 }
 
 export interface ModuleAddNewObject {
-    Object_Type: string
+    object_type: string
     /** @minLength 3 */
-    Title: string
-    Owner_1_UUID: string
-    Owner_2_UUID?: string | null
-    Client_1_UUID?: string | null
-    Explanation?: string
-    Conclusion?: string
+    title: string
+    owner_1_id: string
+    owner_2_id?: string | null
+    owner_3_id?: string | null
+    client_1_id?: string | null
+    explanation?: string
+    conclusion?: string
 }
 
 export interface ModuleCreate {
     /** @minLength 3 */
-    Title: string
+    title: string
     /** @minLength 3 */
-    Description: string
-    Module_Manager_1_UUID: string
-    Module_Manager_2_UUID?: string | null
+    description: string
+    module_manager_1_id: string
+    module_manager_2_id?: string | null
 }
 
 export interface ModuleCreatedResponse {
-    Module_ID: number
+    module_id: number
 }
 
 export interface ModuleEdit {
-    Temporary_Locked?: boolean | null
-    Title?: string | null
-    Description?: string | null
-    Module_Manager_1_UUID?: string | null
-    Module_Manager_2_UUID?: string | null
+    temporary_locked?: boolean | null
+    title?: string | null
+    description?: string | null
+    module_manager_1_id?: string | null
+    module_manager_2_id?: string | null
 }
 
 export interface ModuleEditObjectContext {
-    Action?: ModuleObjectAction | null
-    Explanation?: string | null
-    Conclusion?: string | null
+    action?: ModuleObjectAction | null
+    explanation?: string | null
+    conclusion?: string | null
 }
 
 export interface ModuleObjectContext {
-    Module_ID: number
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Created_Date: string
-    Modified_Date: string
-    Action: string
-    Explanation: string
-    Conclusion: string
-    Original_Adjust_On?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
+    module_id: number
+    object_type: string
+    object_id: number
+    code: string
+    created_date: string
+    modified_date: string
+    action: string
+    explanation: string
+    conclusion: string
+    original_adjust_on?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
 }
 
 export interface ModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: string | null
+    action: string
+    original_adjust_on?: string | null
 }
 
 export interface ObjectStaticShort {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
-    Client_1_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
+    portfolio_holder_1_id?: string | null
+    client_1_id?: string | null
 }
 
 export interface NationaalBelangBasic {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
 }
 
 export interface ProgrammaAlgemeenBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    next_version?: NextObjectVersion | null
 }
 
 export interface VerplichtProgrammaBasic {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
 }
 
 export interface VisieAlgemeenBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Next_Version?: NextObjectVersion | null
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    next_version?: NextObjectVersion | null
 }
 
 export interface WettelijkeTaakBasic {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
 }
 
 export interface ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
-    Module_ID: number
-    Module_Latest_Status: string
-    Object_Type: string
-    ObjectStatics: ObjectStaticShort
-    ModuleObjectContext: ModuleObjectContextShort
-    Model:
+    module_id: number
+    module_latest_status: string
+    object_type: string
+    object_statics: ObjectStaticShort
+    module_object_context: ModuleObjectContextShort
+    model:
         | AmbitieBasic
         | BeleidsdoelBasic
         | BeleidskeuzeBasic
@@ -1747,32 +1762,32 @@ export interface ModuleObjectsResponseUnionAmbitieBasicBeleidsdoelBasicBeleidske
 }
 
 export interface ModuleOverviewResponse {
-    Module: Module
-    StatusHistory: ModuleStatus[]
+    module: Module
+    status_history: ModuleStatus[]
 }
 
 export interface ModulePatchStatus {
-    Status: ModuleStatusCode
+    status: ModuleStatusCode
 }
 
 export type ModuleSnapshotObjectsItem = { [key: string]: unknown }
 
 export interface ModuleSnapshot {
-    Objects: ModuleSnapshotObjectsItem[]
+    objects: ModuleSnapshotObjectsItem[]
 }
 
 export type ModuleSortColumn =
     (typeof ModuleSortColumn)[keyof typeof ModuleSortColumn]
 
 export const ModuleSortColumn = {
-    Module_ID: 'Module_ID',
-    Title: 'Title',
-    Created_Date: 'Created_Date',
-    Modified_Date: 'Modified_Date',
-    Activated: 'Activated',
-    Closed: 'Closed',
-    Successful: 'Successful',
-    Temporary_Locked: 'Temporary_Locked',
+    module_id: 'module_id',
+    title: 'title',
+    created_date: 'created_date',
+    modified_date: 'modified_date',
+    activated: 'activated',
+    closed: 'closed',
+    successful: 'successful',
+    temporary_locked: 'temporary_locked',
 } as const
 
 export type MutationStrategy =
@@ -1784,62 +1799,66 @@ export const MutationStrategy = {
 } as const
 
 export interface NationaalBelangCreateStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface NationaalBelangCreate {
-    Title?: string
-    Weblink?: string | null
-    ObjectStatics?: NationaalBelangCreateStatics
+    title?: string
+    weblink?: string | null
+    object_statics?: NationaalBelangCreateStatics
 }
 
 export interface NationaalBelangEdit {
-    Title?: string | null
-    Weblink?: string | null
+    title?: string | null
+    weblink?: string | null
 }
 
 export interface NationaalBelangFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface NationaalBelangFull {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Beleidskeuzes?: BeleidskeuzeMinimal[]
-    ObjectStatics?: NationaalBelangFullStatics
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    beleidskeuzes?: BeleidskeuzeMinimal[]
+    object_statics?: NationaalBelangFullStatics
+}
+
+export interface NationaalBelangID {
+    object_id?: number
+    id?: string
 }
 
 export interface NationaalBelangStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface NationaalBelangStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface NationaalBelangUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface NewObjectStaticResponse {
-    Object_Type: string
-    Object_ID: number
-    Code: string
+    object_type: string
+    object_id: number
+    code: string
 }
 
 export interface ObjectCount {
@@ -1848,9 +1867,9 @@ export interface ObjectCount {
 }
 
 export interface ObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
-    Object_Type: string
-    ObjectStatics: ObjectStaticShort
-    Model:
+    object_type: string
+    object_statics: ObjectStaticShort
+    model:
         | AmbitieBasic
         | BeleidsdoelBasic
         | BeleidskeuzeBasic
@@ -1885,10 +1904,10 @@ export const PackageType = {
 } as const
 
 export interface PackageZipShort {
-    UUID: string
-    Filename: string
-    Latest_Download_Date?: string | null
-    Latest_Download_By_UUID?: string | null
+    id: string
+    filename: string
+    latest_download_date?: string | null
+    latest_download_by_id?: string | null
 }
 
 export interface PagedResponseAmbitieBasic {
@@ -2081,23 +2100,24 @@ export interface PagedResponseProgrammaAlgemeenBasic {
 }
 
 export interface ProgrammaAlgemeenExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface ProgrammaAlgemeenExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: ProgrammaAlgemeenExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: ProgrammaAlgemeenExtendedStatics
 }
 
 export interface PagedResponseProgrammaAlgemeenExtended {
@@ -2108,10 +2128,10 @@ export interface PagedResponseProgrammaAlgemeenExtended {
 }
 
 export interface PublicModuleShort {
-    Module_ID: number
-    Title: string
-    Description: string
-    Status?: ModuleStatus | null
+    module_id: number
+    title: string
+    description: string
+    status?: ModuleStatus | null
 }
 
 export interface PagedResponsePublicModuleShort {
@@ -2122,11 +2142,11 @@ export interface PagedResponsePublicModuleShort {
 }
 
 export interface PublicationAOJ {
-    UUID: string
-    Administrative_Borders_ID: string
-    Administrative_Borders_Domain: string
-    Administrative_Borders_Date: string
-    Created_Date: string
+    id: string
+    administrative_borders_id: string
+    administrative_borders_domain: string
+    administrative_borders_date: string
+    created_date: string
 }
 
 export interface PagedResponsePublicationAOJ {
@@ -2137,12 +2157,12 @@ export interface PagedResponsePublicationAOJ {
 }
 
 export interface PublicationActPackageReportShort {
-    UUID: string
-    Act_Package_UUID: string
-    Report_Status: string
-    Filename: string
-    Main_Outcome: string
-    Created_Date: string
+    id: string
+    act_package_id: string
+    report_status: string
+    filename: string
+    main_outcome: string
+    created_date: string
 }
 
 export interface PagedResponsePublicationActPackageReportShort {
@@ -2153,17 +2173,17 @@ export interface PagedResponsePublicationActPackageReportShort {
 }
 
 export interface PublicationActPackage {
-    UUID: string
-    Package_Type: string
-    Report_Status: string
-    Delivery_ID: string
-    Created_Date: string
-    Modified_Date: string
-    Created_By_UUID: string
-    Modified_By_UUID: string
-    Zip: PackageZipShort
-    Module_ID?: number | null
-    Module_Status?: ModuleStatus | null
+    id: string
+    package_type: string
+    report_status: string
+    delivery_id: string
+    created_date: string
+    modified_date: string
+    created_by_id: string
+    modified_by_id: string
+    zip: PackageZipShort
+    module_id?: number | null
+    module_status?: ModuleStatus | null
 }
 
 export interface PagedResponsePublicationActPackage {
@@ -2174,17 +2194,17 @@ export interface PagedResponsePublicationActPackage {
 }
 
 export interface PublicationActShort {
-    UUID: string
-    Title: string
-    Is_Active: boolean
-    Environment_UUID: string
-    Document_Type: string
-    Work_Province_ID: string
-    Work_Country: string
-    Work_Date: string
-    Work_Other: string
-    Created_Date: string
-    Modified_Date: string
+    id: number
+    title: string
+    is_active: boolean
+    environment_id: string
+    document_type: string
+    work_province_id: string
+    work_country: string
+    work_date: string
+    work_other: string
+    created_date: string
+    modified_date: string
 }
 
 export interface PagedResponsePublicationActShort {
@@ -2195,12 +2215,12 @@ export interface PagedResponsePublicationActShort {
 }
 
 export interface PublicationAnnouncementPackageReportShort {
-    UUID: string
-    Announcement_Package_UUID: string
-    Report_Status: string
-    Filename: string
-    Main_Outcome: string
-    Created_Date: string
+    id: string
+    announcement_package_id: string
+    report_status: string
+    filename: string
+    main_outcome: string
+    created_date: string
 }
 
 export interface PagedResponsePublicationAnnouncementPackageReportShort {
@@ -2210,15 +2230,15 @@ export interface PagedResponsePublicationAnnouncementPackageReportShort {
     results: PublicationAnnouncementPackageReportShort[]
 }
 
-export type PublicationAnnouncementShortMetadata = { [key: string]: unknown }
+export type PublicationAnnouncementShortMetaData = { [key: string]: unknown }
 
 export interface PublicationAnnouncementShort {
-    UUID: string
-    Metadata: PublicationAnnouncementShortMetadata
-    Announcement_Date?: string | null
-    Is_Locked: boolean
-    Created_Date: string
-    Modified_Date: string
+    id: string
+    meta_data: PublicationAnnouncementShortMetaData
+    announcement_date?: string | null
+    is_locked: boolean
+    created_date: string
+    modified_date: string
 }
 
 export interface PagedResponsePublicationAnnouncementShort {
@@ -2229,22 +2249,22 @@ export interface PagedResponsePublicationAnnouncementShort {
 }
 
 export interface PublicationEnvironment {
-    UUID: string
-    Title: string
-    Description: string
-    Province_ID: string
-    Authority_ID: string
-    Submitter_ID: string
-    Governing_Body_Type: string
-    Frbr_Country: string
-    Frbr_Language: string
-    Is_Active: boolean
-    Has_State: boolean
-    Can_Validate: boolean
-    Can_Publicate: boolean
-    Is_Locked: boolean
-    Created_Date: string
-    Modified_Date: string
+    id: string
+    title: string
+    description: string
+    province_id: string
+    authority_id: string
+    submitter_id: string
+    governing_body_type: string
+    frbr_country: string
+    frbr_language: string
+    is_active: boolean
+    has_state: boolean
+    can_validate: boolean
+    can_publicate: boolean
+    is_locked: boolean
+    created_date: string
+    modified_date: string
 }
 
 export interface PagedResponsePublicationEnvironment {
@@ -2255,15 +2275,15 @@ export interface PagedResponsePublicationEnvironment {
 }
 
 export interface PublicationPackage {
-    UUID: string
-    Package_Type: string
-    Report_Status: string
-    Delivery_ID: string
-    Created_Date: string
-    Modified_Date: string
-    Created_By_UUID: string
-    Modified_By_UUID: string
-    Zip: PackageZipShort
+    id: string
+    package_type: string
+    report_status: string
+    delivery_id: string
+    created_date: string
+    modified_date: string
+    created_by_id: string
+    modified_by_id: string
+    zip: PackageZipShort
 }
 
 export interface PagedResponsePublicationPackage {
@@ -2274,17 +2294,17 @@ export interface PagedResponsePublicationPackage {
 }
 
 export interface PublicationTemplate {
-    UUID: string
-    Title: string
-    Description: string
-    Is_Active: boolean
-    Document_Type: string
-    Object_Types?: unknown
-    Text_Template: string
-    Object_Templates?: unknown
-    Object_Field_Map?: unknown
-    Created_Date: string
-    Modified_Date: string
+    id: string
+    title: string
+    description: string
+    is_active: boolean
+    document_type: string
+    object_types?: unknown
+    text_template: string
+    object_templates?: unknown
+    object_field_map?: unknown
+    created_date: string
+    modified_date: string
 }
 
 export interface PagedResponsePublicationTemplate {
@@ -2310,37 +2330,37 @@ export const PublicationVersionStatus = {
 } as const
 
 export interface Procedural {
-    Enactment_Date?: string | null
-    Signed_Date?: string | null
-    Procedural_Announcement_Date?: string | null
+    enactment_date?: string | null
+    signed_date?: string | null
+    procedural_announcement_date?: string | null
 }
 
 export interface PublicationPackageShort {
-    UUID: string
-    Package_Type: string
-    Report_Status: string
-    Delivery_ID: string
-    Created_Date: string
-    Modified_Date: string
-    Created_By_UUID: string
-    Modified_By_UUID: string
+    id: string
+    package_type: string
+    report_status: string
+    delivery_id: string
+    created_date: string
+    modified_date: string
+    created_by_id: string
+    modified_by_id: string
 }
 
 export type PublicationVersionShortBillMetadata = { [key: string]: unknown }
 
 export interface PublicationVersionShort {
-    UUID: string
-    Publication_UUID: string
-    Module_Status: ModuleStatus
-    Bill_Metadata: PublicationVersionShortBillMetadata
-    Effective_Date?: string | null
-    Announcement_Date?: string | null
-    Is_Locked: boolean
-    Status: PublicationVersionStatus
-    Procedural?: Procedural | null
-    Created_Date: string
-    Modified_Date: string
-    Act_Packages: PublicationPackageShort[]
+    id: string
+    publication_id: string
+    module_status: ModuleStatus
+    bill_metadata: PublicationVersionShortBillMetadata
+    effective_date?: string | null
+    announcement_date?: string | null
+    is_locked: boolean
+    status: PublicationVersionStatus
+    procedural?: Procedural | null
+    created_date: string
+    modified_date: string
+    act_packages: PublicationPackageShort[]
 }
 
 export interface PagedResponsePublicationVersionShort {
@@ -2351,16 +2371,16 @@ export interface PagedResponsePublicationVersionShort {
 }
 
 export interface Publication {
-    UUID: string
-    Module_ID: number
-    Is_Locked: boolean
-    Document_Type: string
-    Procedure_Type: string
-    Template_UUID?: string | null
-    Environment_UUID?: string | null
-    Act_UUID?: string | null
-    Created_Date: string
-    Modified_Date: string
+    id: string
+    module_id: number
+    is_locked: boolean
+    document_type: string
+    procedure_type: string
+    template_id?: string | null
+    environment_id?: string | null
+    act_id?: number | null
+    created_date: string
+    modified_date: string
 }
 
 export interface PagedResponsePublication {
@@ -2371,11 +2391,11 @@ export interface PagedResponsePublication {
 }
 
 export interface SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic {
-    Module_ID?: number | null
-    Object_Type: string
-    Title: string
-    Description: string
-    Model:
+    module_id?: number | null
+    object_type: string
+    title: string
+    description: string
+    model:
         | AmbitieBasic
         | BeleidsdoelBasic
         | BeleidskeuzeBasic
@@ -2409,17 +2429,17 @@ export interface PagedResponseStorageFileBasic {
 }
 
 export interface UnifiedPackage {
-    Publication_Type: string
-    UUID: string
-    Created_Date: string
-    Modified_Date: string
-    Package_Type: string
-    Report_Status: string
-    Delivery_ID: string
-    Module_ID: number
-    Module_Title: string
-    Document_Type: string
-    Environment_UUID: string
+    publication_type: string
+    id: string
+    created_date: string
+    modified_date: string
+    package_type: string
+    report_status: string
+    delivery_id: string
+    module_id: number
+    module_title: string
+    document_type: string
+    environment_id: string
 }
 
 export interface PagedResponseUnifiedPackage {
@@ -2430,12 +2450,11 @@ export interface PagedResponseUnifiedPackage {
 }
 
 export interface User {
-    UUID: string
-    Gebruikersnaam: string
-    Email: string
-    Roles: string[]
-    Status: string
-    IsActive: boolean
+    id: string
+    name: string
+    email: string
+    roles: string[]
+    is_active: boolean
 }
 
 export interface PagedResponseUser {
@@ -2460,23 +2479,24 @@ export interface PagedResponseVisieAlgemeenBasic {
 }
 
 export interface VisieAlgemeenExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface VisieAlgemeenExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: VisieAlgemeenExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: VisieAlgemeenExtendedStatics
 }
 
 export interface PagedResponseVisieAlgemeenExtended {
@@ -2494,24 +2514,25 @@ export interface PagedResponseWerkingsgebiedBasic {
 }
 
 export interface WerkingsgebiedExtendedStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface WerkingsgebiedExtended {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Area_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    ObjectStatics?: WerkingsgebiedExtendedStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    area_id?: string | null
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    object_statics?: WerkingsgebiedExtendedStatics
 }
 
 export interface PagedResponseWerkingsgebiedExtended {
@@ -2522,14 +2543,12 @@ export interface PagedResponseWerkingsgebiedExtended {
 }
 
 export interface Werkingsgebied {
-    ID?: number | null
-    UUID: string
-    Created_Date: string
-    Modified_Date: string
-    Title: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Geometry_Hash?: string | null
+    id: string
+    ref_id?: number | null
+    created_date: string
+    modified_date: string
+    title: string
+    geometry_hash?: string | null
 }
 
 export interface PagedResponseWerkingsgebied {
@@ -2558,232 +2577,235 @@ export const ProcedureType = {
 } as const
 
 export interface ProgrammaAlgemeenFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface ProgrammaAlgemeenFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: ProgrammaAlgemeenFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    gebiedsaanwijzingen_gebieden?: GebiedBasic[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: ProgrammaAlgemeenFullStatics
+}
+
+export interface ProgrammaAlgemeenID {
+    object_id?: number
+    id?: string
 }
 
 export interface ProgrammaAlgemeenStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface ProgrammaAlgemeenStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface ProgrammaAlgemeenUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface PublicModuleObjectContextShort {
-    Action: string
-    Original_Adjust_On?: string | null
+    action: string
+    original_adjust_on?: string | null
 }
 
 export interface PublicModuleObjectShort {
-    Module_ID: number
-    UUID: string
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Description: string
-    Modified_Date: string
-    Title: string
-    ModuleObjectContext?: PublicModuleObjectContextShort | null
+    module_id: number
+    id: string
+    object_type: string
+    object_id: number
+    code: string
+    description: string
+    modified_date: string
+    title: string
+    module_object_context?: PublicModuleObjectContextShort | null
 }
 
 export interface PublicModuleOverview {
-    Module: PublicModuleShort
-    Objects: PublicModuleObjectShort[]
+    module: PublicModuleShort
+    objects: PublicModuleObjectShort[]
 }
 
-export type PublicationActMetadata = { [key: string]: unknown }
+export type PublicationActMetaData = { [key: string]: unknown }
 
 export interface PublicationAct {
-    UUID: string
-    Title: string
-    Is_Active: boolean
-    Environment: PublicationEnvironment
-    Document_Type: string
-    Metadata: PublicationActMetadata
-    Work_Province_ID: string
-    Work_Country: string
-    Work_Date: string
-    Work_Other: string
-    Created_Date: string
-    Modified_Date: string
+    id: number
+    title: string
+    is_active: boolean
+    environment: PublicationEnvironment
+    document_type: string
+    meta_data: PublicationActMetaData
+    work_province_id: string
+    work_country: string
+    work_date: string
+    work_other: string
+    created_date: string
+    modified_date: string
 }
 
 export interface PublicationActPackageDetailResponse {
-    UUID: string
-    Package_Type: string
-    Report_Status: string
-    Delivery_ID: string
-    Document_Type: string
-    Publication_Version_UUID: string
-    Bill_Version_UUID: string | null
-    Act_Version_UUID: string | null
-    Zip: PackageZipShort
-    Created_Environment_State_UUID: string | null
-    Used_Environment_State_UUID: string | null
-    Created_Date: string
-    Modified_Date: string
-    Created_By_UUID: string
-    Modified_By_UUID: string
-    Module_ID: number | null
-    Module_Title: string | null
-    Module_Status_ID: number | null
-    Module_Status_Status: string | null
-    Environment_UUID: string
-    Environment_Title: string
+    id: string
+    package_type: string
+    report_status: string
+    delivery_id: string
+    document_type: string
+    publication_version_id: string
+    bill_version_id: string | null
+    act_version_id: string | null
+    zip: PackageZipShort
+    created_environment_state_id: string | null
+    used_environment_state_id: string | null
+    created_date: string
+    modified_date: string
+    created_by_id: string
+    modified_by_id: string
+    module_id: number | null
+    module_title: string | null
+    module_status_id: number | null
+    module_status_status: string | null
+    environment_id: string
+    environment_title: string
 }
 
 export interface PublicationActPackageReport {
-    UUID: string
-    Act_Package_UUID: string
-    Report_Status: string
-    Filename: string
-    Source_Document: string
-    Main_Outcome: string
-    Sub_Delivery_ID: string
-    Sub_Progress: string
-    Sub_Outcome: string
-    Created_Date: string
+    id: string
+    act_package_id: string
+    report_status: string
+    filename: string
+    source_document: string
+    main_outcome: string
+    sub_delivery_id: string
+    sub_progress: string
+    sub_outcome: string
+    created_date: string
 }
 
-export type PublicationAnnouncementMetadata = { [key: string]: unknown }
+export type PublicationAnnouncementMetaData = { [key: string]: unknown }
 
 export type PublicationAnnouncementProcedural = { [key: string]: unknown }
 
 export type PublicationAnnouncementContent = { [key: string]: unknown }
 
 export interface PublicationShort {
-    UUID: string
-    Module_ID: number
-    Is_Locked: boolean
-    Document_Type: string
-    Procedure_Type: string
-    Template_UUID?: string | null
-    Environment_UUID?: string | null
-    Act_UUID?: string | null
-    Created_Date: string
-    Modified_Date: string
+    id: string
+    module_id: number
+    is_locked: boolean
+    document_type: string
+    procedure_type: string
+    template_id?: string | null
+    environment_id?: string | null
+    act_id?: number | null
+    created_date: string
+    modified_date: string
 }
 
 export interface PublicationAnnouncement {
-    UUID: string
-    Act_Package: PublicationPackageShort
-    Publication: PublicationShort
-    Metadata: PublicationAnnouncementMetadata
-    Procedural: PublicationAnnouncementProcedural
-    Content: PublicationAnnouncementContent
-    Announcement_Date?: string | null
-    Is_Locked: boolean
-    Created_Date: string
-    Modified_Date: string
+    id: string
+    act_package: PublicationPackageShort
+    publication: PublicationShort
+    meta_data: PublicationAnnouncementMetaData
+    procedural: PublicationAnnouncementProcedural
+    content: PublicationAnnouncementContent
+    announcement_date?: string | null
+    is_locked: boolean
+    created_date: string
+    modified_date: string
 }
 
 export interface PublicationAnnouncementEdit {
-    Announcement_Date?: string | null
-    Metadata?: AnnouncementMetadata | null
-    Procedural?: AnnouncementProcedural | null
-    Content?: AnnouncementContent | null
+    announcement_date?: string | null
+    meta_data?: AnnouncementMetadata | null
+    procedural?: AnnouncementProcedural | null
+    content?: AnnouncementContent | null
 }
 
 export interface PublicationAnnouncementPackageCreate {
-    Package_Type: PackageType
+    package_type: PackageType
 }
 
 export interface PublicationAnnouncementPackageCreatedResponse {
-    Package_UUID: string
-    Zip_UUID: string
+    package_id: string
+    zip_id: string
 }
 
 export interface PublicationAnnouncementPackageDetailResponse {
-    UUID: string
-    Package_Type: string
-    Report_Status: string
-    Delivery_ID: string
-    Document_Type: string
-    Announcement_UUID: string
-    Doc_Version_UUID: string | null
-    Zip: PackageZipShort
-    Created_Environment_State_UUID: string | null
-    Used_Environment_State_UUID: string | null
-    Created_Date: string
-    Modified_Date: string
-    Created_By_UUID: string
-    Modified_By_UUID: string
-    Module_ID: number | null
-    Module_Title: string | null
-    Module_Status_ID: number | null
-    Module_Status_Status: string | null
-    Environment_UUID: string
-    Environment_Title: string
+    id: string
+    package_type: string
+    report_status: string
+    delivery_id: string
+    document_type: string
+    announcement_id: string
+    doc_version_id: string | null
+    zip: PackageZipShort
+    created_environment_state_id: string | null
+    used_environment_state_id: string | null
+    created_date: string
+    modified_date: string
+    created_by_id: string
+    modified_by_id: string
+    module_id: number | null
+    module_title: string | null
+    module_status_id: number | null
+    module_status_status: string | null
+    environment_id: string
+    environment_title: string
 }
 
 export interface PublicationAnnouncementPackageReport {
-    UUID: string
-    Announcement_Package_UUID: string
-    Report_Status: string
-    Filename: string
-    Source_Document: string
-    Main_Outcome: string
-    Sub_Delivery_ID: string
-    Sub_Progress: string
-    Sub_Outcome: string
-    Created_Date: string
+    id: string
+    announcement_package_id: string
+    report_status: string
+    filename: string
+    source_document: string
+    main_outcome: string
+    sub_delivery_id: string
+    sub_progress: string
+    sub_outcome: string
+    created_date: string
 }
 
 export interface PublicationCreate {
-    Module_ID: number
-    Document_Type: DocumentType
-    Procedure_Type: ProcedureType
-    Template_UUID: string
-    Environment_UUID: string
-    Act_UUID: string
+    module_id: number
+    document_type: DocumentType
+    procedure_type: ProcedureType
+    template_id: string
+    environment_id: string
+    act_id: number
 }
 
 export interface PublicationCreatedResponse {
-    UUID: string
+    id: string
 }
 
 export interface PublicationEdit {
-    Template_UUID?: string | null
+    template_id?: string | null
 }
 
 export interface PublicationPackageCreate {
-    Package_Type: PackageType
+    package_type: PackageType
 }
 
 export interface PublicationPackageCreatedResponse {
-    Package_UUID: string
-    Zip_UUID: string
+    package_id: string
+    zip_id: string
 }
 
 export interface PublicationPackagePdf {
-    Mutation?: MutationStrategy | null
+    mutation_strategy?: MutationStrategy | null
 }
 
 export type PublicationType =
@@ -2801,52 +2823,52 @@ export type PublicationVersionBillCompact = { [key: string]: unknown }
 export type PublicationVersionProcedural = { [key: string]: unknown }
 
 export interface PublicationVersion {
-    UUID: string
-    Publication: PublicationShort
-    Module_Status: ModuleStatus
-    Bill_Metadata: PublicationVersionBillMetadata
-    Bill_Compact: PublicationVersionBillCompact
-    Procedural: PublicationVersionProcedural
-    Effective_Date?: string | null
-    Announcement_Date?: string | null
-    Is_Locked: boolean
-    Status: PublicationVersionStatus
-    Mutation_Strategy: MutationStrategy
-    Created_Date: string
-    Modified_Date: string
-    Attachments: AttachmentShort[]
-    Errors?: ErrorDetails[]
+    id: string
+    publication: PublicationShort
+    module_status: ModuleStatus
+    bill_metadata: PublicationVersionBillMetadata
+    bill_compact: PublicationVersionBillCompact
+    procedural: PublicationVersionProcedural
+    effective_date?: string | null
+    announcement_date?: string | null
+    is_locked: boolean
+    status: PublicationVersionStatus
+    mutation_strategy: MutationStrategy
+    created_date: string
+    modified_date: string
+    attachments: AttachmentShort[]
+    errors?: ErrorDetails[]
 }
 
 export interface PublicationVersionCreate {
-    Module_Status_ID: number
-    Mutation_Strategy?: MutationStrategy
+    module_status_id: number
+    mutation_strategy?: MutationStrategy
 }
 
 export interface PublicationVersionCreatedResponse {
-    UUID: string
+    id: string
 }
 
 export interface PublicationVersionEdit {
-    Module_Status_ID?: number | null
-    Effective_Date?: string | null
-    Announcement_Date?: string | null
-    Mutation_Strategy?: MutationStrategy | null
-    Bill_Metadata?: BillMetadata | null
-    Bill_Compact?: BillCompact | null
-    Procedural?: Procedural | null
+    module_status_id?: number | null
+    effective_date?: string | null
+    announcement_date?: string | null
+    mutation_strategy?: MutationStrategy | null
+    bill_metadata?: BillMetadata | null
+    bill_compact?: BillCompact | null
+    procedural?: Procedural | null
 }
 
 export interface PublicationVersionEditResponse {
-    Errors: ErrorDetails[]
-    Is_Valid: boolean
+    errors: ErrorDetails[]
+    is_valid: boolean
 }
 
 export interface ReadRelation {
-    Object_ID: number
-    Object_Type: string
-    Description?: string
-    Title?: string
+    object_id: number
+    object_type: string
+    description?: string
+    title?: string
 }
 
 export type ReportStatusType =
@@ -2861,9 +2883,9 @@ export const ReportStatusType = {
 } as const
 
 export interface RequestAcknowledgedRelation {
-    Object_ID: number
-    Object_Type: string
-    Explanation?: string | null
+    object_id: number
+    object_type: string
+    explanation?: string | null
 }
 
 export interface RequestData {
@@ -2901,17 +2923,17 @@ export type TemplateCreateObjectTemplates = { [key: string]: string }
 
 export interface TemplateCreate {
     /** @minLength 3 */
-    Title: string
-    Description: string
-    Document_Type: DocumentType
-    Object_Types: string[]
-    Object_Field_Map: TemplateCreateObjectFieldMap
-    Text_Template: string
-    Object_Templates: TemplateCreateObjectTemplates
+    title: string
+    description: string
+    document_type: DocumentType
+    object_types: string[]
+    object_field_map: TemplateCreateObjectFieldMap
+    text_template: string
+    object_templates: TemplateCreateObjectTemplates
 }
 
 export interface TemplateCreatedResponse {
-    UUID: string
+    id: string
 }
 
 export type TemplateEditObjectFieldMap = { [key: string]: string[] } | null
@@ -2919,43 +2941,43 @@ export type TemplateEditObjectFieldMap = { [key: string]: string[] } | null
 export type TemplateEditObjectTemplates = { [key: string]: string } | null
 
 export interface TemplateEdit {
-    Title?: string | null
-    Description?: string | null
-    Is_Active?: boolean | null
-    Document_Type?: DocumentType | null
+    title?: string | null
+    description?: string | null
+    is_active?: boolean | null
+    document_type?: DocumentType | null
     /** @deprecated */
-    Field_Map?: string[] | null
-    Object_Field_Map?: TemplateEditObjectFieldMap
-    Object_Types?: string[] | null
-    Text_Template?: string | null
-    Object_Templates?: TemplateEditObjectTemplates
+    field_map?: string[] | null
+    object_field_map?: TemplateEditObjectFieldMap
+    object_types?: string[] | null
+    text_template?: string | null
+    object_templates?: TemplateEditObjectTemplates
 }
 
 export interface UploadAttachmentResponse {
-    ID: number
+    id: number
 }
 
 export interface UploadFileResponse {
-    UUID: string
+    id: string
 }
 
 export interface UploadPackageReportResponse {
-    Status: ReportStatusType
-    Duplicate_Count: number
+    status: ReportStatusType
+    duplicate_count: number
 }
 
 export interface UserCreate {
     /** @minLength 3 */
-    Gebruikersnaam: string
-    Email: string
-    Roles: string[]
+    name: string
+    email: string
+    roles: string[]
 }
 
 export interface UserCreateResponse {
-    UUID: string
-    Email: string
-    Roles: string[]
-    Password: string
+    id: string
+    email: string
+    roles: string[]
+    password: string
 }
 
 export interface ValidateModuleObject {
@@ -2987,228 +3009,242 @@ export interface ValidateModuleResult {
 }
 
 export interface VerplichtProgrammaCreateStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface VerplichtProgrammaCreate {
-    Title?: string
-    Description?: string | null
-    ObjectStatics?: VerplichtProgrammaCreateStatics
+    title?: string
+    description?: string | null
+    object_statics?: VerplichtProgrammaCreateStatics
 }
 
 export interface VerplichtProgrammaEdit {
-    Title?: string | null
-    Description?: string | null
+    title?: string | null
+    description?: string | null
 }
 
 export interface VerplichtProgrammaFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface VerplichtProgrammaFull {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    WettelijkeTaken?: WettelijkeTaakMinimal[]
-    Maatregelen?: ReadRelationShortMaatregelMinimal[]
-    ObjectStatics?: VerplichtProgrammaFullStatics
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    wettelijke_taken?: WettelijkeTaakMinimal[]
+    maatregelen?: ReadRelationShortMaatregelMinimal[]
+    object_statics?: VerplichtProgrammaFullStatics
+}
+
+export interface VerplichtProgrammaID {
+    object_id?: number
+    id?: string
 }
 
 export interface VerplichtProgrammaMinimal {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
 }
 
 export interface VerplichtProgrammaStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface VerplichtProgrammaStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface VerplichtProgrammaUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface VisieAlgemeenFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface VisieAlgemeenFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
-    Public_Revisions?: PublicModuleObjectRevision[]
-    Next_Version?: NextObjectVersion | null
-    ObjectStatics?: VisieAlgemeenFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    gebiedsaanwijzingen_gebieden?: GebiedBasic[]
+    public_revisions?: PublicModuleObjectRevision[]
+    next_version?: NextObjectVersion | null
+    object_statics?: VisieAlgemeenFullStatics
+}
+
+export interface VisieAlgemeenID {
+    object_id?: number
+    id?: string
 }
 
 export interface VisieAlgemeenStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface VisieAlgemeenStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface VisieAlgemeenUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface WerkingsgebiedRelatedObjectShort {
-    UUID: string
-    Object_Type: string
-    Object_ID: number
-    Title: string | null
-    Werkingsgebied_Code: string
+    id: string
+    object_type: string
+    object_id: number
+    title: string | null
+    werkingsgebied_code: string
 }
 
 export interface WerkingsgebiedRelatedModuleObjectShort {
-    UUID: string
-    Object_Type: string
-    Object_ID: number
-    Title: string | null
-    Werkingsgebied_Code: string
-    Module_ID?: number | null
-    Module_Title?: string | null
+    id: string
+    object_type: string
+    object_id: number
+    title: string | null
+    werkingsgebied_code: string
+    module_id?: number | null
+    module_title?: string | null
 }
 
 export interface WerkingsgebiedRelatedObjects {
-    Valid_Objects: WerkingsgebiedRelatedObjectShort[]
-    Module_Objects: WerkingsgebiedRelatedModuleObjectShort[]
+    valid_objects: WerkingsgebiedRelatedObjectShort[]
+    module_objects: WerkingsgebiedRelatedModuleObjectShort[]
 }
 
 export interface WerkingsgebiedFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface WerkingsgebiedFull {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Description?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Area_UUID?: string | null
-    Area?: AreaBasic | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    Related_Objects?: WerkingsgebiedRelatedObjects | null
-    ObjectStatics?: WerkingsgebiedFullStatics
+    object_id?: number
+    code?: string
+    id?: string
+    adjust_on?: string | null
+    created_date?: string
+    modified_date?: string
+    title?: string
+    description?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    area_id?: string | null
+    area?: AreaBasic | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    related_objects?: WerkingsgebiedRelatedObjects | null
+    object_statics?: WerkingsgebiedFullStatics
 }
 
 export interface WerkingsgebiedStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface WerkingsgebiedStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface WerkingsgebiedUUID {
-    Object_ID?: number
-    UUID?: string
+    object_id?: number
+    id?: string
 }
 
 export interface WettelijkeTaakCreateStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface WettelijkeTaakCreate {
-    Title?: string
-    Weblink?: string | null
-    ObjectStatics?: WettelijkeTaakCreateStatics
+    title?: string
+    weblink?: string | null
+    object_statics?: WettelijkeTaakCreateStatics
 }
 
 export interface WettelijkeTaakEdit {
-    Title?: string | null
-    Weblink?: string | null
+    title?: string | null
+    weblink?: string | null
 }
 
 export interface WettelijkeTaakFullStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface WettelijkeTaakFull {
-    Object_Type?: string
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Weblink?: string
-    Start_Validity?: string | null
-    End_Validity?: string | null
-    Created_By?: UserShort | null
-    Modified_By?: UserShort | null
-    VerplichtProgrammas?: VerplichtProgrammaMinimal[]
-    Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
-    ObjectStatics?: WettelijkeTaakFullStatics
+    object_type?: string
+    object_id?: number
+    code?: string
+    id?: string
+    created_date?: string
+    modified_date?: string
+    title?: string
+    weblink?: string
+    start_validity?: string | null
+    end_validity?: string | null
+    created_by?: UserShort | null
+    modified_by?: UserShort | null
+    verplicht_programmas?: VerplichtProgrammaMinimal[]
+    beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
+    object_statics?: WettelijkeTaakFullStatics
+}
+
+export interface WettelijkeTaakID {
+    object_id?: number
+    id?: string
 }
 
 export interface WettelijkeTaakStaticPostStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
+    owner_1_id?: string | null
+    owner_2_id?: string | null
+    owner_3_id?: string | null
 }
 
 export interface WettelijkeTaakStaticStatics {
-    Owner_1?: UserShort | null
-    Owner_2?: UserShort | null
-}
-
-export interface WettelijkeTaakUUID {
-    Object_ID?: number
-    UUID?: string
+    owner_1?: UserShort | null
+    owner_2?: UserShort | null
+    owner_3?: UserShort | null
 }
 
 export interface WriteRelation {
-    Object_ID: number
-    Object_Type: string
-    Description?: string
+    object_id: number
+    object_type: string
+    description?: string
 }
 
 export type AuthenticationPostAuthResetPasswordParams = {
@@ -3263,7 +3299,7 @@ export type ModulesGetListModulesParams = {
 
 export type ModulesGetListModuleObjectsParams = {
     object_types?: string[]
-    owner_uuid?: string | null
+    owner_id?: string | null
     owner_type?: OwnerType
     minimum_status?: ModuleStatusCode | null
     only_active_modules?: boolean
@@ -3280,15 +3316,6 @@ export type ObjectRelatedFilesDeleteObjectRelatedFilesDeleteParams = {
     related_file_uuid: string
 }
 
-export type ObjectsDoListAllLatestParams = {
-    object_types?: string[]
-    owner_uuid?: string | null
-    offset?: number | null
-    limit?: number | null
-    sort_column?: string | null
-    sort_order?: SortOrder | null
-}
-
 export type PublicModulesGetPublicListModulesParams = {
     offset?: number | null
     limit?: number | null
@@ -3300,7 +3327,7 @@ export type PublicationAojGetListAojParams = {
 }
 
 export type PublicationActPackagesGetListActPackagesParams = {
-    version_uuid?: string | null
+    version_id?: string | null
     package_type?: PackageType | null
     offset?: number | null
     limit?: number | null
@@ -3313,7 +3340,7 @@ export type PublicationActPackagesPostAbortActPackageParams = {
 }
 
 export type PublicationActReportsGetListActPackageReportsParams = {
-    act_package_uuid?: string | null
+    act_package_id?: string | null
     report_status?: ReportStatusType | null
     offset?: number | null
     limit?: number | null
@@ -3321,7 +3348,7 @@ export type PublicationActReportsGetListActPackageReportsParams = {
 
 export type PublicationActsGetListActsParams = {
     is_active?: boolean | null
-    environment_uuid?: string | null
+    environment_id?: string | null
     document_type?: DocumentType | null
     procedure_type?: ProcedureType | null
     offset?: number | null
@@ -3329,7 +3356,7 @@ export type PublicationActsGetListActsParams = {
 }
 
 export type PublicationAnnouncementPackagesGetListAnnouncementPackagesParams = {
-    announcement_uuid?: string | null
+    announcement_id?: string | null
     package_type?: PackageType | null
     offset?: number | null
     limit?: number | null
@@ -3339,14 +3366,14 @@ export type PublicationAnnouncementPackagesGetListAnnouncementPackagesParams = {
 
 export type PublicationAnnouncementReportsGetListAnnnouncementPackageReportsParams =
     {
-        announcement_package_uuid?: string | null
+        announcement_package_id?: string | null
         report_status?: ReportStatusType | null
         offset?: number | null
         limit?: number | null
     }
 
 export type PublicationAnnouncementsGetListAnnouncementsParams = {
-    act_package_uuid?: string | null
+    act_package_id?: string | null
     offset?: number | null
     limit?: number | null
 }
@@ -3358,7 +3385,7 @@ export type PublicationEnvironmentsGetListEnvironmentsParams = {
 }
 
 export type PublicationPackagesGetListUnifiedPackagesParams = {
-    environment_uuid?: string | null
+    environment_id?: string | null
     module_id?: number | null
     report_status?: ReportStatusType | null
     package_type?: PackageType | null
@@ -3444,10 +3471,10 @@ export type AmbitieListValidLineageTreeParams = {
 }
 
 export type AmbitiePostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
-    Themas?: string[] | null
-    Hoofdlijnen?: string[] | null
+    title?: string | null
+    description?: string | null
+    themas?: string[] | null
+    hoofdlijnen?: string[] | null
 }
 
 export type AmbitieGetModuleListLineageTreeParams = {
@@ -3477,11 +3504,11 @@ export type BeleidsdoelListValidLineageTreeParams = {
 }
 
 export type BeleidsdoelPostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
-    Hierarchy_Code?: string | null
-    Themas?: string[] | null
-    Hoofdlijnen?: string[] | null
+    title?: string | null
+    description?: string | null
+    hierarchy_code?: string | null
+    themas?: string[] | null
+    hoofdlijnen?: string[] | null
 }
 
 export type BeleidsdoelGetModuleListLineageTreeParams = {
@@ -3517,16 +3544,16 @@ export type BeleidskeuzeGetAcknowledgedRelationListParams = {
 }
 
 export type BeleidskeuzePostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
-    Cause?: string | null
-    Provincial_Interest?: string | null
-    Explanation?: string | null
-    Hierarchy_Code?: string | null
-    Werkingsgebied_Code?: string | null
-    Gebiedengroep_Code?: string | null
-    Themas?: string[] | null
-    Hoofdlijnen?: string[] | null
+    title?: string | null
+    description?: string | null
+    cause?: string | null
+    provincial_interest?: string | null
+    explanation?: string | null
+    hierarchy_code?: string | null
+    werkingsgebied_code?: string | null
+    gebiedengroep_code?: string | null
+    themas?: string[] | null
+    hoofdlijnen?: string[] | null
 }
 
 export type BeleidskeuzeGetModuleListLineageTreeParams = {
@@ -3556,9 +3583,9 @@ export type BeleidsregelListValidLineageTreeParams = {
 }
 
 export type BeleidsregelPostModulePatchObjectBody = {
-    Title?: string | null
-    Weblink?: string | null
-    Description?: string | null
+    title?: string | null
+    weblink?: string | null
+    description?: string | null
 }
 
 export type BeleidsregelGetModuleListLineageTreeParams = {
@@ -3588,9 +3615,9 @@ export type DocumentListValidLineageTreeParams = {
 }
 
 export type DocumentPostModulePatchObjectBody = {
-    Title?: string | null
-    Filename?: string | null
-    File_UUID?: string | null
+    title?: string | null
+    filename?: string | null
+    file_id?: string | null
 }
 
 export type DocumentGetModuleListLineageTreeParams = {
@@ -3620,7 +3647,7 @@ export type GebiedListValidLineageTreeParams = {
 }
 
 export type GebiedPostModulePatchObjectBody = {
-    Title?: string | null
+    title?: string | null
 }
 
 export type GebiedGetModuleListLineageTreeParams = {
@@ -3650,9 +3677,9 @@ export type GebiedengroepListValidLineageTreeParams = {
 }
 
 export type GebiedengroepPostModulePatchObjectBody = {
-    Title?: string | null
-    Source_Title?: string | null
-    Description?: string | null
+    title?: string | null
+    source_title?: string | null
+    description?: string | null
 }
 
 export type GebiedengroepGetModuleListLineageTreeParams = {
@@ -3682,10 +3709,10 @@ export type GebiedsaanwijzingListValidLineageTreeParams = {
 }
 
 export type GebiedsaanwijzingPostModulePatchObjectBody = {
-    Title?: string | null
-    Target_Codes?: string[]
-    Ref_Type?: string
-    Ref_Group?: string
+    title?: string | null
+    target_codes?: string[]
+    ref_type?: string
+    ref_group?: string
 }
 
 export type GebiedsaanwijzingGetModuleListLineageTreeParams = {
@@ -3715,9 +3742,9 @@ export type GebiedsprogrammaListValidLineageTreeParams = {
 }
 
 export type GebiedsprogrammaPostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
-    Image?: string | null
+    title?: string | null
+    description?: string | null
+    image?: string | null
 }
 
 export type GebiedsprogrammaGetModuleListLineageTreeParams = {
@@ -3747,16 +3774,16 @@ export type MaatregelListValidLineageTreeParams = {
 }
 
 export type MaatregelPostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
-    Roles?: string[] | null
-    Effect?: string | null
-    Hierarchy_Code?: string | null
-    Documents?: string[] | null
-    Werkingsgebied_Code?: string | null
-    Gebiedengroep_Code?: string | null
-    Themas?: string[] | null
-    Hoofdlijnen?: string[] | null
+    title?: string | null
+    description?: string | null
+    roles?: string[] | null
+    effect?: string | null
+    hierarchy_code?: string | null
+    documents?: string[] | null
+    werkingsgebied_code?: string | null
+    gebiedengroep_code?: string | null
+    themas?: string[] | null
+    hoofdlijnen?: string[] | null
 }
 
 export type MaatregelGetModuleListLineageTreeParams = {
@@ -3772,6 +3799,15 @@ export type MaatregelGetListActiveModuleObjectsParams = {
 
 export type NationaalBelangListValidLineagesParams = {
     filter_title?: string | null
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type ObjectsDoListAllLatestParams = {
+    object_types?: string[]
+    owner_id?: string | null
     offset?: number | null
     limit?: number | null
     sort_column?: string | null
@@ -3794,8 +3830,8 @@ export type ProgrammaAlgemeenListValidLineageTreeParams = {
 }
 
 export type ProgrammaAlgemeenPostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
+    title?: string | null
+    description?: string | null
 }
 
 export type ProgrammaAlgemeenGetModuleListLineageTreeParams = {
@@ -3833,8 +3869,8 @@ export type VisieAlgemeenListValidLineageTreeParams = {
 }
 
 export type VisieAlgemeenPostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
+    title?: string | null
+    description?: string | null
 }
 
 export type VisieAlgemeenGetModuleListLineageTreeParams = {
@@ -3864,9 +3900,9 @@ export type WerkingsgebiedListValidLineageTreeParams = {
 }
 
 export type WerkingsgebiedPostModulePatchObjectBody = {
-    Title?: string | null
-    Description?: string | null
-    Area_UUID?: string | null
+    title?: string | null
+    description?: string | null
+    area_id?: string | null
 }
 
 export type WerkingsgebiedGetModuleListLineageTreeParams = {

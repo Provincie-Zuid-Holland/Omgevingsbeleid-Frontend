@@ -16,6 +16,7 @@ import {
 import useAuth from '@/hooks/useAuth'
 import { generateObjectPath } from '@/utils/dynamicObject'
 import { sortByFields } from '@/utils/sortByFields'
+
 import ObjectNetwork from '../ObjectNetwork'
 
 interface ObjectConnectionsPublicProps {
@@ -30,8 +31,8 @@ const ObjectConnectionsPublic = ({
     const { moduleId } = useParams()
     const { user } = useAuth()
 
-    const acknowledgedRelationModel: Model | undefined = data.Hierarchy_Statics
-        ? models[data.Hierarchy_Statics.Object_Type as ModelType]
+    const acknowledgedRelationModel: Model | undefined = data.hierarchy_statics
+        ? models[data.hierarchy_statics.object_type as ModelType]
         : undefined
     const { useGetLatestLineage, useGetLatestLineageInModule } =
         acknowledgedRelationModel?.fetchers || {}
@@ -42,24 +43,24 @@ const ObjectConnectionsPublic = ({
         isError,
     } = useGetLatestLineageInModule?.(
         parseInt(moduleId!),
-        Number(data.Hierarchy_Statics?.Object_ID),
+        Number(data.hierarchy_statics?.object_id),
         {
             query: {
                 enabled:
-                    !!moduleId && !!data.Hierarchy_Statics?.Object_ID && !!user,
+                    !!moduleId && !!data.hierarchy_statics?.object_id && !!user,
             },
         }
     ) || {}
 
     const { data: validData } =
         (useGetLatestLineage as QueryHook | null | undefined)?.(
-            Number(data.Hierarchy_Statics?.Object_ID),
+            Number(data.hierarchy_statics?.object_id),
             {
                 query: {
                     enabled:
-                        (!moduleId && !!data.Hierarchy_Statics?.Object_ID) ||
+                        (!moduleId && !!data.hierarchy_statics?.object_id) ||
                         (!!moduleId &&
-                            !!data.Hierarchy_Statics?.Object_ID &&
+                            !!data.hierarchy_statics?.object_id &&
                             !moduleData &&
                             isSuccess) ||
                         isError,
@@ -73,11 +74,11 @@ const ObjectConnectionsPublic = ({
      * Group Hierarchy_Children by Object_Type
      */
     const relationChildrens = useMemo(() => {
-        if (!data.Hierarchy_Children) return
+        if (!data.hierarchy_children) return
 
         const grouped = groupBy(
-            data.Hierarchy_Children,
-            'Object_Type'
+            data.hierarchy_children,
+            'object_type'
         ) as Partial<Record<ModelType, HierachyReference[]>>
 
         return (Object.keys(grouped) as ModelType[])
@@ -85,14 +86,14 @@ const ObjectConnectionsPublic = ({
             .reduce<Partial<Record<ModelType, HierachyReference[]>>>(
                 (acc, key) => {
                     acc[key] = sortByFields(grouped[key] ?? [], [
-                        item => item.Title,
+                        item => item.title,
                     ])
 
                     return acc
                 },
                 {}
             )
-    }, [data.Hierarchy_Children])
+    }, [data.hierarchy_children])
 
     return (
         <div data-section="Samenhang van het beleid">
@@ -108,9 +109,9 @@ const ObjectConnectionsPublic = ({
                                   to={generateObjectPath(
                                       acknowledgedRelationModel.defaults
                                           .singular,
-                                      String(acknowledgedRelation?.UUID)
+                                      String(acknowledgedRelation?.id)
                                   )}>
-                                  {data.Hierarchy_Statics?.Cached_Title}
+                                  {data.hierarchy_statics?.cached_title}
                               </Link>
                           </Hyperlink>
                       )
@@ -135,16 +136,16 @@ const ObjectConnectionsPublic = ({
                             {Array.isArray(items) && items.length > 0 ? (
                                 <ul>
                                     {items.map(item => (
-                                        <li key={item.UUID}>
+                                        <li key={item.id}>
                                             <ListLink
                                                 asChild
                                                 className="text-pzh-green-500 hover:text-pzh-green-900">
                                                 <Link
                                                     to={generateObjectPath(
                                                         type as ModelType,
-                                                        item.UUID
+                                                        item.id
                                                     )}>
-                                                    {item.Title}
+                                                    {item.title}
                                                 </Link>
                                             </ListLink>
                                         </li>

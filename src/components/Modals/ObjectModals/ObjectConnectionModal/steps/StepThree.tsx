@@ -20,13 +20,13 @@ export const StepThree = ({ title, connectionModel, model }: StepProps) => {
 
             <Text className="mb-4">
                 Leg uit waarom je {singularReadable}:{' '}
-                <span className="font-bold">{values.Title}</span>
+                <span className="font-bold">{values.title}</span>
                 <br />
                 wilt koppelen aan {model.defaults.singularReadable}:{' '}
                 <span className="font-bold">{title}</span>
             </Text>
             <FormikTextArea
-                name="Description"
+                name="description"
                 placeholder="Beschrijving / Motivering van de koppeling"
                 label="Toelichting"
                 required

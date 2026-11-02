@@ -118,7 +118,7 @@ const Sidebar = () => {
                             <div className="h-px w-full bg-pzh-blue-500" />
                             {canCreateHoofdlijn && (
                                 <MenuItem
-                                    name="Hoofdlijnen"
+                                    name="hoofdlijnen"
                                     path="/muteer/hoofdlijnen"
                                     icon={BuildingMemo}
                                     largerIcon

@@ -40,13 +40,13 @@ import {
     getBeleidsdoelViewObjectVersionResponseMock,
     getBeleidskeuzeEditObjectStaticResponseMock,
     getBeleidskeuzeGetAcknowledgedRelationListResponseMock,
-    getBeleidskeuzeGetAcknowledgedRelationRequestResponseMock,
     getBeleidskeuzeGetListActiveModuleObjectsResponseMock,
     getBeleidskeuzeGetModuleListLineageTreeResponseMock,
     getBeleidskeuzeGetRelationsListResponseMock,
     getBeleidskeuzeListValidLineagesResponseMock,
     getBeleidskeuzeListValidLineageTreeResponseMock,
     getBeleidskeuzePostAcknowledgedRelationEditResponseMock,
+    getBeleidskeuzePostAcknowledgedRelationRequestResponseMock,
     getBeleidskeuzePostModulePatchObjectResponseMock,
     getBeleidskeuzePostRelationsOverwriteResponseMock,
     getBeleidskeuzeViewGetObjectStaticResponseMock,
@@ -314,37 +314,37 @@ import type {
     ActCreatedResponse,
     ActiveModuleObjectsResponse,
     AmbitieFull,
+    AmbitieID,
     AmbitieStaticStatics,
-    AmbitieUUID,
     AnnouncementCreatedResponse,
     AOJCreatedResponse,
     AttachmentShort,
     AuthToken,
     BeleidsdoelFull,
+    BeleidsdoelID,
     BeleidsdoelStaticStatics,
-    BeleidsdoelUUID,
     BeleidskeuzeFull,
+    BeleidskeuzeID,
     BeleidskeuzeStaticStatics,
-    BeleidskeuzeUUID,
     BeleidsregelFull,
+    BeleidsregelID,
     BeleidsregelStaticStatics,
-    BeleidsregelUUID,
     DocumentFull,
+    DocumentID,
     DocumentStaticStatics,
-    DocumentUUID,
     EnvironmentCreatedResponse,
     GebiedengroepFull,
+    GebiedengroepID,
     GebiedengroepStaticStatics,
-    GebiedengroepUUID,
     GebiedFull,
+    GebiedID,
     GebiedsaanwijzingFull,
+    GebiedsaanwijzingID,
     GebiedsaanwijzingStaticStatics,
-    GebiedsaanwijzingUUID,
     GebiedsprogrammaFull,
+    GebiedsprogrammaID,
     GebiedsprogrammaStaticStatics,
-    GebiedsprogrammaUUID,
     GebiedStaticStatics,
-    GebiedUUID,
     GraphResponse,
     Hoofdlijn,
     HoofdlijnCreatedResponse,
@@ -353,16 +353,16 @@ import type {
     ListAreaDesignationResponse,
     ListThemaResponse,
     MaatregelFull,
+    MaatregelID,
     MaatregelStaticStatics,
-    MaatregelUUID,
     ModuleCreatedResponse,
     ModuleObjectContext,
     ModuleOverviewResponse,
     ModuleSnapshot,
     ModuleStatus,
     NationaalBelangFull,
+    NationaalBelangID,
     NationaalBelangStaticStatics,
-    NationaalBelangUUID,
     NewObjectStaticResponse,
     ObjectRelatedFileResponse,
     PagedResponseAmbitieBasic,
@@ -418,8 +418,8 @@ import type {
     PagedResponseWettelijkeTaakBasic,
     PatchResponse,
     ProgrammaAlgemeenFull,
+    ProgrammaAlgemeenID,
     ProgrammaAlgemeenStaticStatics,
-    ProgrammaAlgemeenUUID,
     Publication,
     PublicationAct,
     PublicationActPackageDetailResponse,
@@ -449,17 +449,17 @@ import type {
     UserCreateResponse,
     ValidateModuleResult,
     VerplichtProgrammaFull,
+    VerplichtProgrammaID,
     VerplichtProgrammaStaticStatics,
-    VerplichtProgrammaUUID,
     VisieAlgemeenFull,
+    VisieAlgemeenID,
     VisieAlgemeenStaticStatics,
-    VisieAlgemeenUUID,
     WerkingsgebiedFull,
     WerkingsgebiedStaticStatics,
     WerkingsgebiedUUID,
     WettelijkeTaakFull,
+    WettelijkeTaakID,
     WettelijkeTaakStaticStatics,
-    WettelijkeTaakUUID,
 } from './fetchers.schemas'
 
 export {
@@ -496,8 +496,6 @@ export {
     getObjectRelatedFilesGetObjectRelatedFilesListResponseMock,
     getObjectRelatedFilesPostObjectRelatedFilesUploadResponseMock,
     getObjectRelatedFilesDeleteObjectRelatedFilesDeleteResponseMock,
-    getObjectsViewObjectCountsResponseMock,
-    getObjectsDoListAllLatestResponseMock,
     getPublicModulesGetPublicListModulesResponseMock,
     getPublicModulesGetPublicModuleOverviewResponseMock,
     getPublicationAojPostCreateAojResponseMock,
@@ -596,7 +594,7 @@ export {
     getBeleidskeuzeViewGetObjectStaticResponseMock,
     getBeleidskeuzeEditObjectStaticResponseMock,
     getBeleidskeuzeGetAcknowledgedRelationListResponseMock,
-    getBeleidskeuzeGetAcknowledgedRelationRequestResponseMock,
+    getBeleidskeuzePostAcknowledgedRelationRequestResponseMock,
     getBeleidskeuzePostAcknowledgedRelationEditResponseMock,
     getBeleidskeuzePostModulePatchObjectResponseMock,
     getBeleidskeuzeGetModuleListLineageTreeResponseMock,
@@ -704,6 +702,8 @@ export {
     getNationaalBelangPostRelationsOverwriteResponseMock,
     getNationaalBelangViewGetObjectStaticResponseMock,
     getNationaalBelangEditObjectStaticResponseMock,
+    getObjectsViewObjectCountsResponseMock,
+    getObjectsDoListAllLatestResponseMock,
     getProgrammaAlgemeenListValidLineagesResponseMock,
     getProgrammaAlgemeenListValidLineageTreeResponseMock,
     getProgrammaAlgemeenViewObjectVersionResponseMock,
@@ -1560,56 +1560,6 @@ export const getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMockHandler = (
     )
 }
 
-export const getObjectsViewObjectCountsMockHandler = (
-    overrideResponse?:
-        | RootModelListObjectCount
-        | ((
-              info: Parameters<Parameters<typeof http.get>[1]>[0]
-          ) => Promise<RootModelListObjectCount> | RootModelListObjectCount),
-    options?: RequestHandlerOptions
-) => {
-    return http.get(
-        '*/objects/valid/count',
-        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-            return HttpResponse.json(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getObjectsViewObjectCountsResponseMock(),
-                { status: 200 }
-            )
-        },
-        options
-    )
-}
-
-export const getObjectsDoListAllLatestMockHandler = (
-    overrideResponse?:
-        | PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
-        | ((
-              info: Parameters<Parameters<typeof http.get>[1]>[0]
-          ) =>
-              | Promise<PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>
-              | PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic),
-    options?: RequestHandlerOptions
-) => {
-    return http.get(
-        '*/objects/valid',
-        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-            return HttpResponse.json(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getObjectsDoListAllLatestResponseMock(),
-                { status: 200 }
-            )
-        },
-        options
-    )
-}
-
 export const getPublicModulesGetPublicListModulesMockHandler = (
     overrideResponse?:
         | PagedResponsePublicModuleShort
@@ -1721,7 +1671,7 @@ export const getPublicationActPackagesPostCreateActPackageMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-versions/:versionUuid/packages',
+        '*/publication-versions/:versionId/packages',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -1773,7 +1723,7 @@ export const getPublicationActPackagesGetDetailActPackageMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-act-packages/:actPackageUuid',
+        '*/publication-act-packages/:actPackageId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -1797,7 +1747,7 @@ export const getPublicationActPackagesPostAbortActPackageMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-act-packages/:actPackageUuid/abort',
+        '*/publication-act-packages/:actPackageId/abort',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -1821,7 +1771,7 @@ export const getPublicationActPackagesGetDownloadActPackageMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-act-packages/:actPackageUuid/download',
+        '*/publication-act-packages/:actPackageId/download',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             if (typeof overrideResponse === 'function') {
                 await overrideResponse(info)
@@ -1842,7 +1792,7 @@ export const getPublicationActPackagesGetValidateActPackageMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-act-packages/:versionUuid/validate',
+        '*/publication-act-packages/:versionId/validate',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -1868,7 +1818,7 @@ export const getPublicationActReportsPostUploadActPackageReportMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-act-packages/:actPackageUuid/report',
+        '*/publication-act-packages/:actPackageId/report',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -1920,7 +1870,7 @@ export const getPublicationActReportsGetDetailActPackageReportMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-act-reports/:actReportUuid',
+        '*/publication-act-reports/:actReportId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -1944,7 +1894,7 @@ export const getPublicationActReportsGetDownloadActPackageReportMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-act-reports/:actReportUuid/download',
+        '*/publication-act-reports/:actReportId/download',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             if (typeof overrideResponse === 'function') {
                 await overrideResponse(info)
@@ -2015,7 +1965,7 @@ export const getPublicationActsPostCloseActMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-acts/:actUuid/close',
+        '*/publication-acts/:actId/close',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2039,7 +1989,7 @@ export const getPublicationActsPostEditActMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-acts/:actUuid',
+        '*/publication-acts/:actId',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2063,7 +2013,7 @@ export const getPublicationActsGetDetailActMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-acts/:actUuid',
+        '*/publication-acts/:actId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2090,7 +2040,7 @@ export const getPublicationAnnouncementPackagesPostCreateAnnouncementPackageMock
         options?: RequestHandlerOptions
     ) => {
         return http.post(
-            '*/publication-announcements/:announcementUuid/packages',
+            '*/publication-announcements/:announcementId/packages',
             async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
                 return HttpResponse.json(
                     overrideResponse !== undefined
@@ -2144,7 +2094,7 @@ export const getPublicationAnnouncementPackagesGetDetailAnnouncementPackageMockH
         options?: RequestHandlerOptions
     ) => {
         return http.get(
-            '*/publication-announcement-packages/:announcementPackageUuid',
+            '*/publication-announcement-packages/:announcementPackageId',
             async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
                 return HttpResponse.json(
                     overrideResponse !== undefined
@@ -2169,7 +2119,7 @@ export const getPublicationAnnouncementPackagesGetDownloadAnnouncementPackageMoc
         options?: RequestHandlerOptions
     ) => {
         return http.get(
-            '*/publication-announcement-packages/:announcementPackageUuid/download',
+            '*/publication-announcement-packages/:announcementPackageId/download',
             async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
                 if (typeof overrideResponse === 'function') {
                     await overrideResponse(info)
@@ -2193,7 +2143,7 @@ export const getPublicationAnnouncementReportsPostUploadAnnouncementPackageRepor
         options?: RequestHandlerOptions
     ) => {
         return http.post(
-            '*/publication-announcement-packages/:announcementPackageUuid/report',
+            '*/publication-announcement-packages/:announcementPackageId/report',
             async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
                 return HttpResponse.json(
                     overrideResponse !== undefined
@@ -2247,7 +2197,7 @@ export const getPublicationAnnouncementReportsGetDetailAnnouncementPackageReport
         options?: RequestHandlerOptions
     ) => {
         return http.get(
-            '*/publication-announcement-reports/:announcementReportUuid',
+            '*/publication-announcement-reports/:announcementReportId',
             async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
                 return HttpResponse.json(
                     overrideResponse !== undefined
@@ -2272,7 +2222,7 @@ export const getPublicationAnnouncementReportsGetDownloadAnnouncementPackageRepo
         options?: RequestHandlerOptions
     ) => {
         return http.get(
-            '*/publication-announcement-reports/:announcementReportUuid/download',
+            '*/publication-announcement-reports/:announcementReportId/download',
             async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
                 if (typeof overrideResponse === 'function') {
                     await overrideResponse(info)
@@ -2295,7 +2245,7 @@ export const getPublicationAnnouncementsPostCreateAnnouncementMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-act-packages/:actPackageUuid/create-announcement',
+        '*/publication-act-packages/:actPackageId/create-announcement',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2345,7 +2295,7 @@ export const getPublicationAnnouncementsPostEditAnnouncementMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-announcements/:announcementUuid',
+        '*/publication-announcements/:announcementId',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2369,7 +2319,7 @@ export const getPublicationAnnouncementsGetDetailAnnouncementMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-announcements/:announcementUuid',
+        '*/publication-announcements/:announcementId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2393,7 +2343,7 @@ export const getPublicationAnnouncementsPostCreateAnnouncementPdfMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-announcements/:announcementUuid/pdf_export',
+        '*/publication-announcements/:announcementId/pdf_export',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             if (typeof overrideResponse === 'function') {
                 await overrideResponse(info)
@@ -2465,7 +2415,7 @@ export const getPublicationEnvironmentsPostEditEnvironmentMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-environments/:environmentUuid',
+        '*/publication-environments/:environmentId',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2489,7 +2439,7 @@ export const getPublicationEnvironmentsGetDetailEnvironmentMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-environments/:environmentUuid',
+        '*/publication-environments/:environmentId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2589,7 +2539,7 @@ export const getPublicationTemplatesPostEditTemplateMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-templates/:templateUuid',
+        '*/publication-templates/:templateId',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2613,7 +2563,7 @@ export const getPublicationTemplatesGetDetailTemplateMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-templates/:templateUuid',
+        '*/publication-templates/:templateId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2689,7 +2639,7 @@ export const getPublicationVersionsPostCreateVersionMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publications/:publicationUuid/version',
+        '*/publications/:publicationId/version',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2715,7 +2665,7 @@ export const getPublicationVersionsGetListVersionsMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publications/:publicationUuid/versions',
+        '*/publications/:publicationId/versions',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2741,7 +2691,7 @@ export const getPublicationVersionsPostEditVersionMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-versions/:versionUuid',
+        '*/publication-versions/:versionId',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2765,7 +2715,7 @@ export const getPublicationVersionsGetDetailVersionMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-versions/:versionUuid',
+        '*/publication-versions/:versionId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2789,7 +2739,7 @@ export const getPublicationVersionsPostDeleteVersionMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.delete(
-        '*/publication-versions/:versionUuid',
+        '*/publication-versions/:versionId',
         async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2813,7 +2763,7 @@ export const getPublicationVersionsPostUploadAttachmentMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-versions/:versionUuid/attachments',
+        '*/publication-versions/:versionId/attachments',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2837,7 +2787,7 @@ export const getPublicationVersionsGetListAttachmentsMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-versions/:versionUuid/attachments',
+        '*/publication-versions/:versionId/attachments',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2861,7 +2811,7 @@ export const getPublicationVersionsPostDeleteAttachmentMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.delete(
-        '*/publication-versions/:versionUuid/attachments/:attachmentId',
+        '*/publication-versions/:versionId/attachments/:attachmentId',
         async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -2885,7 +2835,7 @@ export const getPublicationVersionsGetDownloadAttachmentMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publication-versions/:versionUuid/attachments/:attachmentId',
+        '*/publication-versions/:versionId/attachments/:attachmentId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             if (typeof overrideResponse === 'function') {
                 await overrideResponse(info)
@@ -2906,7 +2856,7 @@ export const getPublicationVersionsPostCreateVersionPdfMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publication-versions/:versionUuid/pdf_export',
+        '*/publication-versions/:versionId/pdf_export',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             if (typeof overrideResponse === 'function') {
                 await overrideResponse(info)
@@ -2976,7 +2926,7 @@ export const getPublicationsGetDetailPublicationMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.get(
-        '*/publications/:publicationUuid',
+        '*/publications/:publicationId',
         async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -3000,7 +2950,7 @@ export const getPublicationsPostEditPublicationMockHandler = (
     options?: RequestHandlerOptions
 ) => {
     return http.post(
-        '*/publications/:publicationUuid',
+        '*/publications/:publicationId',
         async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
             return HttpResponse.json(
                 overrideResponse !== undefined
@@ -3500,10 +3450,10 @@ export const getAmbitieEditObjectStaticMockHandler = (
 
 export const getAmbitiePostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | AmbitieUUID
+        | AmbitieID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<AmbitieUUID> | AmbitieUUID),
+          ) => Promise<AmbitieID> | AmbitieID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -3844,10 +3794,10 @@ export const getBeleidsdoelEditObjectStaticMockHandler = (
 
 export const getBeleidsdoelPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | BeleidsdoelUUID
+        | BeleidsdoelID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<BeleidsdoelUUID> | BeleidsdoelUUID),
+          ) => Promise<BeleidsdoelID> | BeleidsdoelID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -4210,7 +4160,7 @@ export const getBeleidskeuzeGetAcknowledgedRelationListMockHandler = (
     )
 }
 
-export const getBeleidskeuzeGetAcknowledgedRelationRequestMockHandler = (
+export const getBeleidskeuzePostAcknowledgedRelationRequestMockHandler = (
     overrideResponse?:
         | ResponseOK
         | ((
@@ -4226,7 +4176,7 @@ export const getBeleidskeuzeGetAcknowledgedRelationRequestMockHandler = (
                     ? typeof overrideResponse === 'function'
                         ? await overrideResponse(info)
                         : overrideResponse
-                    : getBeleidskeuzeGetAcknowledgedRelationRequestResponseMock(),
+                    : getBeleidskeuzePostAcknowledgedRelationRequestResponseMock(),
                 { status: 200 }
             )
         },
@@ -4260,10 +4210,10 @@ export const getBeleidskeuzePostAcknowledgedRelationEditMockHandler = (
 
 export const getBeleidskeuzePostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | BeleidskeuzeUUID
+        | BeleidskeuzeID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<BeleidskeuzeUUID> | BeleidskeuzeUUID),
+          ) => Promise<BeleidskeuzeID> | BeleidskeuzeID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -4604,10 +4554,10 @@ export const getBeleidsregelEditObjectStaticMockHandler = (
 
 export const getBeleidsregelPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | BeleidsregelUUID
+        | BeleidsregelID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<BeleidsregelUUID> | BeleidsregelUUID),
+          ) => Promise<BeleidsregelID> | BeleidsregelID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -4898,10 +4848,10 @@ export const getDocumentEditObjectStaticMockHandler = (
 
 export const getDocumentPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | DocumentUUID
+        | DocumentID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<DocumentUUID> | DocumentUUID),
+          ) => Promise<DocumentID> | DocumentID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -5190,10 +5140,10 @@ export const getGebiedEditObjectStaticMockHandler = (
 
 export const getGebiedPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | GebiedUUID
+        | GebiedID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<GebiedUUID> | GebiedUUID),
+          ) => Promise<GebiedID> | GebiedID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -5487,10 +5437,10 @@ export const getGebiedengroepEditObjectStaticMockHandler = (
 
 export const getGebiedengroepPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | GebiedengroepUUID
+        | GebiedengroepID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<GebiedengroepUUID> | GebiedengroepUUID),
+          ) => Promise<GebiedengroepID> | GebiedengroepID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -5809,10 +5759,10 @@ export const getGebiedsaanwijzingEditObjectStaticMockHandler = (
 
 export const getGebiedsaanwijzingPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | GebiedsaanwijzingUUID
+        | GebiedsaanwijzingID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<GebiedsaanwijzingUUID> | GebiedsaanwijzingUUID),
+          ) => Promise<GebiedsaanwijzingID> | GebiedsaanwijzingID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -6155,10 +6105,10 @@ export const getGebiedsprogrammaEditObjectStaticMockHandler = (
 
 export const getGebiedsprogrammaPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | GebiedsprogrammaUUID
+        | GebiedsprogrammaID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<GebiedsprogrammaUUID> | GebiedsprogrammaUUID),
+          ) => Promise<GebiedsprogrammaID> | GebiedsprogrammaID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -6499,10 +6449,10 @@ export const getMaatregelEditObjectStaticMockHandler = (
 
 export const getMaatregelPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | MaatregelUUID
+        | MaatregelID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<MaatregelUUID> | MaatregelUUID),
+          ) => Promise<MaatregelID> | MaatregelID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -6647,10 +6597,10 @@ export const getGetRevisionsMaatregelVersionMockHandler = (
 
 export const getNationaalBelangAtemporalCreateObjectMockHandler = (
     overrideResponse?:
-        | NationaalBelangUUID
+        | NationaalBelangID
         | ((
               info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) => Promise<NationaalBelangUUID> | NationaalBelangUUID),
+          ) => Promise<NationaalBelangID> | NationaalBelangID),
     options?: RequestHandlerOptions
 ) => {
     return http.post(
@@ -6865,6 +6815,56 @@ export const getNationaalBelangEditObjectStaticMockHandler = (
     )
 }
 
+export const getObjectsViewObjectCountsMockHandler = (
+    overrideResponse?:
+        | RootModelListObjectCount
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<RootModelListObjectCount> | RootModelListObjectCount),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/objects/valid/count',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getObjectsViewObjectCountsResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getObjectsDoListAllLatestMockHandler = (
+    overrideResponse?:
+        | PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic>
+              | PagedResponseObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/objects/valid',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getObjectsDoListAllLatestResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
 export const getProgrammaAlgemeenListValidLineagesMockHandler = (
     overrideResponse?:
         | PagedResponseProgrammaAlgemeenBasic
@@ -7017,10 +7017,10 @@ export const getProgrammaAlgemeenEditObjectStaticMockHandler = (
 
 export const getProgrammaAlgemeenPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | ProgrammaAlgemeenUUID
+        | ProgrammaAlgemeenID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<ProgrammaAlgemeenUUID> | ProgrammaAlgemeenUUID),
+          ) => Promise<ProgrammaAlgemeenID> | ProgrammaAlgemeenID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -7165,10 +7165,10 @@ export const getGetRevisionsProgrammaAlgemeenVersionMockHandler = (
 
 export const getVerplichtProgrammaAtemporalCreateObjectMockHandler = (
     overrideResponse?:
-        | VerplichtProgrammaUUID
+        | VerplichtProgrammaID
         | ((
               info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) => Promise<VerplichtProgrammaUUID> | VerplichtProgrammaUUID),
+          ) => Promise<VerplichtProgrammaID> | VerplichtProgrammaID),
     options?: RequestHandlerOptions
 ) => {
     return http.post(
@@ -7534,10 +7534,10 @@ export const getVisieAlgemeenEditObjectStaticMockHandler = (
 
 export const getVisieAlgemeenPostModulePatchObjectMockHandler = (
     overrideResponse?:
-        | VisieAlgemeenUUID
+        | VisieAlgemeenID
         | ((
               info: Parameters<Parameters<typeof http.patch>[1]>[0]
-          ) => Promise<VisieAlgemeenUUID> | VisieAlgemeenUUID),
+          ) => Promise<VisieAlgemeenID> | VisieAlgemeenID),
     options?: RequestHandlerOptions
 ) => {
     return http.patch(
@@ -7980,10 +7980,10 @@ export const getGetRevisionsWerkingsgebiedVersionMockHandler = (
 
 export const getWettelijkeTaakAtemporalCreateObjectMockHandler = (
     overrideResponse?:
-        | WettelijkeTaakUUID
+        | WettelijkeTaakID
         | ((
               info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) => Promise<WettelijkeTaakUUID> | WettelijkeTaakUUID),
+          ) => Promise<WettelijkeTaakID> | WettelijkeTaakID),
     options?: RequestHandlerOptions
 ) => {
     return http.post(
@@ -8252,8 +8252,6 @@ export const getOmgevingsbeleidAPIMock = () => [
     getObjectRelatedFilesGetObjectRelatedFilesListMockHandler(),
     getObjectRelatedFilesPostObjectRelatedFilesUploadMockHandler(),
     getObjectRelatedFilesDeleteObjectRelatedFilesDeleteMockHandler(),
-    getObjectsViewObjectCountsMockHandler(),
-    getObjectsDoListAllLatestMockHandler(),
     getPublicModulesGetPublicListModulesMockHandler(),
     getPublicModulesGetPublicModuleOverviewMockHandler(),
     getPublicationAojPostCreateAojMockHandler(),
@@ -8360,7 +8358,7 @@ export const getOmgevingsbeleidAPIMock = () => [
     getBeleidskeuzeViewGetObjectStaticMockHandler(),
     getBeleidskeuzeEditObjectStaticMockHandler(),
     getBeleidskeuzeGetAcknowledgedRelationListMockHandler(),
-    getBeleidskeuzeGetAcknowledgedRelationRequestMockHandler(),
+    getBeleidskeuzePostAcknowledgedRelationRequestMockHandler(),
     getBeleidskeuzePostAcknowledgedRelationEditMockHandler(),
     getBeleidskeuzePostModulePatchObjectMockHandler(),
     getBeleidskeuzeGetModuleListLineageTreeMockHandler(),
@@ -8468,6 +8466,8 @@ export const getOmgevingsbeleidAPIMock = () => [
     getNationaalBelangPostRelationsOverwriteMockHandler(),
     getNationaalBelangViewGetObjectStaticMockHandler(),
     getNationaalBelangEditObjectStaticMockHandler(),
+    getObjectsViewObjectCountsMockHandler(),
+    getObjectsDoListAllLatestMockHandler(),
     getProgrammaAlgemeenListValidLineagesMockHandler(),
     getProgrammaAlgemeenListValidLineageTreeMockHandler(),
     getProgrammaAlgemeenViewObjectVersionMockHandler(),

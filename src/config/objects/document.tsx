@@ -52,13 +52,13 @@ const document: DynamicObject = {
         demonstrative: 'deze',
         icon: FilePdf,
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: ['owner_1_id', 'owner_2_id'],
     fetchers,
     dynamicSections: [
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van het document. Deze titel is wat we standaard tonen.',
@@ -68,17 +68,17 @@ const document: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'File_UUID',
+                    name: 'file_id',
                     label: 'Bestand',
                     description:
                         'Upload hier het daadwerkelijke .pdf bestand. Let op dat het ‘auteur’ veld in de meta-data van het bestand geen naam van jou of een collega bevat.',
                     placeholder: 'Selecteer een bestand om te uploaden',
                     type: 'file',
                     required: true,
-                    prefillFieldName: 'Filename',
+                    prefillFieldName: 'filename',
                 },
                 {
-                    name: 'Filename',
+                    name: 'filename',
                     label: 'Bestandsnaam',
                     description:
                         'De bestandsnaam is hoe het document heet als een gebruiker het bestand bekijkt of downloadt. Voer een bestandsnaam in die enkel uit letters, cijfers, minnetjes en punten bestaat. Deze bestandsnaam wordt gebruikt bij de publicatie naar de landelijke voorziening.',

@@ -4,9 +4,9 @@ type TableStateId = string | number
 type FilterOption = { label?: string; value?: string }
 
 interface Filters {
-    Title: string
-    Object_Type: FilterOption[]
-    Action: FilterOption[]
+    title: string
+    object_type: FilterOption[]
+    action: FilterOption[]
 }
 
 type SortBy = { id: string; desc: boolean }[]
@@ -19,12 +19,12 @@ interface Pagination {
 const PAGE_LIMIT = 50
 
 const defaultFilters: Filters = {
-    Title: '',
-    Object_Type: [],
-    Action: [],
+    title: '',
+    object_type: [],
+    action: [],
 }
 
-const defaultSortBy: SortBy = [{ id: 'Object_Type', desc: false }]
+const defaultSortBy: SortBy = [{ id: 'object_type', desc: false }]
 
 const defaultPagination: Pagination = {
     pageIndex: 1,

@@ -12,6 +12,8 @@ const getApiUrl = (): string => {
             return import.meta.env.VITE_API_URL_ACC
         case 'main':
             return import.meta.env.VITE_API_URL_PROD
+        case 'trial':
+            return import.meta.env.VITE_API_URL_TRIAL
         default:
             return ''
     }

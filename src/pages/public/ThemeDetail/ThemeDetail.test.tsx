@@ -16,7 +16,7 @@ describe('ThemeDetail', () => {
     const setup = (customProps?: any) => {
         const props = { ...defaultProps, ...customProps }
         const path = `/omgevingsprogramma/thematische-programmas/:id`
-        const initialEntries = `/omgevingsprogramma/thematische-programmas/${beleidsdoelen.results[0].UUID}`
+        const initialEntries = `/omgevingsprogramma/thematische-programmas/${beleidsdoelen.results[0].id}`
 
         render(
             <QueryClientProvider client={queryClient}>
@@ -41,7 +41,7 @@ describe('ThemeDetail', () => {
 
         waitFor(() => {
             const element = screen.getByRole('heading', {
-                name: beleidsdoelen.results[0].Title,
+                name: beleidsdoelen.results[0].title,
                 level: 1,
             })
             expect(element).toBeTruthy()

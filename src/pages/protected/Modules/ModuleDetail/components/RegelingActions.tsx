@@ -32,8 +32,8 @@ const RegelingActions = ({
 
     const readOnly = isPublished || isClosed || isLocked
 
-    const moduleStatusLabel = `${moduleStatus.Status} (${formatDate(
-        parseUtc(moduleStatus.Created_Date),
+    const moduleStatusLabel = `${moduleStatus.status} (${formatDate(
+        parseUtc(moduleStatus.created_date),
         "dd-MM-yyyy 'om' HH:mm"
     )})`
 
@@ -61,7 +61,7 @@ const RegelingActions = ({
                 onPress={() =>
                     setActiveModal('publicationVersionEdit', {
                         publication,
-                        UUID: versionUUID,
+                        id: versionUUID,
                         readOnly,
                     })
                 }>

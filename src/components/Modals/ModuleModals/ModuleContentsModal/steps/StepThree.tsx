@@ -27,11 +27,11 @@ export const StepThree = ({}: StepProps) => {
     } = useUserGetListUsers({ limit: 500 })
 
     const model =
-        models[('Object_Type' in values && values.Object_Type) as ModelType] ||
+        models[('object_type' in values && values.object_type) as ModelType] ||
         {}
     const { singularReadable, prefixSingular } = model.defaults || {}
 
-    const filterRoles = getStaticDataFilterRoles('Owner_1_UUID')
+    const filterRoles = getStaticDataFilterRoles('owner_1_id')
 
     /**
      * Format user options
@@ -39,29 +39,29 @@ export const StepThree = ({}: StepProps) => {
     const userOptions1 = useMemo(
         () =>
             users?.results
-                .filter(user => user.UUID !== values.Owner_2_UUID)
+                .filter(user => user.id !== values.owner_2_id)
                 .filter(user =>
-                    user.Roles?.some(role => filterRoles?.includes(role))
+                    user.roles?.some(role => filterRoles?.includes(role))
                 )
                 .map(user => ({
-                    label: user.Gebruikersnaam,
-                    value: user.UUID,
+                    label: user.name,
+                    value: user.id,
                 })),
-        [users, values.Owner_2_UUID, filterRoles]
+        [users, values.owner_2_id, filterRoles]
     )
 
     const userOptions2 = useMemo(
         () =>
             users?.results
-                .filter(user => user.UUID !== values.Owner_1_UUID)
+                .filter(user => user.id !== values.owner_1_id)
                 .filter(user =>
-                    user.Roles?.some(role => filterRoles?.includes(role))
+                    user.roles?.some(role => filterRoles?.includes(role))
                 )
                 .map(user => ({
-                    label: user.Gebruikersnaam,
-                    value: user.UUID,
+                    label: user.name,
+                    value: user.id,
                 })),
-        [users, values.Owner_1_UUID, filterRoles]
+        [users, values.owner_1_id, filterRoles]
     )
 
     return (
@@ -73,7 +73,7 @@ export const StepThree = ({}: StepProps) => {
                 Geef alvast een titel, een eerste en een tweede eigenaar op.
             </Text>
             <FormikInput
-                name="Title"
+                name="title"
                 label="Titel"
                 placeholder="Geef een titel op"
                 required
@@ -81,9 +81,9 @@ export const StepThree = ({}: StepProps) => {
             <div className="mt-3">
                 <FormikSelect
                     key={String(
-                        userOptions1?.length + (values.Owner_2_UUID || '')
+                        userOptions1?.length + (values.owner_2_id || '')
                     )}
-                    name="Owner_1_UUID"
+                    name="owner_1_id"
                     label="Eerste eigenaar"
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
@@ -97,8 +97,8 @@ export const StepThree = ({}: StepProps) => {
             </div>
             <div className="mt-3">
                 <FormikSelect
-                    key={String(userOptions2?.length + values.Owner_1_UUID)}
-                    name="Owner_2_UUID"
+                    key={String(userOptions2?.length + values.owner_1_id)}
+                    name="owner_2_id"
                     label="Tweede eigenaar"
                     placeholder="Kies een eigenaar"
                     isLoading={isLoading && isFetching}
@@ -111,7 +111,7 @@ export const StepThree = ({}: StepProps) => {
             </div>
             <div className="mt-3">
                 <FormikTextArea
-                    name="Explanation"
+                    name="explanation"
                     label="Toelichting"
                     placeholder="Vul de toelichting in (dit kan ook later)"
                     description={`Geef aan waarom ${prefixSingular} ${singularReadable} gaat worden toegevoegd aan deze module.`}
@@ -119,7 +119,7 @@ export const StepThree = ({}: StepProps) => {
             </div>
             <div className="mt-3">
                 <FormikTextArea
-                    name="Conclusion"
+                    name="conclusion"
                     label="Conclusie"
                     placeholder="Vul de conclusie in (dit kan ook later)"
                     description={`Geef aan welke wijzigingen doorgevoerd gaan worden aan ${prefixSingular} ${singularReadable}.`}

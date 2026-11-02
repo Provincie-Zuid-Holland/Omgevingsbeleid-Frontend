@@ -32,7 +32,7 @@ const TabObjects = () => {
         usePermissions()
 
     const {
-        data: { Module: module } = {},
+        data: { module } = {},
         isLoading,
         isModuleManager,
         isLocked,
@@ -43,9 +43,9 @@ const TabObjects = () => {
     if (isLoading || !module) return <LoaderContent />
 
     const showInactiveCard =
-        !module.Activated && (canActivateModule || isModuleManager)
+        !module.activated && (canActivateModule || isModuleManager)
     const showVersionCard =
-        module.Activated &&
+        module.activated &&
         isLocked &&
         !canComplete &&
         !isClosed &&
@@ -54,7 +54,7 @@ const TabObjects = () => {
 
     return (
         <>
-            {module.Activated && <ModuleLock />}
+            {module.activated && <ModuleLock />}
 
             <div className="grid grid-cols-6 gap-x-10 pt-6">
                 <div className="col-span-6 flex flex-col gap-y-6">
@@ -77,7 +77,7 @@ const TabObjects = () => {
                     ...modules.EMPTY_MODULE_OBJECT,
                     state: 'existing',
                     validOrModule: 'valid',
-                    Action: 'Edit',
+                    action: 'Edit',
                 }}
                 module={module}
             />

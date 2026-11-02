@@ -8,19 +8,19 @@ import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
 
 const ObjectCard = ({
-    Object_Type,
-    Model,
+    object_type,
+    model: _model,
 }: ObjectListAllLatestResponseUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic) => {
-    const model = models[Object_Type as ModelType]
+    const model = models[object_type as ModelType]
     const { plural } = model.defaults
 
     return (
         <li data-testid="object-card">
             <Link
-                to={`/muteer/${plural}/${Model.Object_ID}`}
+                to={`/muteer/${plural}/${_model.object_id}`}
                 className="group flex items-center justify-between border-b border-b-pzh-gray-300 py-4 pr-1">
                 <Heading level="4" size="s">
-                    {Model.Title}
+                    {_model.title}
                 </Heading>
                 <div className="transition group-hover:translate-x-1">
                     <AngleRight size={20} />

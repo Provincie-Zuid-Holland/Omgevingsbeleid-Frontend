@@ -23,7 +23,7 @@ export const StepFour = ({ title, model, connectionModel }: StepProps) => {
                 <br />
                 niet meer gekoppeld wilt hebben aan{' '}
                 {connectionModel?.defaults.singularReadable}:{' '}
-                <span className="font-bold">{values.Title}</span>
+                <span className="font-bold">{values.title}</span>
             </Text>
         </>
     )

@@ -12,21 +12,21 @@ import usePermissions from '@/hooks/usePermissions'
 import useModalStore from '@/store/modalStore'
 
 interface ModuleItemDropdownProps extends ModelReturnTypeBasic {
-    model: Model
+    objectConfig: Model
     hasEditButton?: boolean
     hasViewButton?: boolean
     invertHover?: boolean
 }
 
 const ModuleItemDropdown = ({
-    model,
-    ObjectStatics,
-    Module_ID,
-    ModuleObjectContext,
-    Module_Latest_Status,
+    objectConfig: model,
+    object_statics: ObjectStatics,
+    module_id,
+    module_object_context: ModuleObjectContext,
+    module_latest_status,
     hasEditButton,
-    Object_Type,
-    Model,
+    object_type,
+    model: _model,
     invertHover,
 }: ModuleItemDropdownProps) => {
     const { user } = useAuth()
@@ -46,22 +46,24 @@ const ModuleItemDropdown = ({
         model.defaults
 
     const fileUuid =
-        Object_Type === 'document' && 'File_UUID' in Model
-            ? String(Model.File_UUID || '')
+        object_type === 'document' && 'file_id' in _model
+            ? String(_model.file_id || '')
             : ''
 
     const hasRights = useMemo(
         () =>
             canEditModule ||
             isModuleManager ||
-            ObjectStatics?.Owner_1_UUID === user?.UUID ||
-            ObjectStatics?.Owner_2_UUID === user?.UUID,
+            ObjectStatics?.owner_1_id === user?.id ||
+            ObjectStatics?.owner_2_id === user?.id ||
+            ObjectStatics?.owner_3_id === user?.id,
         [
             canEditModule,
             isModuleManager,
-            ObjectStatics?.Owner_1_UUID,
-            ObjectStatics?.Owner_2_UUID,
-            user?.UUID,
+            ObjectStatics?.owner_1_id,
+            ObjectStatics?.owner_2_id,
+            ObjectStatics?.owner_3_id,
+            user?.id,
         ]
     )
 
@@ -70,49 +72,49 @@ const ModuleItemDropdown = ({
     const openEditObjectModal = useCallback(() => {
         setActiveModal('moduleEditObject', {
             object: {
-                Object_Type,
-                Model,
-                Module_ID,
-                ModuleObjectContext,
-                Module_Latest_Status,
-                ObjectStatics,
+                object_type,
+                model: _model,
+                module_id,
+                module_object_context: ModuleObjectContext,
+                module_latest_status,
+                object_statics: ObjectStatics,
             },
         })
     }, [
         setActiveModal,
-        Object_Type,
-        Model,
-        Module_ID,
+        object_type,
+        _model,
+        module_id,
         ModuleObjectContext,
-        Module_Latest_Status,
+        module_latest_status,
         ObjectStatics,
     ])
 
     const openDeleteObjectModal = useCallback(() => {
         setActiveModal('moduleDeleteObject', {
             object: {
-                Object_Type,
-                Model,
-                Module_ID,
-                ModuleObjectContext,
-                Module_Latest_Status,
-                ObjectStatics,
+                object_type,
+                model: _model,
+                module_id,
+                module_object_context: ModuleObjectContext,
+                module_latest_status,
+                object_statics: ObjectStatics,
             },
             module: {
-                Title: String(data?.Module.Title),
-                Module_ID: Number(data?.Module.Module_ID),
+                title: String(data?.module.title),
+                module_id: Number(data?.module.module_id),
             },
         })
     }, [
         setActiveModal,
-        Object_Type,
-        Model,
-        Module_ID,
+        object_type,
+        _model,
+        module_id,
         ModuleObjectContext,
-        Module_Latest_Status,
+        module_latest_status,
         ObjectStatics,
-        data?.Module.Title,
-        data?.Module.Module_ID,
+        data?.module.title,
+        data?.module.module_id,
     ])
 
     const refetchDocument = useCallback(() => {
@@ -125,7 +127,7 @@ const ModuleItemDropdown = ({
         if (hasRights) {
             items.push({
                 text: 'Bekijk detailpagina',
-                link: `/muteer/${plural}/${Model.Object_ID}`,
+                link: `/muteer/${plural}/${_model.object_id}`,
             })
         }
 
@@ -139,12 +141,12 @@ const ModuleItemDropdown = ({
             items.push({
                 text: 'Bekijk voorbeeld',
                 isExternal: true,
-                link: `/${slugOverview}/${plural}/ontwerpversie/${Module_ID}/${Model.UUID}`,
+                link: `/${slugOverview}/${plural}/ontwerpversie/${module_id}/${_model.id}`,
             })
         }
 
         if (
-            ModuleObjectContext?.Action !== 'Terminate' &&
+            ModuleObjectContext?.action !== 'Terminate' &&
             hasRights &&
             canPatchObjectInModule &&
             !isLocked &&
@@ -154,14 +156,14 @@ const ModuleItemDropdown = ({
         ) {
             items.push({
                 text: 'Bewerk onderdeel',
-                link: `/muteer/modules/${Module_ID}/${Object_Type}/${Model.Object_ID}/bewerk`,
+                link: `/muteer/modules/${module_id}/${object_type}/${_model.object_id}/bewerk`,
             })
         }
 
         if (hasRights && canEditModuleObjectContext && !isLocked) {
             const actionText =
-                ModuleObjectContext?.Action !== 'Create' &&
-                ModuleObjectContext?.Action !== 'Toevoegen'
+                ModuleObjectContext?.action !== 'Create' &&
+                ModuleObjectContext?.action !== 'Toevoegen'
                     ? 'actie, '
                     : ' '
 
@@ -182,20 +184,20 @@ const ModuleItemDropdown = ({
     }, [
         hasRights,
         plural,
-        Model.Object_ID,
-        Model.UUID,
+        _model.object_id,
+        _model.id,
         fileUuid,
         refetchDocument,
         slugOverviewPublic,
         slugOverview,
-        Module_ID,
-        ModuleObjectContext?.Action,
+        module_id,
+        ModuleObjectContext?.action,
         canPatchObjectInModule,
         isLocked,
         isActive,
         hasEditButton,
         disabled,
-        Object_Type,
+        object_type,
         canEditModuleObjectContext,
         openEditObjectModal,
         canRemoveObjectFromModule,

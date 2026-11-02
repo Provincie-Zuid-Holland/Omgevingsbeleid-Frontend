@@ -127,21 +127,22 @@ const hoofdlijn: DynamicAnnotation<typeof api> = {
         columns: [
             {
                 header: 'Naam',
-                accessorKey: 'Name',
+                accessorKey: 'name',
             },
             {
                 header: 'Soort',
-                accessorKey: 'Type',
+                accessorKey: 'type',
             },
         ],
-        defaultSortColumn: 'Name',
-        idKey: 'UUID',
+
+        defaultSortColumn: 'name',
+        idKey: 'id',
     },
     dynamicSections: [
         {
             fields: [
                 {
-                    name: 'Type',
+                    name: 'type',
                     label: 'Soort',
                     description:
                         'Geef in één woord of enkele woorden aan om wat voor soort hoofdlijn het gaat.',
@@ -150,7 +151,7 @@ const hoofdlijn: DynamicAnnotation<typeof api> = {
                     required: true,
                 },
                 {
-                    name: 'Name',
+                    name: 'name',
                     label: 'Naam',
                     description: 'Geef de hoofdlijn een korte en bondige naam.',
                     placeholder: 'Bijvoorbeeld: Regionaal Waterprogramma',

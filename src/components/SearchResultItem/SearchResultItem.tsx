@@ -8,18 +8,18 @@ import { ModelType } from '@/config/objects/types'
 
 interface SearchResultItem extends Omit<
     SearchObjectUnionAmbitieBasicBeleidsdoelBasicBeleidskeuzeBasicBeleidsregelBasicDocumentBasicGebiedsprogrammaBasicMaatregelBasicNationaalBelangBasicGebiedengroepBasicGebiedBasicGebiedsaanwijzingBasicProgrammaAlgemeenBasicVerplichtProgrammaBasicVisieAlgemeenBasicWerkingsgebiedBasicWettelijkeTaakBasic,
-    'Object_ID' | 'Score' | 'Object_Code'
+    'object_id' | 'Score' | 'Object_Code'
 > {
     query?: string
 }
 
 const SearchResultItem = ({
-    Object_Type,
-    Model,
-    Description,
+    object_type,
+    model: _model,
+    description,
     query,
 }: SearchResultItem) => {
-    const model = models[Object_Type as ModelType]
+    const model = models[object_type as ModelType]
 
     const highlightString = (text?: string, query?: string | null) => {
         if (!text) {
@@ -48,13 +48,13 @@ const SearchResultItem = ({
         return markedText
     }
 
-    const highlightedSentence = highlightString(Description, query)
-    const highlightedTitle = highlightString(Model.Title, query)
+    const highlightedSentence = highlightString(description, query)
+    const highlightedTitle = highlightString(_model.title, query)
 
     return (
         <li className="mb-6">
             <Link
-                to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${Model.UUID}`}
+                to={`/${model.defaults.slugOverview}/${model.defaults.plural}/${_model.id}`}
                 className="group flex flex-col">
                 <Heading
                     level="2"
@@ -67,7 +67,7 @@ const SearchResultItem = ({
                 <span className="order-1 text-s text-pzh-gray-600">
                     {model.defaults.singularCapitalize}
                 </span>
-                {!!Description ? (
+                {!!description ? (
                     <p
                         className="order-3 line-clamp-3"
                         dangerouslySetInnerHTML={{

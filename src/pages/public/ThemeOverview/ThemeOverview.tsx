@@ -41,7 +41,11 @@ function ThemeOverview() {
     ]
 
     const transformedData = useMemo(
-        () => data?.results.map(({ Title, UUID }) => ({ Title, UUID })),
+        () =>
+            data?.results.map(({ title, id }) => ({
+                title,
+                id,
+            })),
         [data]
     )
 

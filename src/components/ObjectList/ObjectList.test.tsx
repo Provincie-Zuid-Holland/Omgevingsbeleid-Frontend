@@ -8,8 +8,8 @@ describe('ObjectList', () => {
         objectType: 'beleidsdoelen',
         objectSlug: 'beleidsdoelen',
         data: [
-            { Title: 'Test', UUID: '123' },
-            { Title: 'Test 2', UUID: '1234' },
+            { title: 'Test', id: '123' },
+            { title: 'Test 2', id: '1234' },
         ],
         total: 2,
     }

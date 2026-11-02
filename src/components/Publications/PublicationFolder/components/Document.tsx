@@ -46,13 +46,13 @@ const Document = ({
     const { isClosed } = useModule()
 
     const { data: version, isFetching } = usePublicationVersionsGetListVersions(
-        publication?.UUID || '',
+        publication?.id || '',
         {
             limit: 100,
         },
         {
             query: {
-                enabled: !!publication?.UUID,
+                enabled: !!publication?.id,
                 select: data => data.results[0],
             },
         }
@@ -60,10 +60,10 @@ const Document = ({
 
     const status = useMemo(
         () =>
-            version?.Status === 'completed'
+            version?.status === 'completed'
                 ? { text: 'Afgerond', solid: true }
                 : { text: 'Actief', solid: false },
-        [version?.Status]
+        [version?.status]
     )
 
     return (
@@ -79,7 +79,7 @@ const Document = ({
                     <Badge upperCase={false} variant="green" {...status} />
                     <Button size="small" variant="cta" asChild>
                         <Link
-                            to={`/muteer/modules/${moduleId}/besluiten/${version.UUID}/leveringen`}>
+                            to={`/muteer/modules/${moduleId}/besluiten/${version.id}/leveringen`}>
                             Leveringen
                         </Link>
                     </Button>
@@ -89,7 +89,7 @@ const Document = ({
                         icon={Gear}
                         iconSize={16}
                         aria-label="Instrument bewerken"
-                        isDisabled={isClosed || version.Is_Locked}
+                        isDisabled={isClosed || version.is_locked}
                         onPress={() =>
                             setActiveModal('publicationEdit', { publication })
                         }
@@ -106,7 +106,7 @@ const Document = ({
                         setActiveModal('publicationAdd', {
                             documentType,
                             procedureType,
-                            environmentUUID: environment.UUID,
+                            environmentUUID: environment.id,
                         })
                     }>
                     Maak aan

@@ -55,13 +55,13 @@ const programmaAlgemeen: DynamicObject = {
         hideBreadcrumbs: true,
         parentType: 'Programma',
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: ['owner_1_id', 'owner_2_id'],
     fetchers,
     dynamicSections: [
         {
             fields: [
                 {
-                    name: 'Title',
+                    name: 'title',
                     label: 'Titel',
                     description:
                         'Formuleer in enkele woorden de titel van het programma algemeen.',
@@ -70,7 +70,7 @@ const programmaAlgemeen: DynamicObject = {
                     validation: schemaDefaults.title,
                 },
                 {
-                    name: 'Description',
+                    name: 'description',
                     label: 'Inhoud',
                     description:
                         'Een goede beleidstekst is kort, krachtig en actief opgeschreven. Zo weet de lezer direct wat de provincie gaat doen en waarom dit van belang is. Schrijf altijd ‘de provincie’, en niet ‘wij’.',

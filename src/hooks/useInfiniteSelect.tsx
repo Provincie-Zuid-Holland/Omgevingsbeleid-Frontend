@@ -1,8 +1,10 @@
-import { FieldSelectProps } from '@pzh-ui/components'
 import { CSSProperties, useEffect, useMemo, useRef } from 'react'
 
-import { LoaderSpinner } from '@/components/Loader'
+import { FieldSelectProps } from '@pzh-ui/components'
+
 import { QueryKey, useInfiniteQuery } from '@tanstack/react-query'
+
+import { LoaderSpinner } from '@/components/Loader'
 
 interface PagedResponse {
     offset?: number

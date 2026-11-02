@@ -107,15 +107,15 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
         () => [
             {
                 header: 'Titel',
-                accessorKey: 'Title',
+                accessorKey: 'title',
             },
             {
                 header: 'Instrument',
-                accessorKey: 'Document_Type',
+                accessorKey: 'document_type',
             },
             {
                 header: 'Laatst bewerkt',
-                accessorKey: 'Modified_Date',
+                accessorKey: 'modified_date',
             },
         ],
         []
@@ -127,24 +127,25 @@ const TabTable = ({ type, activeTab }: TabTableProps) => {
     const formattedData = useMemo(
         () =>
             data?.results.map(
-                ({ Title, Document_Type, Modified_Date, UUID }) => ({
-                    Title: (
+                ({ title, document_type, modified_date, id }) => ({
+                    title: (
                         <Text bold color="text-pzh-blue-500">
-                            {Title}
+                            {title}
                         </Text>
                     ),
-                    Document_Type,
-                    Modified_Date: (
+
+                    document_type,
+                    modified_date: (
                         <span className="flex items-center justify-between">
                             {formatDate(
-                                parseUtc(Modified_Date),
+                                parseUtc(modified_date),
                                 'dd-MM-yyyy, p'
                             )}
                             <AngleRight size={20} />
                         </span>
                     ),
                     ...(canViewPublicationTemplate && {
-                        onClick: () => navigate(`/muteer/${plural}/${UUID}`),
+                        onClick: () => navigate(`/muteer/${plural}/${id}`),
                     }),
                 })
             ) || [],

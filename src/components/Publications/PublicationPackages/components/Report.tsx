@@ -42,18 +42,18 @@ const statusIcons: Record<ReportStatusType, React.JSX.Element> = {
 
 const Report = ({
     publicationType,
-    Created_Date,
-    Filename,
-    Report_Status,
-    UUID,
+    created_date,
+    filename,
+    report_status,
+    id,
 }: ReportProps & ReportData) => {
     const { downloadReport } = useActions({
         publicationType,
         publicationUUID: '',
-        reportUUID: UUID,
+        reportUUID: id,
     })
 
-    const status = Report_Status as ReportStatusType
+    const status = report_status as ReportStatusType
 
     return (
         <div className="flex w-full min-w-0 flex-1 flex-wrap items-center justify-between gap-2 rounded-sm border border-pzh-gray-300 px-4 py-2">
@@ -63,15 +63,15 @@ const Report = ({
                 <Text
                     bold
                     className="truncate"
-                    title={Filename}
+                    title={filename}
                     color="text-pzh-blue-500">
-                    {Filename}
+                    {filename}
                 </Text>
             </div>
 
             <Text className="text-s leading-normal whitespace-nowrap">
                 {status === 'valid' ? 'Goedgekeurd' : 'Gefaald'} op{' '}
-                {formatDate(parseUtc(Created_Date), "dd-MM-yyyy 'om' HH:mm")}
+                {formatDate(parseUtc(created_date), "dd-MM-yyyy 'om' HH:mm")}
             </Text>
 
             <Button

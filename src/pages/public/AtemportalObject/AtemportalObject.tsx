@@ -46,19 +46,21 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                 const items = data[connection.key]
 
                 if (Array.isArray(items) && items.length > 0) {
-                    return (items as any[]).map(({ Object }) => ({ ...Object }))
+                    return (items as any[]).map(({ object }) => ({
+                        ...object,
+                    }))
                 }
 
                 return
             })
             .filter(Boolean)
 
-        const grouped = groupBy(connections, 'Object_Type')
+        const grouped = groupBy(connections, 'object_type')
 
         const sortedGrouped = Object.fromEntries(
             Object.entries(grouped).map(([key, items]) => [
                 key,
-                sortByFields(items, [item => item.Title]),
+                sortByFields(items, [item => item.title]),
             ])
         )
 
@@ -72,7 +74,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
             to: `/${slugOverview}`,
         },
         { name: pluralCapitalize, to: `/${slugOverview}/${plural}` },
-        { name: data.Title || '', isCurrent: true },
+        { name: data.title || '', isCurrent: true },
     ]
 
     if (isLoading) return <LoaderContent />
@@ -81,7 +83,7 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
 
     return (
         <>
-            <Helmet title={data.Title} />
+            <Helmet title={data.title} />
 
             <Container className="overflow-hidden pb-20">
                 <div className="col-span-6">
@@ -92,13 +94,13 @@ const AtemportalObject = ({ model }: DynamicObjectProps) => {
                 </div>
                 <div className="col-span-6 pt-10 xl:col-span-4 xl:col-start-2">
                     <Heading level="1" size="xxl" className="mb-2 md:mb-4">
-                        {data.Title}
+                        {data.title}
                     </Heading>
-                    {data?.Description && (
+                    {data?.description && (
                         <Text
                             className="prose mb-4 max-w-full text-m whitespace-pre-line text-pzh-blue-900 prose-neutral marker:text-pzh-blue-900 prose-li:my-0"
                             dangerouslySetInnerHTML={{
-                                __html: data.Description,
+                                __html: data.description,
                             }}
                         />
                     )}
