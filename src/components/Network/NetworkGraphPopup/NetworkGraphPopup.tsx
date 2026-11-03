@@ -18,7 +18,7 @@ const NetworkGraphPopup = ({ resetGraph }: NetworkGraphPopupProps) => {
     return (
         <div
             className={classNames(
-                'absolute top-4 left-4 min-w-[300px] rounded bg-pzh-white px-3 pt-2 pb-1 shadow-card',
+                'absolute top-4 left-4 min-w-75 rounded bg-pzh-white px-3 pt-2 pb-1 shadow-card',
                 {
                     hidden: !!!activeNode,
                 }

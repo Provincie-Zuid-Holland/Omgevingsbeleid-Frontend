@@ -24,7 +24,6 @@ export const formatGraphData = (
     const nodes =
         graph?.vertices?.map(vertice => ({
             ...vertice,
-            id: vertice.code,
         })) || []
 
     return { links, nodes }

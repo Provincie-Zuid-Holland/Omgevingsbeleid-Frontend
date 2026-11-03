@@ -72,7 +72,9 @@ const Visual = ({ graph }: VisualProps) => {
         const simulation = forceSimulation(nodes as SimulationNodeDatum[])
             .force(
                 'link',
-                forceLink(links).id((d: any) => d.id)
+                forceLink(links).id(
+                    d => (d as GraphVertice & SimulationNodeDatum).code
+                )
             )
             .force('charge', forceManyBody().strength(-55))
             .force('x', forceX())

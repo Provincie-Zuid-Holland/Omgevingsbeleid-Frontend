@@ -18,7 +18,7 @@ interface NetworkTextualProps {
 }
 
 const NetworkTextual = ({ graph }: NetworkTextualProps) => {
-    const { activeNode, setActiveNode, setActiveConnections } = useNetworkStore(
+    const { setActiveNode, setActiveConnections } = useNetworkStore(
         useShallow(state => ({
             activeNode: state.activeNode,
             setActiveNode: state.setActiveNode,

@@ -61,7 +61,7 @@ const Network = () => {
                             setActiveTab(key as typeof activeTab)
                         }>
                         <TabItem title="Visueel" key="visual">
-                            <div className="after:content-[' '] after:absolute after:top-[33px] after:left-0 after:-z-[1] after:h-full after:w-full after:bg-pzh-gray-100">
+                            <div className="after:content-[' '] after:absolute after:top-8.25 after:left-0 after:z-[-1] after:h-full after:w-full after:bg-pzh-gray-100">
                                 <NetworkGraph />
                             </div>
                         </TabItem>
