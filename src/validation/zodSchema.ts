@@ -99,7 +99,9 @@ export const schemaDefaults = {
 
     requiredOptions: array(
         union([string(), object({ label: any(), value: string() })])
-    ).transform(val => val?.map(v => (typeof v === 'string' ? v : v.value))),
+    )
+        .min(1, EMPTY_ERROR)
+        .transform(val => val.map(v => (typeof v === 'string' ? v : v.value))),
 }
 
 const getHeadingLevel = (heading: Element) =>

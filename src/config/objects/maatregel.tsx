@@ -211,6 +211,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                     },
                     placeholder: 'Kies één of meerdere rollen',
                     type: 'select',
+                    required: true,
                     isSearchable: false,
                     isMulti: true,
                     options: [
@@ -254,7 +255,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                             value: 'Responsieve provincie: zoveel mogelijk overlaten aan initiatieven uit de samenleving.',
                         },
                     ],
-                    validation: schemaDefaults.options,
+                    validation: schemaDefaults.requiredOptions,
                 },
                 {
                     name: 'Effect',
