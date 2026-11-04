@@ -25,7 +25,10 @@ interface ObjectContentProps {
 const ObjectContent = ({ data, customTitle }: ObjectContentProps) => (
     <div data-section="Inhoud">
         {fields.map(field => {
-            const content = data[field.value]
+            const content =
+                field.value === 'Roles' && !data.Roles?.length
+                    ? data.Role
+                    : data[field.value]
 
             if (field.list && Array.isArray(content) && !!content.length) {
                 return (
