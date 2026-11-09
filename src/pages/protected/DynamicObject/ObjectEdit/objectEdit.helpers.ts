@@ -9,7 +9,13 @@ const EXTRA_FIELDS = [
     'Source_Title',
 ]
 
-const SELECT_FIELDS = ['Documents', 'Target_Codes', 'Themas', 'Roles'] as const
+const SELECT_FIELDS = [
+    'Documents',
+    'Target_Codes',
+    'Themas',
+    'Hoofdlijnen',
+    'Roles',
+] as const
 
 const unwrapOption = (item: unknown): unknown =>
     item !== null && typeof item === 'object' && 'value' in item
@@ -111,6 +117,12 @@ export const getDefaultValues = (object?: Record<string, any>) => ({
         Target_Codes: object.Geo_Statics.map((item: any) => ({
             label: item.Cached_Title,
             value: item.Code,
+        })),
+    }),
+    ...(object?.Hoofdlijnen_Statics && {
+        Hoofdlijnen: object.Hoofdlijnen_Statics.map((item: any) => ({
+            label: `${item.Name} (${item.Type})`,
+            value: item.UUID,
         })),
     }),
 })
