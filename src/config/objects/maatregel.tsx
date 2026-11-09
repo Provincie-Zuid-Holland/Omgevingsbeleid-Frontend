@@ -210,7 +210,7 @@ const maatregel: DynamicObject<typeof fetchers> = {
                         ),
                     },
                     placeholder: 'Kies één of meerdere rollen',
-                    type: 'select',
+                    type: 'roles',
                     required: true,
                     isSearchable: false,
                     isMulti: true,
