@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 
 import { Role } from '@/context/AuthContext'
+
 import useAuth from './useAuth'
 
 export type Permissions = typeof initialPermissions
@@ -65,6 +66,9 @@ const initialPermissions = {
     storageFileCanUploadFiles: false,
     canCreateObjectRelatedFile: false,
     canDeleteObjectRelatedFile: false,
+    canCreateHoofdlijn: false,
+    canEditHoofdlijn: false,
+    canDeleteHoofdlijn: false,
 }
 
 const regisseurOmgevingsbeleidPermissions: Partial<Permissions> = {
@@ -118,6 +122,9 @@ const regisseurOmgevingsbeleidPermissions: Partial<Permissions> = {
     storageFileCanUploadFiles: true,
     canCreateObjectRelatedFile: true,
     canDeleteObjectRelatedFile: true,
+    canCreateHoofdlijn: true,
+    canEditHoofdlijn: true,
+    canDeleteHoofdlijn: true,
 }
 
 const publiceerderPermissions: Partial<Permissions> = {

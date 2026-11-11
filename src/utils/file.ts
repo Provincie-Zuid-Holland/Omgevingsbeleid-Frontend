@@ -1,10 +1,15 @@
+import { ValidationError } from '@/api/fetchers.schemas'
 import { getAccessToken } from '@/api/instance'
-import { ToastType } from '@/config/notifications'
 
 import getApiUrl from './getApiUrl'
-import globalErrorBoundary from './globalErrorBoundary'
-import globalRouter from './globalRouter'
+import { handleHttpError } from './handleHttpError'
 import { toastNotification } from './toastNotification'
+
+const PDF_SERVICE_ERROR_MESSAGES = [
+    'PDF preview service timed out',
+    'PDF preview service is unreachable',
+    'PDF preview service is unavailable',
+]
 
 export const fileToBase64 = async (file: File): Promise<string> =>
     await new Promise((resolve, reject) => {
@@ -50,10 +55,22 @@ export const downloadFile = async (
         })
 
         if (!response.ok) {
+            let detail: ValidationError[] | undefined
+
+            try {
+                const body = (await response.json()) as {
+                    detail?: ValidationError[]
+                }
+                detail = body?.detail
+            } catch {
+                detail = undefined
+            }
+
             const error = new Error(
                 `HTTP error! status: ${response.status}`
-            ) as Error & { status?: number }
+            ) as Error & { status?: number; detail?: ValidationError[] }
             error.status = response.status
+            error.detail = detail
             throw error
         }
 
@@ -81,34 +98,27 @@ export const downloadFile = async (
     }
 }
 
-// Helper function to handle errors
 const handleDownloadError = (error: unknown) => {
-    const typedError = error as Error & { status?: number }
+    const typedError = error as Error & {
+        status?: number
+        detail?: ValidationError[]
+    }
     const status = typedError.status
 
     console.error(`Error fetching data: ${typedError.message}`)
 
-    const authErrors = new Set([401, 403])
-    if (status && authErrors.has(status)) {
-        toastNotification('notLoggedIn')
-        globalRouter.navigate?.('/login')
+    if (status === 503) {
+        const isPdfServiceError = typedError.detail?.some(detail =>
+            PDF_SERVICE_ERROR_MESSAGES.some(message =>
+                detail.msg?.includes(message)
+            )
+        )
+
+        if (isPdfServiceError) {
+            toastNotification('pdfPreviewError')
+        }
         return
     }
 
-    if (status === 500) {
-        globalErrorBoundary.showBoundary?.(error)
-        return
-    }
-
-    const errorMessages: Map<number, ToastType> = new Map([
-        [441, 'error441'],
-        [442, 'error442'],
-        [443, 'error443'],
-        [444, 'error444'],
-    ])
-
-    if (status && errorMessages.has(status)) {
-        toastNotification(errorMessages.get(status)!)
-        return
-    }
+    handleHttpError(status, error, { extraToasts: { 444: 'error444' } })
 }

@@ -79,7 +79,7 @@ const PublicationAddModal = () => {
     }
 
     return (
-        <Modal id="publicationAdd" title="Instrument toevoegen">
+        <Modal id="publicationAdd" title="Instrument aanmaken">
             <PublicationForm
                 type="add"
                 onSubmit={handleFormSubmit}
@@ -87,7 +87,7 @@ const PublicationAddModal = () => {
                 validationSchema={toFormikValidationSchema(
                     PUBLICATION_ADD_SCHEMA
                 )}
-                submitText="Toevoegen"
+                submitText="Maak aan"
             />
         </Modal>
     )

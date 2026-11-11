@@ -20,9 +20,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useAmbitieListValidLineages,
     useGetValidLineage: useAmbitieListValidLineageTree,
     useGetVersion: useAmbitieViewObjectVersion,
@@ -43,7 +43,7 @@ const fetchers = {
     useGetActiveModules: useAmbitieGetListActiveModuleObjects,
 }
 
-const ambitie: DynamicObject<typeof fetchers> = {
+const ambitie: DynamicObject = {
     defaults: {
         singular: 'ambitie',
         singularReadable: 'ambitie',
@@ -112,6 +112,34 @@ const ambitie: DynamicObject<typeof fetchers> = {
                         "Om de ambitie beter vindbaar te maken in de landelijke voorziening kun je de ambitie voorzien van één of meerdere thema's.",
                     type: 'theme',
                     placeholder: 'Kies één of meerdere thema’s',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
+                {
+                    name: 'Hoofdlijnen',
+                    label: 'Hoofdlijnen',
+                    description: (
+                        <>
+                            Om de ambitie beter vindbaar te maken door middel
+                            van annotaties in de landelijke voorziening kun je
+                            de ambitie voorzien van één of meerdere hoofdlijnen.
+                            Indien een nieuwe hoofdlijn gewenst is, neem dan
+                            contact op met{' '}
+                            <a
+                                href="mailto:teamomgevingsbeleid@pzh.nl"
+                                className="underline">
+                                teamomgevingsbeleid@pzh.nl
+                            </a>
+                            .
+                        </>
+                    ),
+                    type: 'annotation',
+                    placeholder: 'Kies één of meerdere hoofdlijnen',
                     components: {
                         DropdownIndicator: () => (
                             <div className="mr-4">

@@ -64,6 +64,7 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                                 : schemaDefaults.optionalArray) as any),
                     }))
                 case 'theme':
+                case 'annotation':
                 case 'roles':
                     return (dynamicSchema = dynamicSchema.extend({
                         [field.name]:

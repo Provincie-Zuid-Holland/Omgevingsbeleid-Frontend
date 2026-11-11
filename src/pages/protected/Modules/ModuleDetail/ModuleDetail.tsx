@@ -38,7 +38,11 @@ const ModuleDetail = () => {
     const navigate = useNavigate()
     const { canCreatePublication } = usePermissions()
 
-    const { data: { Module: module } = {}, isLoading } = useModule()
+    const {
+        data: { Module: module } = {},
+        isLoading,
+        isModuleManager,
+    } = useModule()
 
     const activeTab = useMemo(
         () => getActiveTab(location.pathname),
@@ -54,6 +58,8 @@ const ModuleDetail = () => {
         )
     }
 
+    const hasRestrictions = !canCreatePublication || !isModuleManager
+
     if (isLoading || !module) return <LoaderContent />
 
     return (
@@ -63,16 +69,21 @@ const ModuleDetail = () => {
             <div className="col-span-6">
                 <Tabs
                     selectedKey={
-                        canCreatePublication ? activeTab : selectedRestrictedTab
+                        hasRestrictions ? activeTab : selectedRestrictedTab
                     }
                     onSelectionChange={key => {
-                        if (canCreatePublication) {
+                        if (hasRestrictions) {
                             handleTabChange(key)
                         } else {
                             setSelectedRestrictedTab(key as RestrictedTabType)
                         }
-                    }}>
-                    {canCreatePublication
+                    }}
+                    disabledKeys={
+                        !canCreatePublication && isModuleManager
+                            ? ['besluiten']
+                            : undefined
+                    }>
+                    {hasRestrictions
                         ? TABS.map(tab => (
                               <TabItem
                                   key={tab}

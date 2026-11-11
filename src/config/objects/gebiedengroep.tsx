@@ -15,9 +15,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useGebiedengroepListValidLineages,
     useGetValidLineage: useGebiedengroepListValidLineageTree,
     useGetVersion: useGebiedengroepViewObjectVersion,
@@ -38,7 +38,7 @@ const fetchers = {
     useGetActiveModules: useGebiedengroepGetListActiveModuleObjects,
 }
 
-const gebiedengroep: DynamicObject<typeof fetchers> = {
+const gebiedengroep: DynamicObject = {
     defaults: {
         singular: 'gebiedengroep',
         singularReadable: 'gebiedengroep',

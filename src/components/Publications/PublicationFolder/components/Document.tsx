@@ -1,61 +1,27 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
-import {
-    Badge,
-    BadgeProps,
-    Button,
-    formatDate,
-    Heading,
-    Text,
-    Tooltip,
-} from '@pzh-ui/components'
-import {
-    FilePdf,
-    Gear,
-    PencilLight,
-    PenNib,
-    PenToSquare,
-    TriangleExclamationSolid,
-} from '@pzh-ui/icons'
+import { Badge, Button, Heading } from '@pzh-ui/components'
+import { Gear } from '@pzh-ui/icons'
 
-import { AxiosError } from 'axios'
-import clsx from 'clsx'
 import { Link, useParams } from 'react-router-dom'
 
-import {
-    usePublicationVersionsGetListVersions,
-    usePublicationVersionsPostCreateVersionPdf,
-} from '@/api/fetchers'
+import { usePublicationVersionsGetListVersions } from '@/api/fetchers'
 import {
     DocumentType,
-    HTTPValidationError,
     ProcedureType,
     Publication,
     PublicationEnvironment,
 } from '@/api/fetchers.schemas'
-import Dropdown, { DropdownItem } from '@/components/Dropdown'
-import { LoaderCard, LoaderSpinner } from '@/components/Loader'
+import { LoaderCard } from '@/components/Loader'
 import useModule from '@/hooks/useModule'
-import { useModuleStatusData } from '@/hooks/useModuleStatusData'
 import useModalStore from '@/store/modalStore'
-import { downloadFile } from '@/utils/file'
-import { parseUtc } from '@/utils/parseUtc'
-import { toastNotification } from '@/utils/toastNotification'
-
-const PDF_ERROR = [
-    'PDF preview service timed out',
-    'PDF preview service is unreachable',
-    'PDF preview service is unavailable',
-]
 
 const config = {
     omgevingsvisie: {
         label: 'Visie',
-        icon: PencilLight,
     },
     programma: {
         label: 'Programma',
-        icon: PenNib,
     },
 }
 
@@ -64,6 +30,7 @@ interface DocumentProps {
     documentType: DocumentType
     procedureType: ProcedureType
     publication?: Publication
+    canCreate?: boolean
 }
 
 const Document = ({
@@ -71,17 +38,12 @@ const Document = ({
     documentType,
     procedureType,
     publication,
+    canCreate,
 }: DocumentProps) => {
     const { moduleId } = useParams()
 
     const setActiveModal = useModalStore(state => state.setActiveModal)
-
-    const { lastStatus } = useModuleStatusData(moduleId)
     const { isClosed } = useModule()
-
-    const [isDownloadOpen, setIsDownloadOpen] = useState(false)
-
-    const Icon = config[documentType].icon
 
     const { data: version, isFetching } = usePublicationVersionsGetListVersions(
         publication?.UUID || '',
@@ -96,262 +58,60 @@ const Document = ({
         }
     )
 
-    const { mutate: download, isPending } =
-        usePublicationVersionsPostCreateVersionPdf({
-            mutation: {
-                mutationFn: async ({ versionUuid, data }): Promise<any> =>
-                    downloadFile(
-                        `/publication-versions/${versionUuid}/pdf_export`,
-                        data
-                    ),
-                onError: (err: AxiosError<HTTPValidationError>) => {
-                    const isPdfServiceError =
-                        err.response?.status === 503 &&
-                        err.response?.data?.detail?.some(detail =>
-                            PDF_ERROR.some(pdfError =>
-                                detail.msg?.includes(pdfError)
-                            )
-                        )
-
-                    if (isPdfServiceError) {
-                        toastNotification('pdfPreviewError')
-                    }
-                },
-            },
-        })
-
-    const isLastStatus = useMemo(
-        () => version?.Module_Status.ID === lastStatus?.ID,
-        [lastStatus, version?.Module_Status]
-    )
-
-    const statusCreatedDate = useMemo(
+    const status = useMemo(
         () =>
-            version &&
-            formatDate(
-                parseUtc(version.Module_Status.Created_Date),
-                "dd-MM-yyyy 'om' HH:mm"
-            ),
-        [version?.Module_Status.Created_Date]
-    )
-
-    const status = useMemo((): BadgeProps => {
-        const steps = publication?.Procedure_Type === 'draft' ? '3' : '2'
-
-        switch (version?.Status) {
-            case 'validation':
-                return {
-                    text: `1/${steps}: Validatie`,
-                    solid: true,
-                    variant: 'yellow',
-                }
-            case 'validation_failed':
-                return {
-                    text: 'Validatie gefaald',
-                    variant: 'yellow',
-                }
-            case 'publication':
-                return {
-                    text: `2/${steps}: Publicatie`,
-                    solid: true,
-                    variant: 'yellow',
-                }
-            case 'publication_failed':
-                return {
-                    text: 'Publicatie gefaald',
-                    variant: 'red',
-                }
-            case 'publication_aborted':
-                return {
-                    text: 'Publicatie afgebroken',
-                    variant: 'red',
-                }
-            case 'announcement':
-                return {
-                    text: '3/3: Kennisgeving',
-                    solid: true,
-                    variant: 'yellow',
-                }
-            case 'completed':
-                return {
-                    text: 'Afgerond',
-                    solid: true,
-                }
-            default:
-                return {
-                    text: 'Actief',
-                }
-        }
-    }, [version, publication])
-
-    const dropdownItems: DropdownItem[] = [
-        {
-            text: 'PDF Renvooi',
-            callback: () =>
-                download({
-                    versionUuid: String(version?.UUID),
-                    data: { Mutation: 'renvooi' },
-                }),
-            className:
-                'font-bold text-m hover:no-underline hover:text-pzh-green-500 hover:bg-inherit',
-        },
-        {
-            text: 'PDF Initieel',
-            callback: () =>
-                download({
-                    versionUuid: String(version?.UUID),
-                    data: { Mutation: 'replace' },
-                }),
-            className:
-                'font-bold text-m hover:no-underline hover:text-pzh-green-500 hover:bg-inherit border-t-0',
-        },
-    ]
-
-    const disablePDFDownload = useMemo(
-        () =>
-            isPending ||
-            (!version?.Announcement_Date &&
-                !version?.Procedural?.Signed_Date &&
-                !version?.Procedural?.Procedural_Announcement_Date) ||
-            (!version?.Effective_Date && procedureType === 'final'),
-        [version]
+            version?.Status === 'completed'
+                ? { text: 'Afgerond', solid: true }
+                : { text: 'Actief', solid: false },
+        [version?.Status]
     )
 
     return (
-        <div className="flex h-16 border-b border-pzh-gray-200 first:border-t last:border-b-0">
-            <div className="flex h-[inherit] w-5/12 items-center border-r border-pzh-gray-200 pr-6 pl-8">
-                <div className="flex h-[inherit] items-center gap-4 border-pzh-gray-200">
-                    <Icon
-                        size={24}
-                        className="text-pzh-blue-100 group-data-[disabled]/procedure:text-pzh-gray-300"
-                    />
-                    <Heading
-                        level="3"
-                        size="m"
-                        className="capitalize group-data-[disabled]/procedure:text-pzh-gray-300">
-                        {config[documentType].label}
-                    </Heading>
-                </div>
-
-                {environment?.Has_State && !!version && (
-                    <div className="ml-auto">
-                        {isFetching ? (
-                            <LoaderCard height="24" className="w-20" mb="0" />
-                        ) : (
-                            <Badge upperCase={false} {...status} />
-                        )}
-                    </div>
-                )}
-            </div>
+        <div className="flex h-16 items-center justify-between border-b border-pzh-gray-200 px-6 last:border-b-0">
+            <Heading level="4" size="m" className="capitalize">
+                {config[documentType].label}
+            </Heading>
 
             {isFetching ? (
-                <LoaderSpinner className="ml-6 place-self-center" />
-            ) : !!version && !!publication ? (
-                <>
-                    <div className="flex items-center pr-2 pl-6">
-                        <div>
-                            <Text size="s" color="text-pzh-blue-500">
-                                Gebaseerd op modulestatus
-                            </Text>
-                            <div className="flex items-center">
-                                <Text size="s" bold color="text-pzh-blue-500">
-                                    {version?.Module_Status.Status} (
-                                    {statusCreatedDate})
-                                </Text>
-                                {!isLastStatus && !version.Is_Locked && (
-                                    <Tooltip
-                                        label={
-                                            <Text
-                                                size="s"
-                                                color="text-pzh-white">
-                                                Deze levering is niet gebaseerd
-                                                op de meest recente
-                                                modulestatus.
-                                            </Text>
-                                        }>
-                                        <TriangleExclamationSolid
-                                            size={18}
-                                            className="-mt-0.5 ml-2 cursor-help text-pzh-red-500"
-                                        />
-                                    </Tooltip>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="ml-auto flex items-center gap-2 px-6">
-                        <Button size="small" variant="cta" asChild>
-                            <Link
-                                to={`/muteer/modules/${moduleId}/besluiten/${version.UUID}/leveringen`}>
-                                Leveringen
-                            </Link>
-                        </Button>
-                        <div className="relative">
-                            <Button
-                                size="small"
-                                variant="secondary"
-                                icon={FilePdf}
-                                iconSize={16}
-                                aria-label="Download PDF export"
-                                onPress={() =>
-                                    setIsDownloadOpen(!isDownloadOpen)
-                                }
-                                isLoading={isPending}
-                                isDisabled={disablePDFDownload}
-                            />
-                            <Dropdown
-                                items={dropdownItems}
-                                isOpen={isDownloadOpen}
-                                setIsOpen={setIsDownloadOpen}
-                                className="-right-1 mt-8"
-                            />
-                        </div>
-                        <Button
-                            size="small"
-                            variant="secondary"
-                            aria-label="Wijzig publicatie versie"
-                            isDisabled={version.Is_Locked || isClosed}
-                            asChild
-                            className={clsx({
-                                'bg-pzh-gray-200 text-pzh-blue-900/35':
-                                    version.Is_Locked || isClosed,
-                            })}>
-                            <Link
-                                to={`/muteer/modules/${moduleId}/besluiten/${version.UUID}/bewerk`}>
-                                <PenToSquare size={16} />
-                            </Link>
-                        </Button>
-                        <Button
-                            size="small"
-                            variant="secondary"
-                            icon={Gear}
-                            iconSize={16}
-                            aria-label="Wijzig publicatie"
-                            isDisabled={version.Is_Locked || isClosed}
-                            onPress={() =>
-                                setActiveModal('publicationEdit', {
-                                    publication,
-                                })
-                            }
-                        />
-                    </div>
-                </>
-            ) : !isClosed ? (
-                <div className="ml-auto flex items-center gap-2 px-6">
-                    <Button
-                        variant="secondary"
-                        size="small"
-                        onPress={() =>
-                            setActiveModal('publicationAdd', {
-                                documentType,
-                                procedureType,
-                                environmentUUID: environment.UUID,
-                            })
-                        }>
-                        Voeg instrument toe
+                <LoaderCard height="24" className="w-44" mb="0" />
+            ) : !!publication && !!version ? (
+                <div className="flex items-center gap-3">
+                    <Badge upperCase={false} variant="green" {...status} />
+                    <Button size="small" variant="cta" asChild>
+                        <Link
+                            to={`/muteer/modules/${moduleId}/besluiten/${version.UUID}/leveringen`}>
+                            Leveringen
+                        </Link>
                     </Button>
+                    <Button
+                        size="small"
+                        variant="secondary"
+                        icon={Gear}
+                        iconSize={16}
+                        aria-label="Instrument bewerken"
+                        isDisabled={isClosed || version.Is_Locked}
+                        onPress={() =>
+                            setActiveModal('publicationEdit', { publication })
+                        }
+                    />
                 </div>
-            ) : null}
+            ) : (
+                <Button
+                    size="small"
+                    variant="primary"
+                    isDisabled={
+                        isClosed || (procedureType === 'final' && !canCreate)
+                    }
+                    onPress={() =>
+                        setActiveModal('publicationAdd', {
+                            documentType,
+                            procedureType,
+                            environmentUUID: environment.UUID,
+                        })
+                    }>
+                    Maak aan
+                </Button>
+            )}
         </div>
     )
 }

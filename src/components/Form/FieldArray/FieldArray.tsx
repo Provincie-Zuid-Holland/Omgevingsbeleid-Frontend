@@ -101,6 +101,7 @@ const FieldArray = ({
                                                 key={`${field.name}-${actualIndex}`}
                                                 model={model}
                                                 isFirst
+                                                isLocked={disabled}
                                                 {...field}
                                                 name={`${name}.${actualIndex}.${field.name}`}
                                             />

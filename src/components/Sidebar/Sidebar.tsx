@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { Text } from '@pzh-ui/components'
 import {
+    BuildingMemo,
     FileImport,
     FileInvoice,
     House,
@@ -17,8 +18,12 @@ import { ModelType } from '@/config/objects/types'
 import usePermissions from '@/hooks/usePermissions'
 
 const Sidebar = () => {
-    const { canEditUser, canViewPublicationTemplate, canViewUnifiedPackages } =
-        usePermissions()
+    const {
+        canEditUser,
+        canViewPublicationTemplate,
+        canViewUnifiedPackages,
+        canCreateHoofdlijn,
+    } = usePermissions()
 
     const [expanded, setExpanded] = useState(false)
 
@@ -44,7 +49,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className="sticky top-[97px] z-[1] h-full w-14 whitespace-nowrap"
+            className="sticky top-24.25 z-1 h-full w-14 whitespace-nowrap"
             onMouseLeave={() => {
                 clearHoverTimer()
                 if (expanded) setExpanded(false)
@@ -52,10 +57,10 @@ const Sidebar = () => {
             data-testid="sidebar">
             <div
                 className={classNames(
-                    'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:top-0 after:left-0 after:-z-[1] after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
+                    'after:content-[" "] relative bg-pzh-gray-100 transition-[min-width] duration-200 ease-[cubic-bezier(.47,1.64,.41,.8)] after:absolute after:top-0 after:left-0 after:z-[-1] after:h-[calc(100vh-97px)] after:w-full after:bg-pzh-gray-100 after:shadow-[0px_18px_60px_rgba(0,0,0,0.07),0px_4px_13px_rgba(0,0,0,0.04),0px_2px_6px_rgba(0,0,0,0.03)]',
                     {
-                        'min-w-[56px]': !expanded,
-                        'min-w-[260px]': expanded,
+                        'min-w-14': !expanded,
+                        'min-w-65': expanded,
                     }
                 )}>
                 <div
@@ -106,9 +111,22 @@ const Sidebar = () => {
                         )
                     })}
 
-                    {(canViewPublicationTemplate || canViewUnifiedPackages) && (
+                    {(canViewPublicationTemplate ||
+                        canViewUnifiedPackages ||
+                        canCreateHoofdlijn) && (
                         <>
                             <div className="h-px w-full bg-pzh-blue-500" />
+                            {canCreateHoofdlijn && (
+                                <MenuItem
+                                    name="Hoofdlijnen"
+                                    path="/muteer/hoofdlijnen"
+                                    icon={BuildingMemo}
+                                    largerIcon
+                                    expanded={expanded}
+                                    onHover={startHoverTimer}
+                                    onClick={clearHoverTimer}
+                                />
+                            )}
                             {canViewUnifiedPackages && (
                                 <MenuItem
                                     name="Leveringen"
@@ -155,7 +173,7 @@ const Sidebar = () => {
 interface MenuItemProps {
     name: string
     path: string
-    icon: any
+    icon: React.ElementType
     largerIcon?: boolean
     expanded: boolean
     onHover: () => void
@@ -193,8 +211,8 @@ const MenuItem = ({
             <Icon
                 size={largerIcon ? 25 : 20}
                 className={classNames({
-                    'min-w-[20px]': !largerIcon,
-                    'min-w-[25px]': largerIcon,
+                    'min-w-5': !largerIcon,
+                    'min-w-6.25': largerIcon,
                 })}
             />
             <Text

@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react'
 
-import { Accordion, Notification, TabItem, Tabs } from '@pzh-ui/components'
+import { Notification, TabItem, Tabs } from '@pzh-ui/components'
 
 import { Outlet, useParams } from 'react-router-dom'
-import { useShallow } from 'zustand/react/shallow'
 
 import {
     usePublicationEnvironmentsGetListEnvironments,
@@ -14,12 +13,12 @@ import {
     PublicationAddModal,
     PublicationAnnouncementUpdateModal,
     PublicationEditModal,
+    PublicationExportPdfModal,
     PublicationPackageReportUploadModal,
     PublicationVersionEditModal,
 } from '@/components/Modals/PublicationModals'
 import PublicationScanModal from '@/components/Modals/PublicationModals/PublicationScanModal'
 import PublicationFolder from '@/components/Publications/PublicationFolder'
-import usePublicationStore from '@/store/publicationStore'
 
 const TabDecisions = () => (
     <>
@@ -29,6 +28,7 @@ const TabDecisions = () => (
 
         <PublicationAddModal />
         <PublicationEditModal />
+        <PublicationExportPdfModal />
         <PublicationScanModal />
         <PublicationVersionEditModal />
         <PublicationAnnouncementUpdateModal />
@@ -39,13 +39,6 @@ const TabDecisions = () => (
 export const Publications = () => {
     const { moduleId } = useParams()
     const [activeEnv, setActiveEnv] = useState<string | null>(null)
-
-    const { activeFolders, setActiveFolders } = usePublicationStore(
-        useShallow(state => ({
-            activeFolders: state.activeFolders,
-            setActiveFolders: state.setActiveFolders,
-        }))
-    )
 
     const procedureTypes = Object.keys(ProcedureType) as Array<ProcedureType>
 
@@ -94,13 +87,7 @@ export const Publications = () => {
                                 </Notification>
                             )}
 
-                            <Accordion
-                                type="multiple"
-                                className="flex flex-col gap-6"
-                                value={activeFolders.procedureTypes}
-                                onValueChange={procedureTypes =>
-                                    setActiveFolders({ procedureTypes })
-                                }>
+                            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                                 {procedureTypes.map(procedureType => (
                                     <PublicationFolder
                                         key={procedureType}
@@ -109,7 +96,7 @@ export const Publications = () => {
                                         environment={environment}
                                     />
                                 ))}
-                            </Accordion>
+                            </div>
                         </TabItem>
                     ))}
                 </Tabs>

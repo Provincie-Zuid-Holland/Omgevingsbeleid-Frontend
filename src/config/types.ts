@@ -84,4 +84,5 @@ export type DynamicField<FieldType = string> =
           type: 'areaAnnotate'
       } & FieldAreaAnnotateProps)
     | (DynamicFieldBase<FieldType> & { type: 'theme' } & FieldSelectProps)
+    | (DynamicFieldBase<FieldType> & { type: 'annotation' } & FieldSelectProps)
     | (DynamicFieldBase<FieldType> & { type: 'roles' } & FieldSelectProps)

@@ -15,9 +15,9 @@ import {
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
 
-import { DynamicObject } from './types'
+import { DynamicObject, ModelFetchers } from './types'
 
-const fetchers = {
+const fetchers: ModelFetchers = {
     useGetValid: useDocumentListValidLineages,
     useGetValidLineage: useDocumentListValidLineageTree,
     useGetVersion: useDocumentViewObjectVersion,
@@ -38,7 +38,7 @@ const fetchers = {
     useGetActiveModules: useDocumentGetListActiveModuleObjects,
 }
 
-const document: DynamicObject<typeof fetchers> = {
+const document: DynamicObject = {
     defaults: {
         singular: 'document',
         singularReadable: 'document',
@@ -68,6 +68,16 @@ const document: DynamicObject<typeof fetchers> = {
                     validation: schemaDefaults.title,
                 },
                 {
+                    name: 'File_UUID',
+                    label: 'Bestand',
+                    description:
+                        'Upload hier het daadwerkelijke .pdf bestand. Let op dat het ‘auteur’ veld in de meta-data van het bestand geen naam van jou of een collega bevat.',
+                    placeholder: 'Selecteer een bestand om te uploaden',
+                    type: 'file',
+                    required: true,
+                    prefillFieldName: 'Filename',
+                },
+                {
                     name: 'Filename',
                     label: 'Bestandsnaam',
                     description:
@@ -80,24 +90,6 @@ const document: DynamicObject<typeof fetchers> = {
                             /^[\w\-.]+\.pdf$/,
                             'Het veld is niet goed ingevuld en moet eindigen op ".pdf".'
                         ),
-                },
-                {
-                    name: 'Description',
-                    label: 'Omschrijving',
-                    description:
-                        'Geef kort en bondig aan waar het document over gaat.',
-                    type: 'wysiwyg',
-                    customMenuOptions: ['heading'],
-                    required: true,
-                },
-                {
-                    name: 'File_UUID',
-                    label: 'Bestand',
-                    description:
-                        'Upload hier het daadwerkelijke .pdf bestand. Let op dat het ‘auteur’ veld in de meta-data van het bestand geen naam van jou of een collega bevat.',
-                    placeholder: 'Selecteer een bestand om te uploaden',
-                    type: 'file',
-                    required: true,
                 },
             ],
         },

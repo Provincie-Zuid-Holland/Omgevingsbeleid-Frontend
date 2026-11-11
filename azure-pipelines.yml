@@ -7,11 +7,10 @@ trigger:
             - main
 
 pool:
-    name: 'PZH-Agent'
+    name: 'PZH-Ubuntu-Agent'
 
 variables:
     VITE_API_ENV: $(Build.SourceBranchName)
-    NODE_OPTIONS: --max_old_space_size=4096
     YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/cache
 
 stages:
@@ -56,8 +55,14 @@ stages:
                   inputs:
                       summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
 
-                - script: yarn build
-                  displayName: Build
+                - script: yarn build:css
+                  displayName: Build CSS
+
+                - script: yarn typecheck
+                  displayName: Type check
+
+                - script: yarn build:app
+                  displayName: Build application
 
                 - task: PublishBuildArtifacts@1
                   displayName: Publish build artifact
@@ -72,6 +77,8 @@ stages:
       jobs:
           - deployment: DevDeploy
             displayName: Dev deploy
+            pool:
+                name: 'PZH-Agent'
             environment: Dev
             strategy:
                 runOnce:
@@ -88,6 +95,8 @@ stages:
       jobs:
           - deployment: TestDeploy
             displayName: Test deploy
+            pool:
+                name: 'PZH-Agent'
             environment: Test
             strategy:
                 runOnce:
@@ -104,6 +113,8 @@ stages:
       jobs:
           - deployment: AccDeploy
             displayName: Acc deploy
+            pool:
+                name: 'PZH-Agent'
             environment: Acc
             strategy:
                 runOnce:
@@ -120,6 +131,8 @@ stages:
       jobs:
           - deployment: ProdDeploy
             displayName: Prod deploy
+            pool:
+                name: 'PZH-Agent'
             environment: Prod
             strategy:
                 runOnce:
