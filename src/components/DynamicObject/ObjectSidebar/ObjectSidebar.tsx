@@ -14,7 +14,11 @@ import { Link, useParams } from 'react-router-dom'
 import Avatar from '@/components/Avatar/Avatar'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
-import { getStaticDataLabel } from '@/utils/dynamicObject'
+import {
+    getStaticDataLabel,
+    getStaticDataPropertyKey,
+    ownerFields,
+} from '@/utils/dynamicObject'
 import { formatValidityDate } from '@/utils/formatValidityDate'
 
 import ObjectConnectedDocuments from '../ObjectConnectedDocuments'
@@ -149,59 +153,27 @@ const People = ({
 }: Pick<ObjectSidebarProps, 'ObjectStatics'>) => {
     if (!ObjectStatics) return null
 
+    const fields = [
+        'Portfolio_Holder_1_UUID',
+        'Client_1_UUID',
+        ...ownerFields,
+    ] as const
+
     return (
-        <div className="mb-3 flex">
-            {(ObjectStatics.Portfolio_Holder_1 ||
-                ObjectStatics.Portfolio_Holder_2) && (
-                <div className="mr-2 flex">
-                    {ObjectStatics.Portfolio_Holder_1 && (
-                        <Avatar
-                            uuid={ObjectStatics.Portfolio_Holder_1.UUID}
-                            prefix={getStaticDataLabel(
-                                'Portfolio_Holder_1_UUID'
-                            )}
-                        />
-                    )}
-                    {ObjectStatics.Portfolio_Holder_2 && (
-                        <Avatar
-                            uuid={ObjectStatics.Portfolio_Holder_2.UUID}
-                            prefix={getStaticDataLabel(
-                                'Portfolio_Holder_2_UUID'
-                            )}
-                            className={
-                                ObjectStatics.Portfolio_Holder_1 && '-ml-2'
-                            }
-                        />
-                    )}
-                </div>
-            )}
+        <div className="mb-3 flex gap-2">
+            {fields.map(field => {
+                const person = ObjectStatics[getStaticDataPropertyKey(field)]
 
-            {ObjectStatics.Client_1 && (
-                <div className="mr-2">
-                    <Avatar
-                        uuid={ObjectStatics.Client_1.UUID}
-                        prefix={getStaticDataLabel('Client_1_UUID')}
-                    />
-                </div>
-            )}
-
-            {(ObjectStatics.Owner_1 || ObjectStatics.Owner_2) && (
-                <div className="flex">
-                    {ObjectStatics.Owner_1 && (
+                return (
+                    person && (
                         <Avatar
-                            uuid={ObjectStatics.Owner_1.UUID}
-                            prefix={getStaticDataLabel('Owner_1_UUID')}
+                            key={field}
+                            uuid={person.UUID}
+                            prefix={getStaticDataLabel(field)}
                         />
-                    )}
-                    {ObjectStatics.Owner_2 && (
-                        <Avatar
-                            uuid={ObjectStatics.Owner_2.UUID}
-                            prefix={getStaticDataLabel('Owner_2_UUID')}
-                            className={ObjectStatics.Owner_1 && '-ml-2'}
-                        />
-                    )}
-                </div>
-            )}
+                    )
+                )
+            })}
         </div>
     )
 }

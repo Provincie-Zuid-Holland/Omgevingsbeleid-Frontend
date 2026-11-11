@@ -130,12 +130,15 @@ function ObjectProvider({
      */
     const isOwner = useMemo(
         () =>
-            data?.data?.ObjectStatics?.Owner_1?.UUID === user?.UUID ||
-            data?.data?.ObjectStatics?.Owner_2?.UUID === user?.UUID,
+            !!user?.UUID &&
+            (data?.data?.ObjectStatics?.Owner_1?.UUID === user.UUID ||
+                data?.data?.ObjectStatics?.Owner_2?.UUID === user.UUID ||
+                data?.data?.ObjectStatics?.Owner_3?.UUID === user.UUID),
         [
             user?.UUID,
             data?.data?.ObjectStatics?.Owner_1?.UUID,
             data?.data?.ObjectStatics?.Owner_2?.UUID,
+            data?.data?.ObjectStatics?.Owner_3?.UUID,
         ]
     )
 

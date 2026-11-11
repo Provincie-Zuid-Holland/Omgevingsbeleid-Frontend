@@ -54,7 +54,7 @@ const werkingsgebied: DynamicObject = {
         demonstrative: 'dit',
         icon: DrawPolygon,
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: ['Owner_1_UUID', 'Owner_2_UUID', 'Owner_3_UUID'],
     fetchers,
     dynamicSections: [
         {

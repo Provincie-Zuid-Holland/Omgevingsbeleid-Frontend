@@ -1,7 +1,10 @@
-import { object } from 'zod'
+import { object, RefinementCtx } from 'zod'
 
 import { ObjectStaticShort } from '@/api/fetchers.schemas'
-import { getStaticDataPropertyRequired } from '@/utils/dynamicObject'
+import {
+    getStaticDataPropertyRequired,
+    ownerFields,
+} from '@/utils/dynamicObject'
 import { schemaDefaults, zodAlwaysRefine } from '@/validation/zodSchema'
 
 /**
@@ -20,56 +23,27 @@ const generateSchema = (values: (keyof ObjectStaticShort)[]) => {
         }))
     })
 
-    return zodAlwaysRefine(schema).superRefine((data, ctx) => {
-        // Cast data to a type with optional properties to handle the case where they might not exist
-        const {
-            Owner_1_UUID,
-            Owner_2_UUID,
-            Portfolio_Holder_1_UUID,
-            Portfolio_Holder_2_UUID,
-        } = data as {
-            Owner_1_UUID?: string
-            Owner_2_UUID?: string
-            Portfolio_Holder_1_UUID?: string
-            Portfolio_Holder_2_UUID?: string
-        }
+    return zodAlwaysRefine(schema).superRefine(validateDistinctOwners)
+}
 
-        if (!!Owner_1_UUID && !!Owner_2_UUID && Owner_1_UUID === Owner_2_UUID) {
-            ctx.addIssue({
-                code: 'custom',
-                message:
-                    'De eerste en tweede eigenaar mogen niet dezelfde persoon zijn',
-                path: ['Owner_1_UUID'],
-            })
-
-            ctx.addIssue({
-                code: 'custom',
-                message:
-                    'De eerste en tweede eigenaar mogen niet dezelfde persoon zijn',
-                path: ['Owner_2_UUID'],
-            })
-        }
+const validateDistinctOwners = (
+    data: ObjectStaticShort,
+    ctx: RefinementCtx
+) => {
+    for (const field of ownerFields) {
+        const owner = data[field]
 
         if (
-            !!Portfolio_Holder_1_UUID &&
-            !!Portfolio_Holder_2_UUID &&
-            Portfolio_Holder_1_UUID === Portfolio_Holder_2_UUID
+            owner &&
+            ownerFields.some(other => other !== field && data[other] === owner)
         ) {
             ctx.addIssue({
                 code: 'custom',
-                message:
-                    'De eerste en tweede portefeuillehouder mogen niet dezelfde persoon zijn',
-                path: ['Portfolio_Holder_1_UUID'],
-            })
-
-            ctx.addIssue({
-                code: 'custom',
-                message:
-                    'De eerste en tweede portefeuillehouder mogen niet dezelfde persoon zijn',
-                path: ['Portfolio_Holder_2_UUID'],
+                message: 'Kies voor elk eigenaarsveld een andere persoon.',
+                path: [field],
             })
         }
-    })
+    }
 }
 
-export { generateSchema }
+export { generateSchema, validateDistinctOwners }

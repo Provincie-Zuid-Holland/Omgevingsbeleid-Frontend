@@ -36,14 +36,14 @@ const ObjectAreaAnnotateModal = () => {
 
         if (Object.keys(previousValue ?? {}).length) {
             const code = previousValue?.[AREA_DATA_ATTRS.Object_Code]
-            const item = data?.Gebiedsaanwijzingen_Statics?.find(
+            const item = data?.Gebiedsaanwijzingen_Gebieden?.find(
                 item => item.Code === code
             )
 
             return {
                 Object_Code: code ?? '',
                 Cached_Title:
-                    item?.Cached_Title ??
+                    item?.Title ??
                     previousValue?.[AREA_DATA_ATTRS.Cached_Title] ??
                     '',
             }

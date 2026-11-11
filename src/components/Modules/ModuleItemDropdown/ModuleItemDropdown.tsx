@@ -54,13 +54,16 @@ const ModuleItemDropdown = ({
         () =>
             canEditModule ||
             isModuleManager ||
-            ObjectStatics?.Owner_1_UUID === user?.UUID ||
-            ObjectStatics?.Owner_2_UUID === user?.UUID,
+            (!!user?.UUID &&
+                (ObjectStatics?.Owner_1_UUID === user.UUID ||
+                    ObjectStatics?.Owner_2_UUID === user.UUID ||
+                    ObjectStatics?.Owner_3_UUID === user.UUID)),
         [
             canEditModule,
             isModuleManager,
             ObjectStatics?.Owner_1_UUID,
             ObjectStatics?.Owner_2_UUID,
+            ObjectStatics?.Owner_3_UUID,
             user?.UUID,
         ]
     )
