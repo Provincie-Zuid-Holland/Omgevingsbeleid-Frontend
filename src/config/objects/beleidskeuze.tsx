@@ -77,8 +77,8 @@ const beleidskeuze: DynamicObject<ModelFetchers, typeof queryKeys> = {
         'Client_1_UUID',
         'Owner_1_UUID',
         'Owner_2_UUID',
+        'Owner_3_UUID',
         'Portfolio_Holder_1_UUID',
-        'Portfolio_Holder_2_UUID',
     ],
     allowedConnections: [
         { type: 'wettelijke_taak', key: 'WettelijkeTaken' },

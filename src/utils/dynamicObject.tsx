@@ -17,13 +17,13 @@ export const getStaticDataLabel = (key: keyof ObjectStaticShort) => {
         case 'Client_1_UUID':
             return 'Ambtelijk opdrachtgever'
         case 'Owner_1_UUID':
-            return 'Eerste eigenaar'
+            return 'Ambtelijk opdrachtnemer'
         case 'Owner_2_UUID':
-            return 'Tweede eigenaar'
+            return 'Behandelend ambtenaar'
+        case 'Owner_3_UUID':
+            return 'Behandelend ambtenaar'
         case 'Portfolio_Holder_1_UUID':
-            return 'Eerste portefeuillehouder'
-        case 'Portfolio_Holder_2_UUID':
-            return 'Tweede portefeuillehouder'
+            return 'Portefeuillehouder'
         default:
             throw new Error(
                 `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
@@ -39,10 +39,10 @@ export const getStaticDataPropertyKey = (key: keyof ObjectStaticShort) => {
             return 'Owner_1'
         case 'Owner_2_UUID':
             return 'Owner_2'
+        case 'Owner_3_UUID':
+            return 'Owner_3'
         case 'Portfolio_Holder_1_UUID':
             return 'Portfolio_Holder_1'
-        case 'Portfolio_Holder_2_UUID':
-            return 'Portfolio_Holder_2'
         default:
             throw new Error(
                 `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
@@ -53,7 +53,7 @@ export const getStaticDataPropertyKey = (key: keyof ObjectStaticShort) => {
 export const getStaticDataPropertyRequired = (key: keyof ObjectStaticShort) => {
     switch (key) {
         case 'Owner_2_UUID':
-        case 'Portfolio_Holder_2_UUID':
+        case 'Owner_3_UUID':
             return false
         case 'Owner_1_UUID':
         case 'Client_1_UUID':
@@ -66,27 +66,16 @@ export const getStaticDataPropertyRequired = (key: keyof ObjectStaticShort) => {
     }
 }
 
-export const getStaticDataFilterProperty = (key: keyof ObjectStaticShort) => {
-    switch (key) {
-        case 'Owner_1_UUID':
-            return 'Owner_2'
-        case 'Owner_2_UUID':
-            return 'Owner_1'
-        case 'Portfolio_Holder_1_UUID':
-            return 'Portfolio_Holder_2'
-        case 'Portfolio_Holder_2_UUID':
-            return 'Portfolio_Holder_1'
-        default:
-            break
-    }
-}
+export const ownerFields = ['Owner_1_UUID', 'Owner_2_UUID', 'Owner_3_UUID'] as const
 
 export const getStaticDataFilterRoles = (
     key: keyof ObjectStaticShort
 ): Role[] | undefined => {
     switch (key) {
         case 'Owner_1_UUID':
+            return ['Behandelend Ambtenaar']
         case 'Owner_2_UUID':
+        case 'Owner_3_UUID':
             return [
                 'Regisseur Omgevingsbeleid',
                 'Superuser',
@@ -94,7 +83,6 @@ export const getStaticDataFilterRoles = (
                 'Ambtelijk opdrachtgever',
             ]
         case 'Portfolio_Holder_1_UUID':
-        case 'Portfolio_Holder_2_UUID':
             return ['Portefeuillehouder']
         case 'Client_1_UUID':
             return ['Ambtelijk opdrachtgever']

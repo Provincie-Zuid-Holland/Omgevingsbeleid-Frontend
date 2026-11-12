@@ -52,7 +52,7 @@ const gebiedsaanwijzing: DynamicObject = {
         demonstrative: 'deze',
         icon: ObjectGroup,
     },
-    staticData: ['Owner_1_UUID', 'Owner_2_UUID'],
+    staticData: ['Owner_1_UUID', 'Owner_2_UUID', 'Owner_3_UUID'],
     fetchers,
     dynamicSections: [
         {

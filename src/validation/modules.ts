@@ -6,7 +6,15 @@ import {
     ModuleCreate,
 } from '@/api/fetchers.schemas'
 import createEmptyObject from '@/utils/createEmptyObject'
-import { schemaDefaults } from '@/validation/zodSchema'
+import { validateDistinctOwners } from '@/validation/objectGeneralInformation'
+import { schemaDefaults, zodAlwaysRefine } from '@/validation/zodSchema'
+
+const newObjectFields = {
+    Title: schemaDefaults.title,
+    Owner_1_UUID: schemaDefaults.requiredString(),
+    Owner_2_UUID: schemaDefaults.optionalString,
+    Owner_3_UUID: schemaDefaults.optionalString,
+}
 
 export const SCHEMA = object({
     Title: schemaDefaults.title,
@@ -20,13 +28,13 @@ export const EMPTY_CREATE_MODULE: ModuleCreate = createEmptyObject(SCHEMA)
 export const SCHEMA_ADD_OBJECT_STEPS = [
     object({ state: schemaDefaults.requiredString() }),
     object({ Object_Type: schemaDefaults.requiredString() }),
-    object({
-        Title: schemaDefaults.title,
-        Owner_1_UUID: schemaDefaults.requiredString(),
-        Owner_2_UUID: schemaDefaults.optionalString,
-        Explanation: schemaDefaults.optionalString,
-        Conclusion: schemaDefaults.optionalString,
-    }),
+    zodAlwaysRefine(
+        object({
+            ...newObjectFields,
+            Explanation: schemaDefaults.optionalString,
+            Conclusion: schemaDefaults.optionalString,
+        })
+    ).superRefine(validateDistinctOwners),
     object({ Object_UUID: schemaDefaults.requiredString() }),
     object({
         Action: schemaDefaults.requiredString(),
@@ -38,9 +46,7 @@ export const SCHEMA_ADD_OBJECT_STEPS = [
 export const SCHEMA_ADD_NEW_OBJECT = object({
     Object_Type: schemaDefaults.requiredString(),
     Object_UUID: schemaDefaults.requiredString(),
-    Title: schemaDefaults.title,
-    Owner_1_UUID: schemaDefaults.requiredString(),
-    Owner_2_UUID: schemaDefaults.optionalString,
+    ...newObjectFields,
     Explanation: string().optional(),
     Conclusion: string().optional(),
 })

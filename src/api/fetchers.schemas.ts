@@ -146,8 +146,8 @@ export interface AmbitieBasic {
 export interface AmbitieExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -195,11 +195,17 @@ export interface HierachyReference {
     Title?: string | null
 }
 
-export interface ObjectStatics {
-    Object_Type: string
-    Object_ID: number
-    Code: string
-    Cached_Title: string
+export interface GebiedBasic {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Area_UUID?: string | null
+    Start_Validity?: string | null
+    End_Validity?: string | null
 }
 
 export interface Hoofdlijn {
@@ -247,8 +253,8 @@ export interface PublicModuleObjectRevision {
 export interface AmbitieFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -269,7 +275,7 @@ export interface AmbitieFull {
     Modified_By?: UserShort | null
     Beleidsdoelen?: ReadRelationShortBeleidsdoelMinimal[]
     Hierarchy_Children?: HierachyReference[]
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Gebiedsaanwijzingen_Gebieden?: GebiedBasic[]
     Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
@@ -286,16 +292,16 @@ export interface AmbitieMinimal {
 export interface AmbitieStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
     Client_1_UUID?: string | null
 }
 
 export interface AmbitieStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -391,8 +397,8 @@ export interface BeleidsdoelBasic {
 export interface BeleidsdoelExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -451,8 +457,8 @@ export interface ObjectRelatedFileResponse {
 export interface BeleidsdoelFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -476,7 +482,7 @@ export interface BeleidsdoelFull {
     Ambities?: ReadRelationShortAmbitieMinimal[]
     Beleidskeuzes?: ReadRelationShortBeleidskeuzeMinimal[]
     Hierarchy_Children?: HierachyReference[]
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Gebiedsaanwijzingen_Gebieden?: GebiedBasic[]
     Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
@@ -487,16 +493,16 @@ export interface BeleidsdoelFull {
 export interface BeleidsdoelStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
     Client_1_UUID?: string | null
 }
 
 export interface BeleidsdoelStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -521,8 +527,8 @@ export interface BeleidskeuzeBasic {
 export interface BeleidskeuzeExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -621,11 +627,18 @@ export interface WerkingsgebiedBasic {
     End_Validity?: string | null
 }
 
+export interface ObjectStatics {
+    Object_Type: string
+    Object_ID: number
+    Code: string
+    Cached_Title: string
+}
+
 export interface BeleidskeuzeFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -660,7 +673,7 @@ export interface BeleidskeuzeFull {
     Werkingsgebied?: WerkingsgebiedBasic | null
     Hierarchy_Children?: HierachyReference[]
     Gebiedengroep_Static?: ObjectStatics | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Gebiedsaanwijzingen_Gebieden?: GebiedBasic[]
     Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
@@ -670,16 +683,16 @@ export interface BeleidskeuzeFull {
 export interface BeleidskeuzeStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
     Client_1_UUID?: string | null
 }
 
 export interface BeleidskeuzeStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -705,8 +718,8 @@ export interface BeleidsregelBasic {
 export interface BeleidsregelExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -729,8 +742,8 @@ export interface BeleidsregelExtended {
 export interface BeleidsregelFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -757,16 +770,16 @@ export interface BeleidsregelFull {
 export interface BeleidsregelStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
     Client_1_UUID?: string | null
 }
 
 export interface BeleidsregelStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -871,6 +884,7 @@ export interface DocumentBasic {
 export interface DocumentExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface DocumentExtended {
@@ -903,6 +917,7 @@ export interface StorageFileBasic {
 export interface DocumentFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface DocumentFull {
@@ -928,11 +943,13 @@ export interface DocumentFull {
 export interface DocumentStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface DocumentStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface DocumentUUID {
@@ -1003,22 +1020,10 @@ export interface ErrorDetails {
     url?: string
 }
 
-export interface GebiedBasic {
-    Object_ID?: number
-    Code?: string
-    UUID?: string
-    Adjust_On?: string | null
-    Created_Date?: string
-    Modified_Date?: string
-    Title?: string
-    Area_UUID?: string | null
-    Start_Validity?: string | null
-    End_Validity?: string | null
-}
-
 export interface GebiedExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedExtended {
@@ -1040,6 +1045,7 @@ export interface GebiedExtended {
 export interface GebiedFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedFull {
@@ -1064,11 +1070,13 @@ export interface GebiedFull {
 export interface GebiedStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface GebiedStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedUUID {
@@ -1092,6 +1100,7 @@ export interface GebiedengroepBasic {
 export interface GebiedengroepExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedengroepExtended {
@@ -1115,6 +1124,7 @@ export interface GebiedengroepExtended {
 export interface GebiedengroepFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedengroepFull {
@@ -1140,11 +1150,13 @@ export interface GebiedengroepFull {
 export interface GebiedengroepStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface GebiedengroepStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedengroepUUID {
@@ -1202,6 +1214,7 @@ export interface GebiedsaanwijzingBasic {
 export interface GebiedsaanwijzingExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedsaanwijzingExtended {
@@ -1225,6 +1238,7 @@ export interface GebiedsaanwijzingExtended {
 export interface GebiedsaanwijzingFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedsaanwijzingFull {
@@ -1249,11 +1263,13 @@ export interface GebiedsaanwijzingFull {
 export interface GebiedsaanwijzingStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface GebiedsaanwijzingStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface GebiedsaanwijzingUUID {
@@ -1278,8 +1294,8 @@ export interface GebiedsprogrammaBasic {
 export interface GebiedsprogrammaExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -1302,8 +1318,8 @@ export interface GebiedsprogrammaExtended {
 export interface GebiedsprogrammaFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -1337,16 +1353,16 @@ export interface GebiedsprogrammaMinimal {
 export interface GebiedsprogrammaStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
     Client_1_UUID?: string | null
 }
 
 export interface GebiedsprogrammaStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -1466,8 +1482,8 @@ export interface MaatregelBasic {
 export interface MaatregelExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -1499,8 +1515,8 @@ export interface ReadRelationShortGebiedsprogrammaMinimal {
 export interface MaatregelFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -1533,7 +1549,7 @@ export interface MaatregelFull {
     Werkingsgebied?: WerkingsgebiedBasic | null
     Documents_Statics?: ObjectStatics[]
     Gebiedengroep_Static?: ObjectStatics | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Gebiedsaanwijzingen_Gebieden?: GebiedBasic[]
     Hoofdlijnen_Statics?: Hoofdlijn[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
@@ -1543,16 +1559,16 @@ export interface MaatregelFull {
 export interface MaatregelStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
     Client_1_UUID?: string | null
 }
 
 export interface MaatregelStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
     Portfolio_Holder_1?: UserShort | null
-    Portfolio_Holder_2?: UserShort | null
     Client_1?: UserShort | null
 }
 
@@ -1603,6 +1619,7 @@ export interface ModuleAddNewObject {
     Title: string
     Owner_1_UUID: string
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Client_1_UUID?: string | null
     Explanation?: string
     Conclusion?: string
@@ -1658,8 +1675,8 @@ export interface ModuleObjectContextShort {
 export interface ObjectStaticShort {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
     Portfolio_Holder_1_UUID?: string | null
-    Portfolio_Holder_2_UUID?: string | null
     Client_1_UUID?: string | null
 }
 
@@ -1786,6 +1803,7 @@ export const MutationStrategy = {
 export interface NationaalBelangCreateStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface NationaalBelangCreate {
@@ -1802,6 +1820,7 @@ export interface NationaalBelangEdit {
 export interface NationaalBelangFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface NationaalBelangFull {
@@ -1824,11 +1843,13 @@ export interface NationaalBelangFull {
 export interface NationaalBelangStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface NationaalBelangStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface NationaalBelangUUID {
@@ -2083,6 +2104,7 @@ export interface PagedResponseProgrammaAlgemeenBasic {
 export interface ProgrammaAlgemeenExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface ProgrammaAlgemeenExtended {
@@ -2462,6 +2484,7 @@ export interface PagedResponseVisieAlgemeenBasic {
 export interface VisieAlgemeenExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface VisieAlgemeenExtended {
@@ -2496,6 +2519,7 @@ export interface PagedResponseWerkingsgebiedBasic {
 export interface WerkingsgebiedExtendedStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface WerkingsgebiedExtended {
@@ -2560,6 +2584,7 @@ export const ProcedureType = {
 export interface ProgrammaAlgemeenFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface ProgrammaAlgemeenFull {
@@ -2575,7 +2600,7 @@ export interface ProgrammaAlgemeenFull {
     End_Validity?: string | null
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Gebiedsaanwijzingen_Gebieden?: GebiedBasic[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
     ObjectStatics?: ProgrammaAlgemeenFullStatics
@@ -2584,11 +2609,13 @@ export interface ProgrammaAlgemeenFull {
 export interface ProgrammaAlgemeenStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface ProgrammaAlgemeenStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface ProgrammaAlgemeenUUID {
@@ -2989,6 +3016,7 @@ export interface ValidateModuleResult {
 export interface VerplichtProgrammaCreateStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface VerplichtProgrammaCreate {
@@ -3005,6 +3033,7 @@ export interface VerplichtProgrammaEdit {
 export interface VerplichtProgrammaFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface VerplichtProgrammaFull {
@@ -3038,11 +3067,13 @@ export interface VerplichtProgrammaMinimal {
 export interface VerplichtProgrammaStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface VerplichtProgrammaStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface VerplichtProgrammaUUID {
@@ -3053,6 +3084,7 @@ export interface VerplichtProgrammaUUID {
 export interface VisieAlgemeenFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface VisieAlgemeenFull {
@@ -3068,7 +3100,7 @@ export interface VisieAlgemeenFull {
     End_Validity?: string | null
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
-    Gebiedsaanwijzingen_Statics?: ObjectStatics[]
+    Gebiedsaanwijzingen_Gebieden?: GebiedBasic[]
     Public_Revisions?: PublicModuleObjectRevision[]
     Next_Version?: NextObjectVersion | null
     ObjectStatics?: VisieAlgemeenFullStatics
@@ -3077,11 +3109,13 @@ export interface VisieAlgemeenFull {
 export interface VisieAlgemeenStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface VisieAlgemeenStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface VisieAlgemeenUUID {
@@ -3115,6 +3149,7 @@ export interface WerkingsgebiedRelatedObjects {
 export interface WerkingsgebiedFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface WerkingsgebiedFull {
@@ -3139,11 +3174,13 @@ export interface WerkingsgebiedFull {
 export interface WerkingsgebiedStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface WerkingsgebiedStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface WerkingsgebiedUUID {
@@ -3154,6 +3191,7 @@ export interface WerkingsgebiedUUID {
 export interface WettelijkeTaakCreateStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface WettelijkeTaakCreate {
@@ -3170,6 +3208,7 @@ export interface WettelijkeTaakEdit {
 export interface WettelijkeTaakFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface WettelijkeTaakFull {
@@ -3193,11 +3232,13 @@ export interface WettelijkeTaakFull {
 export interface WettelijkeTaakStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
+    Owner_3_UUID?: string | null
 }
 
 export interface WettelijkeTaakStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
 }
 
 export interface WettelijkeTaakUUID {
@@ -3749,7 +3790,8 @@ export type MaatregelListValidLineageTreeParams = {
 export type MaatregelPostModulePatchObjectBody = {
     Title?: string | null
     Description?: string | null
-    Roles?: string[] | null
+    Role?: string
+    Roles?: string[]
     Effect?: string | null
     Hierarchy_Code?: string | null
     Documents?: string[] | null

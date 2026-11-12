@@ -668,11 +668,11 @@ export const getModulesGetListModuleObjectsResponseMock = (
                 faker.helpers.arrayElement([faker.string.uuid(), null]),
                 undefined,
             ]),
-            Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
+            Owner_3_UUID: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([faker.string.uuid(), null]),
                 undefined,
             ]),
-            Portfolio_Holder_2_UUID: faker.helpers.arrayElement([
+            Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([faker.string.uuid(), null]),
                 undefined,
             ]),
@@ -1690,11 +1690,11 @@ export const getObjectsDoListAllLatestResponseMock = (
                 faker.helpers.arrayElement([faker.string.uuid(), null]),
                 undefined,
             ]),
-            Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
+            Owner_3_UUID: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([faker.string.uuid(), null]),
                 undefined,
             ]),
-            Portfolio_Holder_2_UUID: faker.helpers.arrayElement([
+            Portfolio_Holder_1_UUID: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([faker.string.uuid(), null]),
                 undefined,
             ]),
@@ -5201,14 +5201,47 @@ export const getAmbitieViewObjectVersionResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -5278,14 +5311,14 @@ export const getAmbitieViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -5410,14 +5443,47 @@ export const getAmbitieViewObjectLatestResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -5487,14 +5553,14 @@ export const getAmbitieViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -5543,11 +5609,11 @@ export const getAmbitieViewGetObjectStaticResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_1: faker.helpers.arrayElement([
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_2: faker.helpers.arrayElement([
+    Portfolio_Holder_1: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -5650,14 +5716,14 @@ export const getAmbitieGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
+                Portfolio_Holder_1: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -5783,14 +5849,47 @@ export const getAmbitieViewModuleObjectLatestResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -5860,14 +5959,14 @@ export const getAmbitieViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -5992,14 +6091,47 @@ export const getGetModulesObjectAmbitieVersionResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -6069,14 +6201,14 @@ export const getGetModulesObjectAmbitieVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -6261,14 +6393,47 @@ export const getGetRevisionsAmbitieVersionResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -6338,14 +6503,14 @@ export const getGetRevisionsAmbitieVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -6668,14 +6833,47 @@ export const getBeleidsdoelViewObjectVersionResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -6756,14 +6954,14 @@ export const getBeleidsdoelViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -6940,14 +7138,47 @@ export const getBeleidsdoelViewObjectLatestResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -7028,14 +7259,14 @@ export const getBeleidsdoelViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -7084,11 +7315,11 @@ export const getBeleidsdoelViewGetObjectStaticResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_1: faker.helpers.arrayElement([
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_2: faker.helpers.arrayElement([
+    Portfolio_Holder_1: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -7193,14 +7424,14 @@ export const getBeleidsdoelGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
+                Portfolio_Holder_1: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -7378,14 +7609,47 @@ export const getBeleidsdoelViewModuleObjectLatestResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -7466,14 +7730,14 @@ export const getBeleidsdoelViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -7650,14 +7914,47 @@ export const getGetModulesObjectBeleidsdoelVersionResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -7738,14 +8035,14 @@ export const getGetModulesObjectBeleidsdoelVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -7982,14 +8279,47 @@ export const getGetRevisionsBeleidsdoelVersionResponseMock = (
             undefined,
         ]),
     })),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -8070,14 +8400,14 @@ export const getGetRevisionsBeleidsdoelVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -8624,14 +8954,47 @@ export const getBeleidskeuzeViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -8701,14 +9064,14 @@ export const getBeleidskeuzeViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -9109,14 +9472,47 @@ export const getBeleidskeuzeViewObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -9186,14 +9582,14 @@ export const getBeleidskeuzeViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -9242,11 +9638,11 @@ export const getBeleidskeuzeViewGetObjectStaticResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_1: faker.helpers.arrayElement([
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_2: faker.helpers.arrayElement([
+    Portfolio_Holder_1: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -9466,14 +9862,14 @@ export const getBeleidskeuzeGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
+                Portfolio_Holder_1: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -9875,14 +10271,47 @@ export const getBeleidskeuzeViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -9952,14 +10381,14 @@ export const getBeleidskeuzeViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -10360,14 +10789,47 @@ export const getGetModulesObjectBeleidskeuzeVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -10437,14 +10899,14 @@ export const getGetModulesObjectBeleidskeuzeVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -10905,14 +11367,47 @@ export const getGetRevisionsBeleidskeuzeVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -10982,14 +11477,14 @@ export const getGetRevisionsBeleidskeuzeVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -11298,14 +11793,14 @@ export const getBeleidsregelViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -11466,14 +11961,14 @@ export const getBeleidsregelViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -11522,11 +12017,11 @@ export const getBeleidsregelViewGetObjectStaticResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_1: faker.helpers.arrayElement([
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_2: faker.helpers.arrayElement([
+    Portfolio_Holder_1: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -11622,14 +12117,14 @@ export const getBeleidsregelGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
+                Portfolio_Holder_1: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -11791,14 +12286,14 @@ export const getBeleidsregelViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -11959,14 +12454,14 @@ export const getGetModulesObjectBeleidsregelVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -12187,14 +12682,14 @@ export const getGetRevisionsBeleidsregelVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -12493,6 +12988,13 @@ export const getDocumentViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -12626,6 +13128,13 @@ export const getDocumentViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -12640,6 +13149,10 @@ export const getDocumentViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -12729,6 +13242,13 @@ export const getDocumentGetModuleListLineageTreeResponseMock = (
                     undefined,
                 ]),
                 Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -12869,6 +13389,13 @@ export const getDocumentViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -12996,6 +13523,13 @@ export const getGetModulesObjectDocumentVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -13189,6 +13723,13 @@ export const getGetRevisionsDocumentVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -13429,6 +13970,13 @@ export const getGebiedViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -13561,6 +14109,13 @@ export const getGebiedViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -13575,6 +14130,10 @@ export const getGebiedViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -13661,6 +14220,13 @@ export const getGebiedGetModuleListLineageTreeResponseMock = (
                     undefined,
                 ]),
                 Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -13800,6 +14366,13 @@ export const getGebiedViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -13926,6 +14499,13 @@ export const getGetModulesObjectGebiedVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -14124,6 +14704,13 @@ export const getGetRevisionsGebiedVersionResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -14309,6 +14896,13 @@ export const getGebiedengroepViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -14394,6 +14988,13 @@ export const getGebiedengroepViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -14408,6 +15009,10 @@ export const getGebiedengroepViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -14507,6 +15112,13 @@ export const getGebiedengroepGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
+                Owner_3: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -14597,6 +15209,13 @@ export const getGebiedengroepViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -14676,6 +15295,13 @@ export const getGetModulesObjectGebiedengroepVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -14821,6 +15447,13 @@ export const getGetRevisionsGebiedengroepVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -15006,6 +15639,13 @@ export const getGebiedsaanwijzingViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -15087,6 +15727,13 @@ export const getGebiedsaanwijzingViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -15103,6 +15750,10 @@ export const getGebiedsaanwijzingViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -15199,6 +15850,13 @@ export const getGebiedsaanwijzingGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
+                Owner_3: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -15281,6 +15939,13 @@ export const getGebiedsaanwijzingViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -15356,6 +16021,13 @@ export const getGetModulesObjectGebiedsaanwijzingVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -15497,6 +16169,13 @@ export const getGetRevisionsGebiedsaanwijzingVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -15816,14 +16495,14 @@ export const getGebiedsprogrammaViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -15990,14 +16669,14 @@ export const getGebiedsprogrammaViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -16049,11 +16728,11 @@ export const getGebiedsprogrammaViewGetObjectStaticResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_1: faker.helpers.arrayElement([
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_2: faker.helpers.arrayElement([
+    Portfolio_Holder_1: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -16155,14 +16834,14 @@ export const getGebiedsprogrammaGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
+                Portfolio_Holder_1: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -16330,14 +17009,14 @@ export const getGebiedsprogrammaViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -16504,14 +17183,14 @@ export const getGetModulesObjectGebiedsprogrammasVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -16738,14 +17417,14 @@ export const getGetRevisionsGebiedsprogrammaVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -17157,14 +17836,47 @@ export const getMaatregelViewObjectVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -17234,14 +17946,14 @@ export const getMaatregelViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -17511,14 +18223,47 @@ export const getMaatregelViewObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -17588,14 +18333,14 @@ export const getMaatregelViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -17644,11 +18389,11 @@ export const getMaatregelViewGetObjectStaticResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_1: faker.helpers.arrayElement([
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Portfolio_Holder_2: faker.helpers.arrayElement([
+    Portfolio_Holder_1: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -17762,14 +18507,14 @@ export const getMaatregelGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_1: faker.helpers.arrayElement([
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
                     ]),
                     undefined,
                 ]),
-                Portfolio_Holder_2: faker.helpers.arrayElement([
+                Portfolio_Holder_1: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -18040,14 +18785,47 @@ export const getMaatregelViewModuleObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -18117,14 +18895,14 @@ export const getMaatregelViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -18394,14 +19172,47 @@ export const getGetModulesObjectMaatregelVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -18471,14 +19282,14 @@ export const getGetModulesObjectMaatregelVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -18808,14 +19619,47 @@ export const getGetRevisionsMaatregelVersionResponseMock = (
         ]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Hoofdlijnen_Statics: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -18885,14 +19729,14 @@ export const getGetRevisionsMaatregelVersionResponseMock = (
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_1: faker.helpers.arrayElement([
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
                 ]),
                 undefined,
             ]),
-            Portfolio_Holder_2: faker.helpers.arrayElement([
+            Portfolio_Holder_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -19043,6 +19887,13 @@ export const getNationaalBelangViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -19078,6 +19929,10 @@ export const getNationaalBelangViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -19282,14 +20137,47 @@ export const getProgrammaAlgemeenViewObjectVersionResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -19345,6 +20233,13 @@ export const getProgrammaAlgemeenViewObjectVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -19402,14 +20297,47 @@ export const getProgrammaAlgemeenViewObjectLatestResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -19471,6 +20399,13 @@ export const getProgrammaAlgemeenViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -19487,6 +20422,10 @@ export const getProgrammaAlgemeenViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -19577,6 +20516,13 @@ export const getProgrammaAlgemeenGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
+                Owner_3: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -19629,14 +20575,47 @@ export const getProgrammaAlgemeenViewModuleObjectLatestResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -19692,6 +20671,13 @@ export const getProgrammaAlgemeenViewModuleObjectLatestResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -19749,14 +20735,47 @@ export const getGetModulesObjectProgrammaAlgemeenVersionResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -19812,6 +20831,13 @@ export const getGetModulesObjectProgrammaAlgemeenVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -19929,14 +20955,47 @@ export const getGetRevisionsProgrammaAlgemeenVersionResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -19992,6 +21051,13 @@ export const getGetRevisionsProgrammaAlgemeenVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -20181,6 +21247,13 @@ export const getVerplichtProgrammaViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -20216,6 +21289,10 @@ export const getVerplichtProgrammaViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -20420,14 +21497,47 @@ export const getVisieAlgemeenViewObjectVersionResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -20483,6 +21593,13 @@ export const getVisieAlgemeenViewObjectVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -20540,14 +21657,47 @@ export const getVisieAlgemeenViewObjectLatestResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -20609,6 +21759,13 @@ export const getVisieAlgemeenViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -20623,6 +21780,10 @@ export const getVisieAlgemeenViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -20713,6 +21874,13 @@ export const getVisieAlgemeenGetModuleListLineageTreeResponseMock = (
                     ]),
                     undefined,
                 ]),
+                Owner_3: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
             },
             undefined,
         ]),
@@ -20765,14 +21933,47 @@ export const getVisieAlgemeenViewModuleObjectLatestResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -20828,6 +22029,13 @@ export const getVisieAlgemeenViewModuleObjectLatestResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -20885,14 +22093,47 @@ export const getGetModulesObjectVisieAlgemeenVersionResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -20948,6 +22189,13 @@ export const getGetModulesObjectVisieAlgemeenVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -21065,14 +22313,47 @@ export const getGetRevisionsVisieAlgemeenVersionResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    Gebiedsaanwijzingen_Statics: Array.from(
+    Gebiedsaanwijzingen_Gebieden: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Object_ID: faker.number.int(),
-        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        Cached_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     Public_Revisions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -21128,6 +22409,13 @@ export const getGetRevisionsVisieAlgemeenVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -21384,6 +22672,13 @@ export const getWerkingsgebiedViewObjectVersionResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -21528,6 +22823,13 @@ export const getWerkingsgebiedViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -21542,6 +22844,10 @@ export const getWerkingsgebiedViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
@@ -21630,6 +22936,13 @@ export const getWerkingsgebiedGetModuleListLineageTreeResponseMock = (
                     undefined,
                 ]),
                 Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_3: faker.helpers.arrayElement([
                     faker.helpers.arrayElement([
                         { UUID: faker.string.uuid() },
                         null,
@@ -21781,6 +23094,13 @@ export const getWerkingsgebiedViewModuleObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -21919,6 +23239,13 @@ export const getGetModulesObjectWerkingsgebiedVersionResponseMock = (
                 undefined,
             ]),
             Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -22129,6 +23456,13 @@ export const getGetRevisionsWerkingsgebiedVersionResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -22313,6 +23647,13 @@ export const getWettelijkeTaakViewObjectLatestResponseMock = (
                 ]),
                 undefined,
             ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
         },
         undefined,
     ]),
@@ -22346,6 +23687,10 @@ export const getWettelijkeTaakViewGetObjectStaticResponseMock = (
         undefined,
     ]),
     Owner_2: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Owner_3: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
