@@ -94,6 +94,7 @@ const regisseurOmgevingsbeleidPermissions: Partial<Permissions> = {
     canCreatePublication: true,
     canEditPublication: true,
     canViewPublication: true,
+    canViewPublicationTemplate: true,
     canViewUnifiedPackages: true,
     canCreatePublicationVersion: true,
     canEditPublicationVersion: true,
