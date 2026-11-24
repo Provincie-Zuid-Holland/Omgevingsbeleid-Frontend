@@ -122,6 +122,7 @@ import type {
     PagedResponseUnifiedPackage,
     PagedResponseUser,
     PagedResponseVerplichtProgrammaBasic,
+    PagedResponseVerplichtProgrammaExtended,
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
     PagedResponseWerkingsgebied,
@@ -1445,10 +1446,6 @@ export const getModulesGetListModuleObjectsResponseMock = (
                 ]),
             },
             {
-                Object_Type: faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    undefined,
-                ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int(),
                     undefined,
@@ -1461,6 +1458,10 @@ export const getModulesGetListModuleObjectsResponseMock = (
                     faker.string.uuid(),
                     undefined,
                 ]),
+                Adjust_On: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([faker.string.uuid(), null]),
+                    undefined,
+                ]),
                 Created_Date: faker.helpers.arrayElement([
                     faker.date.past().toISOString().slice(0, 19) + 'Z',
                     undefined,
@@ -1470,6 +1471,52 @@ export const getModulesGetListModuleObjectsResponseMock = (
                     undefined,
                 ]),
                 Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Next_Version: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        {
+                            UUID: faker.string.uuid(),
+                            Title: faker.string.alpha({
+                                length: { min: 10, max: 20 },
+                            }),
+                            Start_Validity:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            End_Validity: faker.helpers.arrayElement([
+                                faker.helpers.arrayElement([
+                                    faker.date
+                                        .past()
+                                        .toISOString()
+                                        .slice(0, 19) + 'Z',
+                                    null,
+                                ]),
+                                undefined,
+                            ]),
+                            Created_Date:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            Modified_Date:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            Previous_UUID: faker.string.uuid(),
+                        },
+                        null,
+                    ]),
+                    undefined,
+                ]),
             },
             {
                 Object_ID: faker.helpers.arrayElement([
@@ -2460,10 +2507,6 @@ export const getObjectsDoListAllLatestResponseMock = (
                 ]),
             },
             {
-                Object_Type: faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    undefined,
-                ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int(),
                     undefined,
@@ -2476,6 +2519,10 @@ export const getObjectsDoListAllLatestResponseMock = (
                     faker.string.uuid(),
                     undefined,
                 ]),
+                Adjust_On: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([faker.string.uuid(), null]),
+                    undefined,
+                ]),
                 Created_Date: faker.helpers.arrayElement([
                     faker.date.past().toISOString().slice(0, 19) + 'Z',
                     undefined,
@@ -2485,6 +2532,52 @@ export const getObjectsDoListAllLatestResponseMock = (
                     undefined,
                 ]),
                 Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Next_Version: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        {
+                            UUID: faker.string.uuid(),
+                            Title: faker.string.alpha({
+                                length: { min: 10, max: 20 },
+                            }),
+                            Start_Validity:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            End_Validity: faker.helpers.arrayElement([
+                                faker.helpers.arrayElement([
+                                    faker.date
+                                        .past()
+                                        .toISOString()
+                                        .slice(0, 19) + 'Z',
+                                    null,
+                                ]),
+                                undefined,
+                            ]),
+                            Created_Date:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            Modified_Date:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            Previous_UUID: faker.string.uuid(),
+                        },
+                        null,
+                    ]),
+                    undefined,
+                ]),
             },
             {
                 Object_ID: faker.helpers.arrayElement([
@@ -4605,10 +4698,6 @@ export const getSearchGetSearchResponseMock = (
                 ]),
             },
             {
-                Object_Type: faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    undefined,
-                ]),
                 Object_ID: faker.helpers.arrayElement([
                     faker.number.int(),
                     undefined,
@@ -4621,6 +4710,10 @@ export const getSearchGetSearchResponseMock = (
                     faker.string.uuid(),
                     undefined,
                 ]),
+                Adjust_On: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([faker.string.uuid(), null]),
+                    undefined,
+                ]),
                 Created_Date: faker.helpers.arrayElement([
                     faker.date.past().toISOString().slice(0, 19) + 'Z',
                     undefined,
@@ -4630,6 +4723,52 @@ export const getSearchGetSearchResponseMock = (
                     undefined,
                 ]),
                 Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Next_Version: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        {
+                            UUID: faker.string.uuid(),
+                            Title: faker.string.alpha({
+                                length: { min: 10, max: 20 },
+                            }),
+                            Start_Validity:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            End_Validity: faker.helpers.arrayElement([
+                                faker.helpers.arrayElement([
+                                    faker.date
+                                        .past()
+                                        .toISOString()
+                                        .slice(0, 19) + 'Z',
+                                    null,
+                                ]),
+                                undefined,
+                            ]),
+                            Created_Date:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            Modified_Date:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            Previous_UUID: faker.string.uuid(),
+                        },
+                        null,
+                    ]),
+                    undefined,
+                ]),
             },
             {
                 Object_ID: faker.helpers.arrayElement([
@@ -21070,28 +21209,6 @@ export const getGetRevisionsProgrammaAlgemeenVersionResponseMock = (
     ...overrideResponse,
 })
 
-export const getVerplichtProgrammaAtemporalCreateObjectResponseMock = (
-    overrideResponse: Partial<Extract<VerplichtProgrammaUUID, object>> = {}
-): VerplichtProgrammaUUID => ({
-    Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
-    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-    ...overrideResponse,
-})
-
-export const getVerplichtProgrammaAtemporalEditObjectResponseMock = (
-    overrideResponse: Partial<Extract<ResponseOK, object>> = {}
-): ResponseOK => ({
-    message: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    ...overrideResponse,
-})
-
-export const getVerplichtProgrammaAtemporalDeleteObjectResponseMock = (
-    overrideResponse: Partial<Extract<ResponseOK, object>> = {}
-): ResponseOK => ({
-    message: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    ...overrideResponse,
-})
-
 export const getVerplichtProgrammaListValidLineagesResponseMock = (
     overrideResponse: Partial<
         Extract<PagedResponseVerplichtProgrammaBasic, object>
@@ -21104,16 +21221,16 @@ export const getVerplichtProgrammaListValidLineagesResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => ({
-        Object_Type: faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            undefined,
-        ]),
         Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
         Code: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
             undefined,
         ]),
         UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
         Created_Date: faker.helpers.arrayElement([
             faker.date.past().toISOString().slice(0, 19) + 'Z',
             undefined,
@@ -21123,23 +21240,134 @@ export const getVerplichtProgrammaListValidLineagesResponseMock = (
             undefined,
         ]),
         Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        Next_Version: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    UUID: faker.string.uuid(),
+                    Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    Start_Validity:
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                    End_Validity: faker.helpers.arrayElement([
+                        faker.helpers.arrayElement([
+                            faker.date.past().toISOString().slice(0, 19) + 'Z',
+                            null,
+                        ]),
+                        undefined,
+                    ]),
+                    Created_Date:
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                    Modified_Date:
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                    Previous_UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
     })),
     ...overrideResponse,
 })
 
-export const getVerplichtProgrammaViewObjectLatestResponseMock = (
+export const getVerplichtProgrammaListValidLineageTreeResponseMock = (
+    overrideResponse: Partial<
+        Extract<PagedResponseVerplichtProgrammaBasic, object>
+    > = {}
+): PagedResponseVerplichtProgrammaBasic => ({
+    total: faker.number.int(),
+    offset: faker.number.int(),
+    limit: faker.number.int(),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        Next_Version: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                {
+                    UUID: faker.string.uuid(),
+                    Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    Start_Validity:
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                    End_Validity: faker.helpers.arrayElement([
+                        faker.helpers.arrayElement([
+                            faker.date.past().toISOString().slice(0, 19) + 'Z',
+                            null,
+                        ]),
+                        undefined,
+                    ]),
+                    Created_Date:
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                    Modified_Date:
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                    Previous_UUID: faker.string.uuid(),
+                },
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    ...overrideResponse,
+})
+
+export const getVerplichtProgrammaViewObjectVersionResponseMock = (
     overrideResponse: Partial<Extract<VerplichtProgrammaFull, object>> = {}
 ): VerplichtProgrammaFull => ({
-    Object_Type: faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        undefined,
-    ]),
     Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
     Code: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         undefined,
     ]),
     UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+    ]),
     Created_Date: faker.helpers.arrayElement([
         faker.date.past().toISOString().slice(0, 19) + 'Z',
         undefined,
@@ -21164,6 +21392,30 @@ export const getVerplichtProgrammaViewObjectLatestResponseMock = (
         ]),
         undefined,
     ]),
+    Themas: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hierarchy_Statics: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Object_ID: faker.number.int(),
+                Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Cached_Title: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
     Created_By: faker.helpers.arrayElement([
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
@@ -21172,30 +21424,6 @@ export const getVerplichtProgrammaViewObjectLatestResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
-    WettelijkeTaken: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1
-    ).map(() => ({
-        Object_Type: faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            undefined,
-        ]),
-        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
-        Code: faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            undefined,
-        ]),
-        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            faker.date.past().toISOString().slice(0, 19) + 'Z',
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            faker.date.past().toISOString().slice(0, 19) + 'Z',
-            undefined,
-        ]),
-        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    })),
     Maatregelen: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
@@ -21231,6 +21459,117 @@ export const getVerplichtProgrammaViewObjectLatestResponseMock = (
             undefined,
         ]),
     })),
+    Hierarchy_Children: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.number.int(),
+        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Hierarchy_Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Title: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Gebiedsaanwijzingen_Gebieden: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Hoofdlijnen_Statics: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    })),
+    Public_Revisions: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Module_ID: faker.number.int(),
+        Module_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Module_Status: faker.helpers.arrayElement(
+            Object.values(ModuleStatusCode)
+        ),
+        Module_Object_UUID: faker.string.uuid(),
+        Module_Object_Code: faker.string.alpha({
+            length: { min: 10, max: 20 },
+        }),
+        Module_Object_Status: faker.helpers.arrayElement(
+            Object.values(PublicModuleStatusCode)
+        ),
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
+    })),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                UUID: faker.string.uuid(),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Created_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Modified_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Previous_UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
     ObjectStatics: faker.helpers.arrayElement([
         {
             Owner_1: faker.helpers.arrayElement([
@@ -21248,6 +21587,278 @@ export const getVerplichtProgrammaViewObjectLatestResponseMock = (
                 undefined,
             ]),
             Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
+export const getVerplichtProgrammaViewObjectLatestResponseMock = (
+    overrideResponse: Partial<Extract<VerplichtProgrammaFull, object>> = {}
+): VerplichtProgrammaFull => ({
+    Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+    Code: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Description: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    Themas: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hierarchy_Statics: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Object_ID: faker.number.int(),
+                Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Cached_Title: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Maatregelen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Relation: faker.helpers.arrayElement([
+            {
+                Object_ID: faker.number.int(),
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Description: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            undefined,
+        ]),
+        Object: faker.helpers.arrayElement([
+            {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.number.int(),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.string.uuid(),
+                    undefined,
+                ]),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            },
+            undefined,
+        ]),
+    })),
+    Hierarchy_Children: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.number.int(),
+        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Hierarchy_Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Title: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Gebiedsaanwijzingen_Gebieden: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Hoofdlijnen_Statics: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    })),
+    Public_Revisions: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Module_ID: faker.number.int(),
+        Module_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Module_Status: faker.helpers.arrayElement(
+            Object.values(ModuleStatusCode)
+        ),
+        Module_Object_UUID: faker.string.uuid(),
+        Module_Object_Code: faker.string.alpha({
+            length: { min: 10, max: 20 },
+        }),
+        Module_Object_Status: faker.helpers.arrayElement(
+            Object.values(PublicModuleStatusCode)
+        ),
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
+    })),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                UUID: faker.string.uuid(),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Created_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Modified_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Previous_UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
                 faker.helpers.arrayElement([
                     { UUID: faker.string.uuid() },
                     null,
@@ -21296,6 +21907,14 @@ export const getVerplichtProgrammaViewGetObjectStaticResponseMock = (
         faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
         undefined,
     ]),
+    Portfolio_Holder_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Client_1: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -21303,6 +21922,954 @@ export const getVerplichtProgrammaEditObjectStaticResponseMock = (
     overrideResponse: Partial<Extract<ResponseOK, object>> = {}
 ): ResponseOK => ({
     message: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    ...overrideResponse,
+})
+
+export const getVerplichtProgrammaPostModulePatchObjectResponseMock = (
+    overrideResponse: Partial<Extract<VerplichtProgrammaUUID, object>> = {}
+): VerplichtProgrammaUUID => ({
+    Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    ...overrideResponse,
+})
+
+export const getVerplichtProgrammaGetModuleListLineageTreeResponseMock = (
+    overrideResponse: Partial<
+        Extract<PagedResponseVerplichtProgrammaExtended, object>
+    > = {}
+): PagedResponseVerplichtProgrammaExtended => ({
+    total: faker.number.int(),
+    offset: faker.number.int(),
+    limit: faker.number.int(),
+    results: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Description: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        Themas: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        Hoofdlijnen: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        Created_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        Modified_By: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+            undefined,
+        ]),
+        ObjectStatics: faker.helpers.arrayElement([
+            {
+                Owner_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Owner_3: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Portfolio_Holder_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Client_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+            },
+            undefined,
+        ]),
+    })),
+    ...overrideResponse,
+})
+
+export const getVerplichtProgrammaViewModuleObjectLatestResponseMock = (
+    overrideResponse: Partial<Extract<VerplichtProgrammaFull, object>> = {}
+): VerplichtProgrammaFull => ({
+    Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+    Code: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Description: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    Themas: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hierarchy_Statics: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Object_ID: faker.number.int(),
+                Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Cached_Title: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Maatregelen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Relation: faker.helpers.arrayElement([
+            {
+                Object_ID: faker.number.int(),
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Description: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            undefined,
+        ]),
+        Object: faker.helpers.arrayElement([
+            {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.number.int(),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.string.uuid(),
+                    undefined,
+                ]),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            },
+            undefined,
+        ]),
+    })),
+    Hierarchy_Children: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.number.int(),
+        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Hierarchy_Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Title: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Gebiedsaanwijzingen_Gebieden: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Hoofdlijnen_Statics: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    })),
+    Public_Revisions: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Module_ID: faker.number.int(),
+        Module_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Module_Status: faker.helpers.arrayElement(
+            Object.values(ModuleStatusCode)
+        ),
+        Module_Object_UUID: faker.string.uuid(),
+        Module_Object_Code: faker.string.alpha({
+            length: { min: 10, max: 20 },
+        }),
+        Module_Object_Status: faker.helpers.arrayElement(
+            Object.values(PublicModuleStatusCode)
+        ),
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
+    })),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                UUID: faker.string.uuid(),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Created_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Modified_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Previous_UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
+export const getGetModulesObjectVerplichtProgrammaVersionResponseMock = (
+    overrideResponse: Partial<Extract<VerplichtProgrammaFull, object>> = {}
+): VerplichtProgrammaFull => ({
+    Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+    Code: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Description: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    Themas: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hierarchy_Statics: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Object_ID: faker.number.int(),
+                Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Cached_Title: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Maatregelen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Relation: faker.helpers.arrayElement([
+            {
+                Object_ID: faker.number.int(),
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Description: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            undefined,
+        ]),
+        Object: faker.helpers.arrayElement([
+            {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.number.int(),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.string.uuid(),
+                    undefined,
+                ]),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            },
+            undefined,
+        ]),
+    })),
+    Hierarchy_Children: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.number.int(),
+        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Hierarchy_Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Title: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Gebiedsaanwijzingen_Gebieden: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Hoofdlijnen_Statics: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    })),
+    Public_Revisions: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Module_ID: faker.number.int(),
+        Module_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Module_Status: faker.helpers.arrayElement(
+            Object.values(ModuleStatusCode)
+        ),
+        Module_Object_UUID: faker.string.uuid(),
+        Module_Object_Code: faker.string.alpha({
+            length: { min: 10, max: 20 },
+        }),
+        Module_Object_Status: faker.helpers.arrayElement(
+            Object.values(PublicModuleStatusCode)
+        ),
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
+    })),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                UUID: faker.string.uuid(),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Created_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Modified_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Previous_UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
+    ...overrideResponse,
+})
+
+export const getVerplichtProgrammaGetListActiveModuleObjectsResponseMock =
+    (): ActiveModuleObjectsResponse[] =>
+        Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => ({
+            Module: {
+                Module_ID: faker.number.int(),
+                Closed: faker.datatype.boolean(),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Description: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Status: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        {
+                            ID: faker.number.int(),
+                            Module_ID: faker.number.int(),
+                            Status: faker.string.alpha({
+                                length: { min: 10, max: 20 },
+                            }),
+                            Created_Date:
+                                faker.date.past().toISOString().slice(0, 19) +
+                                'Z',
+                            Created_By_UUID: faker.string.uuid(),
+                        },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Module_Manager_1: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Module_Manager_2: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        { UUID: faker.string.uuid() },
+                        null,
+                    ]),
+                    undefined,
+                ]),
+            },
+            Module_Object: {
+                Module_ID: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([faker.number.int(), null]),
+                    undefined,
+                ]),
+                UUID: faker.string.uuid(),
+                Modified_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            },
+            Action: faker.helpers.arrayElement(
+                Object.values(ModuleObjectActionFull)
+            ),
+        }))
+
+export const getGetRevisionsVerplichtProgrammaVersionResponseMock = (
+    overrideResponse: Partial<Extract<VerplichtProgrammaFull, object>> = {}
+): VerplichtProgrammaFull => ({
+    Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+    Code: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        undefined,
+    ]),
+    UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+    Adjust_On: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.uuid(), null]),
+        undefined,
+    ]),
+    Created_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Modified_Date: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + 'Z',
+        undefined,
+    ]),
+    Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Description: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    Start_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    End_Validity: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            null,
+        ]),
+        undefined,
+    ]),
+    Themas: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Hierarchy_Statics: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Object_ID: faker.number.int(),
+                Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Cached_Title: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    Created_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Modified_By: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
+        undefined,
+    ]),
+    Maatregelen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Relation: faker.helpers.arrayElement([
+            {
+                Object_ID: faker.number.int(),
+                Object_Type: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+                Description: faker.string.alpha({
+                    length: { min: 10, max: 20 },
+                }),
+            },
+            undefined,
+        ]),
+        Object: faker.helpers.arrayElement([
+            {
+                Object_Type: faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    undefined,
+                ]),
+                Object_ID: faker.helpers.arrayElement([
+                    faker.number.int(),
+                    undefined,
+                ]),
+                UUID: faker.helpers.arrayElement([
+                    faker.string.uuid(),
+                    undefined,
+                ]),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            },
+            undefined,
+        ]),
+    })),
+    Hierarchy_Children: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Object_Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Object_ID: faker.number.int(),
+        Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Hierarchy_Code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Title: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Gebiedsaanwijzingen_Gebieden: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
+        Code: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            undefined,
+        ]),
+        UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
+        Adjust_On: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Created_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Modified_Date: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + 'Z',
+            undefined,
+        ]),
+        Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Area_UUID: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.uuid(), null]),
+            undefined,
+        ]),
+        Start_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+        End_Validity: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+                faker.date.past().toISOString().slice(0, 19) + 'Z',
+                null,
+            ]),
+            undefined,
+        ]),
+    })),
+    Hoofdlijnen_Statics: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        UUID: faker.string.uuid(),
+        Name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Type: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    })),
+    Public_Revisions: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => ({
+        Module_ID: faker.number.int(),
+        Module_Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Module_Status: faker.helpers.arrayElement(
+            Object.values(ModuleStatusCode)
+        ),
+        Module_Object_UUID: faker.string.uuid(),
+        Module_Object_Code: faker.string.alpha({
+            length: { min: 10, max: 20 },
+        }),
+        Module_Object_Status: faker.helpers.arrayElement(
+            Object.values(PublicModuleStatusCode)
+        ),
+        Action: faker.helpers.arrayElement(
+            Object.values(ModuleObjectActionFull)
+        ),
+    })),
+    Next_Version: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+            {
+                UUID: faker.string.uuid(),
+                Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                Start_Validity:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                End_Validity: faker.helpers.arrayElement([
+                    faker.helpers.arrayElement([
+                        faker.date.past().toISOString().slice(0, 19) + 'Z',
+                        null,
+                    ]),
+                    undefined,
+                ]),
+                Created_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Modified_Date:
+                    faker.date.past().toISOString().slice(0, 19) + 'Z',
+                Previous_UUID: faker.string.uuid(),
+            },
+            null,
+        ]),
+        undefined,
+    ]),
+    ObjectStatics: faker.helpers.arrayElement([
+        {
+            Owner_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_2: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Owner_3: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Portfolio_Holder_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+            Client_1: faker.helpers.arrayElement([
+                faker.helpers.arrayElement([
+                    { UUID: faker.string.uuid() },
+                    null,
+                ]),
+                undefined,
+            ]),
+        },
+        undefined,
+    ]),
     ...overrideResponse,
 })
 
@@ -23581,19 +25148,7 @@ export const getWettelijkeTaakViewObjectLatestResponseMock = (
             undefined,
         ]),
         Object_ID: faker.helpers.arrayElement([faker.number.int(), undefined]),
-        Code: faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            undefined,
-        ]),
         UUID: faker.helpers.arrayElement([faker.string.uuid(), undefined]),
-        Created_Date: faker.helpers.arrayElement([
-            faker.date.past().toISOString().slice(0, 19) + 'Z',
-            undefined,
-        ]),
-        Modified_Date: faker.helpers.arrayElement([
-            faker.date.past().toISOString().slice(0, 19) + 'Z',
-            undefined,
-        ]),
         Title: faker.string.alpha({ length: { min: 10, max: 20 } }),
     })),
     Beleidskeuzes: Array.from(
