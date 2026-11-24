@@ -16,6 +16,8 @@ const UserMenu = () => {
     const { user, signout } = useAuth()
     const navigate = useNavigate()
 
+    console.log(user)
+
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [isOpen, setIsOpen] = useState(false)
@@ -45,7 +47,7 @@ const UserMenu = () => {
                     hasBackdrop>
                     <div className="px-4 py-2">
                         <Text bold>{user?.name}</Text>
-                        {user?.roles.map(role => (
+                        {user?.roles?.map(role => (
                             <Text key={role} size="s" className="block">
                                 {role}
                             </Text>
