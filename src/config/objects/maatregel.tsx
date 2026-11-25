@@ -180,7 +180,7 @@ const maatregel: DynamicObject = {
                     name: 'Roles',
                     label: 'Sturingsstijl',
                     description:
-                        'Kies de rol die je inneemt met deze maatregel, dit kunnen meerdere rollen zijn.',
+                        'Kies de sturingsstijl die je inneemt met deze maatregel, dit kunnen meerdere stijlen zijn.',
                     notification: {
                         title: 'Overzicht sturingsstijlen',
                         className: 'prose-img:my-0 mt-2',
