@@ -1,13 +1,18 @@
 import { CircleExclamation } from '@pzh-ui/icons'
 
 import {
-    useVerplichtProgrammaAtemporalCreateObject,
-    useVerplichtProgrammaAtemporalDeleteObject,
-    useVerplichtProgrammaAtemporalEditObject,
+    useGetRevisionsVerplichtProgrammaVersion,
+    useVerplichtProgrammaEditObjectStatic,
+    useVerplichtProgrammaGetListActiveModuleObjects,
     useVerplichtProgrammaGetRelationsList,
     useVerplichtProgrammaListValidLineages,
+    useVerplichtProgrammaListValidLineageTree,
+    useVerplichtProgrammaPostModulePatchObject,
     useVerplichtProgrammaPostRelationsOverwrite,
+    useVerplichtProgrammaViewGetObjectStatic,
+    useVerplichtProgrammaViewModuleObjectLatest,
     useVerplichtProgrammaViewObjectLatest,
+    useVerplichtProgrammaViewObjectVersion,
 } from '@/api/fetchers'
 import { generateDynamicSchema } from '@/validation/dynamicObject'
 import { schemaDefaults } from '@/validation/zodSchema'
@@ -16,23 +21,23 @@ import { DynamicObject, ModelFetchers } from './types'
 
 const fetchers: ModelFetchers = {
     useGetValid: useVerplichtProgrammaListValidLineages,
-    useGetValidLineage: useVerplichtProgrammaViewObjectLatest,
-    useGetVersion: null,
+    useGetValidLineage: useVerplichtProgrammaListValidLineageTree,
+    useGetVersion: useVerplichtProgrammaViewObjectVersion,
     useGetLatestLineage: useVerplichtProgrammaViewObjectLatest,
-    useGetRevision: null,
+    useGetRevision: useGetRevisionsVerplichtProgrammaVersion,
     useGetRelations: useVerplichtProgrammaGetRelationsList,
     usePutRelations: useVerplichtProgrammaPostRelationsOverwrite,
-    useGetLatestLineageInModule: null,
-    usePatchObjectInModule: null,
-    usePatchObject: useVerplichtProgrammaAtemporalEditObject,
-    useDeleteObject: useVerplichtProgrammaAtemporalDeleteObject,
-    useGetStatic: null,
-    usePostStatic: null,
+    useGetLatestLineageInModule: useVerplichtProgrammaViewModuleObjectLatest,
+    usePatchObjectInModule: useVerplichtProgrammaPostModulePatchObject,
+    usePatchObject: null,
+    useDeleteObject: null,
+    useGetStatic: useVerplichtProgrammaViewGetObjectStatic,
+    usePostStatic: useVerplichtProgrammaEditObjectStatic,
     useGetAcknowledgedRelations: null,
     usePostAcknowledgedRelations: null,
     usePatchAcknowledgedRelations: null,
-    usePostObject: useVerplichtProgrammaAtemporalCreateObject,
-    useGetActiveModules: null,
+    usePostObject: null,
+    useGetActiveModules: useVerplichtProgrammaGetListActiveModuleObjects,
 }
 
 const verplichtProgramma: DynamicObject = {
@@ -50,9 +55,15 @@ const verplichtProgramma: DynamicObject = {
         demonstrativeSingular: 'verplichte programma',
         slugOverview: 'omgevingsprogramma',
         slugOverviewPublic: true,
-        atemporal: true,
         icon: CircleExclamation,
     },
+    staticData: [
+        'Client_1_UUID',
+        'Owner_1_UUID',
+        'Owner_2_UUID',
+        'Owner_3_UUID',
+        'Portfolio_Holder_1_UUID',
+    ],
     fetchers,
     allowedConnections: [{ key: 'Maatregelen', type: 'maatregel' }],
     dynamicSections: [
@@ -76,23 +87,6 @@ const verplichtProgramma: DynamicObject = {
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                     required: true,
-                },
-                {
-                    name: 'connections',
-                    label: 'Koppelingen',
-                    type: 'connections',
-                    description:
-                        'Een verplicht programma is veelal gekoppeld met maatregelen en wettelijke taken. Geef aan welke onderdelen gekoppeld moeten worden aan dit verplichte programma',
-                    allowedConnections: [
-                        {
-                            key: 'Maatregelen',
-                            type: 'maatregel',
-                        },
-                        {
-                            key: 'WettelijkeTaken',
-                            type: 'wettelijke_taak',
-                        },
-                    ],
                 },
             ],
         },

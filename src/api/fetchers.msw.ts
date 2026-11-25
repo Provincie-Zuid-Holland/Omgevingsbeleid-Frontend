@@ -129,6 +129,7 @@ import {
     getGetModulesObjectGebiedVersionResponseMock,
     getGetModulesObjectMaatregelVersionResponseMock,
     getGetModulesObjectProgrammaAlgemeenVersionResponseMock,
+    getGetModulesObjectVerplichtProgrammaVersionResponseMock,
     getGetModulesObjectVisieAlgemeenVersionResponseMock,
     getGetModulesObjectWerkingsgebiedVersionResponseMock,
     getGetRevisionsAmbitieVersionResponseMock,
@@ -142,6 +143,7 @@ import {
     getGetRevisionsGebiedVersionResponseMock,
     getGetRevisionsMaatregelVersionResponseMock,
     getGetRevisionsProgrammaAlgemeenVersionResponseMock,
+    getGetRevisionsVerplichtProgrammaVersionResponseMock,
     getGetRevisionsVisieAlgemeenVersionResponseMock,
     getGetRevisionsWerkingsgebiedVersionResponseMock,
     getGraphGetFullGraphResponseMock,
@@ -269,15 +271,18 @@ import {
     getUserPostEditUserResponseMock,
     getUserPostResetUserPasswordResponseMock,
     getUserViewGetUserResponseMock,
-    getVerplichtProgrammaAtemporalCreateObjectResponseMock,
-    getVerplichtProgrammaAtemporalDeleteObjectResponseMock,
-    getVerplichtProgrammaAtemporalEditObjectResponseMock,
     getVerplichtProgrammaEditObjectStaticResponseMock,
+    getVerplichtProgrammaGetListActiveModuleObjectsResponseMock,
+    getVerplichtProgrammaGetModuleListLineageTreeResponseMock,
     getVerplichtProgrammaGetRelationsListResponseMock,
     getVerplichtProgrammaListValidLineagesResponseMock,
+    getVerplichtProgrammaListValidLineageTreeResponseMock,
+    getVerplichtProgrammaPostModulePatchObjectResponseMock,
     getVerplichtProgrammaPostRelationsOverwriteResponseMock,
     getVerplichtProgrammaViewGetObjectStaticResponseMock,
+    getVerplichtProgrammaViewModuleObjectLatestResponseMock,
     getVerplichtProgrammaViewObjectLatestResponseMock,
+    getVerplichtProgrammaViewObjectVersionResponseMock,
     getVisieAlgemeenEditObjectStaticResponseMock,
     getVisieAlgemeenGetListActiveModuleObjectsResponseMock,
     getVisieAlgemeenGetModuleListLineageTreeResponseMock,
@@ -410,6 +415,7 @@ import type {
     PagedResponseUnifiedPackage,
     PagedResponseUser,
     PagedResponseVerplichtProgrammaBasic,
+    PagedResponseVerplichtProgrammaExtended,
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
     PagedResponseWerkingsgebied,
@@ -716,15 +722,20 @@ export {
     getGetModulesObjectProgrammaAlgemeenVersionResponseMock,
     getProgrammaAlgemeenGetListActiveModuleObjectsResponseMock,
     getGetRevisionsProgrammaAlgemeenVersionResponseMock,
-    getVerplichtProgrammaAtemporalCreateObjectResponseMock,
-    getVerplichtProgrammaAtemporalEditObjectResponseMock,
-    getVerplichtProgrammaAtemporalDeleteObjectResponseMock,
     getVerplichtProgrammaListValidLineagesResponseMock,
+    getVerplichtProgrammaListValidLineageTreeResponseMock,
+    getVerplichtProgrammaViewObjectVersionResponseMock,
     getVerplichtProgrammaViewObjectLatestResponseMock,
     getVerplichtProgrammaGetRelationsListResponseMock,
     getVerplichtProgrammaPostRelationsOverwriteResponseMock,
     getVerplichtProgrammaViewGetObjectStaticResponseMock,
     getVerplichtProgrammaEditObjectStaticResponseMock,
+    getVerplichtProgrammaPostModulePatchObjectResponseMock,
+    getVerplichtProgrammaGetModuleListLineageTreeResponseMock,
+    getVerplichtProgrammaViewModuleObjectLatestResponseMock,
+    getGetModulesObjectVerplichtProgrammaVersionResponseMock,
+    getVerplichtProgrammaGetListActiveModuleObjectsResponseMock,
+    getGetRevisionsVerplichtProgrammaVersionResponseMock,
     getVisieAlgemeenListValidLineagesResponseMock,
     getVisieAlgemeenListValidLineageTreeResponseMock,
     getVisieAlgemeenViewObjectVersionResponseMock,
@@ -7163,78 +7174,6 @@ export const getGetRevisionsProgrammaAlgemeenVersionMockHandler = (
     )
 }
 
-export const getVerplichtProgrammaAtemporalCreateObjectMockHandler = (
-    overrideResponse?:
-        | VerplichtProgrammaUUID
-        | ((
-              info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) => Promise<VerplichtProgrammaUUID> | VerplichtProgrammaUUID),
-    options?: RequestHandlerOptions
-) => {
-    return http.post(
-        '*/verplicht-programma',
-        async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-            return HttpResponse.json(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getVerplichtProgrammaAtemporalCreateObjectResponseMock(),
-                { status: 200 }
-            )
-        },
-        options
-    )
-}
-
-export const getVerplichtProgrammaAtemporalEditObjectMockHandler = (
-    overrideResponse?:
-        | ResponseOK
-        | ((
-              info: Parameters<Parameters<typeof http.post>[1]>[0]
-          ) => Promise<ResponseOK> | ResponseOK),
-    options?: RequestHandlerOptions
-) => {
-    return http.post(
-        '*/verplicht-programma/:lineageId',
-        async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
-            return HttpResponse.json(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getVerplichtProgrammaAtemporalEditObjectResponseMock(),
-                { status: 200 }
-            )
-        },
-        options
-    )
-}
-
-export const getVerplichtProgrammaAtemporalDeleteObjectMockHandler = (
-    overrideResponse?:
-        | ResponseOK
-        | ((
-              info: Parameters<Parameters<typeof http.delete>[1]>[0]
-          ) => Promise<ResponseOK> | ResponseOK),
-    options?: RequestHandlerOptions
-) => {
-    return http.delete(
-        '*/verplicht-programma/:lineageId',
-        async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
-            return HttpResponse.json(
-                overrideResponse !== undefined
-                    ? typeof overrideResponse === 'function'
-                        ? await overrideResponse(info)
-                        : overrideResponse
-                    : getVerplichtProgrammaAtemporalDeleteObjectResponseMock(),
-                { status: 200 }
-            )
-        },
-        options
-    )
-}
-
 export const getVerplichtProgrammaListValidLineagesMockHandler = (
     overrideResponse?:
         | PagedResponseVerplichtProgrammaBasic
@@ -7254,6 +7193,56 @@ export const getVerplichtProgrammaListValidLineagesMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getVerplichtProgrammaListValidLineagesResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getVerplichtProgrammaListValidLineageTreeMockHandler = (
+    overrideResponse?:
+        | PagedResponseVerplichtProgrammaBasic
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<PagedResponseVerplichtProgrammaBasic>
+              | PagedResponseVerplichtProgrammaBasic),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/verplicht-programma/valid/:lineageId',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVerplichtProgrammaListValidLineageTreeResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getVerplichtProgrammaViewObjectVersionMockHandler = (
+    overrideResponse?:
+        | VerplichtProgrammaFull
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<VerplichtProgrammaFull> | VerplichtProgrammaFull),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/verplicht-programma/version/:objectUuid',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVerplichtProgrammaViewObjectVersionResponseMock(),
                 { status: 200 }
             )
         },
@@ -7376,6 +7365,154 @@ export const getVerplichtProgrammaEditObjectStaticMockHandler = (
                         ? await overrideResponse(info)
                         : overrideResponse
                     : getVerplichtProgrammaEditObjectStaticResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getVerplichtProgrammaPostModulePatchObjectMockHandler = (
+    overrideResponse?:
+        | VerplichtProgrammaUUID
+        | ((
+              info: Parameters<Parameters<typeof http.patch>[1]>[0]
+          ) => Promise<VerplichtProgrammaUUID> | VerplichtProgrammaUUID),
+    options?: RequestHandlerOptions
+) => {
+    return http.patch(
+        '*/modules/:moduleId/object/verplicht-programma/:lineageId',
+        async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVerplichtProgrammaPostModulePatchObjectResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getVerplichtProgrammaGetModuleListLineageTreeMockHandler = (
+    overrideResponse?:
+        | PagedResponseVerplichtProgrammaExtended
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<PagedResponseVerplichtProgrammaExtended>
+              | PagedResponseVerplichtProgrammaExtended),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/modules/:moduleId/object/verplicht-programma/:lineageId',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVerplichtProgrammaGetModuleListLineageTreeResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getVerplichtProgrammaViewModuleObjectLatestMockHandler = (
+    overrideResponse?:
+        | VerplichtProgrammaFull
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<VerplichtProgrammaFull> | VerplichtProgrammaFull),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/modules/:moduleId/object/verplicht-programma/latest/:lineageId',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVerplichtProgrammaViewModuleObjectLatestResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getGetModulesObjectVerplichtProgrammaVersionMockHandler = (
+    overrideResponse?:
+        | VerplichtProgrammaFull
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<VerplichtProgrammaFull> | VerplichtProgrammaFull),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/modules/:moduleId/object/verplicht-programma/version/:objectUuid',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGetModulesObjectVerplichtProgrammaVersionResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getVerplichtProgrammaGetListActiveModuleObjectsMockHandler = (
+    overrideResponse?:
+        | ActiveModuleObjectsResponse[]
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) =>
+              | Promise<ActiveModuleObjectsResponse[]>
+              | ActiveModuleObjectsResponse[]),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/modules/object/verplicht-programma/active/:lineageId',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getVerplichtProgrammaGetListActiveModuleObjectsResponseMock(),
+                { status: 200 }
+            )
+        },
+        options
+    )
+}
+
+export const getGetRevisionsVerplichtProgrammaVersionMockHandler = (
+    overrideResponse?:
+        | VerplichtProgrammaFull
+        | ((
+              info: Parameters<Parameters<typeof http.get>[1]>[0]
+          ) => Promise<VerplichtProgrammaFull> | VerplichtProgrammaFull),
+    options?: RequestHandlerOptions
+) => {
+    return http.get(
+        '*/revisions/:moduleId/verplicht-programma/version/:objectUuid',
+        async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+            return HttpResponse.json(
+                overrideResponse !== undefined
+                    ? typeof overrideResponse === 'function'
+                        ? await overrideResponse(info)
+                        : overrideResponse
+                    : getGetRevisionsVerplichtProgrammaVersionResponseMock(),
                 { status: 200 }
             )
         },
@@ -8480,15 +8617,20 @@ export const getOmgevingsbeleidAPIMock = () => [
     getGetModulesObjectProgrammaAlgemeenVersionMockHandler(),
     getProgrammaAlgemeenGetListActiveModuleObjectsMockHandler(),
     getGetRevisionsProgrammaAlgemeenVersionMockHandler(),
-    getVerplichtProgrammaAtemporalCreateObjectMockHandler(),
-    getVerplichtProgrammaAtemporalEditObjectMockHandler(),
-    getVerplichtProgrammaAtemporalDeleteObjectMockHandler(),
     getVerplichtProgrammaListValidLineagesMockHandler(),
+    getVerplichtProgrammaListValidLineageTreeMockHandler(),
+    getVerplichtProgrammaViewObjectVersionMockHandler(),
     getVerplichtProgrammaViewObjectLatestMockHandler(),
     getVerplichtProgrammaGetRelationsListMockHandler(),
     getVerplichtProgrammaPostRelationsOverwriteMockHandler(),
     getVerplichtProgrammaViewGetObjectStaticMockHandler(),
     getVerplichtProgrammaEditObjectStaticMockHandler(),
+    getVerplichtProgrammaPostModulePatchObjectMockHandler(),
+    getVerplichtProgrammaGetModuleListLineageTreeMockHandler(),
+    getVerplichtProgrammaViewModuleObjectLatestMockHandler(),
+    getGetModulesObjectVerplichtProgrammaVersionMockHandler(),
+    getVerplichtProgrammaGetListActiveModuleObjectsMockHandler(),
+    getGetRevisionsVerplichtProgrammaVersionMockHandler(),
     getVisieAlgemeenListValidLineagesMockHandler(),
     getVisieAlgemeenListValidLineageTreeMockHandler(),
     getVisieAlgemeenViewObjectVersionMockHandler(),

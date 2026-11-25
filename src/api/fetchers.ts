@@ -224,6 +224,7 @@ import type {
     PagedResponseUnifiedPackage,
     PagedResponseUser,
     PagedResponseVerplichtProgrammaBasic,
+    PagedResponseVerplichtProgrammaExtended,
     PagedResponseVisieAlgemeenBasic,
     PagedResponseVisieAlgemeenExtended,
     PagedResponseWerkingsgebied,
@@ -300,10 +301,12 @@ import type {
     UserGetListUsersParams,
     UserGetSearchUsersParams,
     ValidateModuleResult,
-    VerplichtProgrammaCreate,
-    VerplichtProgrammaEdit,
     VerplichtProgrammaFull,
+    VerplichtProgrammaGetListActiveModuleObjectsParams,
+    VerplichtProgrammaGetModuleListLineageTreeParams,
     VerplichtProgrammaListValidLineagesParams,
+    VerplichtProgrammaListValidLineageTreeParams,
+    VerplichtProgrammaPostModulePatchObjectBody,
     VerplichtProgrammaStaticPostStatics,
     VerplichtProgrammaStaticStatics,
     VerplichtProgrammaUUID,
@@ -41700,290 +41703,6 @@ export function useGetRevisionsProgrammaAlgemeenVersion<
 }
 
 /**
- * @summary Add new object
- */
-export const verplichtProgrammaAtemporalCreateObject = (
-    verplichtProgrammaCreate: VerplichtProgrammaCreate,
-    signal?: AbortSignal
-) => {
-    return customInstance<VerplichtProgrammaUUID>({
-        url: `/verplicht-programma`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: verplichtProgrammaCreate,
-        signal,
-    })
-}
-
-export const getVerplichtProgrammaAtemporalCreateObjectMutationKey = () =>
-    ['verplichtProgrammaAtemporalCreateObject'] as const
-
-export const getVerplichtProgrammaAtemporalCreateObjectMutationOptions = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof verplichtProgrammaAtemporalCreateObject>>,
-        TError,
-        VerplichtProgrammaAtemporalCreateObjectMutationVariables,
-        TContext
-    >
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalCreateObject>>,
-    TError,
-    VerplichtProgrammaAtemporalCreateObjectMutationVariables,
-    TContext
-> => {
-    const mutationKey = getVerplichtProgrammaAtemporalCreateObjectMutationKey()
-    const { mutation: mutationOptions } = options
-        ? options.mutation &&
-          'mutationKey' in options.mutation &&
-          options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } }
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof verplichtProgrammaAtemporalCreateObject>>,
-        VerplichtProgrammaAtemporalCreateObjectMutationVariables
-    > = props => {
-        const { data } = props ?? {}
-
-        return verplichtProgrammaAtemporalCreateObject(data)
-    }
-
-    return { mutationFn, ...mutationOptions }
-}
-
-export type VerplichtProgrammaAtemporalCreateObjectMutationResult = NonNullable<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalCreateObject>>
->
-export type VerplichtProgrammaAtemporalCreateObjectMutationBody =
-    VerplichtProgrammaCreate
-export type VerplichtProgrammaAtemporalCreateObjectMutationError =
-    HTTPValidationError
-export type VerplichtProgrammaAtemporalCreateObjectMutationVariables = {
-    data: VerplichtProgrammaCreate
-}
-
-/**
- * @summary Add new object
- */
-export const useVerplichtProgrammaAtemporalCreateObject = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof verplichtProgrammaAtemporalCreateObject>>,
-            TError,
-            VerplichtProgrammaAtemporalCreateObjectMutationVariables,
-            TContext
-        >
-    },
-    queryClient?: QueryClient
-): UseMutationResult<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalCreateObject>>,
-    TError,
-    VerplichtProgrammaAtemporalCreateObjectMutationVariables,
-    TContext
-> => {
-    return useMutation(
-        getVerplichtProgrammaAtemporalCreateObjectMutationOptions(options),
-        queryClient
-    )
-}
-
-/**
- * @summary Edit atemporal object
- */
-export const verplichtProgrammaAtemporalEditObject = (
-    lineageId: number,
-    verplichtProgrammaEdit: VerplichtProgrammaEdit,
-    signal?: AbortSignal
-) => {
-    return customInstance<ResponseOK>({
-        url: `/verplicht-programma/${lineageId}`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: verplichtProgrammaEdit,
-        signal,
-    })
-}
-
-export const getVerplichtProgrammaAtemporalEditObjectMutationKey = () =>
-    ['verplichtProgrammaAtemporalEditObject'] as const
-
-export const getVerplichtProgrammaAtemporalEditObjectMutationOptions = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof verplichtProgrammaAtemporalEditObject>>,
-        TError,
-        VerplichtProgrammaAtemporalEditObjectMutationVariables,
-        TContext
-    >
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalEditObject>>,
-    TError,
-    VerplichtProgrammaAtemporalEditObjectMutationVariables,
-    TContext
-> => {
-    const mutationKey = getVerplichtProgrammaAtemporalEditObjectMutationKey()
-    const { mutation: mutationOptions } = options
-        ? options.mutation &&
-          'mutationKey' in options.mutation &&
-          options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } }
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof verplichtProgrammaAtemporalEditObject>>,
-        VerplichtProgrammaAtemporalEditObjectMutationVariables
-    > = props => {
-        const { lineageId, data } = props ?? {}
-
-        return verplichtProgrammaAtemporalEditObject(lineageId, data)
-    }
-
-    return { mutationFn, ...mutationOptions }
-}
-
-export type VerplichtProgrammaAtemporalEditObjectMutationResult = NonNullable<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalEditObject>>
->
-export type VerplichtProgrammaAtemporalEditObjectMutationBody =
-    VerplichtProgrammaEdit
-export type VerplichtProgrammaAtemporalEditObjectMutationError =
-    HTTPValidationError
-export type VerplichtProgrammaAtemporalEditObjectMutationVariables = {
-    lineageId: number
-    data: VerplichtProgrammaEdit
-}
-
-/**
- * @summary Edit atemporal object
- */
-export const useVerplichtProgrammaAtemporalEditObject = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof verplichtProgrammaAtemporalEditObject>>,
-            TError,
-            VerplichtProgrammaAtemporalEditObjectMutationVariables,
-            TContext
-        >
-    },
-    queryClient?: QueryClient
-): UseMutationResult<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalEditObject>>,
-    TError,
-    VerplichtProgrammaAtemporalEditObjectMutationVariables,
-    TContext
-> => {
-    return useMutation(
-        getVerplichtProgrammaAtemporalEditObjectMutationOptions(options),
-        queryClient
-    )
-}
-
-/**
- * @summary Delete atemporal object
- */
-export const verplichtProgrammaAtemporalDeleteObject = (
-    lineageId: number,
-    signal?: AbortSignal
-) => {
-    return customInstance<ResponseOK>({
-        url: `/verplicht-programma/${lineageId}`,
-        method: 'DELETE',
-        signal,
-    })
-}
-
-export const getVerplichtProgrammaAtemporalDeleteObjectMutationKey = () =>
-    ['verplichtProgrammaAtemporalDeleteObject'] as const
-
-export const getVerplichtProgrammaAtemporalDeleteObjectMutationOptions = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof verplichtProgrammaAtemporalDeleteObject>>,
-        TError,
-        VerplichtProgrammaAtemporalDeleteObjectMutationVariables,
-        TContext
-    >
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalDeleteObject>>,
-    TError,
-    VerplichtProgrammaAtemporalDeleteObjectMutationVariables,
-    TContext
-> => {
-    const mutationKey = getVerplichtProgrammaAtemporalDeleteObjectMutationKey()
-    const { mutation: mutationOptions } = options
-        ? options.mutation &&
-          'mutationKey' in options.mutation &&
-          options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } }
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof verplichtProgrammaAtemporalDeleteObject>>,
-        VerplichtProgrammaAtemporalDeleteObjectMutationVariables
-    > = props => {
-        const { lineageId } = props ?? {}
-
-        return verplichtProgrammaAtemporalDeleteObject(lineageId)
-    }
-
-    return { mutationFn, ...mutationOptions }
-}
-
-export type VerplichtProgrammaAtemporalDeleteObjectMutationResult = NonNullable<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalDeleteObject>>
->
-
-export type VerplichtProgrammaAtemporalDeleteObjectMutationError =
-    HTTPValidationError
-export type VerplichtProgrammaAtemporalDeleteObjectMutationVariables = {
-    lineageId: number
-}
-
-/**
- * @summary Delete atemporal object
- */
-export const useVerplichtProgrammaAtemporalDeleteObject = <
-    TError = HTTPValidationError,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof verplichtProgrammaAtemporalDeleteObject>>,
-            TError,
-            VerplichtProgrammaAtemporalDeleteObjectMutationVariables,
-            TContext
-        >
-    },
-    queryClient?: QueryClient
-): UseMutationResult<
-    Awaited<ReturnType<typeof verplichtProgrammaAtemporalDeleteObject>>,
-    TError,
-    VerplichtProgrammaAtemporalDeleteObjectMutationVariables,
-    TContext
-> => {
-    return useMutation(
-        getVerplichtProgrammaAtemporalDeleteObjectMutationOptions(options),
-        queryClient
-    )
-}
-
-/**
  * @summary Get all the valid verplicht_programma lineages and shows the latest object of each
  */
 export const verplichtProgrammaListValidLineages = (
@@ -42143,6 +41862,388 @@ export function useVerplichtProgrammaListValidLineages<
 } {
     const queryOptions = getVerplichtProgrammaListValidLineagesQueryOptions(
         params,
+        options
+    )
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get all the valid verplicht_programma of a single lineage
+ */
+export const verplichtProgrammaListValidLineageTree = (
+    lineageId: number,
+    params?: VerplichtProgrammaListValidLineageTreeParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseVerplichtProgrammaBasic>({
+        url: `/verplicht-programma/valid/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaListValidLineageTreeQueryKey = (
+    lineageId: number,
+    params?: VerplichtProgrammaListValidLineageTreeParams
+) => {
+    return [
+        `/verplicht-programma/valid/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getVerplichtProgrammaListValidLineageTreeQueryOptions = <
+    TData = Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params?: VerplichtProgrammaListValidLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaListValidLineageTree>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaListValidLineageTreeQueryKey(lineageId, params)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>
+    > = ({ signal }) =>
+        verplichtProgrammaListValidLineageTree(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: lineageId !== null && lineageId !== undefined,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type VerplichtProgrammaListValidLineageTreeQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>
+>
+export type VerplichtProgrammaListValidLineageTreeQueryError =
+    HTTPValidationError
+
+export function useVerplichtProgrammaListValidLineageTree<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: undefined | VerplichtProgrammaListValidLineageTreeParams,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaListValidLineageTree>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaListValidLineageTree
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaListValidLineageTree
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaListValidLineageTree<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params?: VerplichtProgrammaListValidLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaListValidLineageTree>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaListValidLineageTree
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaListValidLineageTree
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaListValidLineageTree<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params?: VerplichtProgrammaListValidLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaListValidLineageTree>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get all the valid verplicht_programma of a single lineage
+ */
+
+export function useVerplichtProgrammaListValidLineageTree<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaListValidLineageTree>>,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params?: VerplichtProgrammaListValidLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaListValidLineageTree>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions = getVerplichtProgrammaListValidLineageTreeQueryOptions(
+        lineageId,
+        params,
+        options
+    )
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get specific verplicht_programma by uuid
+ */
+export const verplichtProgrammaViewObjectVersion = (
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaFull>({
+        url: `/verplicht-programma/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaViewObjectVersionQueryKey = (
+    objectUuid: string
+) => {
+    return [`/verplicht-programma/version/${objectUuid}`] as const
+}
+
+export const getVerplichtProgrammaViewObjectVersionQueryOptions = <
+    TData = Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+    TError = HTTPValidationError,
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaViewObjectVersionQueryKey(objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>
+    > = ({ signal }) => verplichtProgrammaViewObjectVersion(objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: objectUuid !== null && objectUuid !== undefined,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type VerplichtProgrammaViewObjectVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>
+>
+export type VerplichtProgrammaViewObjectVersionQueryError = HTTPValidationError
+
+export function useVerplichtProgrammaViewObjectVersion<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+    TError = HTTPValidationError,
+>(
+    objectUuid: string,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<typeof verplichtProgrammaViewObjectVersion>
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<typeof verplichtProgrammaViewObjectVersion>
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaViewObjectVersion<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+    TError = HTTPValidationError,
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<typeof verplichtProgrammaViewObjectVersion>
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<typeof verplichtProgrammaViewObjectVersion>
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaViewObjectVersion<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+    TError = HTTPValidationError,
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get specific verplicht_programma by uuid
+ */
+
+export function useVerplichtProgrammaViewObjectVersion<
+    TData = Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+    TError = HTTPValidationError,
+>(
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof verplichtProgrammaViewObjectVersion>>,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions = getVerplichtProgrammaViewObjectVersionQueryOptions(
+        objectUuid,
         options
     )
 
@@ -42885,6 +42986,1236 @@ export const useVerplichtProgrammaEditObjectStatic = <
         getVerplichtProgrammaEditObjectStaticMutationOptions(options),
         queryClient
     )
+}
+
+/**
+ * @summary Add a new version to the verplicht_programma lineage in a module
+ */
+export const verplichtProgrammaPostModulePatchObject = (
+    moduleId: number,
+    lineageId: number,
+    verplichtProgrammaPostModulePatchObjectBody: VerplichtProgrammaPostModulePatchObjectBody,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaUUID>({
+        url: `/modules/${moduleId}/object/verplicht-programma/${lineageId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: verplichtProgrammaPostModulePatchObjectBody,
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaPostModulePatchObjectMutationKey = () =>
+    ['verplichtProgrammaPostModulePatchObject'] as const
+
+export const getVerplichtProgrammaPostModulePatchObjectMutationOptions = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaPostModulePatchObject>>,
+        TError,
+        VerplichtProgrammaPostModulePatchObjectMutationVariables,
+        TContext
+    >
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof verplichtProgrammaPostModulePatchObject>>,
+    TError,
+    VerplichtProgrammaPostModulePatchObjectMutationVariables,
+    TContext
+> => {
+    const mutationKey = getVerplichtProgrammaPostModulePatchObjectMutationKey()
+    const { mutation: mutationOptions } = options
+        ? options.mutation &&
+          'mutationKey' in options.mutation &&
+          options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } }
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaPostModulePatchObject>>,
+        VerplichtProgrammaPostModulePatchObjectMutationVariables
+    > = props => {
+        const { moduleId, lineageId, data } = props ?? {}
+
+        return verplichtProgrammaPostModulePatchObject(
+            moduleId,
+            lineageId,
+            data
+        )
+    }
+
+    return { mutationFn, ...mutationOptions }
+}
+
+export type VerplichtProgrammaPostModulePatchObjectMutationResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaPostModulePatchObject>>
+>
+export type VerplichtProgrammaPostModulePatchObjectMutationBody =
+    VerplichtProgrammaPostModulePatchObjectBody
+export type VerplichtProgrammaPostModulePatchObjectMutationError =
+    HTTPValidationError
+export type VerplichtProgrammaPostModulePatchObjectMutationVariables = {
+    moduleId: number
+    lineageId: number
+    data: VerplichtProgrammaPostModulePatchObjectBody
+}
+
+/**
+ * @summary Add a new version to the verplicht_programma lineage in a module
+ */
+export const useVerplichtProgrammaPostModulePatchObject = <
+    TError = HTTPValidationError,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof verplichtProgrammaPostModulePatchObject>>,
+            TError,
+            VerplichtProgrammaPostModulePatchObjectMutationVariables,
+            TContext
+        >
+    },
+    queryClient?: QueryClient
+): UseMutationResult<
+    Awaited<ReturnType<typeof verplichtProgrammaPostModulePatchObject>>,
+    TError,
+    VerplichtProgrammaPostModulePatchObjectMutationVariables,
+    TContext
+> => {
+    return useMutation(
+        getVerplichtProgrammaPostModulePatchObjectMutationOptions(options),
+        queryClient
+    )
+}
+
+/**
+ * @summary Get all the verplicht_programma of a single lineage in a module
+ */
+export const verplichtProgrammaGetModuleListLineageTree = (
+    moduleId: number,
+    lineageId: number,
+    params?: VerplichtProgrammaGetModuleListLineageTreeParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<PagedResponseVerplichtProgrammaExtended>({
+        url: `/modules/${moduleId}/object/verplicht-programma/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaGetModuleListLineageTreeQueryKey = (
+    moduleId: number,
+    lineageId: number,
+    params?: VerplichtProgrammaGetModuleListLineageTreeParams
+) => {
+    return [
+        `/modules/${moduleId}/object/verplicht-programma/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getVerplichtProgrammaGetModuleListLineageTreeQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: VerplichtProgrammaGetModuleListLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetModuleListLineageTree
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaGetModuleListLineageTreeQueryKey(
+            moduleId,
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>>
+    > = ({ signal }) =>
+        verplichtProgrammaGetModuleListLineageTree(
+            moduleId,
+            lineageId,
+            params,
+            signal
+        )
+
+    return {
+        queryKey,
+        queryFn,
+        enabled:
+            moduleId !== null &&
+            moduleId !== undefined &&
+            lineageId !== null &&
+            lineageId !== undefined,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type VerplichtProgrammaGetModuleListLineageTreeQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>>
+>
+export type VerplichtProgrammaGetModuleListLineageTreeQueryError =
+    HTTPValidationError
+
+export function useVerplichtProgrammaGetModuleListLineageTree<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    params: undefined | VerplichtProgrammaGetModuleListLineageTreeParams,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetModuleListLineageTree
+                    >
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetModuleListLineageTree
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetModuleListLineageTree
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaGetModuleListLineageTree<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: VerplichtProgrammaGetModuleListLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetModuleListLineageTree
+                    >
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetModuleListLineageTree
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetModuleListLineageTree
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaGetModuleListLineageTree<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: VerplichtProgrammaGetModuleListLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetModuleListLineageTree
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get all the verplicht_programma of a single lineage in a module
+ */
+
+export function useVerplichtProgrammaGetModuleListLineageTree<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetModuleListLineageTree>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    params?: VerplichtProgrammaGetModuleListLineageTreeParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetModuleListLineageTree
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions =
+        getVerplichtProgrammaGetModuleListLineageTreeQueryOptions(
+            moduleId,
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get latest lineage record for verplicht_programma by their lineage id in a module
+ */
+export const verplichtProgrammaViewModuleObjectLatest = (
+    moduleId: number,
+    lineageId: number,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaFull>({
+        url: `/modules/${moduleId}/object/verplicht-programma/latest/${lineageId}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaViewModuleObjectLatestQueryKey = (
+    moduleId: number,
+    lineageId: number
+) => {
+    return [
+        `/modules/${moduleId}/object/verplicht-programma/latest/${lineageId}`,
+    ] as const
+}
+
+export const getVerplichtProgrammaViewModuleObjectLatestQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaViewModuleObjectLatestQueryKey(moduleId, lineageId)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>>
+    > = ({ signal }) =>
+        verplichtProgrammaViewModuleObjectLatest(moduleId, lineageId, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled:
+            moduleId !== null &&
+            moduleId !== undefined &&
+            lineageId !== null &&
+            lineageId !== undefined,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type VerplichtProgrammaViewModuleObjectLatestQueryResult = NonNullable<
+    Awaited<ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>>
+>
+export type VerplichtProgrammaViewModuleObjectLatestQueryError =
+    HTTPValidationError
+
+export function useVerplichtProgrammaViewModuleObjectLatest<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaViewModuleObjectLatest
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaViewModuleObjectLatest
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaViewModuleObjectLatest<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaViewModuleObjectLatest
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaViewModuleObjectLatest
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaViewModuleObjectLatest<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get latest lineage record for verplicht_programma by their lineage id in a module
+ */
+
+export function useVerplichtProgrammaViewModuleObjectLatest<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    lineageId: number,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof verplichtProgrammaViewModuleObjectLatest>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions =
+        getVerplichtProgrammaViewModuleObjectLatestQueryOptions(
+            moduleId,
+            lineageId,
+            options
+        )
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get specific verplicht_programma by uuid in a module
+ */
+export const getModulesObjectVerplichtProgrammaVersion = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaFull>({
+        url: `/modules/${moduleId}/object/verplicht-programma/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGetModulesObjectVerplichtProgrammaVersionQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [
+        `/modules/${moduleId}/object/verplicht-programma/version/${objectUuid}`,
+    ] as const
+}
+
+export const getGetModulesObjectVerplichtProgrammaVersionQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetModulesObjectVerplichtProgrammaVersionQueryKey(
+            moduleId,
+            objectUuid
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>>
+    > = ({ signal }) =>
+        getModulesObjectVerplichtProgrammaVersion(moduleId, objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled:
+            moduleId !== null &&
+            moduleId !== undefined &&
+            objectUuid !== null &&
+            objectUuid !== undefined,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetModulesObjectVerplichtProgrammaVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>>
+>
+export type GetModulesObjectVerplichtProgrammaVersionQueryError =
+    HTTPValidationError
+
+export function useGetModulesObjectVerplichtProgrammaVersion<
+    TData = Awaited<
+        ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof getModulesObjectVerplichtProgrammaVersion
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof getModulesObjectVerplichtProgrammaVersion
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetModulesObjectVerplichtProgrammaVersion<
+    TData = Awaited<
+        ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof getModulesObjectVerplichtProgrammaVersion
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof getModulesObjectVerplichtProgrammaVersion
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetModulesObjectVerplichtProgrammaVersion<
+    TData = Awaited<
+        ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get specific verplicht_programma by uuid in a module
+ */
+
+export function useGetModulesObjectVerplichtProgrammaVersion<
+    TData = Awaited<
+        ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+    >,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getModulesObjectVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions =
+        getGetModulesObjectVerplichtProgrammaVersionQueryOptions(
+            moduleId,
+            objectUuid,
+            options
+        )
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+export const verplichtProgrammaGetListActiveModuleObjects = (
+    lineageId: number,
+    params: VerplichtProgrammaGetListActiveModuleObjectsParams,
+    signal?: AbortSignal
+) => {
+    return customInstance<ActiveModuleObjectsResponse[]>({
+        url: `/modules/object/verplicht-programma/active/${lineageId}`,
+        method: 'GET',
+        params,
+        signal,
+    })
+}
+
+export const getVerplichtProgrammaGetListActiveModuleObjectsQueryKey = (
+    lineageId: number,
+    params?: VerplichtProgrammaGetListActiveModuleObjectsParams
+) => {
+    return [
+        `/modules/object/verplicht-programma/active/${lineageId}`,
+        ...(params ? [params] : []),
+    ] as const
+}
+
+export const getVerplichtProgrammaGetListActiveModuleObjectsQueryOptions = <
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: VerplichtProgrammaGetListActiveModuleObjectsParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetListActiveModuleObjects
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getVerplichtProgrammaGetListActiveModuleObjectsQueryKey(
+            lineageId,
+            params
+        )
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>>
+    > = ({ signal }) =>
+        verplichtProgrammaGetListActiveModuleObjects(lineageId, params, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: lineageId !== null && lineageId !== undefined,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<
+            ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>
+        >,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type VerplichtProgrammaGetListActiveModuleObjectsQueryResult =
+    NonNullable<
+        Awaited<ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>>
+    >
+export type VerplichtProgrammaGetListActiveModuleObjectsQueryError =
+    HTTPValidationError
+
+export function useVerplichtProgrammaGetListActiveModuleObjects<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: VerplichtProgrammaGetListActiveModuleObjectsParams,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetListActiveModuleObjects
+                    >
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetListActiveModuleObjects
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetListActiveModuleObjects
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaGetListActiveModuleObjects<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: VerplichtProgrammaGetListActiveModuleObjectsParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetListActiveModuleObjects
+                    >
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetListActiveModuleObjects
+                        >
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<
+                            typeof verplichtProgrammaGetListActiveModuleObjects
+                        >
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useVerplichtProgrammaGetListActiveModuleObjects<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: VerplichtProgrammaGetListActiveModuleObjectsParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetListActiveModuleObjects
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary List the last modified module object grouped per module ID
+ */
+
+export function useVerplichtProgrammaGetListActiveModuleObjects<
+    TData = Awaited<
+        ReturnType<typeof verplichtProgrammaGetListActiveModuleObjects>
+    >,
+    TError = HTTPValidationError,
+>(
+    lineageId: number,
+    params: VerplichtProgrammaGetListActiveModuleObjectsParams,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<
+                        typeof verplichtProgrammaGetListActiveModuleObjects
+                    >
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions =
+        getVerplichtProgrammaGetListActiveModuleObjectsQueryOptions(
+            lineageId,
+            params,
+            options
+        )
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get specific verplicht_programma by uuid in a module
+ */
+export const getRevisionsVerplichtProgrammaVersion = (
+    moduleId: number,
+    objectUuid: string,
+    signal?: AbortSignal
+) => {
+    return customInstance<VerplichtProgrammaFull>({
+        url: `/revisions/${moduleId}/verplicht-programma/version/${objectUuid}`,
+        method: 'GET',
+        signal,
+    })
+}
+
+export const getGetRevisionsVerplichtProgrammaVersionQueryKey = (
+    moduleId: number,
+    objectUuid: string
+) => {
+    return [
+        `/revisions/${moduleId}/verplicht-programma/version/${objectUuid}`,
+    ] as const
+}
+
+export const getGetRevisionsVerplichtProgrammaVersionQueryOptions = <
+    TData = Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    }
+) => {
+    const { query: queryOptions } = options ?? {}
+
+    const queryKey =
+        queryOptions?.queryKey ??
+        getGetRevisionsVerplichtProgrammaVersionQueryKey(moduleId, objectUuid)
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>
+    > = ({ signal }) =>
+        getRevisionsVerplichtProgrammaVersion(moduleId, objectUuid, signal)
+
+    return {
+        queryKey,
+        queryFn,
+        enabled:
+            moduleId !== null &&
+            moduleId !== undefined &&
+            objectUuid !== null &&
+            objectUuid !== undefined,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetRevisionsVerplichtProgrammaVersionQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>
+>
+export type GetRevisionsVerplichtProgrammaVersionQueryError =
+    HTTPValidationError
+
+export function useGetRevisionsVerplichtProgrammaVersion<
+    TData = Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetRevisionsVerplichtProgrammaVersion<
+    TData = Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<
+                        ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                    >,
+                    TError,
+                    Awaited<
+                        ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                    >
+                >,
+                'initialData'
+            >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetRevisionsVerplichtProgrammaVersion<
+    TData = Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get specific verplicht_programma by uuid in a module
+ */
+
+export function useGetRevisionsVerplichtProgrammaVersion<
+    TData = Awaited<ReturnType<typeof getRevisionsVerplichtProgrammaVersion>>,
+    TError = HTTPValidationError,
+>(
+    moduleId: number,
+    objectUuid: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<
+                    ReturnType<typeof getRevisionsVerplichtProgrammaVersion>
+                >,
+                TError,
+                TData
+            >
+        >
+    },
+    queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>
+} {
+    const queryOptions = getGetRevisionsVerplichtProgrammaVersionQueryOptions(
+        moduleId,
+        objectUuid,
+        options
+    )
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+        TData,
+        TError
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+    return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**

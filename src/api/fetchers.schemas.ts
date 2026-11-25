@@ -1705,13 +1705,16 @@ export interface ProgrammaAlgemeenBasic {
 }
 
 export interface VerplichtProgrammaBasic {
-    Object_Type?: string
     Object_ID?: number
     Code?: string
     UUID?: string
+    Adjust_On?: string | null
     Created_Date?: string
     Modified_Date?: string
     Title?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+    Next_Version?: NextObjectVersion | null
 }
 
 export interface VisieAlgemeenBasic {
@@ -2474,6 +2477,39 @@ export interface PagedResponseVerplichtProgrammaBasic {
     results: VerplichtProgrammaBasic[]
 }
 
+export interface VerplichtProgrammaExtendedStatics {
+    Owner_1?: UserShort | null
+    Owner_2?: UserShort | null
+    Owner_3?: UserShort | null
+    Portfolio_Holder_1?: UserShort | null
+    Client_1?: UserShort | null
+}
+
+export interface VerplichtProgrammaExtended {
+    Object_ID?: number
+    Code?: string
+    UUID?: string
+    Adjust_On?: string | null
+    Created_Date?: string
+    Modified_Date?: string
+    Title?: string
+    Description?: string
+    Start_Validity?: string | null
+    End_Validity?: string | null
+    Themas?: string[]
+    Hoofdlijnen?: string[]
+    Created_By?: UserShort | null
+    Modified_By?: UserShort | null
+    ObjectStatics?: VerplichtProgrammaExtendedStatics
+}
+
+export interface PagedResponseVerplichtProgrammaExtended {
+    total: number
+    offset?: number
+    limit?: number
+    results: VerplichtProgrammaExtended[]
+}
+
 export interface PagedResponseVisieAlgemeenBasic {
     total: number
     offset?: number
@@ -3013,54 +3049,43 @@ export interface ValidateModuleResult {
     readonly status: string
 }
 
-export interface VerplichtProgrammaCreateStatics {
-    Owner_1_UUID?: string | null
-    Owner_2_UUID?: string | null
-    Owner_3_UUID?: string | null
-}
-
-export interface VerplichtProgrammaCreate {
-    Title?: string
-    Description?: string | null
-    ObjectStatics?: VerplichtProgrammaCreateStatics
-}
-
-export interface VerplichtProgrammaEdit {
-    Title?: string | null
-    Description?: string | null
-}
-
 export interface VerplichtProgrammaFullStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
     Owner_3?: UserShort | null
+    Portfolio_Holder_1?: UserShort | null
+    Client_1?: UserShort | null
 }
 
 export interface VerplichtProgrammaFull {
-    Object_Type?: string
     Object_ID?: number
     Code?: string
     UUID?: string
+    Adjust_On?: string | null
     Created_Date?: string
     Modified_Date?: string
     Title?: string
     Description?: string
     Start_Validity?: string | null
     End_Validity?: string | null
+    Themas?: string[]
+    Hoofdlijnen?: string[]
+    Hierarchy_Statics?: HierarchyStatics | null
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
-    WettelijkeTaken?: WettelijkeTaakMinimal[]
     Maatregelen?: ReadRelationShortMaatregelMinimal[]
+    Hierarchy_Children?: HierachyReference[]
+    Gebiedsaanwijzingen_Gebieden?: GebiedBasic[]
+    Hoofdlijnen_Statics?: Hoofdlijn[]
+    Public_Revisions?: PublicModuleObjectRevision[]
+    Next_Version?: NextObjectVersion | null
     ObjectStatics?: VerplichtProgrammaFullStatics
 }
 
 export interface VerplichtProgrammaMinimal {
     Object_Type?: string
     Object_ID?: number
-    Code?: string
     UUID?: string
-    Created_Date?: string
-    Modified_Date?: string
     Title?: string
 }
 
@@ -3068,12 +3093,16 @@ export interface VerplichtProgrammaStaticPostStatics {
     Owner_1_UUID?: string | null
     Owner_2_UUID?: string | null
     Owner_3_UUID?: string | null
+    Portfolio_Holder_1_UUID?: string | null
+    Client_1_UUID?: string | null
 }
 
 export interface VerplichtProgrammaStaticStatics {
     Owner_1?: UserShort | null
     Owner_2?: UserShort | null
     Owner_3?: UserShort | null
+    Portfolio_Holder_1?: UserShort | null
+    Client_1?: UserShort | null
 }
 
 export interface VerplichtProgrammaUUID {
@@ -3857,6 +3886,31 @@ export type VerplichtProgrammaListValidLineagesParams = {
     limit?: number | null
     sort_column?: string | null
     sort_order?: SortOrder | null
+}
+
+export type VerplichtProgrammaListValidLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type VerplichtProgrammaPostModulePatchObjectBody = {
+    Title?: string | null
+    Description?: string | null
+    Themas?: string[] | null
+    Hoofdlijnen?: string[] | null
+}
+
+export type VerplichtProgrammaGetModuleListLineageTreeParams = {
+    offset?: number | null
+    limit?: number | null
+    sort_column?: string | null
+    sort_order?: SortOrder | null
+}
+
+export type VerplichtProgrammaGetListActiveModuleObjectsParams = {
+    minimum_status: ModuleStatusCode
 }
 
 export type VisieAlgemeenListValidLineagesParams = {
