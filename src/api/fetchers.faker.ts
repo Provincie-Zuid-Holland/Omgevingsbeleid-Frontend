@@ -21400,6 +21400,10 @@ export const getVerplichtProgrammaViewObjectVersionResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Target_Codes: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     Hierarchy_Statics: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
             {
@@ -21655,6 +21659,10 @@ export const getVerplichtProgrammaViewObjectLatestResponseMock = (
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Target_Codes: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
@@ -21987,6 +21995,10 @@ export const getVerplichtProgrammaGetModuleListLineageTreeResponseMock = (
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1
         ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        Target_Codes: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
         Created_By: faker.helpers.arrayElement([
             faker.helpers.arrayElement([{ UUID: faker.string.uuid() }, null]),
             undefined,
@@ -22081,6 +22093,10 @@ export const getVerplichtProgrammaViewModuleObjectLatestResponseMock = (
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Target_Codes: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
@@ -22339,6 +22355,10 @@ export const getGetModulesObjectVerplichtProgrammaVersionResponseMock = (
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Target_Codes: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
@@ -22657,6 +22677,10 @@ export const getGetRevisionsVerplichtProgrammaVersionResponseMock = (
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     Hoofdlijnen: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    Target_Codes: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),

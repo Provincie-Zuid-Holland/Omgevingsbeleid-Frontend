@@ -1,4 +1,4 @@
-import { CircleExclamation } from '@pzh-ui/icons'
+import { AngleDown, CircleExclamation } from '@pzh-ui/icons'
 
 import {
     useGetRevisionsVerplichtProgrammaVersion,
@@ -87,6 +87,70 @@ const verplichtProgramma: DynamicObject = {
                     type: 'wysiwyg',
                     customMenuOptions: ['heading'],
                     required: true,
+                },
+                {
+                    name: 'Target_Codes',
+                    label: 'Maatregelen',
+                    type: 'search',
+                    isMulti: true,
+                    placeholder: 'Zoek op maatregelen',
+                    filterParams: {
+                        object_types: ['maatregel'],
+                    },
+                    filterOnModule: true,
+                    objectKey: 'Object_Code',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                    required: true,
+                    validation: schemaDefaults.options,
+                },
+                {
+                    name: 'Themas',
+                    label: "Thema's",
+                    description:
+                        "Om het verplichte programma beter vindbaar te maken in de landelijke voorziening kun je het verplichte programma voorzien van één of meerdere thema's.",
+                    type: 'theme',
+                    placeholder: 'Kies één of meerdere thema’s',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
+                },
+                {
+                    name: 'Hoofdlijnen',
+                    label: 'Hoofdlijnen',
+                    description: (
+                        <>
+                            Om het verplichte programma beter vindbaar te maken
+                            door middel van annotaties in de landelijke
+                            voorziening kun je het verplichte programma voorzien
+                            van één of meerdere hoofdlijnen. Indien een nieuwe
+                            hoofdlijn gewenst is, neem dan contact op met{' '}
+                            <a
+                                href="mailto:teamomgevingsbeleid@pzh.nl"
+                                className="underline">
+                                teamomgevingsbeleid@pzh.nl
+                            </a>
+                            .
+                        </>
+                    ),
+                    type: 'annotation',
+                    placeholder: 'Kies één of meerdere hoofdlijnen',
+                    components: {
+                        DropdownIndicator: () => (
+                            <div className="mr-4">
+                                <AngleDown className="text-pzh-blue-900" />
+                            </div>
+                        ),
+                    },
                 },
             ],
         },

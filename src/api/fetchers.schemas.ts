@@ -2498,6 +2498,7 @@ export interface VerplichtProgrammaExtended {
     End_Validity?: string | null
     Themas?: string[]
     Hoofdlijnen?: string[]
+    Target_Codes?: string[]
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
     ObjectStatics?: VerplichtProgrammaExtendedStatics
@@ -3070,6 +3071,7 @@ export interface VerplichtProgrammaFull {
     End_Validity?: string | null
     Themas?: string[]
     Hoofdlijnen?: string[]
+    Target_Codes?: string[]
     Hierarchy_Statics?: HierarchyStatics | null
     Created_By?: UserShort | null
     Modified_By?: UserShort | null
@@ -3900,6 +3902,7 @@ export type VerplichtProgrammaPostModulePatchObjectBody = {
     Description?: string | null
     Themas?: string[] | null
     Hoofdlijnen?: string[] | null
+    Target_Codes?: string[]
 }
 
 export type VerplichtProgrammaGetModuleListLineageTreeParams = {
