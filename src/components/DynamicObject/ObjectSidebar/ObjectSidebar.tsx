@@ -14,7 +14,11 @@ import { Link, useParams } from 'react-router-dom'
 import Avatar from '@/components/Avatar/Avatar'
 import { Model, ModelReturnType } from '@/config/objects/types'
 import useAuth from '@/hooks/useAuth'
-import { getStaticDataLabel } from '@/utils/dynamicObject'
+import {
+    getStaticDataLabel,
+    getStaticDataPropertyKey,
+    ownerFields,
+} from '@/utils/dynamicObject'
 import { formatValidityDate } from '@/utils/formatValidityDate'
 
 import ObjectConnectedDocuments from '../ObjectConnectedDocuments'
@@ -81,7 +85,7 @@ const ObjectSidebar = ({
     )
 
     return (
-        <aside className="sticky top-[120px]">
+        <aside className="sticky top-30">
             <div className="mb-6">
                 <Heading level="2" size="m" className="mb-2">
                     Informatie
@@ -142,58 +146,27 @@ const People = ({
 }: Pick<ObjectSidebarProps, 'object_statics'>) => {
     if (!ObjectStatics) return null
 
+    const fields = [
+        'portfolio_holder_1_id',
+        'client_1_id',
+        ...ownerFields,
+    ] as const
+
     return (
-        <div className="mb-3 flex">
-            {ObjectStatics.portfolio_holder_1 && (
-                <div className="mr-2 flex">
-                    {ObjectStatics.portfolio_holder_1 && (
-                        <Avatar
-                            id={ObjectStatics.portfolio_holder_1.id}
-                            prefix={getStaticDataLabel('portfolio_holder_1_id')}
-                        />
-                    )}
-                </div>
-            )}
+        <div className="mb-3 flex gap-2">
+            {fields.map(field => {
+                const person = ObjectStatics[getStaticDataPropertyKey(field)]
 
-            {ObjectStatics.client_1 && (
-                <div className="mr-2">
-                    <Avatar
-                        id={ObjectStatics.client_1.id}
-                        prefix={getStaticDataLabel('client_1_id')}
-                    />
-                </div>
-            )}
-
-            {(ObjectStatics.owner_1 ||
-                ObjectStatics.owner_2 ||
-                ObjectStatics.owner_3) && (
-                <div className="flex">
-                    {ObjectStatics.owner_1 && (
+                return (
+                    person && (
                         <Avatar
-                            id={ObjectStatics.owner_1.id}
-                            prefix={getStaticDataLabel('owner_1_id')}
+                            key={field}
+                            id={person.id}
+                            prefix={getStaticDataLabel(field)}
                         />
-                    )}
-                    {ObjectStatics.owner_2 && (
-                        <Avatar
-                            id={ObjectStatics.owner_2.id}
-                            prefix={getStaticDataLabel('owner_2_id')}
-                            className={ObjectStatics.owner_1 && '-ml-2'}
-                        />
-                    )}
-                    {ObjectStatics.owner_3 && (
-                        <Avatar
-                            id={ObjectStatics.owner_3.id}
-                            prefix={getStaticDataLabel('owner_3_id')}
-                            className={
-                                (ObjectStatics.owner_1 ||
-                                    ObjectStatics.owner_2) &&
-                                '-ml-2'
-                            }
-                        />
-                    )}
-                </div>
-            )}
+                    )
+                )
+            })}
         </div>
     )
 }

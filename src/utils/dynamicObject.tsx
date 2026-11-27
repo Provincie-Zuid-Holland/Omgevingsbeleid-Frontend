@@ -17,13 +17,13 @@ export const getStaticDataLabel = (key: keyof ObjectStaticShort) => {
         case 'client_1_id':
             return 'Ambtelijk opdrachtgever'
         case 'owner_1_id':
-            return 'Eerste eigenaar'
+            return 'Ambtelijk opdrachtnemer'
         case 'owner_2_id':
-            return 'Tweede eigenaar'
-        case 'portfolio_holder_1_id':
-            return 'Eerste portefeuillehouder'
+            return 'Behandelend ambtenaar'
         case 'owner_3_id':
-            return 'Derde eigenaar'
+            return 'Behandelend ambtenaar'
+        case 'portfolio_holder_1_id':
+            return 'Portefeuillehouder'
         default:
             throw new Error(
                 `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
@@ -39,10 +39,10 @@ export const getStaticDataPropertyKey = (key: keyof ObjectStaticShort) => {
             return 'owner_1'
         case 'owner_2_id':
             return 'owner_2'
-        case 'portfolio_holder_1_id':
-            return 'portfolio_holder_1'
         case 'owner_3_id':
             return 'owner_3'
+        case 'portfolio_holder_1_id':
+            return 'portfolio_holder_1'
         default:
             throw new Error(
                 `Oh no! The type '${key}' could not be found within ObjectStaticShort...`
@@ -66,24 +66,14 @@ export const getStaticDataPropertyRequired = (key: keyof ObjectStaticShort) => {
     }
 }
 
-export const getStaticDataFilterProperty = (key: keyof ObjectStaticShort) => {
-    switch (key) {
-        case 'owner_1_id':
-            return 'owner_2'
-        case 'owner_2_id':
-            return 'owner_1'
-        case 'owner_3_id':
-            return 'owner_1'
-        default:
-            break
-    }
-}
+export const ownerFields = ['owner_1_id', 'owner_2_id', 'owner_3_id'] as const
 
 export const getStaticDataFilterRoles = (
     key: keyof ObjectStaticShort
 ): Role[] | undefined => {
     switch (key) {
         case 'owner_1_id':
+            return ['Behandelend Ambtenaar']
         case 'owner_2_id':
         case 'owner_3_id':
             return [

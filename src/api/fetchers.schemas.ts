@@ -3776,7 +3776,8 @@ export type MaatregelListValidLineageTreeParams = {
 export type MaatregelPostModulePatchObjectBody = {
     title?: string | null
     description?: string | null
-    roles?: string[] | null
+    role?: string
+    roles?: string[]
     effect?: string | null
     hierarchy_code?: string | null
     documents?: string[] | null

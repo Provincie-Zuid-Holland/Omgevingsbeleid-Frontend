@@ -1,7 +1,10 @@
-import { object } from 'zod'
+import { object, RefinementCtx } from 'zod'
 
 import { ObjectStaticShort } from '@/api/fetchers.schemas'
-import { getStaticDataPropertyRequired } from '@/utils/dynamicObject'
+import {
+    getStaticDataPropertyRequired,
+    ownerFields,
+} from '@/utils/dynamicObject'
 import { schemaDefaults, zodAlwaysRefine } from '@/validation/zodSchema'
 
 /**
@@ -20,26 +23,27 @@ const generateSchema = (values: (keyof ObjectStaticShort)[]) => {
         }))
     })
 
-    return zodAlwaysRefine(schema).superRefine((data, ctx) => {
-        const owners = data as Partial<Record<keyof ObjectStaticShort, string>>
-        const ownerKeys = ['owner_1_id', 'owner_2_id', 'owner_3_id'] as const
-
-        ownerKeys.forEach(key => {
-            const value = owners[key]
-            if (
-                value &&
-                ownerKeys.some(
-                    other => other !== key && owners[other] === value
-                )
-            ) {
-                ctx.addIssue({
-                    code: 'custom',
-                    message: 'De eigenaren mogen niet dezelfde persoon zijn',
-                    path: [key],
-                })
-            }
-        })
-    })
+    return zodAlwaysRefine(schema).superRefine(validateDistinctOwners)
 }
 
-export { generateSchema }
+const validateDistinctOwners = (
+    data: ObjectStaticShort,
+    ctx: RefinementCtx
+) => {
+    for (const field of ownerFields) {
+        const owner = data[field]
+
+        if (
+            owner &&
+            ownerFields.some(other => other !== field && data[other] === owner)
+        ) {
+            ctx.addIssue({
+                code: 'custom',
+                message: 'Kies voor elk eigenaarsveld een andere persoon.',
+                path: [field],
+            })
+        }
+    }
+}
+
+export { generateSchema, validateDistinctOwners }

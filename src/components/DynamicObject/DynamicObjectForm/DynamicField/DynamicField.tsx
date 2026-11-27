@@ -18,6 +18,7 @@ import FieldAreaAnnotate from '@/components/Form/FieldAreaAnnotate'
 import FieldArray from '@/components/Form/FieldArray'
 import FieldConnections from '@/components/Form/FieldConnections'
 import FieldFile from '@/components/Form/FieldFile'
+import FieldRoles from '@/components/Form/FieldRoles'
 import FieldSelectArea from '@/components/Form/FieldSelectArea'
 import FieldTheme from '@/components/Form/FieldTheme'
 import { Model } from '@/config/objects/types'
@@ -46,6 +47,7 @@ const inputFieldMap = {
     areaAnnotate: FieldAreaAnnotate,
     theme: FieldTheme,
     annotation: FieldAnnotation,
+    roles: FieldRoles,
 }
 
 type Props = DynamicFieldProps & {

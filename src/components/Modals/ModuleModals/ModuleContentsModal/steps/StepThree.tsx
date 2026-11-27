@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import {
     FormikInput,
     FormikSelect,
@@ -14,7 +12,12 @@ import { useUserGetListUsers } from '@/api/fetchers'
 import { ModuleAddNewObject } from '@/api/fetchers.schemas'
 import * as models from '@/config/objects'
 import { ModelType } from '@/config/objects/types'
-import { getStaticDataFilterRoles } from '@/utils/dynamicObject'
+import {
+    getStaticDataFilterRoles,
+    getStaticDataLabel,
+    getStaticDataPropertyRequired,
+    ownerFields,
+} from '@/utils/dynamicObject'
 
 import { StepProps } from './types'
 
@@ -31,46 +34,13 @@ export const StepThree = ({}: StepProps) => {
         {}
     const { singularReadable, prefixSingular } = model.defaults || {}
 
-    const filterRoles = getStaticDataFilterRoles('owner_1_id')
-
-    /**
-     * Format user options
-     */
-    const userOptions1 = useMemo(
-        () =>
-            users?.results
-                .filter(user => user.id !== values.owner_2_id)
-                .filter(user =>
-                    user.roles?.some(role => filterRoles?.includes(role))
-                )
-                .map(user => ({
-                    label: user.name,
-                    value: user.id,
-                })),
-        [users, values.owner_2_id, filterRoles]
-    )
-
-    const userOptions2 = useMemo(
-        () =>
-            users?.results
-                .filter(user => user.id !== values.owner_1_id)
-                .filter(user =>
-                    user.roles?.some(role => filterRoles?.includes(role))
-                )
-                .map(user => ({
-                    label: user.name,
-                    value: user.id,
-                })),
-        [users, values.owner_1_id, filterRoles]
-    )
-
     return (
         <div>
             <Heading level="2" size="xl" className="mb-4">
                 Nieuwe {singularReadable}
             </Heading>
             <Text className="mb-4">
-                Geef alvast een titel, een eerste en een tweede eigenaar op.
+                Geef een titel en een ambtelijk opdrachtnemer op.
             </Text>
             <FormikInput
                 name="title"
@@ -78,37 +48,45 @@ export const StepThree = ({}: StepProps) => {
                 placeholder="Geef een titel op"
                 required
             />
-            <div className="mt-3">
-                <FormikSelect
-                    key={String(
-                        userOptions1?.length + (values.owner_2_id || '')
-                    )}
-                    name="owner_1_id"
-                    label="Eerste eigenaar"
-                    placeholder="Kies een eigenaar"
-                    isLoading={isLoading && isFetching}
-                    options={userOptions1}
-                    noOptionsMessage={({ inputValue }) =>
-                        !!inputValue && 'Geen resultaten gevonden'
-                    }
-                    blurInputOnSelect
-                    required
-                />
-            </div>
-            <div className="mt-3">
-                <FormikSelect
-                    key={String(userOptions2?.length + values.owner_1_id)}
-                    name="owner_2_id"
-                    label="Tweede eigenaar"
-                    placeholder="Kies een eigenaar"
-                    isLoading={isLoading && isFetching}
-                    options={userOptions2}
-                    noOptionsMessage={({ inputValue }) =>
-                        !!inputValue && 'Geen resultaten gevonden'
-                    }
-                    blurInputOnSelect
-                />
-            </div>
+            {ownerFields.map(field => {
+                const label = getStaticDataLabel(field)
+                const required = getStaticDataPropertyRequired(field)
+                const roles = getStaticDataFilterRoles(field)
+                const options = users?.results
+                    .filter(user =>
+                        user.roles?.some(role => roles?.includes(role))
+                    )
+                    .filter(
+                        user =>
+                            !ownerFields.some(
+                                other =>
+                                    other !== field && values[other] === user.id
+                            )
+                    )
+                    .map(user => ({
+                        label: user.name,
+                        value: user.id,
+                    }))
+
+                return (
+                    <div className="mt-3" key={field}>
+                        <FormikSelect
+                            name={field}
+                            optimized={false}
+                            label={label}
+                            placeholder={`Kies een ${label.toLowerCase()}`}
+                            isLoading={isLoading || isFetching}
+                            options={options}
+                            noOptionsMessage={({ inputValue }) =>
+                                !!inputValue && 'Geen resultaten gevonden'
+                            }
+                            blurInputOnSelect
+                            isClearable={!required}
+                            required={required}
+                        />
+                    </div>
+                )
+            })}
             <div className="mt-3">
                 <FormikTextArea
                     name="explanation"

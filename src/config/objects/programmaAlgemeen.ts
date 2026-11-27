@@ -55,7 +55,7 @@ const programmaAlgemeen: DynamicObject = {
         hideBreadcrumbs: true,
         parentType: 'Programma',
     },
-    staticData: ['owner_1_id', 'owner_2_id'],
+    staticData: ['owner_1_id', 'owner_2_id', 'owner_3_id'],
     fetchers,
     dynamicSections: [
         {

@@ -65,6 +65,7 @@ const generateDynamicSchema = (sections: DynamicSection[]) => {
                     }))
                 case 'theme':
                 case 'annotation':
+                case 'roles':
                     return (dynamicSchema = dynamicSchema.extend({
                         [field.name]:
                             field.validation ||

@@ -22,141 +22,16 @@ import usePermissions from '@/hooks/usePermissions'
 import MutateLayout from '@/templates/MutateLayout'
 import handleError, { handleFileError } from '@/utils/handleError'
 
+import {
+    FormData,
+    getDefaultValues,
+    getInitialData,
+    normalizePayload,
+} from './objectEdit.helpers'
+
 interface ObjectEditProps {
     model: Model
 }
-
-type FormData = Record<string, any>
-
-const EXTRA_FIELDS = [
-    'file',
-    'File_Ignore',
-    'Werkingsgebied_Version',
-    'source_title',
-]
-
-const isVisuallyEmptyRichText = (value: unknown): boolean => {
-    if (typeof value !== 'string') return false
-
-    const text = value
-        .replace(/<[^>]*>/g, '') // remove HTML tags
-        .replace(/&nbsp;/g, ' ')
-        .replace(/\u00A0/g, ' ')
-        .replace(/\u200B/g, '')
-        .trim()
-
-    return text.length === 0
-}
-
-const normalizePayload = (payload: FormData, initialData: FormData) => {
-    const cleanedPayload = Object.fromEntries(
-        Object.entries(payload).filter(([key]) => key in initialData)
-    ) as FormData
-
-    Object.keys(cleanedPayload).forEach(key => {
-        const value = cleanedPayload[key]
-
-        if (typeof value === 'string' && isVisuallyEmptyRichText(value)) {
-            cleanedPayload[key] = null
-        }
-    })
-
-    if (Array.isArray(cleanedPayload.documents)) {
-        cleanedPayload.documents = cleanedPayload.documents.map(
-            (item: any) => item?.value ?? item
-        )
-    }
-
-    if (Array.isArray(cleanedPayload.target_codes)) {
-        cleanedPayload.target_codes = cleanedPayload.target_codes.map(
-            (item: any) => item?.value ?? item
-        )
-    }
-
-    if (
-        Array.isArray(cleanedPayload.Ambtsgebied) &&
-        cleanedPayload.Ambtsgebied.includes('true')
-    ) {
-        cleanedPayload.gebiedengroep_code = null
-    }
-
-    if (Array.isArray(cleanedPayload.themas)) {
-        cleanedPayload.themas = cleanedPayload.themas.map(
-            (item: any) => item?.value ?? item
-        )
-    }
-
-    if (Array.isArray(cleanedPayload.hoofdlijnen)) {
-        cleanedPayload.hoofdlijnen = cleanedPayload.hoofdlijnen.map(
-            (item: any) => item?.value ?? item
-        )
-    }
-
-    if (Array.isArray(cleanedPayload.roles)) {
-        cleanedPayload.roles = cleanedPayload.roles.map(
-            (item: any) => item?.value ?? item
-        )
-    }
-
-    return cleanedPayload
-}
-
-const getInitialData = (model: Model, object?: Record<string, any>) => {
-    const fields = [
-        ...model.dynamicSections.flatMap(section =>
-            section.fields.map(field => field.name)
-        ),
-        ...EXTRA_FIELDS,
-    ]
-
-    const objectData = fields.reduce<FormData>((acc, field) => {
-        acc[field] = object?.[field]
-        return acc
-    }, {})
-
-    if (fields.includes('Ambtsgebied') && object?.gebiedengroep_code === null) {
-        objectData.Ambtsgebied = ['true']
-    }
-
-    if (fields.includes('file_id')) {
-        objectData.file = null
-    }
-
-    return objectData
-}
-
-const getDefaultValues = (object?: Record<string, any>) => ({
-    ...(object?.hierarchy_statics && {
-        hierarchy_code: {
-            label: object.hierarchy_statics.cached_title,
-            value: object.hierarchy_statics.code,
-        },
-    }),
-    ...(object?.gebiedengroep_static && {
-        gebiedengroep_code: {
-            label: object.gebiedengroep_static.cached_title,
-            value: object.gebiedengroep_static.code,
-        },
-    }),
-    ...(object?.documents_statics && {
-        documents: object.documents_statics.map((item: any) => ({
-            label: item.cached_title,
-            value: item.code,
-        })),
-    }),
-    ...(object?.geo_statics && {
-        target_codes: object.geo_statics.map((item: any) => ({
-            label: item.cached_title,
-            value: item.code,
-        })),
-    }),
-    ...(object?.hoofdlijnen_statics && {
-        hoofdlijnen: object.hoofdlijnen_statics.map((item: any) => ({
-            label: `${item.name} (${item.type})`,
-            value: item.id,
-        })),
-    }),
-})
 
 const ObjectEdit = ({ model }: ObjectEditProps) => {
     const queryClient = useQueryClient()

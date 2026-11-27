@@ -54,7 +54,7 @@ const gebied: DynamicObject = {
         disabled: true,
         hideFromModuleFilter: true,
     },
-    staticData: ['owner_1_id', 'owner_2_id'],
+    staticData: ['owner_1_id', 'owner_2_id', 'owner_3_id'],
     fetchers,
     dynamicSections: [
         {
