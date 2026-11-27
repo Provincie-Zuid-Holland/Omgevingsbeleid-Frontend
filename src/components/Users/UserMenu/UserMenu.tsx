@@ -16,8 +16,6 @@ const UserMenu = () => {
     const { user } = useAuth()
     const navigate = useNavigate()
 
-    console.log(user)
-
     const setActiveModal = useModalStore(state => state.setActiveModal)
 
     const [isOpen, setIsOpen] = useState(false)

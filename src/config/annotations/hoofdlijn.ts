@@ -131,7 +131,7 @@ const hoofdlijn: DynamicAnnotation<typeof api> = {
             },
             {
                 header: 'Soort',
-                accessorKey: 'type',
+                accessorKey: 'kind',
             },
         ],
 
@@ -142,7 +142,7 @@ const hoofdlijn: DynamicAnnotation<typeof api> = {
         {
             fields: [
                 {
-                    name: 'type',
+                    name: 'kind',
                     label: 'Soort',
                     description:
                         'Geef in één woord of enkele woorden aan om wat voor soort hoofdlijn het gaat.',
